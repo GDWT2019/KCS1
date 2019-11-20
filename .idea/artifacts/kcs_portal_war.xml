@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="kcs-portal:war">
+    <output-path>$PROJECT_DIR$/kcs-portal/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>kcs-portal</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="kcs-portal.war">
+      <element id="artifact" artifact-name="kcs-portal:war exploded" />
+    </root>
+  </artifact>
+</component>
