@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("userController")
 @RequestMapping("/user")
-@ContextConfiguration("classpath:spring/applicationContext-service.xml")
 public class UserController {
 
     @Autowired

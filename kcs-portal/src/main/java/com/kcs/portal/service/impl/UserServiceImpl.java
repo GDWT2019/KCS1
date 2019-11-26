@@ -11,9 +11,6 @@ import java.util.List;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
-//    @Autowired
-//    private UserDao userDao;
-
     @Override
     public List<User> findAllUser() {
         return null;
@@ -28,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(int id) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findUserById"+id);
+            String s = HttpClientUtil.doGet("http://192.168.10.33:8081/kcs_rest_war/user/findUserById"+id);
             KcsResult result = KcsResult.formatToPojo(s,User.class);
             if (result.getStatus() == 200) {
                 User user = (User) result.getData();
