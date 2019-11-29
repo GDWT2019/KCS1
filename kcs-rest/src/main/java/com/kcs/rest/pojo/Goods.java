@@ -1,15 +1,15 @@
 package com.kcs.rest.pojo;
 
 public class Goods {
-    private Integer GoodsID;
+    private Integer GoodsID;        //物品id
 
-    private Integer categoryID;
+    private Integer categoryID;     //类别id
 
-    private String ItemsName;
+    private String ItemsName;       //物品名称
 
-    private String ItemsType;
+    private String ItemsType;       //物品规格
 
-    private String ItemsUnit;
+    private String ItemsUnit;       //物品单位
 
     public Integer getGoodsID() {
         return GoodsID;
@@ -49,5 +49,16 @@ public class Goods {
 
     public void setItemsUnit(String itemsUnit) {
         ItemsUnit = itemsUnit;
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "GoodsID=" + GoodsID +
+                ", categoryID=" + categoryID +
+                ", ItemsName='" + ItemsName + '\'' +
+                ", ItemsType='" + ItemsType + '\'' +
+                ", ItemsUnit='" + ItemsUnit + '\'' +
+                '}';
     }
 }

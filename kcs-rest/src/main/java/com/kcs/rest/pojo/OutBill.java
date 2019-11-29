@@ -3,33 +3,33 @@ package com.kcs.rest.pojo;
 import java.util.Date;
 
 public class OutBill {
-    private Integer OutBillID;
+    private Integer OutBillID;      //出库清单id
 
-    private Date OutTime;
+    private Date OutTime;           //出库时间
 
-    private Integer CheckStatus;
+    private Integer CheckStatus;    //审批状态  0 待审批；1 审批通过；2 审批未通过
 
-    private Date CheckTime;
+    private Date CheckTime;         //审批时间
 
-    private String CheckMessage;
+    private String CheckMessage;    //审批建议
 
-    private Date OperateTime;
+    private Date OperateTime;       //操作时间
 
-    private Double AllTotal;
+    private Double AllTotal;        //合计金额
 
-    private Integer StoreManager;
+    private Integer StoreManager;   //仓管员
 
-    private Integer Taker;
+    private Integer Taker;          //领用人
 
-    private Integer Checker;
+    private Integer Checker;        //审批人
 
-    private Integer TableMaker;
+    private Integer TableMaker;     //制表人
 
-    private Integer Operator;
+    private Integer Operator;       //操作人
 
-    private String StorePosition;
+    private String StorePosition;   //仓库位置
 
-    private String Note;
+    private String Note;            //备注
 
     public Integer getOutBillID() {
         return OutBillID;

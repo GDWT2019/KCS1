@@ -1,35 +1,35 @@
 package com.kcs.rest.pojo;
 
 public class Summary {
-    private Integer SummaryID;
+    private Integer SummaryID;      //汇总id
 
-    private Integer GoodsID;
+    private Integer GoodsID;        //物品id
 
-    private Integer PreAmount;
+    private Integer PreAmount;      //上月结存数量
 
-    private Double PrePrice;
+    private Double PrePrice;        //上月结存价格
 
-    private Double PreTotal;
+    private Double PreTotal;        //上月结存金额
 
-    private Integer InaMount;
+    private Integer InAmount;       //本月入库数量
 
-    private Double InPrice;
+    private Double InPrice;         //本月入库价格
 
-    private Double InTotal;
+    private Double InTotal;         //本月金额
 
-    private Integer OutAmount;
+    private Integer OutAmount;      //本月出库数量
 
-    private Double OutPrice;
+    private Double OutPrice;        //本月出库价格
 
-    private Double OutTotal;
+    private Double OutTotal;        //本月出库金额
 
-    private Integer ThisAmount;
+    private Integer ThisAmount;     //本月结存数量
 
-    private Double ThisPrice;
+    private Double ThisPrice;       //本月结存价格
 
-    private Double ThisTotal;
+    private Double ThisTotal;       //本月结存金额
 
-    private String Time;
+    private String Time;            //当前月
 
     public Integer getSummaryID() {
         return SummaryID;
@@ -71,12 +71,13 @@ public class Summary {
         PreTotal = preTotal;
     }
 
-    public Integer getInaMount() {
-        return InaMount;
+
+    public Integer getInAmount() {
+        return InAmount;
     }
 
-    public void setInaMount(Integer inaMount) {
-        InaMount = inaMount;
+    public void setInAmount(Integer inAmount) {
+        InAmount = inAmount;
     }
 
     public Double getInPrice() {
@@ -149,5 +150,26 @@ public class Summary {
 
     public void setTime(String time) {
         Time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Summary{" +
+                "SummaryID=" + SummaryID +
+                ", GoodsID=" + GoodsID +
+                ", PreAmount=" + PreAmount +
+                ", PrePrice=" + PrePrice +
+                ", PreTotal=" + PreTotal +
+                ", InAmount=" + InAmount +
+                ", InPrice=" + InPrice +
+                ", InTotal=" + InTotal +
+                ", OutAmount=" + OutAmount +
+                ", OutPrice=" + OutPrice +
+                ", OutTotal=" + OutTotal +
+                ", ThisAmount=" + ThisAmount +
+                ", ThisPrice=" + ThisPrice +
+                ", ThisTotal=" + ThisTotal +
+                ", Time='" + Time + '\'' +
+                '}';
     }
 }

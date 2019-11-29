@@ -1,21 +1,21 @@
 package com.kcs.rest.pojo;
 
 public class ItemsOut {
-    private Integer ItemsOutID;
+    private Integer ItemsOutID;     //出库物品id
 
-    private Integer DepartmentID;
+    private Integer DepartmentID;       //部门id
 
-    private Integer OutBillID;
+    private Integer OutBillID;      //出库清单id
 
-    private Integer GoodsID;
+    private Integer GoodsID;        //物品id
 
-    private Integer ItemNum;
+    private Integer ItemNum;        //物品数量
 
-    private Double ItemPrice;
+    private Double ItemPrice;       //物品单价
 
-    private Double ItemTotal;
+    private Double ItemTotal;       //金额（数量*单价）
 
-    private String Project;
+    private String Project;         //项目
 
     public Integer getItemsOutID() {
         return ItemsOutID;

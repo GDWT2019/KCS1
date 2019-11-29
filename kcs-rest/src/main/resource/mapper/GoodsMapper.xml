@@ -3,9 +3,23 @@
 <mapper namespace="com.kcs.rest.dao.GoodsDao" >
 
 
-    <select id="findAllSummary" resultMap="com.kcs.rest.pojo.Goods">
+    <select id="findGoodsById" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
         select *
         from [Goods]
+        where GoodsID = #{GoodsID,jdbcType=INTEGER}
+    </select>
+
+    <select id="findGoodsInSummaryGoodsID" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
+        select [Goods].ItemsName
+        from [Goods],[Summary]
+        where [Goods].GoodsID = [Summary].GoodsID
+        group by [Goods].ItemsName
+    </select>
+
+    <select id="findGoodsByItemName" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.String">
+        select *
+        from [Goods]
+        where ItemsName = #{ItemsName,jdbcType=CHAR}
     </select>
     
 </mapper>

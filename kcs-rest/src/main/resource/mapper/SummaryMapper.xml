@@ -3,9 +3,14 @@
 <mapper namespace="com.kcs.rest.dao.SummaryDao" >
 
 
-    <select id="findAllSummary" resultMap="com.kcs.rest.pojo.Summary">
+    <select id="findAllSummary" resultType="com.kcs.rest.pojo.Summary">
         select *
         from [Summary]
     </select>
-    
+
+    <select id="findSummaryByGoodsIDThisMonth" resultType="com.kcs.rest.pojo.Summary">
+        select *
+        from [Summary]
+        where
+    </select>
 </mapper>
