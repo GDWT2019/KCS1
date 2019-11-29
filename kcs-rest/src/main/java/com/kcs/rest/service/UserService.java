@@ -7,4 +7,16 @@ import java.util.List;
 
 public interface UserService {
     KcsResult findUserById(int id);
+
+    KcsResult findByLoginName(String loginName);
+
+    KcsResult findAllUser();
+
+    KcsResult count();
+
+    KcsResult findoneUser(String loginName);
+
+    void updateBase(User user);
+
+    void updatePass(User user);
 }

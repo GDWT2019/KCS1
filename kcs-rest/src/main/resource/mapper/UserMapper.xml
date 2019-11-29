@@ -17,12 +17,31 @@
         <result column="ListerMark" property="listermark" jdbcType="BIT" />
     </resultMap>
 
-    <select id="findAllUser" resultMap="BaseResultMap">
-        select *
-        from [User]
+    <select id="findAllUser"  resultType="com.kcs.rest.pojo.User" >
+        select * from [User]
     </select>
 
     <select id="findUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select * from [User] where UserID = #{userid,jdbcType=INTEGER}
     </select>
+
+    <select id="findByLoginName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >
+        select *  from  [User]  where  LoginName = #{LoginName}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from [User]
+    </select>
+
+    <select id="findoneUser" resultType="com.kcs.rest.pojo.User" parameterType="String">
+        select * from [User] where LoginName = #{loginName};
+    </select>
+
+    <update id="updateBase" parameterType="com.kcs.rest.pojo.User" >
+         update [User] set UserName=#{userName},DepartmentID = #{departmentID} ,PositionID = #{positionID} , Sex = #{sex} , Email = #{email}, Tel=#{tel},Note=#{note},WarehouseMark=#{warehouseMark},ListerMark=#{listerMark},Photo=#{photo} where LoginName =#{loginName}
+    </update>
+
+    <update id="updatePass" parameterType="com.kcs.rest.pojo.User" >
+         update [User] set Password = #{password} where LoginName =#{loginName}
+    </update>
 </mapper>
