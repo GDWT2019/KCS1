@@ -23,8 +23,8 @@ public class PositionController {
     @RequestMapping(value="positionData")
     @ResponseBody
     public KcsResult UserData(){
-        KcsResult result=positionService.findAllPosition();
-        return result;
+        List<Position> allPosition = positionService.findAllPosition();
+        return KcsResult.ok(allPosition);
     }
 
 }

@@ -19,11 +19,9 @@ public class PositionServiceImpl implements PositionService {
 
 
     @Override
-    public KcsResult findAllPosition() {
-        List<Position> list=positionDao.findAllPosition();
-        if(list != null)
-            return KcsResult.ok(list);
-        else
-            return KcsResult.build(500,"未找到该用户数据");
+    public List<Position> findAllPosition() {
+        return positionDao.findAllPosition();
+
+
     }
 }

@@ -46,32 +46,32 @@ public class UserController {
     @ResponseBody
     public  KcsResult getUser(@PathVariable String loginName){
 
-        KcsResult result=userService.findoneUser(loginName);
-        return result;
+        List<User> users = userService.findoneUser(loginName);
+        return KcsResult.ok(users);
     }
 
     //查找用户数据条数
     @RequestMapping(value="findTotal")
     @ResponseBody
     public  KcsResult findTotal(){
-        KcsResult result=userService.count();
-        return result;
+        int count = userService.count();
+        return KcsResult.ok(count);
     }
 
     //获取用户数据
     @RequestMapping(value="userData")
     @ResponseBody
     public  KcsResult UserData(){
-        KcsResult result=userService.findAllUser();
-        return result;
+        List<User> allUser = userService.findAllUser();
+        return KcsResult.ok(allUser);
     }
 
     //登录
     @RequestMapping("/loginUser{loginName}")
     @ResponseBody
     public KcsResult Login(@PathVariable String loginName){
-        KcsResult result = userService.findByLoginName(loginName);
-       return result;
+        User byLoginName = userService.findByLoginName(loginName);
+        return  KcsResult.ok(byLoginName);
     }
     /**
      * 使用url拼接参数，形参前加@PathVariable
@@ -81,8 +81,8 @@ public class UserController {
     @RequestMapping("/findUserById{id}")
     @ResponseBody
     public KcsResult findUserById(@PathVariable int id){
-        KcsResult result = userService.findUserById(id);
-        return result;
+        User userById = userService.findUserById(id);
+        return  KcsResult.ok(userById);
     }
 
 }

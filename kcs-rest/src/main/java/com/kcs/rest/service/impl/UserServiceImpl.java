@@ -21,49 +21,29 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public KcsResult findUserById(int id) {
-        User user = userDao.findUserById(id);
-        if (user != null)
-            return KcsResult.ok(user);
-        else
-            return KcsResult.build(500,"未找到改用户数据！");
-    }
-
-    @Override
-    public KcsResult findByLoginName(String loginName) {
-        User user = userDao.findByLoginName(loginName);
-        if(user!= null)
-            return KcsResult.ok(user);
-        else
-            return KcsResult.build(500,"未找到该用户数据");
+    public User findUserById(int id) {
+        return userDao.findUserById(id);
 
     }
 
     @Override
-    public KcsResult findAllUser() {
-        List<User> list=userDao.findAllUser();
-        if(list != null)
-            return KcsResult.ok(list);
-        else
-            return KcsResult.build(500,"未找到该用户数据");
+    public User findByLoginName(String loginName) {
+        return userDao.findByLoginName(loginName);
+            }
+
+    @Override
+    public List<User> findAllUser() {
+        return userDao.findAllUser();
     }
 
     @Override
-    public KcsResult count() {
-        int count=userDao.count();
-        if(count > 0)
-            return KcsResult.ok(count);
-        else
-            return KcsResult.build(500,"未找到该用户数据");
+    public int count() {
+        return userDao.count();
     }
 
     @Override
-    public KcsResult findoneUser(String loginName) {
-        List<User> list=userDao.findoneUser(loginName);
-        if(list != null)
-            return KcsResult.ok(list);
-        else
-            return KcsResult.build(500,"未找到该用户数据");
+    public List<User> findoneUser(String loginName) {
+        return  userDao.findoneUser(loginName);
     }
 
     @Override

@@ -6,15 +6,15 @@ import com.kcs.rest.pojo.User;
 import java.util.List;
 
 public interface UserService {
-    KcsResult findUserById(int id);
+    User findUserById(int id);
 
-    KcsResult findByLoginName(String loginName);
+    User findByLoginName(String loginName);
 
-    KcsResult findAllUser();
+    List<User> findAllUser();
 
-    KcsResult count();
+    int count();
 
-    KcsResult findoneUser(String loginName);
+    List<User> findoneUser(String loginName);
 
     void updateBase(User user);
 
