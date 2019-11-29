@@ -2,6 +2,8 @@ package com.kcs.rest.dao;
 
 import com.kcs.rest.pojo.Department;
 
+import com.kcs.rest.pojo.Position;
+
 import java.util.List;
 
 public interface DepartmentDao {

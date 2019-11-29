@@ -38,10 +38,6 @@ public class OutBillController {
     @ResponseBody
     public List<Goods> findGoodsByItemName(String itemsName) {
         List<Goods> goodsList = goodsService.findGoodsByItemName(itemsName);
-        for (Goods g :
-                goodsList) {
-            System.out.println(g);
-        }
         return goodsList;
     }
 }

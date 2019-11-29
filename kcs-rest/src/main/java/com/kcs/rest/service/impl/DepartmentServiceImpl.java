@@ -2,6 +2,10 @@ package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.DepartmentDao;
 import com.kcs.rest.pojo.Department;
+
+import com.kcs.rest.dao.DepartmentDao;
+import com.kcs.rest.pojo.KcsResult;
+import com.kcs.rest.pojo.Position;
 import com.kcs.rest.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

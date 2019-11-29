@@ -3,10 +3,10 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="${pageContext.request.contextPath}/layui/layui.all.js"></script>
-    <script src="${pageContext.request.contextPath}/layui/layui.js"></script>
+    <script src="${pageContext.request.contextPath}/static/layui/layui.all.js"></script>
+    <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/layui/css/layui.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"/>
 	<script src="${pageContext.request.contextPath}/js/addOutBill.js"></script>
 </head>
 
