@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.OutBillPresentDao" >
+
+
+    <select id="findAllOutBillPresent" resultType="com.kcs.rest.pojo.OutBillPresent">
+        select *
+        from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
+        where [ItemsOut].OutBillID=[OutBill].OutBillID
+        and [ItemsOut].GoodsID=[Goods].GoodsID
+        and [ItemsOut].DepartmentID=[Department].DepartmentID
+        and	[Goods].CategoryID=[Category].CategoryID
+        and [Goods].GoodsID=[Summary].GoodsID
+    </select>
+
+</mapper>

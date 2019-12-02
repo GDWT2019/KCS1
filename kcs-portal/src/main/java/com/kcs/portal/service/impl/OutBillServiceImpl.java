@@ -55,4 +55,19 @@ public class OutBillServiceImpl implements OutBillService {
         }
         return null;
     }
+
+    @Override
+    public List<OutBillPresent> getAllOutBillPresent() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresent");
+            KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
+            if (result.getStatus() == 200) {
+                List<OutBillPresent> outBillPresentList = (List<OutBillPresent>) result.getData();
+                return outBillPresentList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

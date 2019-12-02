@@ -53,7 +53,7 @@
                     <a class="" href="javascript:;">业务管理</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="11" data-title="用户数据" href="#" class="site-demo-active" data-type="tabAdd">用户数据</a>
+                            <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="11" data-title="用户数据"  class="site-demo-active" data-type="tabAdd">用户数据</a>
                         </dd>
                         <dd>
                             <a href="#" data-url=${pageContext.request.contextPath}+"/test.jsp" data-title="角色数据"  data-id="22" class="site-demo-active" data-type="tabAdd">角色数据</a>
@@ -63,9 +63,18 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
+                    <a href="javascript:;">入库管理</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">出库管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库记录" class="site-demo-active" data-type="tabAdd">出库记录</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAddOutBill" data-id="addOutBill" data-title="新增出库" class="site-demo-active" data-type="tabAdd">新增出库</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
                         <dd><a href="">超链接</a></dd>
                     </dl>

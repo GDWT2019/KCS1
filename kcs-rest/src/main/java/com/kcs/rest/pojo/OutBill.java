@@ -29,7 +29,7 @@ public class OutBill {
 
     private String StorePosition;   //仓库位置
 
-    private String Note;            //备注
+    private String Remark;            //备注
 
     public Integer getOutBillID() {
         return OutBillID;
@@ -135,11 +135,11 @@ public class OutBill {
         StorePosition = storePosition;
     }
 
-    public String getNote() {
-        return Note;
+    public String getRemark() {
+        return Remark;
     }
 
-    public void setNote(String note) {
-        Note = note;
+    public void setRemark(String remark) {
+        Remark = remark;
     }
 }

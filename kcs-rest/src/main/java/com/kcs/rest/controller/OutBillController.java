@@ -1,11 +1,9 @@
 package com.kcs.rest.controller;
 
-import com.kcs.rest.pojo.Department;
-import com.kcs.rest.pojo.Goods;
-import com.kcs.rest.pojo.KcsResult;
-import com.kcs.rest.pojo.Summary;
+import com.kcs.rest.pojo.*;
 import com.kcs.rest.service.DepartmentService;
 import com.kcs.rest.service.GoodsService;
+import com.kcs.rest.service.OutBillPresentService;
 import com.kcs.rest.service.SummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +24,8 @@ public class OutBillController {
     private GoodsService goodsService;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private OutBillPresentService outBillPresentService;
 
     @RequestMapping("/getGoodsById{GoodsID}")
     @ResponseBody
@@ -70,5 +70,15 @@ public class OutBillController {
             return KcsResult.ok(departmentList);
         } else
             return KcsResult.build(500, "未找到部门表数据");
+    }
+
+    @RequestMapping("/outBillPresent")
+    @ResponseBody
+    public KcsResult outBillPresent() {
+        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent();
+        if (allOutBillPresent != null) {
+            return KcsResult.ok(allOutBillPresent);
+        } else
+            return KcsResult.build(500, "未找到出库任何数据");
     }
 }
