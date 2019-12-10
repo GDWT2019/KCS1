@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface OutBillPresentService {
     List<OutBillPresent> findAllOutBillPresent();
+    List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID);
 }

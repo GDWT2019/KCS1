@@ -28,4 +28,20 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> findGoodsByItemName(String itemName) {
         return goodsDao.findGoodsByItemName(itemName);
     }
+
+    @Override
+    public Goods findGoodsByItemsNameAndItemsType(String itemsName, String itemsType) {
+        Goods g= goodsDao.findGoodsByItemsNameAndItemsType(itemsName,itemsType);
+        return g;
+    }
+
+    @Override
+    public List<Goods> findItemsNameUniqueByTime(String Time) {
+        return goodsDao.findItemsNameUniqueByTime(Time);
+    }
+
+    @Override
+    public List<Goods> findItemsNameUnique() {
+        return goodsDao.findItemsNameUnique();
+    }
 }

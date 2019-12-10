@@ -8,9 +8,37 @@
         from [Summary]
     </select>
 
-    <select id="findSummaryByGoodsIDThisMonth" resultType="com.kcs.rest.pojo.Summary">
+    <select id="findGoodsIDByTime" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.String">
+        select GoodsID
+        from [Summary]
+        where Time like #{Time}+'%'
+    </select>
+
+    <select id="findSummaryByGoodsIDAndTime" resultType="com.kcs.rest.pojo.Summary">
         select *
         from [Summary]
-        where
+        where GoodsID = #{GoodsID} and Time like #{Time}+'%'
     </select>
+
+    <select id="findSummaryByGoodsIDAndTimeAfter" resultType="com.kcs.rest.pojo.Summary">
+        select *
+        from [Summary]
+        where GoodsID = #{GoodsID} and Time >= #{Time}
+    </select>
+
+    <select id="findSummaryInTheLastGoodsDataByGoodsID" resultType="com.kcs.rest.pojo.Summary" parameterType="java.lang.Integer">
+        select * from (SELECT * FROM Summary s1 WHERE not EXISTS
+        (select GoodsID from Summary s2 WHERE s2.Time>s1.Time and s1.GoodsID = s2.GoodsID))s2
+        where s2.GoodsID = #{GoodsID}
+    </select>
+
+    <update id="updateSummary" parameterType="com.kcs.rest.pojo.Summary" >
+         update [Summary] set OutAmount = #{OutAmount},
+         OutPrice = #{OutPrice},
+         OutTotal = #{OutTotal},
+         ThisAmount = #{ThisAmount},
+         ThisPrice = #{ThisPrice},
+         ThisTotal = #{ThisTotal}
+         where SummaryID =#{SummaryID}
+    </update>
 </mapper>

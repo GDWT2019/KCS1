@@ -89,7 +89,7 @@
         <div class="layui-col-lg12" style="padding: 10px 10px;">
 			<div class="layui-bg-black layui-col-lg12" style="padding: 10px 15px; border-radius: 5px;">
 				<div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>出库单</span></div>
-				<div class="layui-col-lg12 layui-bg-gray" style="margin:30px 0;padding:10px;border-radius: 5px;">
+				<div class="layui-col-lg12" style="margin:30px 0;padding:10px;border-radius: 5px;">
 					<form class="layui-form" action="">
 					<div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
 						  <span style="font-size: 25px;">时间：</span>

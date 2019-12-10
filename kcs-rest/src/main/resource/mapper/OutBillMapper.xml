@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.OutBillDao" >
+
+
+    <select id="insertOutBill" parameterType="com.kcs.rest.pojo.OutBill" resultType="java.lang.Integer">
+        insert into [OutBill] (OutTime,CheckStatus,CheckTime,CheckMessage,OperateTime,AllTotal,StoreManager,Taker,Checker,TableMaker,Operator,Remark)
+        values(#{outTime},#{checkStatus},#{checkTime},#{checkMessage},#{operateTime},#{allTotal},#{storeManager},#{taker},#{checker},#{tableMaker},#{operator},#{remark});
+        select @@IDENTITY
+    </select>
+
+    <select id="findOutBillByID" parameterType="java.lang.Integer" resultType="com.kcs.rest.pojo.OutBill">
+        select *
+        from OutBill
+        where OutBillID = #{OutBillID}
+    </select>
+
+    <select id="findTheMaxOutBillID" resultType="java.lang.Integer">
+        select MAX(OutBillID)
+        from OutBill
+    </select>
+</mapper>

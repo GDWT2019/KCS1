@@ -5,15 +5,15 @@ import java.util.Date;
 public class OutBill {
     private Integer OutBillID;      //出库清单id
 
-    private Date OutTime;           //出库时间
+    private String OutTime;           //出库时间
 
     private Integer CheckStatus;    //审批状态  0 待审批；1 审批通过；2 审批未通过
 
-    private Date CheckTime;         //审批时间
+    private String CheckTime;         //审批时间
 
     private String CheckMessage;    //审批建议
 
-    private Date OperateTime;       //操作时间
+    private String OperateTime;       //操作时间
 
     private Double AllTotal;        //合计金额
 
@@ -27,8 +27,6 @@ public class OutBill {
 
     private Integer Operator;       //操作人
 
-    private String StorePosition;   //仓库位置
-
     private String Remark;            //备注
 
     public Integer getOutBillID() {
@@ -39,11 +37,11 @@ public class OutBill {
         OutBillID = outBillID;
     }
 
-    public Date getOutTime() {
+    public String getOutTime() {
         return OutTime;
     }
 
-    public void setOutTime(Date outTime) {
+    public void setOutTime(String outTime) {
         OutTime = outTime;
     }
 
@@ -55,11 +53,11 @@ public class OutBill {
         CheckStatus = checkStatus;
     }
 
-    public Date getCheckTime() {
+    public String getCheckTime() {
         return CheckTime;
     }
 
-    public void setCheckTime(Date checkTime) {
+    public void setCheckTime(String checkTime) {
         CheckTime = checkTime;
     }
 
@@ -71,11 +69,11 @@ public class OutBill {
         CheckMessage = checkMessage;
     }
 
-    public Date getOperateTime() {
+    public String getOperateTime() {
         return OperateTime;
     }
 
-    public void setOperateTime(Date operateTime) {
+    public void setOperateTime(String operateTime) {
         OperateTime = operateTime;
     }
 
@@ -127,19 +125,30 @@ public class OutBill {
         Operator = operator;
     }
 
-    public String getStorePosition() {
-        return StorePosition;
-    }
-
-    public void setStorePosition(String storePosition) {
-        StorePosition = storePosition;
-    }
-
     public String getRemark() {
         return Remark;
     }
 
     public void setRemark(String remark) {
         Remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "OutBill{" +
+                "OutBillID=" + OutBillID +
+                ", OutTime='" + OutTime + '\'' +
+                ", CheckStatus=" + CheckStatus +
+                ", CheckTime='" + CheckTime + '\'' +
+                ", CheckMessage='" + CheckMessage + '\'' +
+                ", OperateTime='" + OperateTime + '\'' +
+                ", AllTotal=" + AllTotal +
+                ", StoreManager=" + StoreManager +
+                ", Taker=" + Taker +
+                ", Checker=" + Checker +
+                ", TableMaker=" + TableMaker +
+                ", Operator=" + Operator +
+                ", Remark='" + Remark + '\'' +
+                '}';
     }
 }

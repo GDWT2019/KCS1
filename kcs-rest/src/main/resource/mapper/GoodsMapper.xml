@@ -21,5 +21,25 @@
         from [Goods]
         where ItemsName = #{ItemsName,jdbcType=CHAR}
     </select>
+
+    <select id="findGoodsByItemsNameAndItemsType" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.String">
+        select *
+        from [Goods]
+        where ItemsName = #{ItemsName,jdbcType=CHAR} and ItemsType = #{ItemsType,jdbcType=CHAR}
+    </select>
+
+    <select id="findItemsNameUniqueByTime" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.String">
+        select [Goods].ItemsName
+        from [Summary],[Goods]
+        where [Summary].Time like #{Time}+'%' and [Goods].GoodsID = [Summary].GoodsID
+        group by [Goods].ItemsName
+    </select>
+    <select id="findItemsNameUnique" resultType="com.kcs.rest.pojo.Goods">
+        select [Goods].ItemsName
+        from [Goods],
+        (SELECT * FROM Summary s1 WHERE not EXISTS(select GoodsID from Summary s2 WHERE s2.Time>s1.Time and s1.GoodsID = s2.GoodsID)) s
+        where [Goods].GoodsID = s.GoodsID
+        group by [Goods].ItemsName
+    </select>
     
 </mapper>

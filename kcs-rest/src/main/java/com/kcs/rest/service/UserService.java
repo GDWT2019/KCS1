@@ -19,4 +19,6 @@ public interface UserService {
     void updateBase(User user);
 
     void updatePass(User user);
+
+    List<User> AllUser();
 }

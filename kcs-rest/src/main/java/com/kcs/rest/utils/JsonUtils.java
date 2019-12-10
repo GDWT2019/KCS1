@@ -1,8 +1,10 @@
 package com.kcs.rest.utils;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.sf.json.JSONArray;
 
 import java.util.List;
 
@@ -61,6 +63,23 @@ public class JsonUtils {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    /**
+     * list转json字符串
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T> String listToJson(List<T> list) {
+        try {
+            JSONArray json = JSONArray.fromObject(list);
+            System.out.println("JJJJJJJJJJJJJJ:::"+json.toString());
+            return json.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

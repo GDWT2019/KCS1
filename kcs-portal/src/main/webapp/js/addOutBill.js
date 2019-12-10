@@ -12,7 +12,7 @@ function addTr(){
 	num = Number(num)+Number(1)
 
     //拼接字符串及以参数的形式给select的lay-filter，name重新赋值
-    var tr = "<tr>" +
+    var tr = "<tr name=\"tr"+num+"\">"+
         "<td>"+num+"</td>"+
         "<td>" +
         "<div class=\"layui-form-item\">" +
@@ -24,68 +24,80 @@ function addTr(){
         "<td>" +
         "<div class=\"layui-form-item\">" +
         "<select name=\"itemsType"+num+"\"lay-verify=\"required\" lay-filter=\"itemsType"+num+"\">" +
-        "<option value=\"null\" selected> </option>" +
         "</select>" +
         "</div>" +
         "</td>" +
         "<td>" +
         "<div class=\"layui-form-item\">" +
-        "<input name=\"itemsNum\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
+        "<input name=\"itemNum"+num+"\" class=\"layui-input\" type=\"number\" placeholder=\"数量\" min=\"1\"/>" +
         "</div>" +
         "</td>" +
         "<td>" +
         "<div class=\"layui-form-item\">" +
-        "<input name=\"itemsPrice\" class=\"layui-input\" type=\"text\" disabled=\"disabled\"/>" +
+        "<input name=\"itemPrice"+num+"\" class=\"layui-input\" type=\"text\" disabled=\"disabled\"/>" +
         "</div>" +
         "</td>" +
         "<td>" +
         "<div class=\"layui-form-item\">" +
-        "<input name=\"ItemsTotal\" class=\"layui-input\" type=\"text\" disabled=\"disabled\"/>" +
+        "<input name=\"itemTotal"+num+"\" class=\"layui-input\" type=\"text\" disabled=\"disabled\"/>" +
         "</div>" +
         "</td>" +
         "<td>" +
         "<div class=\"layui-form-item\">" +
-        "<select name=\"departmentName\" lay-verify=\"required\" lay-search=\"\">" +
+        "<select name=\"departmentID"+num+"\" lay-verify=\"required\" lay-search=\"\">" +
         departmentName +
         "</select>" +
         "</div>" +
         "</td>" +
         "<td>" +
         "<div class=\"layui-form-item\">" +
-        "<input name=\"project\" class=\"layui-input\" type=\"text\" placeholder=\"项目名称\"/>" +
+        "<input name=\"project"+num+"\" class=\"layui-input\" type=\"text\" placeholder=\"项目名称\"/>" +
         "</div>" +
         "</td>" +
         "<td>" +
         "<div class=\"layui-form-item\">" +
-        "<button class=\"layui-btn layui-bg-gray\" disabled=\"disabled\" >移除</button>" +
+        "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"removeTr(this)\">移除</button>" +
         "</div>" +
         "</td>" +
         "</tr>";
 
 	$("#finalTr").before(tr);
+
     layui.use(['form'], function () {
         var form = layui.form;
-        form.render()       //重新渲染新增的行中select的信息
+        form.render();   //重新渲染新增的行中select的信息
+
+        var itemsName = "itemsName"+num;                                 //对应的物品名称
+        var itemsType = "itemsType"+num ;                                    //规格
+        var itemPrice = "itemPrice"+num;                               //对应的物品的当月价格
+        var itemNum = "itemNum"+num;                                  //数量
+        var itemTotal = "itemTotal"+num;                              //单价*数量
 
         //选择物品后，根据物品名称查询该物品的规格，并更新对应的规格
-        form.on('select(itemsName'+num+')',function (data) {
-            var itemsType = "itemsType"+num
+        form.on('select('+itemsName+')',function (data) {
+
+            //选择物品后，先清空规格，数量，单价，合计的值
             $('select[name="'+itemsType+'"]').empty();
-            form.render()
-            if (data.value=="null")
+            $('input[name="'+itemNum+'"]').val(0);
+            $('input[name="'+itemPrice+'"]').val("");
+            AllTotalSubThisTotal(num)
+            $('input[name="'+itemTotal+'"]').val("");
+
+            var itemsNameVal = $('select[name="'+itemsName+'"]').find("option:selected").text();
+            form.render();
+
+            if (itemsNameVal=="null"||itemsNameVal==" "||itemsNameVal=="undefined"||itemsNameVal==null||itemsNameVal=="请选择")
             {
-                $('select[name="'+itemsType+'"]').append("<option value=\"null\" selected> </option>");
-                form.render()
                 return false;
             }
             $.ajax({
                 type:"post",
                 url:"findGoodsByItemsName",
-                data:{itemsName:data.value},
+                data:{itemsName:itemsNameVal},
                 dataType:"text",
                 success:function (result) {
                     var goodsList = JSON.parse(result)
-                    $('select[name="'+itemsType+'"]').append("<option value=\"null\" selected>请选择</option>")
+                    $('select[name="'+itemsType+'"]').append("<option value=\"null\">请选择</option>")
                     $.each(goodsList,function (index,goods) {
                         $('select[name="'+itemsType+'"]').append("<option value='"+goods.itemsType+"'>"+goods.itemsType+"</option>")
                     })
@@ -96,33 +108,42 @@ function addTr(){
         })
 
         //选择好规格后，根据对应的物品名和规格查询物品的数量和单价，更新对应的最大数量和单价
-        form.on('select(itemsType'+num+')',function (data) {
-            var itemsName = "itemsName"+num         //对应的物品名称
+        form.on('select('+itemsType+')',function (data) {
+
+            var itemsNameVal = $('select[name="'+itemsName+'"]').find("option:selected").text();
+
+            $('input[name="'+itemNum+'"]').val(0);
+            $('input[name="'+itemPrice+'"]').val("");
+            AllTotalSubThisTotal(num)
+            $('input[name="'+itemTotal+'"]').val("");
+
+            form.render()
 
             if (data.value=="null")
             {
-                $('select[name="'+itemsType+'"]').append("<option value=\"null\" selected> </option>");
-                form.render()
                 return false;
             }
             $.ajax({
                 type:"post",
-                url:"findGoodsByItemsName",
-                data:{itemsName:itemsName,itemsType:data.value},
+                url:"findSummaryByItemsNameAndItemsType",
+                data:{itemsName:itemsNameVal,itemsType:data.value},
                 dataType:"text",
                 success:function (result) {
-                    var goodsList = JSON.parse(result)
-                    $('select[name="'+itemsType+'"]').append("<option value=\"null\" selected>请选择</option>")
-                    $.each(goodsList,function (index,goods) {
-                        $('select[name="'+itemsType+'"]').append("<option value='"+goods.itemsType+"'>"+goods.itemsType+"</option>")
-                    })
-                    form.render()
+                    var summary = JSON.parse(result)
+                    $('input[name="'+itemNum+'"').attr("max",summary.thisAmount)
+                    $('input[name="'+itemPrice+'"]').val(summary.thisPrice);
+                    $('select[name="'+itemsName+'"]').find("option:selected").val(summary.goodsID);
+                    form.render();
                 }
             })
 
         })
 
+        $(function(){
+            calAllTotal(num)
+        })
     });
+
 }
 
 
@@ -134,27 +155,247 @@ layui.use('form', function ($, form) {
 
     form.on('select(itemsName1)',function (data) {
         $('select[name="itemsType1"]').empty();
-        form.render()
-        if (data.value=="null")
+        $('input[name="itemNum1"]').val(0);
+        $('input[name="itemPrice1"]').val("");
+        AllTotalSubThisTotal(1)
+        $('input[name="itemTotal1"]').val("");
+
+        var itemsNameVal = $('select[name="itemsName1"]').find("option:selected").text();
+        form.render();
+
+        if (itemsNameVal=="null"||itemsNameVal==" "||itemsNameVal=="undefined"||itemsNameVal==null||itemsNameVal=="请选择")
         {
-            $('select[name="itemsType1"]').append("<option value=\"null\" selected> </option>");
-            form.render()
             return false;
         }
         $.ajax({
-            type:"post",
             url:"findGoodsByItemsName",
-            data:{itemsName:data.value},
+            type:"post",
+            data:{itemsName:itemsNameVal},
             dataType:"text",
             success:function (result) {
-                var goodsList = JSON.parse(result)
-                $('select[name="itemsType1"]').append("<option value=\"null\" selected>请选择</option>");
+                var goodsList = JSON.parse(result);
+                $('select[name="itemsType1"]').append("<option value=\"null\">请选择</option>");
                 $.each(goodsList,function (index,goods) {
                     $('select[name="itemsType1"]').append("<option value='"+goods.itemsType+"'>"+goods.itemsType+"</option>")
-                })
+                });
                 form.render();
             }
         })
 
     })
+    form.on('select(itemsType1)',function (data) {
+
+        var itemsNameVal = $('select[name="itemsName1"]').find("option:selected").text();
+        $('input[name="itemNum1"]').val(0);
+        $('input[name="itemPrice1"]').val("");
+        AllTotalSubThisTotal(1)
+        $('input[name="itemTotal1"]').val("");
+
+        form.render();
+
+        if (data.value=="null")
+        {
+            return false;
+        }
+        $.ajax({
+            type:"post",
+            url:"findSummaryByItemsNameAndItemsType",
+            data:{itemsName:itemsNameVal,itemsType:data.value},
+            dataType:"text",
+            success:function (result) {
+                var summary = JSON.parse(result)
+                $('input[name="itemNum1"]').attr("max",summary.thisAmount)
+                $('input[name="itemPrice1"]').val(summary.thisPrice);
+                $('select[name="itemsName1"]').find("option:selected").val(summary.goodsID);
+                form.render();
+            }
+        })
+    })
+
+    $(function(){
+        calAllTotal(1)
+    })
 });
+
+function calAllTotal(count) {
+    $('input[name="itemNum'+count+'"]').on('input propertychange',function(){
+        var n = 0;
+        var price = 0;
+        var itemTotal = 0;
+        var allTotal = 0;
+        var trl = document.getElementsByTagName("tr").length
+        var lastTr = document.getElementsByTagName("tr")[trl-2]
+        var str=lastTr.getAttribute("name");
+        var lastNum = str.substring(2)
+        n = Number($('input[name="itemNum'+count+'"]').val());
+        price = Number($('input[name="itemPrice'+count+'"]').val());
+        if (n >0 && price >0){
+            itemTotal = Number(n)*Number(price)
+            $('input[name="itemTotal'+count+'"]').val(itemTotal);
+        }
+        for(var i =1;i<=lastNum;i++){
+            var thisTotal = $('input[name="itemTotal'+i+'"]').val();
+            if (thisTotal>0)
+                allTotal = Number(allTotal)+Number(thisTotal);
+        }
+        $("#allTotal").empty();
+        $("#allTotal").append(allTotal);
+    });
+}
+
+function AllTotalSubThisTotal(count) {
+    var thisTotal = $('input[name="itemTotal'+count+'"]').val();
+    var allTotal = $("#allTotal").text();
+    if (thisTotal>0) {
+        var newAllTotal = Number(allTotal)-Number(thisTotal);
+        $("#allTotal").html(newAllTotal);
+    }
+    else
+        $("#allTotal").html(allTotal);
+}
+
+function removeTr(obj) {
+        if (!confirm("是否确认删除")) {
+            return;
+        }
+        var trName=$(obj).parents("tr").attr("name");
+        var count = trName.substring(2);
+
+        AllTotalSubThisTotal(count);
+        $(obj).parents("tr").remove();
+}
+
+function checkBill() {
+
+
+
+    //出库日期
+    var time = $("#outBillDate").val();
+    //编号
+    //var No = $("#OutBillID").val();
+
+    //仓管员id
+    var storeManager = Number($("#storeManager").val());
+    //领用人id
+    var taker = Number($("#taker").val());
+    //审批人id
+    var checker = Number($("#checker").val());
+    //制表人id
+    var tableMaker = Number($("#tableMaker").val());
+
+    var allTotal = Number($("#allTotal").text());
+
+    if (IsNull(time)){
+        alert("日期未填写哦！");
+        return false;
+    }
+    if(IsNull(storeManager)||IsNull(taker)||IsNull(checker)||IsNull(tableMaker)){
+        alert("还有人员未选择哦！");
+        return false;
+    }
+
+    //将出库单的信息打包
+    var outBill = {"outBillID":null,"outTime":time,"checkStatus":0,"checkTime":null,"checkMessage":null,"operateTime":null,"allTotal":allTotal,"storeManager":storeManager,"taker":taker,"checker":checker,"tableMaker":tableMaker,"operator":null,"remark":null}
+
+
+    //获取最后一行数据的编号,以确定循环次数
+    var trl = document.getElementsByTagName("tr").length
+    var lastTr = document.getElementsByTagName("tr")[trl-2]
+    var str=lastTr.getAttribute("name");
+    var lastNum = str.substring(2)
+
+    //定义json数组
+    var itemsOutList = [];
+    var itemsOut = null;
+    //循环获取物品相关数据，并转成json数组
+    for(var i =1;i<=lastNum;i++){
+        var departmentID = Number($('select[name="departmentID'+i+'"]').val());
+        var goodsID = $('select[name="itemsName'+i+'"]').val();
+        var itemsType = $('select[name="itemsType'+i+'"]').val();
+        var itemNum = Number($('input[name="itemNum'+i+'"]').val());
+        var itemNumMax = Number($('input[name="itemNum'+i+'"]').attr("max"));
+        var itemPrice = $('input[name="itemPrice'+i+'"]').val();
+        var itemTotal = $('input[name="itemTotal'+i+'"]').val();
+        var project = $('input[name="project'+i+'"]').val();
+
+        //如果其中一个为undefined,跳过此次循环
+        if (typeof(goodsID) == "undefined"){
+            continue;
+        }
+
+        //判断数量是否超出最大值
+        if(itemNum>itemNumMax){
+            alert("序号为："+i+"行的数量已超出该物品的最大值（"+itemNumMax+"）");
+            return false;
+        }
+
+        //判断数量是否小于1
+        if(itemNum<1){
+            alert("序号为："+i+"行的数量不能少于1！");
+            return false;
+        }
+
+        //判断是否为空
+        if (IsNull(goodsID)){
+            alert("序号为："+i+"的品名未选择！");
+            return false;
+        }
+        if (IsNull(itemsType)){
+            alert("序号为："+i+"的规格未选择！");
+            return false;
+        }
+        if (IsNull(itemNum)){
+            alert("序号为："+i+"的数量未选择！");
+            return false;
+        }
+        if (IsNull(departmentID)){
+            alert("序号为："+i+"的部门未选择！");
+            return false;
+        }
+        if (IsNull(project)){
+            alert("序号为："+i+"的项目未填写！");
+            return false;
+        }
+
+        //转成对象格式，
+        itemsOut = {"itemsOutID":null,"departmentID":departmentID,"outBillID":null,"goodsID":+goodsID
+            ,"itemNum":itemNum,"itemPrice":+itemPrice,"itemTotal":+itemTotal,"project":project,"note":null,"storePosition":null};
+
+        //对象数组
+        itemsOutList.push(itemsOut);
+    }
+    var itemsOutJsonList = JSON.stringify(itemsOutList);
+    var outBillJson = JSON.stringify(outBill)
+    submitBill(itemsOutJsonList,outBillJson)
+}
+
+function IsNull(exp) {
+    if (exp == "null" || exp =="" || exp == null)
+        return true;
+    return false;
+}
+
+function submitBill(itemsOutJsonList,outBill) {
+
+    $.ajax({
+        url:"insertOutBill",
+        type:"post",
+        data:{"itemsOutJsonListString":itemsOutJsonList,"outBillString":outBill},
+        dataType:"text",
+        success:function (result) {
+            var data = JSON.parse(result);
+            if (data.flag){
+                alert(data.mesg);
+                location.href="showAllOutBill";
+            }else{
+                alert(data.mesg);
+                return false;
+            }
+
+
+        },
+        error:function () {
+            alert("请求错误")
+        }
+    })
+}

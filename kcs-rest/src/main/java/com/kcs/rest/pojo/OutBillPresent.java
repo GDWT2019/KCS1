@@ -9,15 +9,15 @@ public class OutBillPresent {
 
     private Integer OutBillID;      //出库清单id
 
-    private Date OutTime;           //出库时间
+    private String OutTime;           //出库时间
 
     private Integer CheckStatus;    //审批状态  0 待审批；1 审批通过；2 审批未通过
 
-    private Date CheckTime;         //审批时间
+    private String CheckTime;         //审批时间
 
     private String CheckMessage;    //审批建议
 
-    private Date OperateTime;       //操作时间
+    private String OperateTime;       //操作时间
 
     private Double AllTotal;        //合计金额
 
@@ -30,6 +30,16 @@ public class OutBillPresent {
     private Integer TableMaker;     //制表人
 
     private Integer Operator;       //操作人
+
+    private String StoreManagerName;   //仓管员名字
+
+    private String TakerName;          //领用人名字
+
+    private String CheckerName;        //审批人名字
+
+    private String TableMakerName;     //制表人名字
+
+    private String OperatorName;       //操作人名字
 
     private String StorePosition;   //仓库位置
 
@@ -50,6 +60,8 @@ public class OutBillPresent {
     private Double ItemTotal;       //金额（数量*单价）
 
     private String Project;         //项目
+
+    private String Note;            //附注
 
     private Integer CategoryID;     //类别id
 
@@ -89,6 +101,54 @@ public class OutBillPresent {
 
     private String Time;            //当前月
 
+    public String getStoreManagerName() {
+        return StoreManagerName;
+    }
+
+    public void setStoreManagerName(String storeManagerName) {
+        StoreManagerName = storeManagerName;
+    }
+
+    public String getTakerName() {
+        return TakerName;
+    }
+
+    public void setTakerName(String takerName) {
+        TakerName = takerName;
+    }
+
+    public String getCheckerName() {
+        return CheckerName;
+    }
+
+    public void setCheckerName(String checkerName) {
+        CheckerName = checkerName;
+    }
+
+    public String getTableMakerName() {
+        return TableMakerName;
+    }
+
+    public void setTableMakerName(String tableMakerName) {
+        TableMakerName = tableMakerName;
+    }
+
+    public String getOperatorName() {
+        return OperatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        OperatorName = operatorName;
+    }
+
+    public String getNote() {
+        return Note;
+    }
+
+    public void setNote(String note) {
+        Note = note;
+    }
+
     public Integer getOutBillID() {
         return OutBillID;
     }
@@ -97,11 +157,11 @@ public class OutBillPresent {
         OutBillID = outBillID;
     }
 
-    public Date getOutTime() {
+    public String getOutTime() {
         return OutTime;
     }
 
-    public void setOutTime(Date outTime) {
+    public void setOutTime(String outTime) {
         OutTime = outTime;
     }
 
@@ -113,11 +173,11 @@ public class OutBillPresent {
         CheckStatus = checkStatus;
     }
 
-    public Date getCheckTime() {
+    public String getCheckTime() {
         return CheckTime;
     }
 
-    public void setCheckTime(Date checkTime) {
+    public void setCheckTime(String checkTime) {
         CheckTime = checkTime;
     }
 
@@ -129,11 +189,11 @@ public class OutBillPresent {
         CheckMessage = checkMessage;
     }
 
-    public Date getOperateTime() {
+    public String getOperateTime() {
         return OperateTime;
     }
 
-    public void setOperateTime(Date operateTime) {
+    public void setOperateTime(String operateTime) {
         OperateTime = operateTime;
     }
 
@@ -193,13 +253,6 @@ public class OutBillPresent {
         StorePosition = storePosition;
     }
 
-    public String getNote() {
-        return Remark;
-    }
-
-    public void setNote(String note) {
-        Remark = note;
-    }
 
     public Integer getItemsOutID() {
         return ItemsOutID;
@@ -423,5 +476,58 @@ public class OutBillPresent {
 
     public void setTime(String time) {
         Time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "OutBillPresent{" +
+                "OutBillID=" + OutBillID +
+                ", OutTime='" + OutTime + '\'' +
+                ", CheckStatus=" + CheckStatus +
+                ", CheckTime='" + CheckTime + '\'' +
+                ", CheckMessage='" + CheckMessage + '\'' +
+                ", OperateTime='" + OperateTime + '\'' +
+                ", AllTotal=" + AllTotal +
+                ", StoreManager=" + StoreManager +
+                ", Taker=" + Taker +
+                ", Checker=" + Checker +
+                ", TableMaker=" + TableMaker +
+                ", Operator=" + Operator +
+                ", StoreManagerName='" + StoreManagerName + '\'' +
+                ", TakerName='" + TakerName + '\'' +
+                ", CheckerName='" + CheckerName + '\'' +
+                ", TableMakerName='" + TableMakerName + '\'' +
+                ", OperatorName='" + OperatorName + '\'' +
+                ", StorePosition='" + StorePosition + '\'' +
+                ", Remark='" + Remark + '\'' +
+                ", ItemsOutID=" + ItemsOutID +
+                ", DepartmentID=" + DepartmentID +
+                ", DepartmentName='" + DepartmentName + '\'' +
+                ", GoodsID=" + GoodsID +
+                ", ItemNum=" + ItemNum +
+                ", ItemPrice=" + ItemPrice +
+                ", ItemTotal=" + ItemTotal +
+                ", Project='" + Project + '\'' +
+                ", Note='" + Note + '\'' +
+                ", CategoryID=" + CategoryID +
+                ", ItemsName='" + ItemsName + '\'' +
+                ", ItemsType='" + ItemsType + '\'' +
+                ", ItemsUnit='" + ItemsUnit + '\'' +
+                ", CategoryName='" + CategoryName + '\'' +
+                ", SummaryID=" + SummaryID +
+                ", PreAmount=" + PreAmount +
+                ", PrePrice=" + PrePrice +
+                ", PreTotal=" + PreTotal +
+                ", InAmount=" + InAmount +
+                ", InPrice=" + InPrice +
+                ", InTotal=" + InTotal +
+                ", OutAmount=" + OutAmount +
+                ", OutPrice=" + OutPrice +
+                ", OutTotal=" + OutTotal +
+                ", ThisAmount=" + ThisAmount +
+                ", ThisPrice=" + ThisPrice +
+                ", ThisTotal=" + ThisTotal +
+                ", Time='" + Time + '\'' +
+                '}';
     }
 }

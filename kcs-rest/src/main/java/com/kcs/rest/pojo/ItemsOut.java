@@ -17,6 +17,18 @@ public class ItemsOut {
 
     private String Project;         //项目
 
+    private String Note;            //附注
+
+    private String StorePosition;   //仓库位置
+
+    public String getNote() {
+        return Note;
+    }
+
+    public void setNote(String note) {
+        Note = note;
+    }
+
     public Integer getItemsOutID() {
         return ItemsOutID;
     }
@@ -79,5 +91,29 @@ public class ItemsOut {
 
     public void setProject(String project) {
         Project = project;
+    }
+
+    public String getStorePosition() {
+        return StorePosition;
+    }
+
+    public void setStorePosition(String storePosition) {
+        StorePosition = storePosition;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemsOut{" +
+                "ItemsOutID=" + ItemsOutID +
+                ", DepartmentID=" + DepartmentID +
+                ", OutBillID=" + OutBillID +
+                ", GoodsID=" + GoodsID +
+                ", ItemNum=" + ItemNum +
+                ", ItemPrice=" + ItemPrice +
+                ", ItemTotal=" + ItemTotal +
+                ", Project='" + Project + '\'' +
+                ", Note='" + Note + '\'' +
+                ", StorePosition='" + StorePosition + '\'' +
+                '}';
     }
 }

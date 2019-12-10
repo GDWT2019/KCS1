@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.OutBillPresentDao" >
-
-
     <select id="findAllOutBillPresent" resultType="com.kcs.rest.pojo.OutBillPresent">
         select *
         from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
@@ -11,6 +9,17 @@
         and [ItemsOut].DepartmentID=[Department].DepartmentID
         and	[Goods].CategoryID=[Category].CategoryID
         and [Goods].GoodsID=[Summary].GoodsID
+        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
     </select>
-
+    <select id="findOutBillPresentByOutBillID" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="java.lang.Integer">
+        select *
+        from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
+        where [OutBill].OutBillID=#{OutBillID}
+        and [ItemsOut].OutBillID=#{OutBillID}
+        and [ItemsOut].GoodsID=[Goods].GoodsID
+        and [ItemsOut].DepartmentID=[Department].DepartmentID
+        and	[Goods].CategoryID=[Category].CategoryID
+        and [Goods].GoodsID=[Summary].GoodsID
+        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
+    </select>
 </mapper>

@@ -76,5 +76,10 @@ public class UserServiceImpl implements UserService {
         userDao.updatePass(user);
     }
 
+    @Override
+    public List<User> AllUser() {
+        return userDao.findAllUser();
+    }
+
 
 }
