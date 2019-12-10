@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.ItemInDao" >
+    <insert id="insertNewItem" parameterType="com.kcs.rest.pojo.ItemIn">
+        insert into ItemsIn (InBillID,GoodsID,CategoryID,[Type],ItemPrice,ItemNum,ItemTotal,StorePosition,Note)
+         values (#{InBillID},#{GoodsID},#{CategoryID},#{Type},#{ItemPrice},#{ItemNum},#{ItemTotal},#{StorePosition},#{Note})
+    </insert>
+
+    <select id="findItemsInData" resultType="com.kcs.rest.pojo.ItemsShow" parameterType="int">
+       select * from
+        (select a.InBillID,a.TimeIn,b.GoodsID,b.Type,b.ItemNum,b.ItemPrice,b.ItemTotal,b.StorePosition,a.Operator,a.StoreManager,a.Checker,a.TableMaker,a.CheckStatus,a.Buyer from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID) as show where InBillID = #{InBillID}
+    </select>
+
+    <delete id="delItem" parameterType="int">
+        delete from ItemsIn where ItemsInID = #{ItemsInID}
+    </delete>
+</mapper>

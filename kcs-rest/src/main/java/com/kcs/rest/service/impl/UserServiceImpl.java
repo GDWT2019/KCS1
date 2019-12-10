@@ -56,5 +56,15 @@ public class UserServiceImpl implements UserService {
         userDao.updatePass(user);
     }
 
+    @Override
+    public List<User> findAlllister() {
+        return userDao.findAlllister();
+    }
+
+    @Override
+    public List<User> findAllWarehouse() {
+        return userDao.findAllWarehouse();
+    }
+
 
 }

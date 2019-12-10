@@ -66,6 +66,23 @@ public class UserController {
         return KcsResult.ok(allUser);
     }
 
+    //获取制表人数据
+    @RequestMapping(value="listerData")
+    @ResponseBody
+    public  KcsResult listerData(){
+        List<User> alllister = userService.findAlllister();
+        return KcsResult.ok(alllister);
+    }
+
+    //获取仓管员数据
+    @RequestMapping(value="WarehouseData")
+    @ResponseBody
+    public  KcsResult WarehouseData(){
+        List<User> allWarehouse = userService.findAllWarehouse();
+        return KcsResult.ok(allWarehouse);
+    }
+
+
     //登录
     @RequestMapping("/loginUser{loginName}")
     @ResponseBody

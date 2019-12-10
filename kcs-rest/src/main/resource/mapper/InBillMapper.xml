@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.InBillDao" >
+    <select id="findAllInBill"  resultType="com.kcs.rest.pojo.InBill" >
+        select * from InBill
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from InBill
+    </select>
+
+    <insert id="insertNewBill" parameterType="com.kcs.rest.pojo.InBill" useGeneratedKeys="true" keyProperty="InBillID">
+        insert into InBill (ProviderID,StoreManager,TimeIn,Buyer,BuyTime,AllTotal,checker,CheckStatus,TableMaker,Operator,OperateTime)
+        values (#{ProviderID},#{StoreManager},#{TimeIn},#{Buyer},#{BuyTime},#{AllTotal},#{Checker},#{CheckStatus},#{TableMaker},#{Operator},#{OperateTime})
+    </insert>
+
+    <select id="inBillShowData"  resultType="com.kcs.rest.pojo.inBillShow" >
+        select b.ItemsInID,a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator
+    </select>
+
+    <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow" parameterType="int">
+        select top (#{back}- #{front}+1) * from (select  b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator )as show
+        where ItemsInID not in (
+            select top (#{front}-1) ItemsInID from (select b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator )as show )
+    </select>
+
+    <select id="countShow" resultType="int">
+        select COUNT(*) from (select b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator) as show
+    </select>
+</mapper>

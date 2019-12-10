@@ -27,4 +27,20 @@ public class GoodsController {
         } else
             return KcsResult.build(500, "未找到对应物品");
     }
+
+    //获取用户数据
+    @RequestMapping(value="getALLGoods")
+    @ResponseBody
+    public  KcsResult getALLGoods(){
+        List<Goods> allGoods = goodsService.findAllGoods();
+        return KcsResult.ok(allGoods);
+    }
+
+    @RequestMapping("/getByGoodsID{goodsID}")
+    @ResponseBody
+    public KcsResult getByGoodsID(@PathVariable String goodsID){
+        int id = Integer.parseInt( goodsID );
+        List<Goods> goodsById = goodsService.findGoodsBygoodsId(id);
+        return  KcsResult.ok(goodsById);
+    }
 }

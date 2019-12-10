@@ -21,6 +21,14 @@
         select * from [User]
     </select>
 
+    <select id="findAlllister"  resultType="com.kcs.rest.pojo.User" >
+        select * from [User] where ListerMark = 'true'
+    </select>
+
+    <select id="findAllWarehouse"  resultType="com.kcs.rest.pojo.User" >
+        select * from [User] where WarehouseMark = 'true'
+    </select>
+
     <select id="findUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select * from [User] where UserID = #{userid,jdbcType=INTEGER}
     </select>

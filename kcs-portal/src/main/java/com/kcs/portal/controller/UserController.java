@@ -160,6 +160,33 @@ public class UserController {
         return jso;
     }
 
+    //获取用户数据
+    @RequestMapping(value="getAlluser",produces="text/html;charset=utf-8")
+    public @ResponseBody String getAlluser(){
+        List<User> list=userService.findAllUser();
+        JSONArray json = JSONArray.fromObject(list);
+        String js=json.toString();
+        return js;
+    }
+
+    //获取制表人数据
+    @RequestMapping(value="getAlllister",produces="text/html;charset=utf-8")
+    public @ResponseBody String getAlllister(){
+        List<User> list=userService.findAlllister();
+        JSONArray json = JSONArray.fromObject(list);
+        String js=json.toString();
+        return js;
+    }
+
+    //获取仓管员数据
+    @RequestMapping(value="getWarehouse",produces="text/html;charset=utf-8")
+    public @ResponseBody String getWarehouse(){
+        List<User> list=userService.findAllWarehouse();
+        JSONArray json = JSONArray.fromObject(list);
+        String js=json.toString();
+        return js;
+    }
+
     //返回安全设置
     @RequestMapping("/safeData")
     public String safeData(HttpServletRequest request){

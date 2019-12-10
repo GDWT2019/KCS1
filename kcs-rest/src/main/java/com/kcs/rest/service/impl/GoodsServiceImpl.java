@@ -28,4 +28,14 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> findGoodsByItemName(String itemName) {
         return goodsDao.findGoodsByItemName(itemName);
     }
+
+    @Override
+    public List<Goods> findAllGoods() {
+        return goodsDao.findAllGoods();
+    }
+
+    @Override
+    public List<Goods> findGoodsBygoodsId(int id) {
+        return goodsDao.findGoodsBygoodsId(id);
+    }
 }

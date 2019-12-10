@@ -1,5 +1,9 @@
 package com.kcs.rest.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+import com.kcs.rest.pojo.Category;
+
 public class Goods {
     private Integer GoodsID;        //物品id
 
@@ -10,6 +14,16 @@ public class Goods {
     private String ItemsType;       //物品规格
 
     private String ItemsUnit;       //物品单位
+
+    private List<Category> Categories =new ArrayList<>();
+
+    public List<Category> getCategories() {
+        return Categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        Categories = categories;
+    }
 
     public Integer getGoodsID() {
         return GoodsID;

@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.GoodsDao" >
 
+    <resultMap id="CategoryMap" type="com.kcs.rest.pojo.Goods">
+        <id column="GoodsID" property="GoodsID" />
+        <result column="categoryID" property="categoryID"/>
+        <result column="ItemsName" property="ItemsName"/>
+        <result column="ItemsType" property="ItemsType"/>
+        <result column="ItemsUnit" property="ItemsUnit"/>
+        <collection property="Categories" ofType="com.kcs.rest.pojo.Category">
+            <id column="CategoryID" property="CategoryID"/>
+            <result column="CategoryName" property="CategoryName"/>
+        </collection>
+    </resultMap>
+
 
     <select id="findGoodsById" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
         select *
@@ -20,6 +32,14 @@
         select *
         from [Goods]
         where ItemsName = #{ItemsName,jdbcType=CHAR}
+    </select>
+
+    <select id="findAllGoods" resultType="com.kcs.rest.pojo.Goods">
+        select * from Goods
+    </select>
+
+    <select id="findGoodsBygoodsId" resultMap="CategoryMap" parameterType="int">
+        select * from Goods left join Category on Goods.CategoryID =  Category.CategoryID where GoodsID=#{id}
     </select>
     
 </mapper>

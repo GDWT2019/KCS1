@@ -117,4 +117,36 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<User> findAlllister() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/listerData");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+
+
+                return (List<User>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<User> findAllWarehouse() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/WarehouseData");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+
+
+                return (List<User>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
