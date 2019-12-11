@@ -21,7 +21,7 @@ public class GoodController {
     @RequestMapping("/findGoodsByItemsName")
     @ResponseBody
     public List<Goods> findGoodsByItemName(String itemName, HttpServletRequest request){
-        List<Goods> goodsList = goodsService.findGoodsByItemName(itemName);
+        List<Goods> goodsList = goodsService.findGoodsByItemsName(itemName);
         return goodsList;
     }
 

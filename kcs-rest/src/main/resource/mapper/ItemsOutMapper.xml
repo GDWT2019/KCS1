@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.ItemsOutDao" >
+
+    <insert id="insertItemsOut" parameterType="com.kcs.rest.pojo.ItemsOut">
+        insert into ItemsOut (DepartmentID,OutBillID,GoodsID,ItemNum,ItemPrice,ItemTotal,Project,Note,StorePosition)
+        values(#{departmentID},#{outBillID},#{goodsID},#{itemNum},#{itemPrice},#{itemTotal},#{project},#{note},#{storePosition})
+    </insert>
+
+    <delete id="delItemsOutByID" parameterType="java.lang.Integer">
+        delete from ItemsOut
+        where ItemsOutID = #{itemsOutID}
+    </delete>
+
+    <select id="findItemsOutByID" parameterType="java.lang.Integer" resultType="com.kcs.rest.pojo.ItemsOut">
+        select * from ItemsOut
+        where ItemsOutID = #{itemsOutID}
+    </select>
+
+</mapper>

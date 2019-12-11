@@ -66,5 +66,10 @@ public class UserServiceImpl implements UserService {
         return userDao.findAllWarehouse();
     }
 
+    @Override
+    public List<User> AllUser() {
+        return userDao.findAllUser();
+    }
+
 
 }

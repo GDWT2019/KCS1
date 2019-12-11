@@ -7,7 +7,7 @@ import com.kcs.rest.pojo.Category;
 public class Goods {
     private Integer GoodsID;        //物品id
 
-    private Integer categoryID;     //类别id
+    private Integer CategoryID;     //类别id
 
     private String ItemsName;       //物品名称
 
@@ -34,11 +34,11 @@ public class Goods {
     }
 
     public Integer getCategoryID() {
-        return categoryID;
+        return CategoryID;
     }
 
     public void setCategoryID(Integer categoryID) {
-        this.categoryID = categoryID;
+        this.CategoryID = categoryID;
     }
 
     public String getItemsName() {
@@ -69,7 +69,7 @@ public class Goods {
     public String toString() {
         return "Goods{" +
                 "GoodsID=" + GoodsID +
-                ", categoryID=" + categoryID +
+                ", CategoryID=" + CategoryID +
                 ", ItemsName='" + ItemsName + '\'' +
                 ", ItemsType='" + ItemsType + '\'' +
                 ", ItemsUnit='" + ItemsUnit + '\'' +

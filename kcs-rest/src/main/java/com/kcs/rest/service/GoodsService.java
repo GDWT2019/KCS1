@@ -18,4 +18,13 @@ public interface GoodsService {
     List<Goods> findAllGoods();
 
     List<Goods> findGoodsBygoodsId(int id);
+
+    //根据品名和规格查找物品
+    Goods findGoodsByItemsNameAndItemsType(String itemsName,String itemsType);
+
+    //根据日期，联合汇总表和物品表，查找物品
+    List<Goods> findItemsNameUniqueByTime(String Time);
+
+    //联合汇总表和物品表，查找在汇总表最后更新的物品id，再根据该id查找物品名称，物品名称再分组
+    List<Goods> findItemsNameUnique();
 }

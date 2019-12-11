@@ -3,6 +3,7 @@ package com.kcs.portal.service.impl;
 import com.kcs.portal.service.OutBillService;
 import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.HttpClientUtil;
+import com.kcs.rest.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,5 +55,67 @@ public class OutBillServiceImpl implements OutBillService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<OutBillPresent> getAllOutBillPresent() {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/outBillPresent");
+            KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
+            if (result.getStatus() == 200) {
+                List<OutBillPresent> outBillPresentList = (List<OutBillPresent>) result.getData();
+                return outBillPresentList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer insertOutBill(OutBill outBill) {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/outBill/insertOutBill", JsonUtils.objectToJson(outBill));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/getOutBillPresentByOutBillID"+outBillID);
+            KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
+            if (result.getStatus() == 200) {
+                List<OutBillPresent> outBillPresentList = (List<OutBillPresent>) result.getData();
+                return outBillPresentList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findTheMaxOutBillID() {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/getTheMaxOutBillID");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
     }
 }

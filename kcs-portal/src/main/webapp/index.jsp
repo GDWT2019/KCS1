@@ -68,6 +68,16 @@
                         <dd>
                             <a data-url="${pageContext.request.contextPath }/inBill/rInBill" data-id="3" data-title="入库明细单" href="#" class="site-demo-active" data-type="tabAdd">入库明细单</a>
                         </dd>
+                        <dd><a href="javascript:;">列表一</a></dd>
+                        <dd><a href="javascript:;">列表二</a></dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">出库管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库记录" class="site-demo-active" data-type="tabAdd">出库记录</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAddOutBill" data-id="addOutBill" data-title="新增出库" class="site-demo-active" data-type="tabAdd">新增出库</a></dd>
                         <dd><a href="javascript:;">列表二</a></dd>
                         <dd><a href="">超链接</a></dd>
                     </dl>
@@ -112,6 +122,7 @@
             console.log(data.elem); //得到当前的Tab大容器
         });
 
+
         var $ = layui.jquery;
         var element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 
@@ -142,6 +153,8 @@
                 })
             }
         };
+
+
 
         //当点击有site-demo-active属性的标签时，即左侧菜单栏中内容 ，触发点击事件
         $('.site-demo-active').on('click', function() {

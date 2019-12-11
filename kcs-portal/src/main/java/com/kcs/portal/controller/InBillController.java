@@ -93,7 +93,7 @@ public class InBillController {
     @RequestMapping("/findGoodsByItemsName")
     @ResponseBody
     public List<Goods> findGoodsByItemName(String itemsName) {
-        List<Goods> goodsList = goodsService.findGoodsByItemName(itemsName);
+        List<Goods> goodsList = goodsService.findGoodsByItemsName(itemsName);
         return goodsList;
     }
 

@@ -23,4 +23,6 @@ public interface UserService {
     List<User> findAlllister();
 
     List<User> findAllWarehouse();
+
+    List<User> AllUser();
 }

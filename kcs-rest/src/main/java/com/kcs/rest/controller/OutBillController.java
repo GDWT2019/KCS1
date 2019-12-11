@@ -1,17 +1,10 @@
 package com.kcs.rest.controller;
 
-import com.kcs.rest.pojo.Department;
-import com.kcs.rest.pojo.Goods;
-import com.kcs.rest.pojo.KcsResult;
-import com.kcs.rest.pojo.Summary;
-import com.kcs.rest.service.DepartmentService;
-import com.kcs.rest.service.GoodsService;
-import com.kcs.rest.service.SummaryService;
+import com.kcs.rest.pojo.*;
+import com.kcs.rest.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +19,10 @@ public class OutBillController {
     private GoodsService goodsService;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private OutBillPresentService outBillPresentService;
+    @Autowired
+    private OutBillService outBillService;
 
     @RequestMapping("/getGoodsById{GoodsID}")
     @ResponseBody
@@ -38,7 +35,8 @@ public class OutBillController {
     }
 
     /**
-     *  根据Summary中GoodsID，联合查询Goods字段，根据ItemsName分组
+     * 根据Summary中GoodsID，联合查询Goods字段，根据ItemsName分组
+     *
      * @return
      */
     @RequestMapping("/getAllGoodsInSummaryGoodsId")
@@ -70,5 +68,42 @@ public class OutBillController {
             return KcsResult.ok(departmentList);
         } else
             return KcsResult.build(500, "未找到部门表数据");
+    }
+
+    @RequestMapping("/outBillPresent")
+    @ResponseBody
+    public KcsResult outBillPresent() {
+        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent();
+        if (allOutBillPresent != null) {
+            return KcsResult.ok(allOutBillPresent);
+        } else
+            return KcsResult.build(500, "未找到出库任何数据");
+    }
+
+    @RequestMapping("/insertOutBill")
+    @ResponseBody
+    public KcsResult updatePass(@RequestBody OutBill outBill) {
+        Integer i = outBillService.insertOutBill(outBill);
+        return KcsResult.ok(i);
+    }
+
+    @RequestMapping("/getOutBillPresentByOutBillID{outBillID}")
+    @ResponseBody
+    public KcsResult getOutBillPresentByOutBillID(@PathVariable int outBillID){
+        List<OutBillPresent> outBillPresentList = outBillPresentService.findOutBillPresentByOutBillID(outBillID);
+        if (outBillPresentList != null){
+            return KcsResult.ok(outBillPresentList);
+        }else
+            return KcsResult.build(500, "查不到数据！");
+    }
+
+    @RequestMapping("/getTheMaxOutBillID")
+    @ResponseBody
+    public KcsResult getTheMaxOutBillID(){
+        Integer theMaxOutBillID = outBillService.findTheMaxOutBillID();
+        if (theMaxOutBillID != null){
+            return KcsResult.ok(theMaxOutBillID);
+        }else
+            return KcsResult.build(500, "查不到数据！");
     }
 }
