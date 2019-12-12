@@ -15,145 +15,161 @@
         <div class=" layui-col-lg12" style="padding: 10px 15px; border-radius: 5px;">
             <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库单</span></div>
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
-                <form class="layui-form" id="InBillForm" <%--action="getInBillData"--%> type="post">
+                <form class="layui-form" id="InBillForm" type="post">
                     <input type="hidden" name="operator" value="${user.userID}">
-                    <div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
-                        <span style="font-size: 25px;">时间：</span>
+
+                    <%--<div class="layui-layout-left" style="text-align: left;margin-top: 30px;">
+                        <span style="text-align: left;font-size: 25px;">时间：</span>
                         <div class="layui-inline">
                             <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;"
                                    value="${loadtime}"/>
                         </div>
                     </div>
-                    <div style="text-align: center;margin-top: 30px;">
-                        <span style=" margin-top: 30px;font-size: 25px;">供应商：</span>
+                    <div class="layui-layout-admin" style="text-align: center;margin-top: 30px;">
+                        <span style="text-align: center;font-size: 25px;">供应商：</span>
                         <div class="layui-inline">
                             <select id="providerID" name="providerID" lay-verify="required" lay-search="">
                             </select>
                         </div>
-                    </div>
-                    <%--<div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">--%>
-                    <%--<span style="font-size: 25px;">编号：</span>--%>
-                    <%--<div class="layui-inline">--%>
-                    <%--<input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on">--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <div class="layui-bg-gray" style="margin-top:50px;padding:10px;">
-                        <div class="layui-table">
-                            <table class="layui-table" id="table">
-                                <tr>
-                                    <th>序号</th>
-                                    <th>品名</th>
-                                    <th>类别</th>
-                                    <th>规格</th>
-                                    <th>数量</th>
-                                    <th>单价</th>
-                                    <th>合计</th>
-                                    <th>位置</th>
-                                    <th>附注</th>
-
-                                </tr>
-                                <tr id="1">
-                                    <td>
-                                        1
-                                    </td>
-                                    <td>
-                                        <select id="itemsName" lay-verify="required" name="itemInList[0].GoodsID"
-                                                lay-filter="itemsName1">
-                                            <option value="null" selected>请选择</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="Category1" lay-verify="required" name="itemInList[0].CategoryID"
-                                                lay-filter="Category1">
-                                            <option value="" selected>请选择</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select id="itemsType1" name="itemInList[0].Type" lay-verify="required"
-                                                lay-filter="itemsType1">
-                                            <option value="" selected></option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <input id="itemNum1" name="itemInList[0].ItemNum" onblur="NumCount(this)"
-                                               class="layui-input" type="number" placeholder="数量"/>
-                                    </td>
-                                    <td>
-                                        <input id="itemPrice1" name="itemInList[0].ItemPrice" onblur="PriceCount(this)"
-                                               class="layui-input" type="text"/>
-                                    </td>
-                                    <td>
-                                        <input id="itemTotal1" name="itemInList[0].ItemTotal" class="layui-input"
-                                               type="text" readonly="readonly"/>
-                                    </td>
-                                    <td>
-                                        <input id="StorePosition" name="itemInList[0].StorePosition" class="layui-input"
-                                               type="text"/>
-                                    </td>
-                                    <td>
-                                        <input id="note1" name="itemInList[0].Note" class="layui-input" type="text"/>
-                                    </td>
-                                </tr>
-
-                            </table>
-                            <div style="text-align: center;">
-                                <div class="layui-inline">
-                                    <button onclick="addTr()" type="button" class="layui-btn ">
-                                        <i class="layui-icon">&#xe608;</i> 添加
-                                    </button>
-                                    <button onclick="delTr()" type="button" class="layui-btn  ">
-                                        <i class="layui-icon">&#xe640;</i>删除
-                                    </button>
+                    </div>--%>
+                    <div class="layui-row">
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                            <span style="text-align: left;font-size: 25px;">时间：</span>
+                            <div class="grid-demo grid-demo-bg1">
+                                <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px; border: 0px" value="${loadtime}"/>
                                 </div>
                             </div>
-                            <%--<div class="layui-row" style="margin: 10px 5px;">--%>
+                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                <span style="text-align: center;font-size: 25px;">供应商：</span>
+                                <div class="grid-demo layui-bg-red" style="width: 300px">
+                                    <select id="providerID" name="providerID" lay-verify="required" lay-search=""></select>
+                                </div>
+                            </div>
+                           <%-- <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+                                <div class="grid-demo layui-bg-blue">移动：4/12 | 平板：12/12 | 桌面：4/12</div>
+                            </div>--%>
+                        </div>
+
+                        <div class="layui-bg-gray" style="margin-top:10px;padding:10px;">
+                            <div class="layui-table">
+                                <table class="layui-table" id="table">
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>品名</th>
+                                        <th>类别</th>
+                                        <th>规格</th>
+                                        <th>数量</th>
+                                        <th>单价</th>
+                                        <th>合计</th>
+                                        <th>位置</th>
+                                        <th>附注</th>
+
+                                    </tr>
+                                    <tr id="1">
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>
+                                            <select id="itemsName" lay-verify="required" name="itemInList[0].GoodsID"
+                                                    lay-filter="itemsName1">
+                                                <option value="null" selected>请选择</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="Category1" lay-verify="required" name="itemInList[0].CategoryID"
+                                                    lay-filter="Category1">
+                                                <option value="" selected>请选择</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="itemsType1" name="itemInList[0].Type" lay-verify="required"
+                                                    lay-filter="itemsType1">
+                                                <option value="" selected></option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input id="itemNum1" name="itemInList[0].ItemNum" onblur="NumCount(this)"
+                                                   class="layui-input" type="number" placeholder="数量"/>
+                                        </td>
+                                        <td>
+                                            <input id="itemPrice1" name="itemInList[0].ItemPrice"
+                                                   onblur="PriceCount(this)"
+                                                   class="layui-input" type="text"/>
+                                        </td>
+                                        <td>
+                                            <input id="itemTotal1" name="itemInList[0].ItemTotal" class="layui-input"
+                                                   type="text" readonly="readonly"/>
+                                        </td>
+                                        <td>
+                                            <input id="StorePosition" name="itemInList[0].StorePosition"
+                                                   class="layui-input"
+                                                   type="text"/>
+                                        </td>
+                                        <td>
+                                            <input id="note1" name="itemInList[0].Note" class="layui-input"
+                                                   type="text"/>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <div style="text-align: center;">
+                                    <div class="layui-inline">
+                                        <button onclick="addTr()" type="button" class="layui-btn ">
+                                            <i class="layui-icon">&#xe608;</i> 添加
+                                        </button>
+                                        <button onclick="delTr()" type="button" class="layui-btn  ">
+                                            <i class="layui-icon">&#xe640;</i>删除
+                                        </button>
+                                    </div>
+                                </div>
+                                <%--<div class="layui-row" style="margin: 10px 5px;">--%>
                                 <%--&lt;%&ndash;<span style="font-size: 22px;"></span>&ndash;%&gt;--%>
                                 <%--<label class="layui-form-label">合计：</label>--%>
                                 <%--<div class="layui-input-inline">--%>
-                                    <%--<input id="alTotal" name="alTotal" class="layui-input" type="text"--%>
-                                           <%--readonly="readonly"/>--%>
+                                <%--<input id="alTotal" name="alTotal" class="layui-input" type="text"--%>
+                                <%--readonly="readonly"/>--%>
                                 <%--</div>--%>
-                            <%--</div>--%>
-                            <div class="layui-row" style="margin: 10px 5px;">
-                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;" readonly></input>元</span>
-                            </div>
-                        </div>
-                        <div class="layui-bg-gray" style="border-radius: 2px;">
-                            <div class="layui-row">
-                                <div class="layui-form-item">
-                                    <label class="layui-form-label">仓管员：</label>
-                                    <div class="layui-input-inline">
-                                        <select id="warehouse" name="warehouse" lay-verify="required" lay-search="">
-
-                                        </select>
-                                    </div>
-                                    <label class="layui-form-label">采购人：</label>
-                                    <div class="layui-input-inline">
-                                        <select id="buyer" name="buyer" lay-verify="required" lay-search="">
-
-                                        </select>
-                                    </div>
+                                <%--</div>--%>
+                                <div class="layui-row" style="margin: 10px 5px;">
+                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border: 0px;width: 100px" readonly />元</span>
                                 </div>
+                            </div>
+                            <div class="layui-bg-gray" style="border-radius: 2px;">
                                 <div class="layui-row">
                                     <div class="layui-form-item">
-                                        <label class="layui-form-label">审批人：</label>
+                                        <label class="layui-form-label">仓管员：</label>
                                         <div class="layui-input-inline">
-                                            <select id="Approvaler" name="Approvaler" lay-verify="required"
-                                                    lay-search="">
+                                            <select id="warehouse" name="warehouse" lay-verify="required" lay-search="">
 
                                             </select>
                                         </div>
-                                        <label class="layui-form-label">制表人：</label>
+                                        <label class="layui-form-label">采购人：</label>
                                         <div class="layui-input-inline">
-                                            <select id="lister" name="lister" lay-verify="required" lay-search="">
+                                            <select id="buyer" name="buyer" lay-verify="required" lay-search="">
 
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-row">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">审批人：</label>
+                                            <div class="layui-input-inline">
+                                                <select id="Approvaler" name="Approvaler" lay-verify="required"
+                                                        lay-search="">
+
+                                                </select>
+                                            </div>
+                                            <label class="layui-form-label">制表人：</label>
+                                            <div class="layui-input-inline">
+                                                <select id="lister" name="lister" lay-verify="required" lay-search="">
+
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </form>
             </div>
         </div>
@@ -215,8 +231,8 @@
             console.log(altotal);
         }
         $("#alTotal").val(altotal);
-       /* $("#alTotal").empty();
-        $("#alTotal").append(altotal);*/
+        /* $("#alTotal").empty();
+         $("#alTotal").append(altotal);*/
     }
 
 

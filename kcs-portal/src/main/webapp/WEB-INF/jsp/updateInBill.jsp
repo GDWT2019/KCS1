@@ -16,28 +16,28 @@
             <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库单</span></div>
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
                 <form class="layui-form" id="InBillForm" type="post">
-                    <input type="hidden" name="operator" value="${user.userID}">
-                    <div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
-                        <span style="font-size: 25px;">时间：</span>
-                        <div class="layui-inline">
-                            <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;"
-                                   value=""/>
+                    <input type="hidden" name="operator" value="${user.userID}"/>
+                    <div class="layui-row">
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                            <span style="text-align: left;font-size: 25px;">时间：</span>
+                            <div class="grid-demo grid-demo-bg1">
+                                <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;border: 0px" value="${loadtime}"/>
+                            </div>
                         </div>
-                    </div>
-                    <div style="text-align: center;margin-top: 30px;">
-                        <span style=" margin-top: 30px;font-size: 25px;">供应商：</span>
-                        <div class="layui-inline">
-                            <select id="providerID" name="providerID" lay-verify="required" lay-search="">
-                            </select>
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                            <span style="text-align: center;font-size: 25px;">供应商：</span>
+                            <div class="grid-demo layui-bg-red" style="width: 300px">
+                                <select id="providerID" name="providerID" lay-verify="required" lay-search=""></select>
+                            </div>
                         </div>
+                         <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+                             <span style="font-size: 25px;">编号：</span>
+                             <div class="grid-demo layui-bg-blue" style="width: 300px">
+                                 <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on" style="font-size: 25px; border: 0px " readonly>
+                             </div>
+                         </div>
                     </div>
-                    <div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
-                    <span style="font-size: 25px;">编号：</span>
-                    <div class="layui-inline">
-                    <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on" readonly>
-                    </div>
-                    </div>
-                    <div class="layui-bg-gray" style="margin-top:50px;padding:10px;">
+                    <div class="layui-bg-gray" style="margin-top:10px;padding:10px;">
                         <div class="layui-table">
                             <table class="layui-hide" id="test" lay-filter="test"></table>
                             <%--<div style="text-align: center;">
@@ -51,7 +51,7 @@
                                 </div>
                             </div>--%>
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;" readonly></input>元</span>
+                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>
                             </div>
                         </div>
                         <div class="layui-bg-gray" style="border-radius: 2px;">

@@ -14,27 +14,20 @@
             <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库单</span></div>
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
                 <form class="layui-form" id="InBillForm" action="getInBillData" type="post">
-                    <input type="hidden" name="operator" value="${user.userID}">
+                    <input type="hidden" name="operator" value="${user.userID}"/>
                     <div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
                         <span style="font-size: 25px;">时间：</span>
                         <div class="layui-inline">
                             <input id="InBillTime" type="text" class="layui-input" readonly name="InBillTime"
                                    name="InBillTime"
-                                   style="font-size: 25px;" value="${loadtime}"/>
+                                   style="font-size: 25px;border: 0px" value="${loadtime}"/>
                         </div>
                     </div>
-                    <<%--div style="text-align: center;margin-top: 30px;">
-                        <span style=" margin-top: 30px;font-size: 25px;">审批人：</span>
-                        <div class="layui-inline">
-                            <select id="providerID" name="providerID" lay-verify="required" lay-search="">
-                            </select>
-                        </div>
-                    </div>--%>
+
                     <div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
                         <span style="font-size: 25px;">编号：</span>
                         <div class="layui-inline">
-                            <input readonly id="InBillID" type="text" class="layui-input InBillID" name="InBillID"
-                                   autocomplete="on" value="">
+                            <input readonly id="InBillID" type="text" class="layui-input InBillID" name="InBillID" autocomplete="on" value="" style="font-size: 25px; border: 0px">
                         </div>
                     </div>
                     <div class="layui-bg-gray" style="margin-top:50px;padding:10px;">
@@ -45,7 +38,7 @@
                             <div class="layui-row" style="margin: 10px 5px;">
                                 <label class="layui-form-label">合计：</label>
                                 <div class="layui-input-inline">
-                                    <input id="alTotal" name="alTotal" class="layui-input" type="text"
+                                    <input id="alTotal" name="alTotal" class="layui-input" type="text" style="border: 0px;width: 100px"
                                            readonly="readonly"/>
                                 </div>
                             </div>
