@@ -28,13 +28,15 @@ public class test {
 
     @Test
     public void test5(){
-        ItemIn itemIn=new ItemIn();
-//       itemInDao.insertNewBill();
-
-    }@Test
+        InBill inBill =new InBill();
+        inBill.setCheckStatus(2);
+        inBill.setInBillID(150);
+        itemInDao.UpdateCheckStatus(inBill);
+    }
+    @Test
     public void test4(){
-       itemInDao.delItem(113);
-
+        List<InBill> inBill = itemInDao.valueIDandTime(150);
+        System.out.println(inBill);
     }
 
     @Test

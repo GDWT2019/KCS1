@@ -1,5 +1,6 @@
 package com.kcs.rest.service;
 
+import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
 
@@ -11,4 +12,8 @@ public interface ItemInService {
     List<ItemsShow> findItemsInData(int inBillID);
 
     void delItem(int itemsInID);
+
+    void UpdateCheckStatus(InBill inBill);
+
+    List<InBill> valueIDandTime(int billID);
 }

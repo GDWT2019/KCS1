@@ -23,8 +23,8 @@
 	</div>
 </script>
 <script type="text/html" id="toolRight">
-	<button class="layui-btn layui-btn-checked layui-btn-xs" lay-event="check">审批</button>
-	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<button class="layui-btn layui-btn-xs" lay-event="check">修改</button>
+	<a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 

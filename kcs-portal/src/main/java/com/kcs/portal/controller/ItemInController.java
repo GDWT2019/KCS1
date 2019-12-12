@@ -1,6 +1,7 @@
 package com.kcs.portal.controller;
 
 import com.kcs.portal.service.ItemInService;
+import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.ItemsShow;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,39 @@ public class ItemInController  {
     public void delItem(HttpServletRequest request){
         String itemsInID = request.getParameter("ItemsInID");
         itemInService.delItem(itemsInID);
+    }
 
+    //跳转审批页面
+    @RequestMapping("/checkUpdate")
+    public String checkUpdate(){
+        return "checkUpdate";
+    }
+    //跳转审批页面
+    @RequestMapping("/updateInBill")
+    public String updateInBill(){
+        return "updateInBill";
+    }
+
+    //修改审批状态
+    @RequestMapping("/UpdateCheckStatus")
+    @ResponseBody
+    public void UpdateCheckStatus(HttpServletRequest request){
+        String checkStatus = request.getParameter("checkStatus");
+        String inBillID = request.getParameter("InBillID");
+        int status = Integer.parseInt(checkStatus);
+        int id = Integer.parseInt(inBillID);
+        InBill inBill =new InBill();
+        inBill.setInBillID(id);
+        inBill.setCheckStatus(status);
+        itemInService.UpdateCheckStatus(inBill);
+    }
+
+    @RequestMapping("/valueIDandTime")
+    @ResponseBody
+    public List<InBill> valueIDandTime(HttpServletRequest request){
+        String inBillID = request.getParameter("InBillID");
+        List<InBill> list =itemInService.valueIDandTime(inBillID);
+        System.out.println("portal controller:" +list);
+        return list;
     }
 }

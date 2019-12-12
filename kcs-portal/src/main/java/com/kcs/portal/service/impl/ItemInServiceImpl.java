@@ -1,6 +1,7 @@
 package com.kcs.portal.service.impl;
 
 import com.kcs.portal.service.ItemInService;
+import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
 import com.kcs.rest.pojo.KcsResult;
@@ -43,5 +44,28 @@ public class ItemInServiceImpl implements ItemInService {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void UpdateCheckStatus(InBill inBill) {
+        try {
+            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/itemIn/UpdateCheckStatus", JsonUtils.objectToJson(inBill));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<InBill> valueIDandTime(String inBillID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/valueIDandTime" + inBillID);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<InBill>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -20,7 +20,8 @@
                     <div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
                         <span style="font-size: 25px;">时间：</span>
                         <div class="layui-inline">
-                            <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;" value="${loadtime}"/>
+                            <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;"
+                                   value="${loadtime}"/>
                         </div>
                     </div>
                     <div style="text-align: center;margin-top: 30px;">
@@ -31,10 +32,10 @@
                         </div>
                     </div>
                     <%--<div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">--%>
-                        <%--<span style="font-size: 25px;">编号：</span>--%>
-                        <%--<div class="layui-inline">--%>
-                            <%--<input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on">--%>
-                        <%--</div>--%>
+                    <%--<span style="font-size: 25px;">编号：</span>--%>
+                    <%--<div class="layui-inline">--%>
+                    <%--<input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on">--%>
+                    <%--</div>--%>
                     <%--</div>--%>
                     <div class="layui-bg-gray" style="margin-top:50px;padding:10px;">
                         <div class="layui-table">
@@ -105,12 +106,16 @@
                                     </button>
                                 </div>
                             </div>
+                            <%--<div class="layui-row" style="margin: 10px 5px;">--%>
+                                <%--&lt;%&ndash;<span style="font-size: 22px;"></span>&ndash;%&gt;--%>
+                                <%--<label class="layui-form-label">合计：</label>--%>
+                                <%--<div class="layui-input-inline">--%>
+                                    <%--<input id="alTotal" name="alTotal" class="layui-input" type="text"--%>
+                                           <%--readonly="readonly"/>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <%--<span style="font-size: 22px;"></span>--%>
-                                <label class="layui-form-label">合计：</label>
-                                    <div class="layui-input-inline">
-                                <input id="alTotal"  name="alTotal" class="layui-input" type="text" readonly="readonly"/>
-                                    </div>
+                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;" readonly></input>元</span>
                             </div>
                         </div>
                         <div class="layui-bg-gray" style="border-radius: 2px;">
@@ -128,17 +133,22 @@
 
                                         </select>
                                     </div>
-                                    <label class="layui-form-label">审批人：</label>
-                                    <div class="layui-input-inline">
-                                        <select id="Approvaler" name="Approvaler" lay-verify="required" lay-search="">
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">审批人：</label>
+                                        <div class="layui-input-inline">
+                                            <select id="Approvaler" name="Approvaler" lay-verify="required"
+                                                    lay-search="">
 
-                                        </select>
-                                    </div>
-                                    <label class="layui-form-label">制表人：</label>
-                                    <div class="layui-input-inline">
-                                        <select id="lister" name="lister" lay-verify="required" lay-search="">
+                                            </select>
+                                        </div>
+                                        <label class="layui-form-label">制表人：</label>
+                                        <div class="layui-input-inline">
+                                            <select id="lister" name="lister" lay-verify="required" lay-search="">
 
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -159,64 +169,67 @@
 
 
     function addBill() {
-            $.ajax({
-                type:"POST",
-                url:"${pageContext.request.contextPath }/inBill/insertBill",
-                data:$("#InBillForm").serialize(),
-                success:function(){
-                    layer.alert("添加成功")
-                },
-                error:function () {
-                    layer.alert("请选择物品名称！");
-                }
-            });
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath }/inBill/insertBill",
+            data: $("#InBillForm").serialize(),
+            success: function () {
+                layer.alert("添加成功")
+            },
+            error: function () {
+                layer.alert("请选择物品名称！");
+            }
+        });
     }
 
     function NumCount(ii) {
-        var altotal=0;
+        var altotal = 0;
         var price = $(ii).parent().next().find("input").val();
         var total = $(ii).val();
         $(ii).parent().next().next().find("input").val((price * total).toFixed(2));
         var total = $(ii).parent().next().next().find("input").val();
-        var i=0;
+        var i = 0;
         var length = $("#table").find("tr").length; //行数
-        for(i=1;i<length;i++){
+        for (i = 1; i < length; i++) {
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
-            altotal=Number(altotal)+Number(text);
+            altotal = Number(altotal) + Number(text);
         }
         $("#alTotal").val(altotal);
+        /*   $("#alTotal").empty();
+          $("#alTotal").append(altotal);*/
     }
 
     function PriceCount(ii) {
-        var altotal=0;
+        var altotal = 0;
         var price = $(ii).val();
         var total = $(ii).parent().prev().find("input").val();
         $(ii).parent().next().find("input").val((price * total).toFixed(2));
         var total = $(ii).parent().next().find("input").val();
 
-        var i=0;
+        var i = 0;
         var length = $("#table").find("tr").length; //行数
-        for(i=1;i<length;i++){
+        for (i = 1; i < length; i++) {
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
-            altotal=Number(altotal)+Number(text);
+            altotal = Number(altotal) + Number(text);
             console.log(text);
             console.log(altotal);
         }
-         $("#alTotal").val(altotal);
+        $("#alTotal").val(altotal);
+       /* $("#alTotal").empty();
+        $("#alTotal").append(altotal);*/
     }
-
 
 
     function delTr() {
         debugger;
         if ($("#table tr").length > 2) {
-            var altotal=0;
-            var i=0;
+            var altotal = 0;
+            var i = 0;
             $("#table").find("tr").last().remove();
             var length = $("#table").find("tr").length; //行数
-            for(i=1;i<length;i++){
+            for (i = 1; i < length; i++) {
                 var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
-                altotal=Number(altotal)+Number(text);
+                altotal = Number(altotal) + Number(text);
             }
             $("#alTotal").val(altotal);
 
@@ -225,7 +238,6 @@
         }
 
     }
-
 
 
     /**
@@ -293,7 +305,8 @@
                     $('select[name="' + itemsType + '"]').append("<option value=\"null\" selected> </option>");
                     form.render();
                     return false;
-                } $('select[name="' + Category + '"]').empty();
+                }
+                $('select[name="' + Category + '"]').empty();
                 form.render();
                 if (data.value == "null") {
                     $('select[name="' + Category + '"]').append("<option value=\"null\" selected> </option>");

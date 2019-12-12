@@ -1,5 +1,6 @@
 package com.kcs.rest.controller;
 
+import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
 import com.kcs.rest.pojo.KcsResult;
@@ -43,6 +44,21 @@ public class ItemInController {
     public void delItem(@PathVariable String itemsInID){
         int ItemsInID = Integer.parseInt(itemsInID);
         itemInService.delItem(ItemsInID);
+    }
+
+    @RequestMapping(value = "UpdateCheckStatus",method = RequestMethod.POST)
+    @ResponseBody
+    public void UpdateCheckStatus(@RequestBody InBill inBill){
+        System.out.println("UpdateCheckStatus:" + inBill);
+        itemInService.UpdateCheckStatus(inBill);
+    }
+
+    @RequestMapping("/valueIDandTime{inBillID}")
+    @ResponseBody
+    public KcsResult valueIDandTime(@PathVariable String inBillID){
+        int BillID = Integer.parseInt(inBillID);
+        List<InBill> inBill=itemInService.valueIDandTime(BillID);
+        return KcsResult.ok(inBill);
     }
 
 }

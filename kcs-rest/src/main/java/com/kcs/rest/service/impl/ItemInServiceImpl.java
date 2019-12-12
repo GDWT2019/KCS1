@@ -1,6 +1,7 @@
 package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.ItemInDao;
+import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
 import com.kcs.rest.service.ItemInService;
@@ -27,5 +28,15 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public void delItem(int itemsInID) {
         itemInDao.delItem(itemsInID);
+    }
+
+    @Override
+    public void UpdateCheckStatus(InBill inBill) {
+        itemInDao.UpdateCheckStatus(inBill);
+    }
+
+    @Override
+    public List<InBill> valueIDandTime(int billID) {
+        return itemInDao.valueIDandTime(billID);
     }
 }

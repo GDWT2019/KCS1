@@ -25,15 +25,15 @@
     </select>
 
     <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow" parameterType="int">
-        select top (#{back}- #{front}+1) * from (select  b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        select top (#{back}- #{front}+1) * from (select a.InBillID,  b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
         on d.UserID = a.Operator )as show
-        where ItemsInID not in (
-            select top (#{front}-1) ItemsInID from (select b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        where InBillID not in (
+            select top (#{front}-1) InBillID from (select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c

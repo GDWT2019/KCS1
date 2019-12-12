@@ -29,8 +29,8 @@
         select * from [User] where WarehouseMark = 'true'
     </select>
 
-    <select id="findUserById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        select * from [User] where UserID = #{userid,jdbcType=INTEGER}
+    <select id="findUserById" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.Integer">
+        select * from [User] where UserID = #{userid}
     </select>
 
     <select id="findByLoginName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >
