@@ -17,4 +17,7 @@ public interface InBillService {
     List<inBillShow> PageInBillShow(int before, int after);
 
     int countShow();
+
+    int findMaxInBillID();
+
 }

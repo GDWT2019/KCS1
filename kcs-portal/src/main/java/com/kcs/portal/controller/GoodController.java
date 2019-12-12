@@ -20,14 +20,30 @@ public class GoodController {
 
     @RequestMapping("/findGoodsByItemsName")
     @ResponseBody
-    public List<Goods> findGoodsByItemName(String itemName, HttpServletRequest request){
-        List<Goods> goodsList = goodsService.findGoodsByItemsName(itemName);
+    public List<Goods> findGoodsByItemName(HttpServletRequest request){
+        String itemsName = request.getParameter("itemsName");
+        List<Goods> goodsList = goodsService.findGoodsByItemsName(itemsName);
         return goodsList;
     }
 
-    @RequestMapping(value="getGoods",produces="text/html;charset=utf-8")
-    public @ResponseBody String getPosition(){
-        List<Goods> list=goodsService.findAllGoods();
+    @RequestMapping("/findGoodsByItemsNameAndItemsType")
+    @ResponseBody
+    public Goods findSummaryByItemsNameAndItemsType(HttpServletRequest request) {
+        String itemsType = request.getParameter("itemsType");
+        String itemsName = request.getParameter("itemsName");
+        Goods g =new Goods();
+        g.setItemsName(itemsName);
+        g.setItemsType(itemsType);
+        Goods goods = goodsService.findGoodsByItemsNameAndItemsType(g);     //根据品名和规格查找物品
+
+        return goods;
+    }
+
+
+
+    @RequestMapping(value="getGoodsName",produces="text/html;charset=utf-8")
+    public @ResponseBody String findAllGoodsName(){
+        List<Goods> list=goodsService.findAllGoodsName();
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
         System.out.println(js);

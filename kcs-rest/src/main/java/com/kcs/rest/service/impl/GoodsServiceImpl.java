@@ -30,8 +30,8 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> findAllGoods() {
-        return goodsDao.findAllGoods();
+    public List<Goods> findAllGoodsName() {
+        return goodsDao.findAllGoodsName();
     }
 
     @Override

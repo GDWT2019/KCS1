@@ -18,4 +18,5 @@ public interface InBillService {
 
     int countShow();
 
+    int findMaxInBillID();
 }

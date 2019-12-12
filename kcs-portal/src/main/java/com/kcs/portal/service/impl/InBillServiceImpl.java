@@ -100,4 +100,20 @@ public class InBillServiceImpl implements InBillService {
         }
         return 0;
     }
+
+    @Override
+    public int findMaxInBillID() {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/inBill/findMaxInBillID");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

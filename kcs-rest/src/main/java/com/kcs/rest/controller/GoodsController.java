@@ -60,10 +60,10 @@ public class GoodsController {
     }
 
     //获取用户数据
-    @RequestMapping(value="getALLGoods")
+    @RequestMapping(value="getALLGoodsName")
     @ResponseBody
-    public  KcsResult getALLGoods(){
-        List<Goods> allGoods = goodsService.findAllGoods();
+    public  KcsResult getALLGoodsName(){
+        List<Goods> allGoods = goodsService.findAllGoodsName();
         return KcsResult.ok(allGoods);
     }
 

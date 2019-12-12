@@ -36,6 +36,10 @@ public class InBillController {
         Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
         request.setAttribute("loadtime", ft);
+
+        int maxInBillID=inBillService.findMaxInBillID();
+        request.setAttribute("newInBillID",maxInBillID+1);
+
         return "addInBill";
     }
     @RequestMapping("/checkInBill")
@@ -136,14 +140,20 @@ public class InBillController {
 
         System.out.println(inBillTime+"--"+providerID+"--"+"--"+StoreManager+"--"+buyer+"--"+TableMaker+"--"+operatorID+"--"+alTotal);
 
-        Integer inBillID= inBillService.insertNewBill(inBill);
-        System.out.println(inBillID);
+        if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null)
+        {
+            Integer inBillID= inBillService.insertNewBill(inBill);
+            System.out.println(inBillID);
 
-        for (ItemIn itemIn : list.getItemInList()) {
-            itemIn.setInBillID(inBillID);
+          for (ItemIn itemIn : list.getItemInList()) {
             System.out.println(itemIn);
-            itemInService.insertNewItem(itemIn);
+            itemIn.setInBillID(inBillID);
+            if(itemIn.getGoodsID()!=null){
+           itemInService.insertNewItem(itemIn);
+            }
+         }
         }
+
 
 
     }

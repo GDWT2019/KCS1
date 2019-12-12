@@ -17,21 +17,6 @@
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
                 <form class="layui-form" id="InBillForm" type="post">
                     <input type="hidden" name="operator" value="${user.userID}">
-
-                    <%--<div class="layui-layout-left" style="text-align: left;margin-top: 30px;">
-                        <span style="text-align: left;font-size: 25px;">时间：</span>
-                        <div class="layui-inline">
-                            <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;"
-                                   value="${loadtime}"/>
-                        </div>
-                    </div>
-                    <div class="layui-layout-admin" style="text-align: center;margin-top: 30px;">
-                        <span style="text-align: center;font-size: 25px;">供应商：</span>
-                        <div class="layui-inline">
-                            <select id="providerID" name="providerID" lay-verify="required" lay-search="">
-                            </select>
-                        </div>
-                    </div>--%>
                     <div class="layui-row">
                         <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
                             <span style="text-align: left;font-size: 25px;">时间：</span>
@@ -45,9 +30,12 @@
                                     <select id="providerID" name="providerID" lay-verify="required" lay-search=""></select>
                                 </div>
                             </div>
-                           <%-- <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
-                                <div class="grid-demo layui-bg-blue">移动：4/12 | 平板：12/12 | 桌面：4/12</div>
-                            </div>--%>
+                        <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+                            <span style="font-size: 25px;">编号：</span>
+                            <div class="grid-demo layui-bg-blue" style="width: 300px">
+                                <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on" style="font-size: 25px; border: 0px " readonly value="${newInBillID}">
+                            </div>
+                        </div>
                         </div>
 
                         <div class="layui-bg-gray" style="margin-top:10px;padding:10px;">
@@ -63,7 +51,7 @@
                                         <th>合计</th>
                                         <th>位置</th>
                                         <th>附注</th>
-
+                                        <th>操作</th>
                                     </tr>
                                     <tr id="1">
                                         <td>
@@ -109,27 +97,19 @@
                                             <input id="note1" name="itemInList[0].Note" class="layui-input"
                                                    type="text"/>
                                         </td>
+                                        <td>
+                                            <div class="layui-form-item">
+                                                <button type="button" class="layui-btn layui-btn-disabled">移除</button>
+                                            </div>
+                                        </td>
                                     </tr>
 
                                 </table>
-                                <div style="text-align: center;">
-                                    <div class="layui-inline">
-                                        <button onclick="addTr()" type="button" class="layui-btn ">
-                                            <i class="layui-icon">&#xe608;</i> 添加
-                                        </button>
-                                        <button onclick="delTr()" type="button" class="layui-btn  ">
-                                            <i class="layui-icon">&#xe640;</i>删除
-                                        </button>
+                                <div style="text-align: center;width: 100% ">
+                                    <div class="layui-inline" style="width: 100%">
+                                        <i onclick="addTr()" class="layui-btn layui-btn-sm layui-btn-fluid layui-icon layui-icon-down" style="width: 100%"></i>
                                     </div>
                                 </div>
-                                <%--<div class="layui-row" style="margin: 10px 5px;">--%>
-                                <%--&lt;%&ndash;<span style="font-size: 22px;"></span>&ndash;%&gt;--%>
-                                <%--<label class="layui-form-label">合计：</label>--%>
-                                <%--<div class="layui-input-inline">--%>
-                                <%--<input id="alTotal" name="alTotal" class="layui-input" type="text"--%>
-                                <%--readonly="readonly"/>--%>
-                                <%--</div>--%>
-                                <%--</div>--%>
                                 <div class="layui-row" style="margin: 10px 5px;">
                                 <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border: 0px;width: 100px" readonly />元</span>
                                 </div>
@@ -235,9 +215,37 @@
          $("#alTotal").append(altotal);*/
     }
 
+    function getParent(el, parentTag) {
+        do {
+            el = el.parentNode;
+        } while (el && el.tagName !== parentTag);
+        return el;
+    }
 
-    function delTr() {
-        debugger;
+    function delTr(el) {
+        el = getParent(el, 'TR');
+        var rowIndex = el.rowIndex;
+
+            el = getParent(el, 'TABLE');
+            el.deleteRow(rowIndex);
+            var altotal = 0;
+            var length = $("#table").find("tr").length; //行数
+        console.log("length"+length);
+            for (i = 1; i < length; i++) {
+                var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
+                altotal = Number(altotal) + Number(text);
+                console.log(altotal);
+            }
+            $("#alTotal").val(altotal);
+            layui.use(['form'], function () {
+                var form = layui.form;
+                $("#alTotal").val(altotal);
+                form.render();
+            })
+
+    }
+
+    /*function delTr() {
         if ($("#table tr").length > 2) {
             var altotal = 0;
             var i = 0;
@@ -253,7 +261,7 @@
             layer.alert("删除失败！");
         }
 
-    }
+    }*/
 
 
     /**
@@ -261,7 +269,11 @@
      */
     function addTr() {
         var itemsName = $("#itemsName").html();          //拿到已加载好的物品名称信息
-        var num = $("#table tr").length;
+        //改变序号
+        var trl = document.getElementsByTagName("tr").length;
+        var lastTr = document.getElementsByTagName("tr")[trl-1];
+        var num = lastTr.cells[0].innerHTML
+        num = Number(num)+Number(1)
 
         //拼接字符串及以参数的形式给select的lay-filter，name重新赋值
         var tr = "<tr id=" + num + " >" +
@@ -304,6 +316,11 @@
             "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
             "</div>" +
             "</td>" +
+            "<td>" +
+            "<div class=\"layui-form-item\">" +
+            "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"delTr(this)\">移除</button>" +
+            "</div>" +
+            "</td>" +
             "</tr>";
         $("#table").append(tr);
 
@@ -315,6 +332,7 @@
             form.on('select(itemsName' + num + ')', function (data) {
                 var itemsType = "itemInList[" + (num - 1) + "].Type";
                 var Category = "itemInList[" + (num - 1) + "].CategoryID";
+                var goodsID = "itemInList[" + (num - 1) + "].GoodsID";
                 $('select[name="' + itemsType + '"]').empty();
                 form.render();
                 if (data.value == "null") {
@@ -332,26 +350,58 @@
 
                 $.ajax({
                     type: "post",
-                    url: "findGoodsByGoodsID",
-                    data: {goodsID: data.value},
+                    url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
+                    data: {itemsName: data.value},
                     dataType: "json",
                     async: false,
                     cache: false,
                     success: function (result) {
                         $.each(result, function (index, item) {
                             $('select[name="' + itemsType + '"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>");
-
-                            $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
+                            $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categoryID + "</option>")
+                        });
+                        var itemsTypeVal = $('select[name="' + itemsType + '"]').find("option:selected").text();
+                        $.ajax({
+                            type: "post",
+                            url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                            data: {itemsType: itemsTypeVal,itemsName:data.value},
+                            dataType: "json",
+                            success: function (result) {
+                                console.log(result.goodsID);
+                                $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                                form.render();
+                            }
                         });
                         form.render();
                     }
                 })
             })
         });
+
+        layui.use('form', function ($, form) {
+            var $ = layui.$;//重点在layui中引用JQ必须写这一句
+            var form = layui.form;
+            var goodsID = "itemInList[" + (num - 1) + "].GoodsID";
+            form.on('select(itemsType' + num + ')', function (data) {
+
+                var itemsNameVal =  $('select[name="' + goodsID + '"]').find("option:selected").text();
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                    data: {itemsType: data.value,itemsName:itemsNameVal},
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result.goodsID);
+                        $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                        form.render();
+                    }
+                })
+
+            })
+        });
     }
 
-
-    layui.use('form', function ($, form) {
+        layui.use('form', function ($, form) {
         var $ = layui.$;//重点在layui中引用JQ必须写这一句
         var form = layui.form;
 
@@ -372,18 +422,51 @@
             }
             $.ajax({
                 type: "post",
-                url: "findGoodsByGoodsID",
-                data: {goodsID: data.value},
+                url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
+                data: {itemsName: data.value},
                 dataType: "json",
                 async: false,
                 cache: false,
                 success: function (result) {
-
-
                     $.each(result, function (index, item) {
                         $('select[name="itemInList[0].Type"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>")
-                        $('select[name="itemInList[0].CategoryID"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
+                        $('select[name="itemInList[0].CategoryID"]').append("<option value='" + item.categoryID + "'>" + item.categoryID + "</option>")
                     });
+                    var itemsTypeVal = $('select[name="itemInList[0].Type"]').find("option:selected").text();
+                    $.ajax({
+                        type: "post",
+                        url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                        data: {itemsType: itemsTypeVal,itemsName:data.value},
+                        dataType: "json",
+                        success: function (result) {
+                            console.log(result.goodsID);
+                            $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
+                            form.render();
+                        }
+                    })
+                    form.render();
+                }
+            })
+
+        });
+
+    });
+
+    layui.use('form', function ($, form) {
+        var $ = layui.$;//重点在layui中引用JQ必须写这一句
+        var form = layui.form;
+
+        form.on('select(itemsType1)', function (data) {
+
+            var itemsNameVal = $('select[name="itemInList[0].GoodsID"]').find("option:selected").text();
+            $.ajax({
+                type: "post",
+                url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                data: {itemsType: data.value,itemsName:itemsNameVal},
+                dataType: "json",
+                success: function (result) {
+                    console.log(result.goodsID);
+                    $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
                     form.render();
                 }
             })
@@ -395,20 +478,23 @@
         var $ = layui.$,
             form = layui.form;
 
+
+        //查询物品名称
         $.ajax({
             type: "POST",
-            url: '${pageContext.request.contextPath }/goods/getGoods',  //从数据库查询返回的是个list
+            url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
             dataType: "json",
             async: false,
             cache: false,
             success: function (data) {
                 $.each(data, function (index, item) {
-                    $("#itemsName").append("<option value='" + item.goodsID + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                    $("#itemsName").append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
                 })
                 form.render();//菜单渲染 把内容加载进去
             }
         });
 
+        //查询供应商
         $.ajax({
             type: "POST",
             url: '${pageContext.request.contextPath }/provider/getProvider',  //从数据库查询返回的是个list
@@ -423,6 +509,7 @@
             }
         });
 
+        //查询仓管员
         $.ajax({
             type: "POST",
             url: '${pageContext.request.contextPath }/user/getWarehouse',  //从数据库查询返回的是个list
@@ -437,6 +524,7 @@
             }
         });
 
+        //查询采购人
         $.ajax({
             type: "POST",
             url: '${pageContext.request.contextPath }/user/getAlluser',  //从数据库查询返回的是个list
@@ -451,6 +539,7 @@
             }
         });
 
+        //查询审批人
         $.ajax({
             type: "POST",
             url: '${pageContext.request.contextPath }/user/getAlluser',  //从数据库查询返回的是个list
@@ -465,6 +554,7 @@
             }
         });
 
+        //查询制表人
         $.ajax({
             type: "POST",
             url: '${pageContext.request.contextPath }/user/getAlllister',  //从数据库查询返回的是个list

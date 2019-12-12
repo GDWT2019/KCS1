@@ -28,9 +28,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> findAllGoods() {
+    public List<Goods> findAllGoodsName() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/getALLGoods");
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/getALLGoodsName");
             KcsResult result = KcsResult.formatToList(s, Goods.class);
             if (result.getStatus() == 200) {
                 List<Goods> goodsList = (List<Goods>) result.getData();

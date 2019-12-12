@@ -18,6 +18,15 @@ public class InBillController {
     @Autowired
     private InBillService inBillService;
 
+    //查找数据库中的最大id值
+    @RequestMapping("/findMaxInBillID")
+    @ResponseBody
+    public KcsResult findMaxInBillID(){
+        int theMaxinBillID = inBillService.findMaxInBillID();
+        System.out.println("restcontroller:"+theMaxinBillID);
+            return KcsResult.ok(theMaxinBillID);
+
+    }
 
     //获取入库单数据
     @RequestMapping(value="inBillData")

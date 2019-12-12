@@ -15,7 +15,7 @@ public interface GoodsService {
     //根据物品名称查找物品
     List<Goods> findGoodsByItemName(String itemName);
 
-    List<Goods> findAllGoods();
+    List<Goods> findAllGoodsName();
 
     List<Goods> findGoodsBygoodsId(int id);
 

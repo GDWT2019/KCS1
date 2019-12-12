@@ -7,7 +7,7 @@ import java.util.List;
 public interface GoodsService {
 //    List<Goods> findGoodsByItemName(String itemName);
 
-    List<Goods> findAllGoods();
+    List<Goods> findAllGoodsName();
 
     List<Goods> findGoodsByGoodsID(String goodsID);
     //根据物品名查找物品，相同的品名只显示一条数据

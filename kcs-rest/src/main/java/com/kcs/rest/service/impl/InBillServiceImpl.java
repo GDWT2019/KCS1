@@ -49,4 +49,9 @@ public class InBillServiceImpl implements InBillService {
     public int countShow() {
         return inBillDao.countShow();
     }
+
+    @Override
+    public int findMaxInBillID() {
+        return inBillDao.findMaxInBillID();
+    }
 }

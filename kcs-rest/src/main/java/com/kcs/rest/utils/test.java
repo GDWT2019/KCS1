@@ -27,6 +27,18 @@ public class test {
 
 
     @Test
+    public void test7(){
+        List<Goods> allGoodsName = goodsDao.findAllGoodsName();
+        for (Goods goods : allGoodsName) {
+            System.out.println(goods);
+        }
+    }
+    @Test
+    public void test6(){
+        int maxInBillID = inBillDao.findMaxInBillID();
+        System.out.println(maxInBillID);
+    }
+    @Test
     public void test5(){
         InBill inBill =new InBill();
         inBill.setCheckStatus(2);

@@ -5,6 +5,11 @@
         select * from InBill
     </select>
 
+    <select id="findMaxInBillID" resultType="int">
+        select MAX(InBillID)
+        from InBill
+    </select>
+
     <select id="count" resultType="int">
         select count(*) from InBill
     </select>

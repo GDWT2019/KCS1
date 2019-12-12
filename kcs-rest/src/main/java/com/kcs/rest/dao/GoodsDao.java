@@ -25,7 +25,7 @@ public interface GoodsDao {
     //联合汇总表和物品表，查找在汇总表最后更新的物品id，再根据该id查找物品名称，物品名称再分组
     List<Goods> findItemsNameUnique();
 
-    List<Goods> findAllGoods();
+    List<Goods> findAllGoodsName();
 
     List<Goods> findGoodsBygoodsId(int id);
 }

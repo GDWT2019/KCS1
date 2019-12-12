@@ -34,8 +34,8 @@
         where ItemsName = #{ItemsName,jdbcType=CHAR}
     </select>
 
-    <select id="findAllGoods" resultType="com.kcs.rest.pojo.Goods">
-        select * from Goods
+    <select id="findAllGoodsName" resultType="com.kcs.rest.pojo.Goods">
+        select distinct itemsName from Goods
     </select>
 
     <select id="findGoodsBygoodsId" resultMap="CategoryMap" parameterType="int">
