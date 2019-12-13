@@ -1,5 +1,6 @@
 package com.kcs.rest.controller;
 
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.service.GoodsService;
@@ -45,6 +46,16 @@ public class GoodsController {
         Goods goods = goodsService.findGoodsById(goodsID);
         if (goods != null) {
             return KcsResult.ok(goods);
+        } else
+            return KcsResult.build(500, "根据物品ID，未找到对应物品");
+    }
+
+    @RequestMapping("/findCategoryNameByID{categoryID}")
+    @ResponseBody
+    public KcsResult findCategoryNameByID(@PathVariable int categoryID){
+        Category category = goodsService.findCategoryNameByID(categoryID);
+        if (category != null) {
+            return KcsResult.ok(category);
         } else
             return KcsResult.build(500, "根据物品ID，未找到对应物品");
     }

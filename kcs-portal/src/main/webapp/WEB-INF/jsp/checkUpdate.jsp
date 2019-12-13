@@ -20,6 +20,12 @@
             </select>
         </div>
     </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">审批意见</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入内容" class="layui-textarea" name="checkMessage"></textarea>
+        </div>
+    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>

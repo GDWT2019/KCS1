@@ -20,4 +20,7 @@ public interface InBillService {
 
     int findMaxInBillID();
 
+
+
+    InBill findCheckMessageByID(String inBillID);
 }

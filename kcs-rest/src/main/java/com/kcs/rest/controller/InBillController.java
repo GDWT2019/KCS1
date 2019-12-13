@@ -18,6 +18,17 @@ public class InBillController {
     @Autowired
     private InBillService inBillService;
 
+
+    @RequestMapping("/findCheckMessageByID{inBillID}")
+    @ResponseBody
+    public KcsResult findCheckMessageByID(@PathVariable int inBillID){
+        InBill inBill = inBillService.findCheckMessageByID(inBillID);
+        if (inBill != null) {
+            return KcsResult.ok(inBill);
+        } else
+            return KcsResult.build(500, "根据物品ID，未找到对应物品");
+    }
+
     //查找数据库中的最大id值
     @RequestMapping("/findMaxInBillID")
     @ResponseBody

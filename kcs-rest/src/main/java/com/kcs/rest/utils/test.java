@@ -7,10 +7,12 @@ import com.kcs.rest.pojo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +27,23 @@ public class test {
     @Autowired
     private ItemInDao itemInDao;
 
+
+    @Test
+    public void test8(){
+
+        List<Goods> goodsList = goodsDao.findGoodsByItemName("黑色签字笔");
+        List<Category> categories = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            System.out.println(goods);
+            Integer categoryID = goods.getCategoryID();
+            Category category=goodsDao.findCategoryNameByID(categoryID);
+            categories.add(category);
+            goods.setCategories(categories);
+            System.out.println(goods.getCategories().get(0).getCategoryName());
+        }
+
+        System.out.println("goodslist:"+goodsList.get(0).getCategories().get(0).getCategoryName());
+    }
 
     @Test
     public void test7(){

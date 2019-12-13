@@ -77,7 +77,7 @@
                                         </td>
                                         <td>
                                             <input id="itemNum1" name="itemInList[0].ItemNum" onblur="NumCount(this)"
-                                                   class="layui-input" type="number" placeholder="数量"/>
+                                                   class="layui-input" type="number" min="1" placeholder="数量"/>
                                         </td>
                                         <td>
                                             <input id="itemPrice1" name="itemInList[0].ItemPrice"
@@ -173,7 +173,7 @@
                 layer.alert("添加成功")
             },
             error: function () {
-                layer.alert("请选择物品名称！");
+                layer.alert("添加失败！");
             }
         });
     }
@@ -182,7 +182,18 @@
         var altotal = 0;
         var price = $(ii).parent().next().find("input").val();
         var total = $(ii).val();
-        $(ii).parent().next().next().find("input").val((price * total).toFixed(2));
+        if(total>0){
+            $(ii).parent().next().next().find("input").val((price * total).toFixed(2));
+        }else {
+
+            layer.tips("数量格式错误！需要大于等于1", ii, {
+                tips: [1, "#2B2B2B"]
+            });
+             $(ii).val(1);
+            var val = $(ii).val();
+            $(ii).parent().next().next().find("input").val((price * val).toFixed(2));
+        }
+
         var total = $(ii).parent().next().next().find("input").val();
         var i = 0;
         var length = $("#table").find("tr").length; //行数
@@ -199,7 +210,16 @@
         var altotal = 0;
         var price = $(ii).val();
         var total = $(ii).parent().prev().find("input").val();
+        if(price>0){
         $(ii).parent().next().find("input").val((price * total).toFixed(2));
+        }else{
+            layer.tips("价格格式错误！需要大于0", ii, {
+                tips: [1, "#2B2B2B"]
+            });
+             $(ii).val(1);
+            var val = $(ii).val();
+            $(ii).parent().next().find("input").val((val * total).toFixed(2));
+        }
         var total = $(ii).parent().next().find("input").val();
 
         var i = 0;
@@ -207,8 +227,7 @@
         for (i = 1; i < length; i++) {
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
             altotal = Number(altotal) + Number(text);
-            console.log(text);
-            console.log(altotal);
+
         }
         $("#alTotal").val(altotal);
         /* $("#alTotal").empty();
@@ -300,7 +319,7 @@
             "</div>" +
             "</td>" +
             "<td>" +
-            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
+            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
             "</td>" +
             "<td>" +
             "<input id=\"itemPrice" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemPrice\" onblur=\"PriceCount(this)\" class=\"layui-input\" type=\"text\" />" +
@@ -351,14 +370,14 @@
                 $.ajax({
                     type: "post",
                     url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
-                    data: {itemsName: data.value},
+                    data: {itemsName: this.innerText},
                     dataType: "json",
                     async: false,
                     cache: false,
                     success: function (result) {
                         $.each(result, function (index, item) {
                             $('select[name="' + itemsType + '"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>");
-                            $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categoryID + "</option>")
+                            $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
                         });
                         var itemsTypeVal = $('select[name="' + itemsType + '"]').find("option:selected").text();
                         $.ajax({
@@ -420,17 +439,18 @@
                 form.render()
                 return false;
             }
+            console.log("test:"+ this.innerText);
             $.ajax({
                 type: "post",
                 url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
-                data: {itemsName: data.value},
+                data: {itemsName: this.innerText},
                 dataType: "json",
                 async: false,
                 cache: false,
                 success: function (result) {
                     $.each(result, function (index, item) {
                         $('select[name="itemInList[0].Type"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>")
-                        $('select[name="itemInList[0].CategoryID"]').append("<option value='" + item.categoryID + "'>" + item.categoryID + "</option>")
+                        $('select[name="itemInList[0].CategoryID"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
                     });
                     var itemsTypeVal = $('select[name="itemInList[0].Type"]').find("option:selected").text();
                     $.ajax({
@@ -443,7 +463,7 @@
                             $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
                             form.render();
                         }
-                    })
+                    });
                     form.render();
                 }
             })

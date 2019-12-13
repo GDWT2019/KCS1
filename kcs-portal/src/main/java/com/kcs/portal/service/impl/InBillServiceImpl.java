@@ -116,4 +116,20 @@ public class InBillServiceImpl implements InBillService {
         return 0;
     }
 
+    @Override
+    public InBill findCheckMessageByID(String inBillID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/inBill/findCheckMessageByID"+inBillID);
+            KcsResult result = KcsResult.formatToPojo(s, InBill.class);
+            if (result.getStatus() == 200) {
+                InBill inBill = (InBill) result.getData();
+                return inBill;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

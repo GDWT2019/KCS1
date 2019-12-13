@@ -18,7 +18,7 @@
     </delete>
 
     <update id="UpdateCheckStatus" parameterType="com.kcs.rest.pojo.InBill">
-        update InBill set CheckStatus = #{CheckStatus} where InBillID = #{InBillID}
+        update InBill set CheckStatus = #{CheckStatus},CheckTime= #{CheckTime},CheckMessage=#{checkMessage},Checker=#{Checker} where InBillID = #{InBillID}
     </update>
 
     <select id="valueIDandTime" resultType="com.kcs.rest.pojo.InBill" parameterType="int">

@@ -7,7 +7,6 @@ import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,14 +52,22 @@ public class ItemInController  {
     @RequestMapping("/UpdateCheckStatus")
     @ResponseBody
     public void UpdateCheckStatus(HttpServletRequest request){
+        String chcckTime = request.getParameter("chcckTime");
         String checkStatus = request.getParameter("checkStatus");
         String inBillID = request.getParameter("InBillID");
+        String checkMessage = request.getParameter("checkMessage");
+        String checker = request.getParameter("checker");
+        int checkerID = Integer.parseInt(checker);
         int status = Integer.parseInt(checkStatus);
         int id = Integer.parseInt(inBillID);
         InBill inBill =new InBill();
         inBill.setInBillID(id);
         inBill.setCheckStatus(status);
-        itemInService.UpdateCheckStatus(inBill);
+        inBill.setCheckMessage(checkMessage);
+        inBill.setCheckTime(chcckTime);
+        inBill.setChecker(checkerID);
+        System.out.println(inBill);
+       itemInService.UpdateCheckStatus(inBill);
     }
 
     @RequestMapping("/valueIDandTime")

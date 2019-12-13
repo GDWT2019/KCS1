@@ -1,6 +1,7 @@
 package com.kcs.portal.service.impl;
 
 import com.kcs.portal.service.GoodsService;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.utils.HttpClientUtil;
@@ -110,6 +111,21 @@ public class GoodsServiceImpl implements GoodsService {
             if (result.getStatus() == 200) {
                 List<Goods> goodsList = (List<Goods>) result.getData();
                 return goodsList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Category findCategoryNameByID(Integer categoryID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/goods/findCategoryNameByID"+categoryID);
+            KcsResult result = KcsResult.formatToPojo(s, Category.class);
+            if (result.getStatus() == 200) {
+                Category category = (Category) result.getData();
+                return category;
             }
         }catch (Exception e){
             e.printStackTrace();

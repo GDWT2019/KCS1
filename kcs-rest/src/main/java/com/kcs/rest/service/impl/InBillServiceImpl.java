@@ -54,4 +54,9 @@ public class InBillServiceImpl implements InBillService {
     public int findMaxInBillID() {
         return inBillDao.findMaxInBillID();
     }
+
+    @Override
+    public InBill findCheckMessageByID(int inBillID) {
+        return inBillDao.findCheckMessageByID(inBillID);
+    }
 }

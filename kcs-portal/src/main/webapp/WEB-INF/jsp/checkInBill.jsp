@@ -13,13 +13,12 @@
         <div class=" layui-col-lg12" style="padding: 10px 15px; border-radius: 5px;">
             <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库单</span></div>
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
-                <form class="layui-form" id="InBillForm" action="getInBillData" type="post">
-                    <input type="hidden" name="operator" value="${user.userID}"/>
+                <form class="layui-form" id="checkStatusForm"  type="post">
+                    <input type="hidden" name="checker" value="${user.userID}"/>
                     <div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
-                        <span style="font-size: 25px;">时间：</span>
+                        <span style="font-size: 25px;">审核时间：</span>
                         <div class="layui-inline">
-                            <input id="InBillTime" type="text" class="layui-input" readonly name="InBillTime"
-                                   name="InBillTime"
+                            <input id="InBillTime" type="text" class="layui-input" readonly name="checkTime"
                                    style="font-size: 25px;border: 0px" value="${loadtime}"/>
                         </div>
                     </div>
@@ -35,11 +34,25 @@
 
                             <table class="layui-hide" id="test" lay-filter="test"></table>
 
+
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <label class="layui-form-label">合计：</label>
-                                <div class="layui-input-inline">
-                                    <input id="alTotal" name="alTotal" class="layui-input" type="text" style="border: 0px;width: 100px"
-                                           readonly="readonly"/>
+                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border: 0px;width: 100px" readonly />元</span>
+                            </div>
+                            <div class="layui-row" style="margin: 10px 5px;">
+                                <%--<label class="layui-form-label" style="font-size: 22px;">审批意见</label>--%>
+                                <span style="font-size: 22px;">审批意见：</span>
+                                <div class="grid-demo">
+                                    <textarea id="checkMessage" placeholder="请输入内容" class="layui-textarea" name="checkMessage" ></textarea>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div class="layui-inline">
+                                    <button onclick="checkPass()" type="button" class="layui-btn ">
+                                        <i class="layui-icon">&#x1005;</i> 通过
+                                    </button>
+                                    <button onclick="checkFail()" type="button" class="layui-btn  ">
+                                        <i class="layui-icon">&#x1007;</i>不通过
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -48,12 +61,12 @@
             </div>
         </div>
     </div>
-    <div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
+    <%--<div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
         <button onclick="updateStatus()" class="layui-btn layui-btn-radius layui-btn-normal"
                 style="margin-right: 40px;">
             一键审批
         </button>
-    </div>
+    </div>--%>
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="check">审批</a>
@@ -63,11 +76,32 @@
 
     $("#InBillID").val(parent.InBillID);
 
+
+    $.ajax({
+        method:'post',
+        url:"${pageContext.request.contextPath }/inBill/getCheckMessageByID",
+        data:{"InBillID":parent.InBillID},
+        success:function (htq) {
+
+            $("#checkMessage").val(htq.checkMessage);
+        }
+    });
+
+    $.ajax({
+        method:'post',
+        url:"${pageContext.request.contextPath }/itemIn/valueIDandTime",
+        data:{"InBillID":parent.InBillID},
+        success:function (htq) {
+
+            $("#alTotal").val(htq[0].allTotal);
+        }
+    });
+
     function updateStatus() {
         window.InBillID = parent.InBillID;
         layer.open({
             type: 2,
-            title: '审批状态',
+            title: '审批操作',
             skin: 'layui-layer-rim', //加上边框
             content: '${pageContext.request.contextPath }/itemIn/checkUpdate',
             area: ['380px', '200px'],
@@ -75,6 +109,41 @@
                 location.reload();
             }
         });
+    }
+    function checkPass(){
+        $.ajax({
+            method:'post',
+            url:'${pageContext.request.contextPath }/itemIn/UpdateCheckStatus',
+            data:$.param({'checkStatus':1})+'&'+ $("#checkStatusForm").serialize(),
+            success:function () {
+                layer.alert("审核成功！");
+            },
+            error:function () {
+                layer.alert("审核失败!");
+            }
+        });
+    }
+
+    function checkFail(){
+        var checkMessage = $("#checkMessage").val();
+        if(checkMessage!=null && checkMessage!="" && checkMessage!=" "){
+            $.ajax({
+                method:'post',
+                url:'${pageContext.request.contextPath }/itemIn/UpdateCheckStatus',
+                data:$.param({'checkStatus':2})+'&'+$("#checkStatusForm").serialize(),
+                success:function () {
+                    layer.alert("审核成功！");
+                },
+                error:function () {
+                    layer.alert("审核失败!");
+                }
+            });
+        }
+        else {
+            layer.tips("请填写审核不通过的意见", '#checkMessage', {
+                tips: [1, "#2B2B2B"]
+            });
+        }
     }
 
     layui.use('table', function () {
@@ -88,15 +157,7 @@
             , totalRow: true//开启合计行
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                , {
-                    field: 'inBillID',
-                    title: '入库单号',
-                    width: 110,
-                    fixed: 'left',
-                    unresize: true,
-                    sort: true,
-                    totalRowText: '合计'
-                }
+                , {field: 'inBillID', title: '入库单号', width: 110, fixed: 'left', unresize: true, sort: true}
                 , {field: 'timeIn', title: '日期', width: 160}
                 , {
                     field: 'goodsID', title: '物品名称', width: 110, templet(d) {
@@ -250,7 +311,7 @@
                     }
                 }
 
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
+                // , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
             ]]
             , page: false
             , id: 'testInBill'

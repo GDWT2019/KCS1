@@ -110,6 +110,15 @@ public class InBillController {
         return goodsList;
     }
 
+    @RequestMapping("/getCheckMessageByID")
+    @ResponseBody
+    public InBill getCheckMessageByID(HttpServletRequest request) {
+        String inBillID = request.getParameter("InBillID");
+
+        InBill inBill = inBillService.findCheckMessageByID(inBillID);
+        return inBill;
+    }
+
     //插入物品到入库单
     @RequestMapping("/insertBill")
     @ResponseBody
@@ -122,6 +131,7 @@ public class InBillController {
         String buyer = request.getParameter("buyer");
         String Checker = request.getParameter("Approvaler");
         String TableMaker = request.getParameter("lister");
+        String inBillID1 = request.getParameter("InBillID");
 
         InBill inBill=new InBill();
         inBill.setTimeIn(inBillTime);
@@ -140,7 +150,7 @@ public class InBillController {
 
         System.out.println(inBillTime+"--"+providerID+"--"+"--"+StoreManager+"--"+buyer+"--"+TableMaker+"--"+operatorID+"--"+alTotal);
 
-        if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null)
+        if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0)
         {
             Integer inBillID= inBillService.insertNewBill(inBill);
             System.out.println(inBillID);
@@ -148,8 +158,8 @@ public class InBillController {
           for (ItemIn itemIn : list.getItemInList()) {
             System.out.println(itemIn);
             itemIn.setInBillID(inBillID);
-            if(itemIn.getGoodsID()!=null){
-           itemInService.insertNewItem(itemIn);
+            if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
+                itemInService.insertNewItem(itemIn);
             }
          }
         }

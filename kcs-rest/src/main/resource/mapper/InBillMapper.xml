@@ -5,6 +5,10 @@
         select * from InBill
     </select>
 
+    <select id="findCheckMessageByID" resultType="com.kcs.rest.pojo.InBill" parameterType="int">
+        select * from InBill where InBillID =#{InBillID}
+    </select>
+
     <select id="findMaxInBillID" resultType="int">
         select MAX(InBillID)
         from InBill
@@ -30,21 +34,25 @@
     </select>
 
     <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow" parameterType="int">
-        select top (#{back}- #{front}+1) * from (select a.InBillID,  b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+       select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
-        on d.UserID = a.Operator )as show
-        where InBillID not in (
-            select top (#{front}-1) InBillID from (select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        on d.UserID = a.Operator
+        )as show)as show1
+        where id not in (
+            select top (#{front}-1) id from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
-        on d.UserID = a.Operator )as show )
+        on d.UserID = a.Operator
+        )as show)as show1 )
     </select>
 
     <select id="countShow" resultType="int">

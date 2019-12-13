@@ -1,5 +1,6 @@
 package com.kcs.portal.service;
 
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface GoodsService {
 
     //联合汇总表和物品表，查找在汇总表最后更新的物品id，再根据该id查找物品名称，物品名称再分组
     List<Goods> findItemsNameUnique();
+
+    Category findCategoryNameByID(Integer categoryID);
 }

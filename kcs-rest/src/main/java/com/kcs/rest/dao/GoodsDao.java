@@ -1,5 +1,6 @@
 package com.kcs.rest.dao;
 
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,6 @@ public interface GoodsDao {
     List<Goods> findAllGoodsName();
 
     List<Goods> findGoodsBygoodsId(int id);
+
+    Category findCategoryNameByID(int categoryID);
 }
