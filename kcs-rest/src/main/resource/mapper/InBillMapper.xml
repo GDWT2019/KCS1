@@ -5,6 +5,15 @@
         select * from InBill
     </select>
 
+    <select id="findCheckMessageByID" resultType="com.kcs.rest.pojo.InBill" parameterType="int">
+        select * from InBill where InBillID =#{InBillID}
+    </select>
+
+    <select id="findMaxInBillID" resultType="int">
+        select MAX(InBillID)
+        from InBill
+    </select>
+
     <select id="count" resultType="int">
         select count(*) from InBill
     </select>
@@ -12,6 +21,10 @@
     <insert id="insertNewBill" parameterType="com.kcs.rest.pojo.InBill" useGeneratedKeys="true" keyProperty="InBillID">
         insert into InBill (ProviderID,StoreManager,TimeIn,Buyer,BuyTime,AllTotal,checker,CheckStatus,TableMaker,Operator,OperateTime)
         values (#{ProviderID},#{StoreManager},#{TimeIn},#{Buyer},#{BuyTime},#{AllTotal},#{Checker},#{CheckStatus},#{TableMaker},#{Operator},#{OperateTime})
+    </insert>
+
+    <insert id="UpdateInBill" parameterType="com.kcs.rest.pojo.InBill" >
+       update InBill set ProviderID=#{ProviderID},StoreManager = #{StoreManager} ,TimeIn = #{TimeIn} , Buyer = #{Buyer}, BuyTime = #{BuyTime} , AllTotal = #{AllTotal}, checker=#{checker},Note=#{note},CheckStatus=#{CheckStatus},TableMaker=#{TableMaker},Operator=#{Operator},OperateTime=#{OperateTime} where InBillID =#{InBillID}
     </insert>
 
     <select id="inBillShowData"  resultType="com.kcs.rest.pojo.inBillShow" >
@@ -25,21 +38,25 @@
     </select>
 
     <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow" parameterType="int">
-        select top (#{back}- #{front}+1) * from (select  b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+       select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
-        on d.UserID = a.Operator )as show
-        where ItemsInID not in (
-            select top (#{front}-1) ItemsInID from (select b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        on d.UserID = a.Operator
+        )as show)as show1
+        where id not in (
+            select top (#{front}-1) id from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
-        on d.UserID = a.Operator )as show )
+        on d.UserID = a.Operator
+        )as show)as show1 )
     </select>
 
     <select id="countShow" resultType="int">

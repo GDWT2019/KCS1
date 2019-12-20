@@ -100,4 +100,44 @@ public class InBillServiceImpl implements InBillService {
         }
         return 0;
     }
+
+    @Override
+    public int findMaxInBillID() {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/inBill/findMaxInBillID");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public InBill findCheckMessageByID(String inBillID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/inBill/findCheckMessageByID"+inBillID);
+            KcsResult result = KcsResult.formatToPojo(s, InBill.class);
+            if (result.getStatus() == 200) {
+                InBill inBill = (InBill) result.getData();
+                return inBill;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //修改入库单除商品外的数据
+    @Override
+    public void updateInBillByID(InBill inBill) {
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/inBill/UpdateInBill", JsonUtils.objectToJson(inBill));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

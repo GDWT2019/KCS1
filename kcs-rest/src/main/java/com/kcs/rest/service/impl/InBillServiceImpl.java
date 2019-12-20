@@ -49,4 +49,19 @@ public class InBillServiceImpl implements InBillService {
     public int countShow() {
         return inBillDao.countShow();
     }
+
+    @Override
+    public int findMaxInBillID() {
+        return inBillDao.findMaxInBillID();
+    }
+
+    @Override
+    public InBill findCheckMessageByID(int inBillID) {
+        return inBillDao.findCheckMessageByID(inBillID);
+    }
+
+    @Override
+    public void UpdateInBill(InBill inBill) {
+        inBillDao.UpdateInBill(inBill);
+    }
 }

@@ -1,6 +1,7 @@
 package com.kcs.portal.service;
 
 import com.kcs.rest.pojo.AddOutBill;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 
 import java.util.List;
@@ -9,6 +10,8 @@ public interface GoodsService {
 //    List<Goods> findGoodsByItemName(String itemName);
 
     List<Goods> findAllGoods();
+
+    List<Goods> findAllGoodsName();
 
     List<Goods> findGoodsByGoodsID(String goodsID);
     //根据物品名查找物品，相同的品名只显示一条数据
@@ -31,4 +34,6 @@ public interface GoodsService {
 
     //根据物品名称，查询物品数据及汇总表的该物品的最新数据
     List<AddOutBill> findAddOutBillByItemsName(String itemsName);
+
+    Category findCategoryNameByID(Integer categoryID);
 }

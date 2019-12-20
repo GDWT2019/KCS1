@@ -15,10 +15,17 @@
     </resultMap>
 
 
+
     <select id="findGoodsById" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
         select *
         from [Goods]
         where GoodsID = #{GoodsID,jdbcType=INTEGER}
+    </select>
+
+    <select id="findCategoryNameByID" resultType="com.kcs.rest.pojo.Category" parameterType="java.lang.Integer">
+        select *
+        from [Category]
+        where CategoryID = #{Category,jdbcType=INTEGER}
     </select>
 
     <select id="findGoodsInSummaryGoodsID" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
@@ -34,8 +41,8 @@
         where ItemsName = #{ItemsName,jdbcType=CHAR}
     </select>
 
-    <select id="findAllGoods" resultType="com.kcs.rest.pojo.Goods">
-        select * from Goods
+    <select id="findAllGoodsName" resultType="com.kcs.rest.pojo.Goods">
+        select distinct itemsName from Goods
     </select>
 
     <select id="findGoodsBygoodsId" resultMap="CategoryMap" parameterType="int">

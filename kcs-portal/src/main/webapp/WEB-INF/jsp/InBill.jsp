@@ -16,9 +16,9 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="newInBill">新建入库单</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <%--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加数据</button>--%>
+        <%--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改数据</button>--%>
+        <%--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>--%>
         <!--导出按钮 或其他触发事件-->
         <button class="layui-btn layui-btn-sm export">导出所有数据报表</button>
     </div>
@@ -31,8 +31,8 @@
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-    <a class="layui-btn layui-btn-xs" lay-event="check">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
+    <a class="layui-btn layui-btn-xs" lay-event="check">审批</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -51,13 +51,13 @@
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                ,{field:'inBillID', title:'入库序号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                ,{field:'inBillID', title:'入库单号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
                 ,{field:'timeIn', title:'日期', width:160}
                 ,{field:'itemsName', title:'物品名称', width:110}
                 ,{field:'type', title:'物品规格', width:110}
                 ,{field:'storePosition', title:'仓库位置', width:110}
-                ,{field:'itemNum', title:'入库数量', width:110}
-                ,{field:'itemPrice', title:'入库单价', width:110}
+                ,{field:'itemNum', title:'入库数量', width:110,edit:'text'}
+                ,{field:'itemPrice', title:'入库单价', width:110,edit:'text'}
                 ,{field:'itemTotal', title:'合计', width:110}
                 ,{field:'allTotal', title:'合计金额', width:110}
                 ,{field:'userName', title:'入库人', width:120}
@@ -79,10 +79,19 @@
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
-
-            if(layEvent === 'edit'){ //添加
-                layer.alert(data.inBillID);
-            } else if(layEvent === 'check'){ //修改
+            var value = obj.value;
+            if(layEvent === 'update'){ //编辑
+                window.InBillID=data.inBillID;
+                layer.open({
+                    type:2,
+                    title:false,
+                    content:'${pageContext.request.contextPath }/itemIn/updateInBill?inBillID='+data.inBillID,
+                    area:['1200px','500px'],
+                    end:function () {
+                        location.reload();
+                    }
+                });
+            } else if(layEvent === 'check'){ //审批
                 // layer.alert(data.inBillID);
                 window.InBillID=data.inBillID;
                 layer.open({

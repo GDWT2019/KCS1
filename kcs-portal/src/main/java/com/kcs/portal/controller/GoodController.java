@@ -1,6 +1,7 @@
 package com.kcs.portal.controller;
 
 import com.kcs.portal.service.GoodsService;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/goods")
@@ -20,14 +22,38 @@ public class GoodController {
 
     @RequestMapping("/findGoodsByItemsName")
     @ResponseBody
-    public List<Goods> findGoodsByItemName(String itemName, HttpServletRequest request){
-        List<Goods> goodsList = goodsService.findGoodsByItemsName(itemName);
+    public List<Goods> findGoodsByItemName(HttpServletRequest request){
+        String itemsName = request.getParameter("itemsName");
+        List<Goods> goodsList = goodsService.findGoodsByItemsName(itemsName);
+        List<Category> categories = new ArrayList<>();
+
+        for (Goods goods : goodsList) {
+            Integer categoryID = goods.getCategoryID();
+            Category category=goodsService.findCategoryNameByID(categoryID);
+            categories.add(category);
+            goods.setCategories(categories);
+        }
         return goodsList;
     }
 
-    @RequestMapping(value="getGoods",produces="text/html;charset=utf-8")
-    public @ResponseBody String getPosition(){
-        List<Goods> list=goodsService.findAllGoods();
+    @RequestMapping("/findGoodsByItemsNameAndItemsType")
+    @ResponseBody
+    public Goods findSummaryByItemsNameAndItemsType(HttpServletRequest request) {
+        String itemsType = request.getParameter("itemsType");
+        String itemsName = request.getParameter("itemsName");
+        Goods g =new Goods();
+        g.setItemsName(itemsName);
+        g.setItemsType(itemsType);
+
+        Goods goods = goodsService.findGoodsByItemsNameAndItemsType(g);     //根据品名和规格查找物品
+        return goods;
+    }
+
+
+
+    @RequestMapping(value="getGoodsName",produces="text/html;charset=utf-8")
+    public @ResponseBody String findAllGoodsName(){
+        List<Goods> list=goodsService.findAllGoodsName();
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
         System.out.println(js);

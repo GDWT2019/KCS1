@@ -30,12 +30,18 @@ public class InBillController {
     @Autowired
     private InBillService inBillService;
 
+
+
     @RequestMapping("/addInBill")
     public String AddInBill(HttpServletRequest request){
 
         Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
         request.setAttribute("loadtime", ft);
+
+        int maxInBillID=inBillService.findMaxInBillID();
+        request.setAttribute("newInBillID",maxInBillID+1);
+
         return "addInBill";
     }
     @RequestMapping("/checkInBill")
@@ -106,6 +112,15 @@ public class InBillController {
         return goodsList;
     }
 
+    @RequestMapping("/getCheckMessageByID")
+    @ResponseBody
+    public InBill getCheckMessageByID(HttpServletRequest request) {
+        String inBillID = request.getParameter("InBillID");
+
+        InBill inBill = inBillService.findCheckMessageByID(inBillID);
+        return inBill;
+    }
+
     //插入物品到入库单
     @RequestMapping("/insertBill")
     @ResponseBody
@@ -136,15 +151,68 @@ public class InBillController {
 
         System.out.println(inBillTime+"--"+providerID+"--"+"--"+StoreManager+"--"+buyer+"--"+TableMaker+"--"+operatorID+"--"+alTotal);
 
-        Integer inBillID= inBillService.insertNewBill(inBill);
-        System.out.println(inBillID);
+        if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0)
+        {
+            Integer inBillID= inBillService.insertNewBill(inBill);
+            System.out.println(inBillID);
 
-        for (ItemIn itemIn : list.getItemInList()) {
-            itemIn.setInBillID(inBillID);
+          for (ItemIn itemIn : list.getItemInList()) {
             System.out.println(itemIn);
-            itemInService.insertNewItem(itemIn);
+            itemIn.setInBillID(inBillID);
+            if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
+                itemInService.insertNewItem(itemIn);
+            }
+         }
         }
+    }
 
+    //插入物品到入库单
+    @RequestMapping("/updateBill")
+    @ResponseBody
+    public void updateBill(HandleAffair list,HttpServletRequest request){
+        String inBillTime = request.getParameter("InBillTime");
+        String providerID = request.getParameter("providerID");
+        String inBillID = request.getParameter("InBillID");
+        String alTotal = request.getParameter("alTotal");
+        String operatorID = request.getParameter("operator");
+
+        String StoreManager = request.getParameter("warehouse");
+        String buyer = request.getParameter("buyer");
+        String Checker = request.getParameter("Approvaler");
+        String TableMaker = request.getParameter("lister");
+
+        System.out.println(inBillID+"--"+inBillTime+"--"+providerID+"--"+StoreManager+"--"+buyer+"--"+TableMaker+"--"+operatorID+"--"+alTotal);
+
+        InBill inBill=new InBill();
+        inBill.setTimeIn(inBillTime);
+        inBill.setProviderID(Integer.parseInt(providerID));
+        inBill.setOperator(Integer.parseInt(operatorID));
+        inBill.setOperateTime(inBillTime);
+        inBill.setBuyer(Integer.parseInt(buyer));
+        inBill.setBuyTime(inBillTime);
+        inBill.setChecker(Integer.parseInt(Checker));
+        inBill.setTableMaker(Integer.parseInt(TableMaker));
+        inBill.setStoreManager(Integer.parseInt(StoreManager));
+        inBill.setCheckStatus(0);
+        inBill.setAllTotal(Double.parseDouble(alTotal));
+        inBill.setInBillID(Integer.parseInt(inBillID));
+
+
+
+        if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0) {
+
+
+                        inBillService.updateInBillByID(inBill);
+                        itemInService.delItemByInBillID(inBillID);
+
+                        for (ItemIn itemIn : list.getItemInList()) {
+                            System.out.println(itemIn);
+                            itemIn.setInBillID(Integer.parseInt(inBillID));
+                            if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
+                                itemInService.insertNewItem(itemIn);
+                            }
+                        }
+        }
 
     }
 }

@@ -242,18 +242,15 @@ public class UserController {
             e.printStackTrace();
         }
     }
-    /**
-     * 根据id查找用户
-     * @param model
-     * @return
-     */
+
     @RequestMapping("/findUserById")
-    public String findUserById(Model model){
-        User user = userService.findUserById(1);
-        if (user != null){
-            model.addAttribute("user",user);
-            return "result";
-        }
-        return "none";
+    @ResponseBody
+    public User findGoodsByGoodsID(HttpServletRequest request) {
+        String userID = request.getParameter("userID");
+        int userid = Integer.parseInt(userID);
+        User user = userService.findUserById(userid);
+        System.out.println("User :"+ user);
+        return user;
     }
+
 }

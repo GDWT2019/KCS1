@@ -1,10 +1,12 @@
 package com.kcs.rest.pojo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * 用户表物品表和类别表的结合
+ */
 
-public class ItemIn implements Serializable {
+public class GoodsAndCategoryAndItemsIn {
+
+
     private Integer ItemsInID;
     private Integer InBillID;
     private Integer GoodsID;
@@ -18,11 +20,17 @@ public class ItemIn implements Serializable {
     private String Note;
 
 
+    private String ItemsName;       //物品名称
 
+    private String ItemsType;       //物品规格
+
+    private String ItemsUnit;
+
+    private String CategoryName;
 
     @Override
     public String toString() {
-        return "ItemIn{" +
+        return "GoodsAndCategoryAndItemsIn{" +
                 "ItemsInID=" + ItemsInID +
                 ", InBillID=" + InBillID +
                 ", GoodsID=" + GoodsID +
@@ -34,15 +42,11 @@ public class ItemIn implements Serializable {
                 ", StorePosition='" + StorePosition + '\'' +
                 ", ProviderID=" + ProviderID +
                 ", Note='" + Note + '\'' +
+                ", ItemsName='" + ItemsName + '\'' +
+                ", ItemsType='" + ItemsType + '\'' +
+                ", ItemsUnit='" + ItemsUnit + '\'' +
+                ", CategoryName='" + CategoryName + '\'' +
                 '}';
-    }
-
-    public String getNote() {
-        return Note;
-    }
-
-    public void setNote(String note) {
-        Note = note;
     }
 
     public Integer getItemsInID() {
@@ -123,5 +127,45 @@ public class ItemIn implements Serializable {
 
     public void setProviderID(Integer providerID) {
         ProviderID = providerID;
+    }
+
+    public String getNote() {
+        return Note;
+    }
+
+    public void setNote(String note) {
+        Note = note;
+    }
+
+    public String getItemsName() {
+        return ItemsName;
+    }
+
+    public void setItemsName(String itemsName) {
+        ItemsName = itemsName;
+    }
+
+    public String getItemsType() {
+        return ItemsType;
+    }
+
+    public void setItemsType(String itemsType) {
+        ItemsType = itemsType;
+    }
+
+    public String getItemsUnit() {
+        return ItemsUnit;
+    }
+
+    public void setItemsUnit(String itemsUnit) {
+        ItemsUnit = itemsUnit;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        CategoryName = categoryName;
     }
 }

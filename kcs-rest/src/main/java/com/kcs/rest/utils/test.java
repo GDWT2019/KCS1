@@ -7,10 +7,12 @@ import com.kcs.rest.pojo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,16 +27,66 @@ public class test {
     @Autowired
     private ItemInDao itemInDao;
 
+    @Test
+    public void test10(){
+        List<GoodsAndCategoryAndItemsIn> itemsInList = itemInDao.getItemsInList(157);
+        for (GoodsAndCategoryAndItemsIn itemIn : itemsInList) {
+            System.out.println("itemIn"+itemIn);
+        }
+        System.out.println("itemsInList"+itemsInList);
+
+        List<Goods> goodsBygoodsId = goodsDao.findGoodsBygoodsId(5);
+        System.out.println("goodsBygoodsId"+goodsBygoodsId);
+    }
 
     @Test
+    public void test9(){
+        List<GoodsAndCategoryAndItemsIn> itemsInList = itemInDao.getItemsInList(150);
+        for (GoodsAndCategoryAndItemsIn itemIn : itemsInList) {
+            System.out.println(itemIn);
+        }
+    }
+
+    @Test
+    public void test8(){
+
+        List<Goods> goodsList = goodsDao.findGoodsByItemName("黑色签字笔");
+        List<Category> categories = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            System.out.println(goods);
+            Integer categoryID = goods.getCategoryID();
+            Category category=goodsDao.findCategoryNameByID(categoryID);
+            categories.add(category);
+            goods.setCategories(categories);
+            System.out.println(goods.getCategories().get(0).getCategoryName());
+        }
+
+        System.out.println("goodslist:"+goodsList.get(0).getCategories().get(0).getCategoryName());
+    }
+
+    @Test
+    public void test7(){
+        List<Goods> allGoodsName = goodsDao.findAllGoodsName();
+        for (Goods goods : allGoodsName) {
+            System.out.println(goods);
+        }
+    }
+    @Test
+    public void test6(){
+        int maxInBillID = inBillDao.findMaxInBillID();
+        System.out.println(maxInBillID);
+    }
+    @Test
     public void test5(){
-        ItemIn itemIn=new ItemIn();
-//       itemInDao.insertNewBill();
-
-    }@Test
+        InBill inBill =new InBill();
+        inBill.setCheckStatus(2);
+        inBill.setInBillID(150);
+        itemInDao.UpdateCheckStatus(inBill);
+    }
+    @Test
     public void test4(){
-       itemInDao.delItem(113);
-
+        List<InBill> inBill = itemInDao.valueIDandTime(150);
+        System.out.println(inBill);
     }
 
     @Test

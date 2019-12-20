@@ -19,6 +19,26 @@ public class InBillController {
     private InBillService inBillService;
 
 
+    @RequestMapping("/findCheckMessageByID{inBillID}")
+    @ResponseBody
+    public KcsResult findCheckMessageByID(@PathVariable int inBillID){
+        InBill inBill = inBillService.findCheckMessageByID(inBillID);
+        if (inBill != null) {
+            return KcsResult.ok(inBill);
+        } else
+            return KcsResult.build(500, "根据物品ID，未找到对应物品");
+    }
+
+    //查找数据库中的最大id值
+    @RequestMapping("/findMaxInBillID")
+    @ResponseBody
+    public KcsResult findMaxInBillID(){
+        int theMaxinBillID = inBillService.findMaxInBillID();
+        System.out.println("restcontroller:"+theMaxinBillID);
+            return KcsResult.ok(theMaxinBillID);
+
+    }
+
     //获取入库单数据
     @RequestMapping(value="inBillData")
     @ResponseBody
@@ -51,6 +71,15 @@ public class InBillController {
         Integer inBillID = inBill.getInBillID();
         System.out.println("controller  " +inBillID);
         return KcsResult.ok(inBillID);
+
+    }
+
+    //获取自增的id值
+    @RequestMapping(value = "UpdateInBill" ,method = RequestMethod.POST)
+    @ResponseBody
+    public  void UpdateInBill(@RequestBody InBill inBill){
+
+        inBillService.UpdateInBill(inBill);
 
     }
 

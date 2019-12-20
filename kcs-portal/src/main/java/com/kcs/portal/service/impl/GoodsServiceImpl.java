@@ -2,6 +2,7 @@ package com.kcs.portal.service.impl;
 
 import com.kcs.portal.service.GoodsService;
 import com.kcs.rest.pojo.AddOutBill;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.utils.HttpClientUtil;
@@ -32,6 +33,21 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> findAllGoods() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/getALLGoods");
+            KcsResult result = KcsResult.formatToList(s, Goods.class);
+            if (result.getStatus() == 200) {
+                List<Goods> goodsList = (List<Goods>) result.getData();
+                return goodsList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Goods> findAllGoodsName() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/getALLGoodsName");
             KcsResult result = KcsResult.formatToList(s, Goods.class);
             if (result.getStatus() == 200) {
                 List<Goods> goodsList = (List<Goods>) result.getData();
@@ -139,6 +155,21 @@ public class GoodsServiceImpl implements GoodsService {
             KcsResult result = KcsResult.formatToList(s, AddOutBill.class);
             if (result.getStatus() == 200) {
                 return (List<AddOutBill>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Category findCategoryNameByID(Integer categoryID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/goods/findCategoryNameByID"+categoryID);
+            KcsResult result = KcsResult.formatToPojo(s, Category.class);
+            if (result.getStatus() == 200) {
+                Category category = (Category) result.getData();
+                return category;
             }
         }catch (Exception e){
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.kcs.rest.service;
 
 import com.kcs.rest.pojo.AddOutBill;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface GoodsService {
 
     List<Goods> findAllGoods();
 
+    List<Goods> findAllGoodsName();
+
     List<Goods> findGoodsBygoodsId(int id);
 
     //根据品名和规格查找物品
@@ -28,6 +31,8 @@ public interface GoodsService {
 
     //联合汇总表和物品表，查找在汇总表最后更新的物品id，再根据该id查找物品名称，物品名称再分组
     List<Goods> findItemsNameUnique();
+
+    Category findCategoryNameByID(int categoryID);
 
     //根据物品类型，查询物品的详情及该物品对应汇总表最新数据
     List<AddOutBill> findAddOutBillByCategoryName(String categoryName);

@@ -18,4 +18,10 @@ public interface InBillDao {
     List<inBillShow> inBillShowPage(@Param("front")int before,@Param("back") int after);
 
     int countShow();
+
+    int findMaxInBillID();
+
+    InBill findCheckMessageByID(int inBillID);
+
+    void UpdateInBill(InBill inBill);
 }

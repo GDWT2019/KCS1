@@ -1,6 +1,7 @@
 package com.kcs.rest.controller;
 
 import com.kcs.rest.pojo.AddOutBill;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.service.GoodsService;
@@ -50,6 +51,16 @@ public class GoodsController {
             return KcsResult.build(500, "根据物品ID，未找到对应物品");
     }
 
+    @RequestMapping("/findCategoryNameByID{categoryID}")
+    @ResponseBody
+    public KcsResult findCategoryNameByID(@PathVariable int categoryID){
+        Category category = goodsService.findCategoryNameByID(categoryID);
+        if (category != null) {
+            return KcsResult.ok(category);
+        } else
+            return KcsResult.build(500, "根据物品ID，未找到对应物品");
+    }
+
     @RequestMapping("/getItemsNameUnique")
     @ResponseBody
     public KcsResult getItemsNameUnique(){
@@ -65,6 +76,13 @@ public class GoodsController {
     @ResponseBody
     public  KcsResult getALLGoods(){
         List<Goods> allGoods = goodsService.findAllGoods();
+        return KcsResult.ok(allGoods);
+    }
+    //获取用户数据
+    @RequestMapping(value="getALLGoodsName")
+    @ResponseBody
+    public  KcsResult getALLGoodsName(){
+        List<Goods> allGoods = goodsService.findAllGoodsName();
         return KcsResult.ok(allGoods);
     }
 

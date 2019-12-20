@@ -2,6 +2,7 @@ package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.GoodsDao;
 import com.kcs.rest.pojo.AddOutBill;
+import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> findAllGoods() {
         return goodsDao.findAllGoods();
+    }
+
+    @Override
+    public List<Goods> findAllGoodsName() {
+        return goodsDao.findAllGoodsName();
     }
 
     @Override
@@ -69,5 +75,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<AddOutBill> findAddOutBillByItemsName(String itemsName) {
         return goodsDao.findAddOutBillByItemsName(itemsName);
+    }
+
+    @Override
+    public Category findCategoryNameByID(int categoryID) {
+        return goodsDao.findCategoryNameByID(categoryID);
     }
 }

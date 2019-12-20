@@ -15,7 +15,10 @@ public class Goods {
 
     private String ItemsUnit;       //物品单位
 
-    private List<Category> Categories =new ArrayList<>();
+    private List<Category> Categories =new ArrayList<>();//连接表
+
+
+
 
     public List<Category> getCategories() {
         return Categories;
