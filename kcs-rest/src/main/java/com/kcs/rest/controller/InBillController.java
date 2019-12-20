@@ -74,6 +74,15 @@ public class InBillController {
 
     }
 
+    //获取自增的id值
+    @RequestMapping(value = "UpdateInBill" ,method = RequestMethod.POST)
+    @ResponseBody
+    public  void UpdateInBill(@RequestBody InBill inBill){
+
+        inBillService.UpdateInBill(inBill);
+
+    }
+
     //获取入库显示数据
     @RequestMapping(value="inBillShowData")
     @ResponseBody

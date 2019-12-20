@@ -16,9 +16,9 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="newInBill">新建入库单</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <%--<button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加数据</button>--%>
+        <%--<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改数据</button>--%>
+        <%--<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>--%>
         <!--导出按钮 或其他触发事件-->
         <button class="layui-btn layui-btn-sm export">导出所有数据报表</button>
     </div>
@@ -81,12 +81,12 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             var tr = obj.tr; //获得当前行 tr 的DOM对象
             var value = obj.value;
-            if(layEvent === 'update'){ //修改
+            if(layEvent === 'update'){ //编辑
                 window.InBillID=data.inBillID;
                 layer.open({
                     type:2,
                     title:false,
-                    content:'${pageContext.request.contextPath }/itemIn/updateInBill',
+                    content:'${pageContext.request.contextPath }/itemIn/updateInBill?inBillID='+data.inBillID,
                     area:['1200px','500px'],
                     end:function () {
                         location.reload();

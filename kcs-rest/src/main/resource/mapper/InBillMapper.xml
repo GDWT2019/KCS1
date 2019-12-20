@@ -23,6 +23,10 @@
         values (#{ProviderID},#{StoreManager},#{TimeIn},#{Buyer},#{BuyTime},#{AllTotal},#{Checker},#{CheckStatus},#{TableMaker},#{Operator},#{OperateTime})
     </insert>
 
+    <insert id="UpdateInBill" parameterType="com.kcs.rest.pojo.InBill" >
+       update InBill set ProviderID=#{ProviderID},StoreManager = #{StoreManager} ,TimeIn = #{TimeIn} , Buyer = #{Buyer}, BuyTime = #{BuyTime} , AllTotal = #{AllTotal}, checker=#{checker},Note=#{note},CheckStatus=#{CheckStatus},TableMaker=#{TableMaker},Operator=#{Operator},OperateTime=#{OperateTime} where InBillID =#{InBillID}
+    </insert>
+
     <select id="inBillShowData"  resultType="com.kcs.rest.pojo.inBillShow" >
         select b.ItemsInID,a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b

@@ -27,6 +27,25 @@ public class test {
     @Autowired
     private ItemInDao itemInDao;
 
+    @Test
+    public void test10(){
+        List<GoodsAndCategoryAndItemsIn> itemsInList = itemInDao.getItemsInList(157);
+        for (GoodsAndCategoryAndItemsIn itemIn : itemsInList) {
+            System.out.println("itemIn"+itemIn);
+        }
+        System.out.println("itemsInList"+itemsInList);
+
+        List<Goods> goodsBygoodsId = goodsDao.findGoodsBygoodsId(5);
+        System.out.println("goodsBygoodsId"+goodsBygoodsId);
+    }
+
+    @Test
+    public void test9(){
+        List<GoodsAndCategoryAndItemsIn> itemsInList = itemInDao.getItemsInList(150);
+        for (GoodsAndCategoryAndItemsIn itemIn : itemsInList) {
+            System.out.println(itemIn);
+        }
+    }
 
     @Test
     public void test8(){

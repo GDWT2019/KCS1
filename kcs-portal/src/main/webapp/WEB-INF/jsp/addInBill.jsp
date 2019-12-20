@@ -154,10 +154,12 @@
             </div>
         </div>
     </div>
-    <div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
-        <button onclick="addBill()" class="layui-btn layui-btn-radius layui-btn-normal" style="margin-right: 40px;">
-            完成添加
+    <div class="layui-row">
+        <div  style="float: right; margin-right: 30px;margin-top: 10px">
+        <button onclick="addBill()" class="layui-btn layui-btn-lg">
+            提交入库单
         </button>
+        </div>
     </div>
 </div>
 
@@ -263,25 +265,6 @@
             })
 
     }
-
-    /*function delTr() {
-        if ($("#table tr").length > 2) {
-            var altotal = 0;
-            var i = 0;
-            $("#table").find("tr").last().remove();
-            var length = $("#table").find("tr").length; //行数
-            for (i = 1; i < length; i++) {
-                var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
-                altotal = Number(altotal) + Number(text);
-            }
-            $("#alTotal").val(altotal);
-
-        } else {
-            layer.alert("删除失败！");
-        }
-
-    }*/
-
 
     /**
      * 新增一行物品数据
@@ -485,7 +468,6 @@
                 data: {itemsType: data.value,itemsName:itemsNameVal},
                 dataType: "json",
                 success: function (result) {
-                    console.log(result.goodsID);
                     $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
                     form.render();
                 }

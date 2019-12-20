@@ -15,6 +15,7 @@
     </resultMap>
 
 
+
     <select id="findGoodsById" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
         select *
         from [Goods]

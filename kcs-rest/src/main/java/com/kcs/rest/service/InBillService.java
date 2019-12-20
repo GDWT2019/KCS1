@@ -21,4 +21,6 @@ public interface InBillService {
     int findMaxInBillID();
 
     InBill findCheckMessageByID(int inBillID);
+
+    void UpdateInBill(InBill inBill);
 }

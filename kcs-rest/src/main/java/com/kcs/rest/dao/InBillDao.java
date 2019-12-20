@@ -22,4 +22,6 @@ public interface InBillDao {
     int findMaxInBillID();
 
     InBill findCheckMessageByID(int inBillID);
+
+    void UpdateInBill(InBill inBill);
 }

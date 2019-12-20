@@ -1,9 +1,6 @@
 package com.kcs.rest.controller;
 
-import com.kcs.rest.pojo.InBill;
-import com.kcs.rest.pojo.ItemIn;
-import com.kcs.rest.pojo.ItemsShow;
-import com.kcs.rest.pojo.KcsResult;
+import com.kcs.rest.pojo.*;
 import com.kcs.rest.service.ItemInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +43,13 @@ public class ItemInController {
         itemInService.delItem(ItemsInID);
     }
 
+    @RequestMapping("/delItemByInBillID{inBillID}")
+    @ResponseBody
+    public void delItemByInBillID(@PathVariable String inBillID){
+        int InBillID = Integer.parseInt(inBillID);
+        itemInService.delItemByInBillID(InBillID);
+    }
+
     @RequestMapping(value = "UpdateCheckStatus",method = RequestMethod.POST)
     @ResponseBody
     public void UpdateCheckStatus(@RequestBody InBill inBill){
@@ -59,6 +63,14 @@ public class ItemInController {
         int BillID = Integer.parseInt(inBillID);
         List<InBill> inBill=itemInService.valueIDandTime(BillID);
         return KcsResult.ok(inBill);
+    }
+
+    @RequestMapping("/getItemsInList{inBillID}")
+    @ResponseBody
+    public KcsResult getItemsInList(@PathVariable String inBillID){
+        int BillID = Integer.parseInt(inBillID);
+        List<GoodsAndCategoryAndItemsIn> ItemInList=itemInService.getItemsInList(BillID);
+        return KcsResult.ok(ItemInList);
     }
 
 }

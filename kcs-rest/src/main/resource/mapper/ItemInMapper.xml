@@ -17,11 +17,26 @@
         delete from ItemsIn where ItemsInID = #{ItemsInID}
     </delete>
 
+    <delete id="delItemByInBillID" parameterType="int">
+        delete from ItemsIn where InBillID = #{inBillID}
+    </delete>
+
     <update id="UpdateCheckStatus" parameterType="com.kcs.rest.pojo.InBill">
         update InBill set CheckStatus = #{CheckStatus},CheckTime= #{CheckTime},CheckMessage=#{checkMessage},Checker=#{Checker} where InBillID = #{InBillID}
     </update>
 
     <select id="valueIDandTime" resultType="com.kcs.rest.pojo.InBill" parameterType="int">
         select * from InBill where InBillID =#{InBillID}
+    </select>
+
+    <!--<select id="getItemsInList" parameterType="int" resultType="com.kcs.rest.pojo.ItemIn">-->
+        <!--select * from ItemsIn where InBillID = #{InBillID}-->
+    <!--</select>-->
+
+    <select id="getItemsInList" parameterType="int" resultType="com.kcs.rest.pojo.GoodsAndCategoryAndItemsIn">
+        select a.*,b.ItemsName,b.ItemsUnit,c.CategoryName from ItemsIn  as a
+        left join Goods as b on a.GoodsID = b.GoodsID
+        left join Category as c on a.CategoryID =c.CategoryID
+        where InBillID = #{InBillID}
     </select>
 </mapper>

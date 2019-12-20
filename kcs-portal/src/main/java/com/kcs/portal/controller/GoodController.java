@@ -33,7 +33,6 @@ public class GoodController {
             categories.add(category);
             goods.setCategories(categories);
         }
-
         return goodsList;
     }
 

@@ -1,5 +1,6 @@
 package com.kcs.rest.dao;
 
+import com.kcs.rest.pojo.GoodsAndCategoryAndItemsIn;
 import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
@@ -16,4 +17,8 @@ public interface ItemInDao {
     void UpdateCheckStatus(InBill inBill);
 
     List<InBill> valueIDandTime(int billID);
+
+    List<GoodsAndCategoryAndItemsIn> getItemsInList(int billID);
+
+    void delItemByInBillID(int inBillID);
 }

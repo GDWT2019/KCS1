@@ -1,7 +1,7 @@
 package com.kcs.rest.pojo;
 
 /**
- * 审核时候显示的字段
+ * 审核时候显示的字段   入库物品表、用户表的集合
  */
 
 public class ItemsShow {

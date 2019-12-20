@@ -42,7 +42,7 @@
                                 <%--<label class="layui-form-label" style="font-size: 22px;">审批意见</label>--%>
                                 <span style="font-size: 22px;">审批意见：</span>
                                 <div class="grid-demo">
-                                    <textarea id="checkMessage" placeholder="请输入内容" class="layui-textarea" name="checkMessage" ></textarea>
+                                    <textarea id="checkMessage" style="font-size: 22px;" placeholder="请输入内容" class="layui-textarea" name="checkMessage" ></textarea>
                                 </div>
                             </div>
                             <div style="text-align: center;">
@@ -61,12 +61,7 @@
             </div>
         </div>
     </div>
-    <%--<div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
-        <button onclick="updateStatus()" class="layui-btn layui-btn-radius layui-btn-normal"
-                style="margin-right: 40px;">
-            一键审批
-        </button>
-    </div>--%>
+
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="check">审批</a>
@@ -97,19 +92,19 @@
         }
     });
 
-    function updateStatus() {
-        window.InBillID = parent.InBillID;
-        layer.open({
-            type: 2,
-            title: '审批操作',
-            skin: 'layui-layer-rim', //加上边框
-            content: '${pageContext.request.contextPath }/itemIn/checkUpdate',
-            area: ['380px', '200px'],
-            end: function () {
-                location.reload();
-            }
-        });
-    }
+    <%--function updateStatus() {--%>
+        <%--window.InBillID = parent.InBillID;--%>
+        <%--layer.open({--%>
+            <%--type: 2,--%>
+            <%--title: '审批操作',--%>
+            <%--skin: 'layui-layer-rim', //加上边框--%>
+            <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
+            <%--area: ['380px', '200px'],--%>
+            <%--end: function () {--%>
+                <%--location.reload();--%>
+            <%--}--%>
+        <%--});--%>
+    <%--}--%>
     function checkPass(){
         $.ajax({
             method:'post',
@@ -318,24 +313,24 @@
             , where: {"InBillID": parent.InBillID}
         });
 
-        table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
-            var data = obj.data; //获得当前行数据
-            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-            var tr = obj.tr; //获得当前行 tr 的DOM对象
-            var value = obj.value;
-            if (layEvent === 'check') { //修改
-                layer.open({
-                    type: 2,
-                    title: '审批状态',
-                    skin: 'layui-layer-rim', //加上边框
-                    content: '${pageContext.request.contextPath }/itemIn/checkUpdate',
-                    area: ['380px', '200px'],
-                    end: function () {
-                        location.reload();
-                    }
-                });
-            }
-        });
+        <%--table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"--%>
+            <%--var data = obj.data; //获得当前行数据--%>
+            <%--var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）--%>
+            <%--var tr = obj.tr; //获得当前行 tr 的DOM对象--%>
+            <%--var value = obj.value;--%>
+            <%--if (layEvent === 'check') { //修改--%>
+                <%--layer.open({--%>
+                    <%--type: 2,--%>
+                    <%--title: '审批状态',--%>
+                    <%--skin: 'layui-layer-rim', //加上边框--%>
+                    <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
+                    <%--area: ['380px', '200px'],--%>
+                    <%--end: function () {--%>
+                        <%--location.reload();--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--}--%>
+        <%--});--%>
     });
 
 </script>

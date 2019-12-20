@@ -59,4 +59,9 @@ public class InBillServiceImpl implements InBillService {
     public InBill findCheckMessageByID(int inBillID) {
         return inBillDao.findCheckMessageByID(inBillID);
     }
+
+    @Override
+    public void UpdateInBill(InBill inBill) {
+        inBillDao.UpdateInBill(inBill);
+    }
 }

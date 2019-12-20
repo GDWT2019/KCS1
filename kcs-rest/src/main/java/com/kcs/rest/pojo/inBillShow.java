@@ -1,7 +1,7 @@
 package com.kcs.rest.pojo;
 
 /**
- * 入库明细表字段
+ * 入库明细表字段    入库物品表和用户表和入库明细表的集合
  */
 
 public class inBillShow {

@@ -131,5 +131,13 @@ public class InBillServiceImpl implements InBillService {
         return null;
     }
 
-
+    //修改入库单除商品外的数据
+    @Override
+    public void updateInBillByID(InBill inBill) {
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/inBill/UpdateInBill", JsonUtils.objectToJson(inBill));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

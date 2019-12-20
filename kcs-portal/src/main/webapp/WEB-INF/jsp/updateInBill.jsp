@@ -19,9 +19,10 @@
                     <input type="hidden" name="operator" value="${user.userID}"/>
                     <div class="layui-row">
                         <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                            <span style="text-align: left;font-size: 25px;">时间：</span>
+                            <span style="text-align: left;font-size: 25px;">修改时间：</span>
                             <div class="grid-demo grid-demo-bg1">
-                                <input id="InBillTime" type="text" readonly name="InBillTime" style="font-size: 25px;border: 0px" value="${loadtime}"/>
+                                <input id="InBillTime" type="text" readonly name="InBillTime"
+                                       style="font-size: 25px;border: 0px" value="${loadtime}"/>
                             </div>
                         </div>
                         <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
@@ -30,26 +31,233 @@
                                 <select id="providerID" name="providerID" lay-verify="required" lay-search=""></select>
                             </div>
                         </div>
-                         <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
-                             <span style="font-size: 25px;">编号：</span>
-                             <div class="grid-demo layui-bg-blue" style="width: 300px">
-                                 <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on" style="font-size: 25px; border: 0px " readonly>
-                             </div>
-                         </div>
+                        <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
+                            <span style="font-size: 25px;">编号：</span>
+                            <div class="grid-demo layui-bg-blue" style="width: 300px">
+                                <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on"
+                                       style="font-size: 25px; border: 0px " readonly>
+                            </div>
+                        </div>
                     </div>
                     <div class="layui-bg-gray" style="margin-top:10px;padding:10px;">
                         <div class="layui-table">
-                            <table class="layui-hide" id="test" lay-filter="test"></table>
-                            <%--<div style="text-align: center;">
-                                <div class="layui-inline">
-                                    <button onclick="addTr()" type="button" class="layui-btn ">
-                                        <i class="layui-icon">&#xe608;</i> 添加
-                                    </button>
-                                    <button onclick="delTr()" type="button" class="layui-btn  ">
-                                        <i class="layui-icon">&#xe640;</i>删除
-                                    </button>
+                            <table class="layui-table" id="table">
+                                <tr>
+                                    <th>序号</th>
+                                    <th width="120px">品名</th>
+                                    <th>类别</th>
+                                    <th>规格</th>
+                                    <th>数量</th>
+                                    <th>单价</th>
+                                    <th>合计</th>
+                                    <th>位置</th>
+                                    <th>附注</th>
+                                    <th>操作</th>
+                                </tr>
+                                <c:forEach items="${itemInList}" var="inBillPresent" varStatus="status">
+                                    <tr>
+                                        <td>
+                                                ${status.count}
+                                        </td>
+                                        <td>
+                                            <select id="itemsName${status.count}" lay-verify="required"
+                                                    name="itemInList[${status.count-1}].GoodsID"
+                                                    lay-filter="itemsName${status.count}">
+                                                <%--<option value="${inBillPresent.itemsName}" > ${inBillPresent.itemsName} </option>--%>
+                                            </select>
+
+                                            <script>
+                                                layui.use(["jquery", "upload", "form", "layer", "element"], function () {
+                                                    var $ = layui.$,
+                                                        form = layui.form;
+
+                                                    var itemsName="${inBillPresent.itemsName}";
+                                                    //查询物品名称
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
+                                                        dataType: "json",
+                                                        async: false,
+                                                        success: function (data) {
+                                                            $.each(data, function (index, item) {
+                                                                if(itemsName==item.itemsName){
+                                                                $("#itemsName${status.count}").append("<option selected value='" + item.itemsName + "'>"+ item.itemsName +"</option>");//往下拉菜单里添加元素
+                                                                }
+                                                                else {
+                                                                    $("#itemsName${status.count}").append("<option  value='" + item.itemsName + "'>"+ item.itemsName +"</option>");//往下拉菜单里添加元素
+
+                                                                }
+                                                            });
+                                                            form.render();//菜单渲染 把内容加载进去
+                                                        }
+                                                    });
+
+
+
+                                                    form.on('select(itemsType${status.count})', function (data) {
+                                                        var itemsNameVal = $('select[name="' + goodsID + '"]').find("option:selected").text();
+                                                        $.ajax({
+                                                            type: "post",
+                                                            url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                                                            data: {itemsType: data.value, itemsName: itemsNameVal},
+                                                            dataType: "json",
+                                                            success: function (result) {
+                                                                console.log(result.goodsID);
+                                                                $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                                                                form.render();
+                                                            }
+                                                        })
+                                                    });
+
+                                                    //选择物品后，根据物品名称查询该物品的规格，并更新对应的规格
+                                                    form.on('select(itemsName${status.count})', function (data) {
+                                                        var itemsType = "itemInList[${status.count-1}].Type";
+                                                        var Category = "itemInList[${status.count-1}].CategoryID";
+                                                        var goodsID = "itemInList[${status.count-1}].GoodsID";
+                                                        $('select[name="' + itemsType + '"]').empty();
+                                                        form.render();
+                                                        if (data.value == "null") {
+                                                            $('select[name="' + itemsType + '"]').append("<option value=\"null\" selected> </option>");
+                                                            form.render();
+                                                            return false;
+                                                        }
+                                                        $('select[name="' + Category + '"]').empty();
+                                                        form.render();
+                                                        if (data.value == "null") {
+                                                            $('select[name="' + Category + '"]').append("<option value=\"null\" selected> </option>");
+                                                            form.render();
+                                                            return false;
+                                                        }
+
+                                                        $.ajax({
+                                                            type: "post",
+                                                            url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
+                                                            data: {itemsName: this.innerText},
+                                                            dataType: "json",
+                                                            async: false,
+                                                            cache: false,
+                                                            success: function (result) {
+                                                                $.each(result, function (index, item) {
+                                                                    $('select[name="' + itemsType + '"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>");
+                                                                    $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
+                                                                });
+                                                                var itemsTypeVal = $('select[name="' + itemsType + '"]').find("option:selected").text();
+                                                                $.ajax({
+                                                                    type: "post",
+                                                                    url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                                                                    data: {itemsType: itemsTypeVal, itemsName: data.value},
+                                                                    dataType: "json",
+                                                                    success: function (result) {
+                                                                        console.log(result.goodsID);
+                                                                        $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                                                                        form.render();
+                                                                    }
+                                                                });
+                                                                form.render();
+                                                            }
+                                                        })
+                                                    });
+
+                                                    var itemsType = "itemInList[${status.count-1}].Type";
+                                                    <%--var Category = "itemInList[${status.count-1}].CategoryID";--%>
+                                                    var goodsID = "itemInList[${status.count-1}].GoodsID";
+
+                                                    var itemsTypeVal = $('select[name="' + itemsType + '"]').find("option:selected").val();
+                                                    var itemsNameVal = $('select[name="' + goodsID + '"]').find("option:selected").val();
+                                                    $.ajax({
+                                                        type: "post",
+                                                        url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                                                        data: {itemsType: itemsTypeVal, itemsName: itemsNameVal},
+                                                        dataType: "json",
+                                                        success: function (result) {
+                                                            console.log(result.goodsID);
+                                                            $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                                                            form.render();
+                                                        }
+                                                    });
+                                                    <%--var goodsID ="${inBillPresent.goodsID}";--%>
+                                                    <%--console.log(goodsID);--%>
+                                                    <%--$("#itemsName${status.count}").val(goodsID);--%>
+                                                    <%--form.render();//菜单渲染 把内容加载进去--%>
+                                                });
+                                            </script>
+                                        </td>
+                                        <td>
+                                            <select name="itemInList[${status.count-1}].CategoryID"
+                                                    lay-verify="required" lay-filter="Category${status.count}">
+                                                <option value="${inBillPresent.categoryID}"> ${inBillPresent.categoryName} </option>
+                                                    <%--<option value="" selected></option>--%>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="itemsType${status.count}" name="itemInList[${status.count-1}].Type" lay-verify="required"
+                                                    lay-filter="itemsType${status.count}">
+                                                <%--<option value="${inBillPresent.type}"  > ${inBillPresent.type} </option>--%>
+                                                    <%--<option value="" selected></option>--%>
+                                            </select>
+
+                                            <script>
+                                                var goodsID = "itemInList[${status.count-1}].GoodsID";
+                                                var itemsNameVal ='${inBillPresent.itemsName}';
+
+                                                //通过物品名称查询规格
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: '${pageContext.request.contextPath }/goods/findGoodsByItemsName',  //从数据库查询返回的是个list
+                                                    data: {itemsName: itemsNameVal},
+                                                    dataType: "json",
+                                                    async: false,
+                                                    success: function (data) {
+                                                        $.each(data, function (index, item) {
+                                                            $("#itemsType${status.count}").append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>");//往下拉菜单里添加元素
+                                                        });
+                                                        form.render();//菜单渲染 把内容加载进去
+                                                    }
+                                                });
+                                            </script>
+                                        </td>
+                                        <td>
+                                            <input name="itemInList[${status.count-1}].ItemNum" class="layui-input" onblur="NumCount(this)"
+                                                   type="number" placeholder="数量" min="1"
+                                                   value="${inBillPresent.itemNum}"/>
+
+                                        </td>
+                                        <td>
+                                            <input name="itemInList[${status.count-1}].ItemPrice" class="layui-input"  onblur="PriceCount(this)"
+                                                   type="text" value="${inBillPresent.itemPrice}"/>
+                                        </td>
+                                        <td>
+                                            <input id="itemTotal1" name="itemInList[${status.count-1}].ItemTotal" class="layui-input"
+                                                   type="text" readonly value="${inBillPresent.itemTotal}"/>
+                                        </td>
+                                        <td>
+
+                                            <input name="itemInList[${status.count-1}].StorePosition"
+                                                   class="layui-input" type="text" placeholder="仓库位置"
+                                                   value="${inBillPresent.storePosition}"/>
+
+                                        </td>
+                                        <td>
+                                            <input name="itemInList[${status.count-1}].Note" class="layui-input"
+                                                   type="text" placeholder="" value="${inBillPresent.note}"/>
+                                        </td>
+                                        <td>
+                                            <div class="layui-form-item">
+                                                <button type="button" onclick="delTr(this)"
+                                                        class="layui-btn layui-btn-danger">移除
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <div style="text-align: center;width: 100% ">
+                                <div class="layui-inline" style="width: 100%">
+                                    <i onclick="addTr()"
+                                       class="layui-btn layui-btn-sm layui-btn-fluid layui-icon layui-icon-down"
+                                       style="width: 100%"></i>
                                 </div>
-                            </div>--%>
+                            </div>
                             <div class="layui-row" style="margin: 10px 5px;">
                                 <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>
                             </div>
@@ -94,81 +302,341 @@
             </div>
         </div>
     </div>
-    <div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
-        <button onclick="addBill()" class="layui-btn layui-btn-radius layui-btn-normal" style="margin-right: 40px;">
-            完成修改
-        </button>
+    <div class="layui-row">
+        <div  style="float: right; margin-right: 30px;">
+            <button onclick="updateBill()" class="layui-btn layui-btn-lg">
+                修改入库单
+            </button>
+        </div>
     </div>
 </div>
 <script>
+
+    layui.use(['form'], function () {
+        var form = layui.form;
+        form.render();   //重新渲染新增的行中select的信息
+    });
+
+    function updateBill() {
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath }/inBill/updateBill",
+            data: $("#InBillForm").serialize(),
+            success: function () {
+                layer.alert("修改成功")
+            },
+            error: function () {
+                layer.alert("修改失败！");
+            }
+        });
+    }
+
+    function NumCount(ii) {
+        var altotal = 0;
+        var price = $(ii).parent().next().find("input").val();
+        var total = $(ii).val();
+        if(total>0){
+            $(ii).parent().next().next().find("input").val((price * total).toFixed(2));
+        }else {
+
+            layer.tips("数量格式错误！需要大于等于1", ii, {
+                tips: [1, "#2B2B2B"]
+            });
+            $(ii).val(1);
+            var val = $(ii).val();
+            $(ii).parent().next().next().find("input").val((price * val).toFixed(2));
+        }
+
+        var total = $(ii).parent().next().next().find("input").val();
+        var i = 0;
+        var length = $("#table").find("tr").length; //行数
+        for (i = 1; i < length; i++) {
+            var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
+            altotal = Number(altotal) + Number(text);
+        }
+        $("#alTotal").val(altotal);
+        /*   $("#alTotal").empty();
+          $("#alTotal").append(altotal);*/
+    }
+
+    function PriceCount(ii) {
+        var altotal = 0;
+        var price = $(ii).val();
+        var total = $(ii).parent().prev().find("input").val();
+        if(price>0){
+            $(ii).parent().next().find("input").val((price * total).toFixed(2));
+        }else{
+            layer.tips("价格格式错误！需要大于0", ii, {
+                tips: [1, "#2B2B2B"]
+            });
+            $(ii).val(1);
+            var val = $(ii).val();
+            $(ii).parent().next().find("input").val((val * total).toFixed(2));
+        }
+        var total = $(ii).parent().next().find("input").val();
+
+        var i = 0;
+        var length = $("#table").find("tr").length; //行数
+        for (i = 1; i < length; i++) {
+            var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
+            altotal = Number(altotal) + Number(text);
+
+        }
+        $("#alTotal").val(altotal);
+    }
+
+    function getParent(el, parentTag) {
+        do {
+            el = el.parentNode;
+        } while (el && el.tagName !== parentTag);
+        return el;
+    }
+
+    function delTr(el) {
+        el = getParent(el, 'TR');
+        var rowIndex = el.rowIndex;
+        if (rowIndex > 1) {
+            el = getParent(el, 'TABLE');
+            el.deleteRow(rowIndex);
+            var altotal = 0;
+            var length = $("#table").find("tr").length; //行数
+            console.log("length" + length);
+            for (i = 1; i < length; i++) {
+                var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
+                altotal = Number(altotal) + Number(text);
+                console.log(altotal);
+            }
+            $("#alTotal").val(altotal);
+            layui.use(['form'], function () {
+                var form = layui.form;
+                $("#alTotal").val(altotal);
+                form.render();
+            })
+        }
+        else {
+            layer.alert("删除失败！");
+        }
+
+    }
+
     $("#InBillID").val(parent.InBillID);
 
+    //将用户的ID和供应商ID和时间回显
 
+    function addTr() {
+        var itemsName = $("#itemsName").html();          //拿到已加载好的物品名称信息
 
-    layui.use('table', function () {
-        var table = layui.table;
+        //改变序号
+        var trl = document.getElementsByTagName("tr").length;
+        var num=null;
+        if(trl>1){
 
-        table.render({
-            elem: '#test'
-            , url: "${pageContext.request.contextPath }/itemIn/itemsInData"
-            // , toolbar: '#toolbarDemo'
-            , title: '入库单'
-            , totalRow: true//开启合计行
-            , cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'inBillID',title: '商品号',width: 110,fixed: 'left',unresize: true,sort: true,totalRowText: '合计'}
-                , {field: 'goodsID', title: '物品名称', width: 110,templet(d){
-                        var itemName;
+        var lastTr = document.getElementsByTagName("tr")[trl - 1];
+        num = lastTr.cells[0].innerHTML;
+        num = Number(num) + Number(1);
+        }
+        else {
+            num = Number(1);
+        }
+
+        //拼接字符串及以参数的形式给select的lay-filter，name重新赋值
+        var tr = "<tr id=" + num + " >" +
+            "<td>" + num + "</td>" +
+            "<td>" +
+            "<div class=\"layui-form-item\">" +
+            "<select value=\"null\" lay-verify=\"required\" id=\"itemsName" + num + "\" name=\"itemInList[" + (num - 1) + "].GoodsID\" lay-filter=\"itemsName" + num + "\">" +
+            "<option value=\"\" selected> </option>" +
+            "</select>" +
+            "</div>" +
+            "</td>" +
+            "<td>" +
+            "<div class=\"layui-form-item\">" +
+            "<select  id=\"Category" + num + "\" name=\"itemInList[" + (num - 1) + "].CategoryID\" lay-verify=\"required\" lay-filter=\"Category" + num + "\">" +
+            "<option value=\"\" selected> </option>" +
+            "</select>" +
+            "</div>" +
+            "</td>" +
+            "<td>" +
+            "<div class=\"layui-form-item\">" +
+            "<select  id=\"itemsType" + num + "\" name=\"itemInList[" + (num - 1) + "].Type\" lay-verify=\"required\" lay-filter=\"itemsType" + num + "\">" +
+            "<option value=\"\" selected> </option>" +
+            "</select>" +
+            "</div>" +
+            "</td>" +
+            "<td>" +
+            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
+            "</td>" +
+            "<td>" +
+            "<input id=\"itemPrice" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemPrice\" onblur=\"PriceCount(this)\" class=\"layui-input\" type=\"text\" />" +
+            "</td>" +
+            "<td>" +
+            "<input id=\"itemTotal" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemTotal\" class=\"layui-input\"  type=\"text\" readonly=\"readonly\" />" +
+            "</td>" +
+            "<td>" +
+            "<input id=\"StorePosition" + num + "\" name=\"itemInList[" + (num - 1) + "].StorePosition\" class=\"layui-input\"  type=\"text\" />" +
+            "</td>" +
+            "<td>" +
+            "<div class=\"layui-form-item\">" +
+            "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
+            "</div>" +
+            "</td>" +
+            "<td>" +
+            "<div class=\"layui-form-item\">" +
+            "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"delTr(this)\">移除</button>" +
+            "</div>" +
+            "</td>" +
+            "</tr>";
+        $("#table").append(tr);
+
+        layui.use(['form'], function () {
+            var form = layui.form;
+            form.render();   //重新渲染新增的行中select的信息
+
+            //查询物品名称
+            $.ajax({
+                type: "POST",
+                url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $("#itemsName"+num).append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                    });
+                    form.render();//菜单渲染 把内容加载进去
+                }
+            });
+
+            //选择物品后，根据物品名称查询该物品的规格，并更新对应的规格
+            form.on('select(itemsName' + num + ')', function (data) {
+                var itemsType = "itemInList[" + (num - 1) + "].Type";
+                var Category = "itemInList[" + (num - 1) + "].CategoryID";
+                var goodsID = "itemInList[" + (num - 1) + "].GoodsID";
+                $('select[name="' + itemsType + '"]').empty();
+                form.render();
+                if (data.value == "null") {
+                    $('select[name="' + itemsType + '"]').append("<option value=\"null\" selected> </option>");
+                    form.render();
+                    return false;
+                }
+                $('select[name="' + Category + '"]').empty();
+                form.render();
+                if (data.value == "null") {
+                    $('select[name="' + Category + '"]').append("<option value=\"null\" selected> </option>");
+                    form.render();
+                    return false;
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
+                    data: {itemsName: this.innerText},
+                    dataType: "json",
+                    async: false,
+                    cache: false,
+                    success: function (result) {
+                        $.each(result, function (index, item) {
+                            $('select[name="' + itemsType + '"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>");
+                            $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
+                        });
+                        var itemsTypeVal = $('select[name="' + itemsType + '"]').find("option:selected").text();
                         $.ajax({
-                            method:'post',
-                            url:'${pageContext.request.contextPath }/inBill/findGoodsByGoodsID',
-                            data:{"goodsID":d.goodsID},
-                            async: false,
-                            success:function (htq) {
-                                console.log(htq[0].goodsID);
-                                console.log(htq[0].itemsName);
-                                if(d.goodsID==htq[0].goodsID){
-                                    itemName= htq[0].itemsName;
-                                }
+                            type: "post",
+                            url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                            data: {itemsType: itemsTypeVal, itemsName: data.value},
+                            dataType: "json",
+                            success: function (result) {
+                                console.log(result.goodsID);
+                                $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                                form.render();
                             }
                         });
-                        return itemName;
-                    }}
-                , {field: 'categoryID', title: '物品类别', width: 110}
-                , {field: 'type', title: '物品规格', width: 110}
-                , {field: 'itemNum', title: '入库数量', width: 110}
-                , {field: 'itemPrice', title: '入库单价', width: 80}
-                , {field: 'itemTotal', title: '合计', width: 110}
-                , {field: 'storePosition', title: '仓库位置', width: 110}
-                , {field: 'note', title: '附注', width: 120}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
-            ]]
-            , page: false
-            , id: 'testInBill'
-            ,where :{"InBillID":parent.InBillID}
+                        form.render();
+                    }
+                })
+            })
         });
-    });
-</script>
-<script>
-    //将用户的ID和供应商ID和时间回显
-    $.ajax({
-        method:'post',
-        url:"${pageContext.request.contextPath }/itemIn/valueIDandTime",
-        data:{"InBillID":parent.InBillID},
-        success:function (htq) {
-            console.log(htq);
-            console.log(htq[0].buyer);
-            $("#buyer").val(htq[0].buyer);
-            $("#warehouse").val(htq[0].storeManager);
-            $("#Approvaler").val(htq[0].checker);
-            $("#lister").val(htq[0].tableMaker);
-            $("#InBillTime").val(htq[0].buyTime);
-            $("#providerID").val(htq[0].providerID);
-            $("#alTotal").val(htq[0].allTotal);
-        }
+
+        layui.use('form', function ($, form) {
+            var $ = layui.$;//重点在layui中引用JQ必须写这一句
+            var form = layui.form;
+            var goodsID = "itemInList[" + (num - 1) + "].GoodsID";
+            form.on('select(itemsType' + num + ')', function (data) {
+
+                var itemsNameVal = $('select[name="' + goodsID + '"]').find("option:selected").text();
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                    data: {itemsType: data.value, itemsName: itemsNameVal},
+                    dataType: "json",
+                    success: function (result) {
+                        console.log(result.goodsID);
+                        $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                        form.render();
+                    }
+                })
+
+            })
+        });
+    }
+
+    layui.use('form', function ($, form) {
+        var $ = layui.$;//重点在layui中引用JQ必须写这一句
+        var form = layui.form;
+
+        form.on('select(itemsName1)', function (data) {
+            $('select[name="itemInList[0].Type"]').empty();
+            form.render()
+            if (data.value == "null") {
+                $('select[name="itemInList[0].Type"]').append("<option value=\"null\" selected> </option>");
+                form.render()
+                return false;
+            }
+            $('select[name="itemInList[0].CategoryID"]').empty();
+            form.render()
+            if (data.value == "null") {
+                $('select[name="itemInList[0].CategoryID"]').append("<option value=\"null\" selected> </option>");
+                form.render()
+                return false;
+            }
+            console.log("test:"+ this.innerText);
+            $.ajax({
+                type: "post",
+                url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
+                data: {itemsName: this.innerText},
+                dataType: "json",
+                async: false,
+                cache: false,
+                success: function (result) {
+                    $.each(result, function (index, item) {
+                        $('select[name="itemInList[0].Type"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>")
+                        $('select[name="itemInList[0].CategoryID"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
+                    });
+                    var itemsTypeVal = $('select[name="itemInList[0].Type"]').find("option:selected").text();
+                    $.ajax({
+                        type: "post",
+                        url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
+                        data: {itemsType: itemsTypeVal,itemsName:data.value},
+                        dataType: "json",
+                        success: function (result) {
+                            console.log(result.goodsID);
+                            $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
+                            form.render();
+                        }
+                    });
+                    form.render();
+                }
+            })
+
+        });
+
     });
 
-    $.ajax({
+    layui.use(["jquery", "upload", "form", "layer", "element"], function () {
+        var $ = layui.$,
+            form = layui.form;
+
+        $.ajax({
         type: "POST",
         url: '${pageContext.request.contextPath }/provider/getProvider',  //从数据库查询返回的是个list
         dataType: "json",
@@ -236,6 +704,22 @@
             });
             form.render();//菜单渲染 把内容加载进去
         }
+    });
+
+    $.ajax({
+        method: 'post',
+        url: "${pageContext.request.contextPath }/itemIn/valueIDandTime",
+        data: {"InBillID": parent.InBillID},
+        success: function (htq) {
+            $("#buyer").val(htq[0].buyer);
+            $("#warehouse").val(htq[0].storeManager);
+            $("#Approvaler").val(htq[0].checker);
+            $("#lister").val(htq[0].tableMaker);
+            $("#providerID").val(htq[0].providerID);
+            $("#alTotal").val(htq[0].allTotal);
+            form.render();   //重新渲染新增的行中select的信息
+        }
+    });
     });
 </script>
 </body>
