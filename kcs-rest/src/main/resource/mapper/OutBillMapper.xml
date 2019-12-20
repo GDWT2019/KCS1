@@ -19,4 +19,63 @@
         select MAX(OutBillID)
         from OutBill
     </select>
+
+    <delete id="delOutBillByOutBillID" parameterType="java.lang.Integer">
+        delete from OutBill
+        where OutBillID = #{OutBillID}
+    </delete>
+
+    <update id="updateOutBill" parameterType="com.kcs.rest.pojo.OutBill">
+        update OutBill
+        <trim prefix="set" suffixOverrides=",">
+            <if test="OutTime!=null" >
+                OutTime = #{OutTime,jdbcType=VARCHAR},
+            </if>
+            <if test="CheckStatus!=null" >
+                CheckStatus = #{CheckStatus,jdbcType=INTEGER},
+            </if>
+            <if test="CheckTime!=null" >
+                CheckTime = #{CheckTime,jdbcType=VARCHAR},
+            </if>
+            <if test="CheckMessage!=null" >
+                CheckMessage = #{CheckMessage,jdbcType=VARCHAR},
+            </if>
+            <if test="OperateTime!=null" >
+                OperateTime = #{OperateTime,jdbcType=VARCHAR},
+            </if>
+            <if test="AllTotal!=null" >
+                AllTotal = #{AllTotal,jdbcType=DOUBLE},
+            </if>
+            <if test="StoreManager!=null" >
+                StoreManager = #{StoreManager,jdbcType=INTEGER},
+            </if>
+            <if test="Taker!=null" >
+                Taker = #{Taker,jdbcType=INTEGER},
+            </if>
+            <if test="Checker!=null" >
+                Checker = #{Checker,jdbcType=INTEGER},
+            </if>
+            <if test="TableMaker!=null" >
+                TableMaker = #{TableMaker,jdbcType=INTEGER},
+            </if>
+            <if test="Operator!=null" >
+                Operator = #{Operator,jdbcType=INTEGER},
+            </if>
+            <if test="Remark!=null" >
+                Remark = #{Remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        where OutBillID = #{OutBillID}
+    </update>
+
+    <update id="updateCheckByOutBillID" parameterType="com.kcs.rest.pojo.OutBill">
+          update OutBill
+          set
+            CheckStatus = #{CheckStatus},
+            CheckTime = #{CheckTime},
+            CheckMessage = #{CheckMessage},
+            Checker = #{Checker}
+          where
+            OutBillID = #{OutBillID}
+    </update>
 </mapper>

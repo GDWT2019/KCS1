@@ -43,7 +43,6 @@
     layui.use('table', function(){
         var table = layui.table;
 
-
         table.render({
             elem: '#test'
             ,url:"${pageContext.request.contextPath }/inBill/inBillShowData"

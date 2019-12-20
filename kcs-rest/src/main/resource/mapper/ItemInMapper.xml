@@ -16,4 +16,11 @@
     <delete id="delItem" parameterType="int">
         delete from ItemsIn where ItemsInID = #{ItemsInID}
     </delete>
+
+    <select id="findItemsByGoodsID" parameterType="java.lang.Integer" resultType="com.kcs.rest.pojo.ItemIn">
+        select * from ItemsIn
+        where ItemsInID = (
+        select MAX(ItemsInID) from ItemsIn
+        where GoodsID= #{GoodsID})
+    </select>
 </mapper>

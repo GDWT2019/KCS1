@@ -1,5 +1,6 @@
 package com.kcs.rest.controller;
 
+import com.kcs.rest.pojo.AddOutBill;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.service.GoodsService;
@@ -73,5 +74,28 @@ public class GoodsController {
         int id = Integer.parseInt( goodsID );
         List<Goods> goodsById = goodsService.findGoodsBygoodsId(id);
         return  KcsResult.ok(goodsById);
+    }
+
+
+    //根据物品类型，查询物品的详情及该物品对应汇总表最新数据
+    @RequestMapping("/findAddOutBillByCategoryName{categoryName}")
+    @ResponseBody
+    public KcsResult findAddOutBillByCategoryName(@PathVariable String categoryName){
+        List<AddOutBill> addOutBills = goodsService.findAddOutBillByCategoryName(categoryName);
+        return KcsResult.ok(addOutBills);
+    }
+
+    //物品类型》》物品id》》过滤汇总表最新数据（确定已入库且最新时间的物品》》过滤后的物品id》》物品名称》按名称分组
+    @RequestMapping("/findTheLastItemsNameByCategoryName{categoryName}")
+    @ResponseBody
+    public KcsResult findTheLastItemsNameByCategoryName(@PathVariable String categoryName){
+        return KcsResult.ok(goodsService.findTheLastItemsNameByCategoryName(categoryName));
+    }
+
+    //根据物品名称，查询物品数据及汇总表的该物品的最新数据;
+    @RequestMapping("/findAddOutBillByItemsName{itemsName}")
+    @ResponseBody
+    public KcsResult findAddOutBillByItemsName(@PathVariable String itemsName){
+        return KcsResult.ok(goodsService.findAddOutBillByItemsName(itemsName));
     }
 }

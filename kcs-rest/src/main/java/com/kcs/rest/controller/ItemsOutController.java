@@ -21,30 +21,15 @@ public class ItemsOutController {
     private  ItemsOutService itemsOutService;
     @Autowired
     private SummaryService summaryService;
+    @Autowired
+    private ItemInService itemInService;
 
     @RequestMapping("/insertItemsOut")
     @ResponseBody
     public KcsResult insertItemsOut(@RequestBody ItemsOut itemsOut) {
-        //插入出库物品信息
+
         int i = itemsOutService.insertItemsOut(itemsOut);
         if (i > 0) {
-            //获取对应物品id的最新的汇总记录
-            Summary summary = summaryService.findSummaryInTheLastGoodsDataByGoodsID(itemsOut.getGoodsID());
-
-            //判断该记录出库信息
-            if (summary.getOutAmount()>0||summary.getOutAmount()!=null){
-                summary.setOutAmount(summary.getOutAmount()+itemsOut.getItemNum());
-                summary.setOutTotal(summary.getOutTotal()+itemsOut.getItemTotal());
-            }
-            else{
-                summary.setOutAmount(itemsOut.getItemNum());
-                summary.setOutTotal(itemsOut.getItemTotal());
-            }
-            summary.setOutPrice(itemsOut.getItemPrice());
-            summary.setThisAmount(summary.getThisAmount()-itemsOut.getItemNum());
-            summary.setThisTotal(summary.getThisTotal()-itemsOut.getItemTotal());
-            summaryService.updateSummary(summary);
-
             return KcsResult.ok(i);
         } else
             return KcsResult.build(500, "插入失败！");
@@ -60,4 +45,23 @@ public class ItemsOutController {
             return KcsResult.build(500, "删除失败！");
     }
 
+    @RequestMapping("/getItemsOutByOutBillID{outBillID}")
+    @ResponseBody
+    public KcsResult getItemsOutByOutBillID(@PathVariable int outBillID) {
+        List<ItemsOut> itemsOutList = itemsOutService.findItemsOutByOutBillID(outBillID);
+        if (itemsOutList != null) {
+            return KcsResult.ok(itemsOutList);
+        } else
+            return KcsResult.build(500, "对应出库单无出库物品数据！");
+    }
+
+    @RequestMapping("/updateItemsOut")
+    @ResponseBody
+    public KcsResult updateItemsOut(@RequestBody ItemsOut itemsOut){
+        Integer i = itemsOutService.updateItemsOut(itemsOut);
+        if (i != null){
+            return KcsResult.ok(i);
+        }else
+            return KcsResult.build(500, "更新失败！");
+    }
 }

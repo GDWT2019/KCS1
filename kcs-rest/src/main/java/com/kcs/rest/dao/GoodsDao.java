@@ -1,5 +1,6 @@
 package com.kcs.rest.dao;
 
+import com.kcs.rest.pojo.AddOutBill;
 import com.kcs.rest.pojo.Goods;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,13 @@ public interface GoodsDao {
     List<Goods> findAllGoods();
 
     List<Goods> findGoodsBygoodsId(int id);
+
+    //根据物品类型，查询物品的详情及该物品对应汇总表最新数据
+    List<AddOutBill> findAddOutBillByCategoryName(String categoryName);
+
+    //物品类型》》物品id》》过滤汇总表最新数据（确定已入库且最新时间的物品》》过滤后的物品id》》物品名称》按名称分组
+    List<String> findTheLastItemsNameByCategoryName(String categoryName);
+
+    //根据物品名称，查询物品数据及汇总表的该物品的最新数据
+    List<AddOutBill> findAddOutBillByItemsName(String itemsName);
 }

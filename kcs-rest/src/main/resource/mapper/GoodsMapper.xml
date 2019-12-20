@@ -62,4 +62,48 @@
         group by [Goods].ItemsName
     </select>
 
+    <select id="findAddOutBillByCategoryName" parameterType="java.lang.String" resultType="com.kcs.rest.pojo.AddOutBill">
+        select Goods.GoodsID,Goods.CategoryID,Goods.ItemsName,Goods.ItemsType,Goods.ItemsUnit,SummaryID,PreAmount,PreTotal,InAmount,InPrice,InTotal,OutAmount,OutTotal,ThisAmount,ThisPrice,ThisTotal,Time,StorePosition
+        from Goods,
+        (select * from (SELECT * FROM Summary s1 WHERE not EXISTS
+        (select GoodsID from Summary s2 WHERE s2.Time>s1.Time and s1.GoodsID = s2.GoodsID))s2
+        where s2.GoodsID in
+        (select GoodsID from Summary
+        where GoodsID in(
+        select GoodsID
+        from Goods
+        where CategoryID=(
+        select CategoryID
+        from Category
+        where CategoryName=#{CategoryName}))
+        group by GoodsID))s,
+        (SELECT * FROM ItemsIn i1 WHERE not EXISTS
+        (select GoodsID from ItemsIn i2 WHERE i1.ItemsInID>i2.ItemsInID and i1.GoodsID = i2.GoodsID))i
+        where Goods.GoodsID = s.GoodsID
+        and Goods.GoodsID = i.GoodsID
+    </select>
+
+    <select id="findTheLastItemsNameByCategoryName" resultType="java.lang.String" parameterType="java.lang.String">
+        select Goods.ItemsName from Goods,
+        (select * from
+        (SELECT * FROM Summary s1 WHERE not EXISTS
+        (select GoodsID from Summary s2 WHERE s2.Time>s1.Time and s1.GoodsID = s2.GoodsID))s2
+        where s2.GoodsID in
+        (select GoodsID from Summary where GoodsID in
+        (select GoodsID from Goods where CategoryID=(select CategoryID from Category
+        where CategoryName=#{CategoryName})) group by GoodsID))s
+        where Goods.GoodsID=s.GoodsID
+        group by Goods.ItemsName
+    </select>
+
+    <select id="findAddOutBillByItemsName" resultType="com.kcs.rest.pojo.AddOutBill" parameterType="java.lang.String">
+        select Goods.GoodsID,Goods.CategoryID,Goods.ItemsName,Goods.ItemsType,Goods.ItemsUnit,SummaryID,PreAmount,PreTotal,InAmount,InPrice,InTotal,OutAmount,OutTotal,ThisAmount,ThisPrice,ThisTotal,Time,StorePosition
+from (SELECT * FROM Summary s1 WHERE not EXISTS
+        (select GoodsID from Summary s2 WHERE s2.Time>s1.Time and s1.GoodsID = s2.GoodsID))s2,Goods,(SELECT * FROM ItemsIn i1 WHERE not EXISTS
+        (select GoodsID from ItemsIn i2 WHERE i1.ItemsInID>i2.ItemsInID and i1.GoodsID = i2.GoodsID))i
+        where s2.GoodsID in(select GoodsID from Goods where ItemsName=#{ItemsName})
+        and s2.GoodsID=Goods.GoodsID
+        and  Goods.GoodsID = i.GoodsID
+    </select>
+
 </mapper>

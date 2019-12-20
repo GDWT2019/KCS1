@@ -2,6 +2,7 @@ package com.kcs.rest.dao;
 
 import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,4 +12,6 @@ public interface ItemInDao {
     List<ItemsShow> findItemsInData(int inBillID);
 
     void delItem(int itemsInID);
+
+    ItemIn findItemsByGoodsID(@Param("GoodsID")int GoodsID);
 }

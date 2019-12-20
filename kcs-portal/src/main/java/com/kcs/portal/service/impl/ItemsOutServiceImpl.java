@@ -7,6 +7,8 @@ import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("itemsOutService")
 public class ItemsOutServiceImpl implements ItemsOutService {
     @Override
@@ -17,7 +19,6 @@ public class ItemsOutServiceImpl implements ItemsOutService {
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
-
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -30,6 +31,35 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         Integer i = 0;
         try {
             String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/itemsOut/delItemsOut"+itemsOutID);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public List<ItemsOut> findItemsOutByOutBillID(int outBillID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/itemsOut/getItemsOutByOutBillID"+outBillID);
+            KcsResult result = KcsResult.formatToList(s,ItemsOut.class);
+            if (result.getStatus() == 200) {
+                return (List<ItemsOut>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateItemsOut(ItemsOut itemsOut) {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/itemsOut/updateItemsOut",JsonUtils.objectToJson(itemsOut));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();

@@ -1,6 +1,7 @@
 package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.OutBillPresentDao;
+import com.kcs.rest.dao.UserDao;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.OutBillPresent;
 import com.kcs.rest.pojo.User;
@@ -17,64 +18,44 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
     @Autowired
     private OutBillPresentDao outBillPresentDao;
     @Autowired
-    private UserService userService;
+    private UserDao userDao;
 
     @Override
-    public List<OutBillPresent> findAllOutBillPresent() {
-        List<User> userList = userService.AllUser();
-
-        List<OutBillPresent> allOutBillPresent = outBillPresentDao.findAllOutBillPresent();
-        for (OutBillPresent outBillPresent:
-             allOutBillPresent) {
-            for (User user :
-                    userList) {
-                if (outBillPresent.getTaker() == user.getUserID()) {
-                    outBillPresent.setTakerName(user.getUserName());
-                }
-                if (outBillPresent.getChecker() == user.getUserID()) {
-                    outBillPresent.setCheckerName(user.getUserName());
-                }
-                if (outBillPresent.getStoreManager() == user.getUserID()) {
-                    outBillPresent.setStoreManagerName(user.getUserName());
-                }
-                if (outBillPresent.getOperator() == user.getUserID()) {
-                    outBillPresent.setOperatorName(user.getUserName());
-                }
-                if (outBillPresent.getTableMaker() == user.getUserID()) {
-                    outBillPresent.setTableMakerName(user.getUserName());
-                }
-                }
-        }
-        return allOutBillPresent;
+    public List<OutBillPresent> findAllOutBillPresent(int begin,int end) {
+        List<User> userList = userDao.findAllUser();
+        List<OutBillPresent> allOutBillPresent = outBillPresentDao.findAllOutBillPresent(begin, end);
+        return updatePerson(userList,allOutBillPresent);
     }
 
     @Override
     public List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID) {
-        List<User> userList = userService.AllUser();
-
+        List<User> userList = userDao.findAllUser();
         List<OutBillPresent> allOutBillPresent = outBillPresentDao.findOutBillPresentByOutBillID(outBillID);
+        return updatePerson(userList,allOutBillPresent);
+    }
+
+    public List<OutBillPresent> updatePerson(List<User> userList,List<OutBillPresent> outBillPresentList){
         for (OutBillPresent outBillPresent:
-                allOutBillPresent) {
+                outBillPresentList) {
             for (User user :
                     userList) {
-                if (outBillPresent.getTaker() == user.getUserID()) {
+                if ((outBillPresent.getTaker()!=null)&&(outBillPresent.getTaker() == user.getUserID())) {
                     outBillPresent.setTakerName(user.getUserName());
                 }
-                if (outBillPresent.getChecker() == user.getUserID()) {
+                if ((outBillPresent.getChecker()!=null)&&(outBillPresent.getChecker() == user.getUserID())) {
                     outBillPresent.setCheckerName(user.getUserName());
                 }
-                if (outBillPresent.getStoreManager() == user.getUserID()) {
+                if ((outBillPresent.getStoreManager()!=null)&&(outBillPresent.getStoreManager() == user.getUserID())) {
                     outBillPresent.setStoreManagerName(user.getUserName());
                 }
-                if (outBillPresent.getOperator() == user.getUserID()) {
+                if ((outBillPresent.getOperator()!=null)&&(outBillPresent.getOperator() == user.getUserID())) {
                     outBillPresent.setOperatorName(user.getUserName());
                 }
-                if (outBillPresent.getTableMaker() == user.getUserID()) {
+                if ((outBillPresent.getTableMaker()!=null)&&(outBillPresent.getTableMaker() == user.getUserID())) {
                     outBillPresent.setTableMakerName(user.getUserName());
                 }
             }
         }
-        return allOutBillPresent;
+        return outBillPresentList;
     }
-
 }

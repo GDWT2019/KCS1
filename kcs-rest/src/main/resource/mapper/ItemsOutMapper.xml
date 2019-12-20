@@ -17,4 +17,43 @@
         where ItemsOutID = #{itemsOutID}
     </select>
 
+    <select id="findItemsOutByOutBillID" parameterType="java.lang.Integer" resultType="com.kcs.rest.pojo.ItemsOut">
+        select * from ItemsOut
+        where OutBillID = #{OutBillID}
+    </select>
+
+    <update id="updateItemsOut" parameterType="com.kcs.rest.pojo.ItemsOut">
+        update ItemsOut
+        <trim prefix="set" suffixOverrides=",">
+            <if test="DepartmentID!=null" >
+                DepartmentID = #{DepartmentID},
+            </if>
+            <if test="OutBillID!=null" >
+                OutBillID = #{OutBillID},
+            </if>
+            <if test="GoodsID!=null" >
+                GoodsID = #{GoodsID},
+            </if>
+            <if test="ItemNum!=null" >
+                ItemNum = #{ItemNum},
+            </if>
+            <if test="ItemPrice!=null" >
+                ItemPrice = #{ItemPrice},
+            </if>
+            <if test="ItemTotal!=null">
+                ItemTotal = #{ItemTotal},
+            </if>
+            <if test="Project!=null" >
+                Project = #{Project},
+            </if>
+            <if test="Note!=null" >
+                Note = #{Note},
+            </if>
+            <if test="StorePosition!=null" >
+                StorePosition = #{StorePosition},
+            </if>
+        </trim>
+        where ItemsOutID = #{ItemsOutID}
+    </update>
+
 </mapper>

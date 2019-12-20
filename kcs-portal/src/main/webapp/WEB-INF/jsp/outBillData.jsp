@@ -13,13 +13,9 @@
 </head>
 <body>
 <table class="layui-hide" id="test" lay-filter="test"></table>
-
 <script type="text/html" id="toolbarDemo">
 	<div class="layui-btn-container">
 		<button class="layui-btn layui-btn-sm" id="addOutBillBtn">添加出库</button>
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加数据</button>
-		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改数据</button>
-		<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
 	</div>
 </script>
 <script type="text/html" id="toolRight">
@@ -42,25 +38,27 @@
 			,cols: [[
 				{type: 'checkbox', fixed: 'left'}
 				,{type:'numbers',title:'序号'}
-				,{field:'outTime', title:'日期', width:120,sort:true}
-				,{field:'itemsName', title:'物品名称', width:120}
-				,{field:'itemsType', title:'物品规格', width:120}
-				,{field:'itemsUnit', title:'单位', width:120}
-				,{field:'storePosition', title:'仓库位置', width:120}
-				,{field:'itemNum', title:'出库数量',sort:true, width:120}
-				,{field:'takerName', title:'领用人', width:120}
+				,{field:'outBillID', title:'单号', width:80,sort:true}
+				,{field:'outTime', title:'日期', width:110,sort:true}
+				,{field:'itemsName', title:'物品名称', width:110}
+				,{field:'itemsType', title:'物品规格', width:100}
+				,{field:'itemsUnit', title:'单位', width:60}
+				,{field:'storePosition', title:'位置', width:60}
+				,{field:'itemNum', title:'出库数量',sort:true, width:110}
+				,{field:'takerName', title:'领用人', width:100}
 				,{field:'remark', title:'备注', width:120}
 				,{field:'checkStatus', title:'审批状态',sort:true, width:120,templet:function (d) {
-						if(d.checkStatus==0) return '未审批';
-						else if(d.checkStatus ==1) return '审批通过';
-						else if(d.checkStatus == 2) return '审批未通过';
+						if(d.checkStatus==0) return '待审批';
+						else if(d.checkStatus ==1) return '<span style="color: #009688;">通过</span>';
+						else if(d.checkStatus == 2) return '<span style="color: #FF5722;">未通过</span>';
 						else return '审批错误'
 					}}
-				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:200}
+				,{field:'checkerName', title:'审批人', width:120}
+				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
 			]]
 			,page: true
-			/*,limit:10
-            ,limits:[10,20,30]*/
+			,limit:15
+			,limits:[15,20,30,50]
 			,id:'testUser'
 		});
 
@@ -113,48 +111,64 @@
 
 				//编辑
 			} else if(obj.event === 'edit'){
+				layer.open({
+					type:2,
+					title:"修改出库",
+					content:'${pageContext.request.contextPath}/outBill/showUpdateOutBill?outBillID='+data.outBillID,
+					area:['1200px','668px'],
+					moveOut:true,
+					end:function () {
+						location.reload();
+					}
+				});
+
+				//审批
+			}else if (obj.event === 'check'){
 				$.ajax({
-					url:"${pageContext.request.contextPath}/outBill/findOutBillPresentByOutBillID",
+					url:"${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID",
 					type:"post",
 					data:{"outBillID":data.outBillID},
 					dataType:"text",
 					success:function (result) {
-						layer.prompt({
-							value:result
+						layer.open({
+							type:1,
+							content: result,
+							title:false,
+							area:['1200px','668px'],
+							end:function () {
+								location.reload();
+							}
 						})
 					},
 					error:function () {
-						layer.confirm("编辑请求错误！");
+						layer.confirm("审批请求错误");
 						layer.close(index);
 					}
 				})
-
-				//审批
-			}else if (obj.event === 'check'){
-				layer.prompt({
-					formType: 2
-					,value: data.checkStatus
-				}, function(value, index){
-					obj.update({
-						email: value
-					});
-					layer.close(index);
-				});
 			}
 		});
 
 		$("#addOutBillBtn").on("click",function () {
 			layer.open({
 				type:2,
-				title:false,
-				content:'${pageContext.request.contextPath }/outBill/showAddOutBill',
+				title:"添加出库",
+				content:'${pageContext.request.contextPath}/outBill/showAddOutBill',
 				area:['1200px','668px'],
+				moveOut:true,
 				end:function () {
 					location.reload();
 				}
 			});
 		})
+	});
 
+	layui.use('laydate', function() {
+		var laydate = layui.laydate;
+		//日期范围
+		laydate.render({
+			elem: '#test6'
+			, range: true
+		});
 	});
 </script>
 </body>

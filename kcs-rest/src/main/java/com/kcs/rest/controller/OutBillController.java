@@ -70,10 +70,13 @@ public class OutBillController {
             return KcsResult.build(500, "未找到部门表数据");
     }
 
-    @RequestMapping("/outBillPresent")
+    @RequestMapping(value="/outBillPresent",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresent() {
-        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent();
+    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end ){
+
+        int front = Integer.parseInt(begin);
+        int back = Integer.parseInt(end);
+        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back);
         if (allOutBillPresent != null) {
             return KcsResult.ok(allOutBillPresent);
         } else
@@ -105,5 +108,25 @@ public class OutBillController {
             return KcsResult.ok(theMaxOutBillID);
         }else
             return KcsResult.build(500, "查不到数据！");
+    }
+
+    @RequestMapping("/updateCheckByOutBillID")
+    @ResponseBody
+    public KcsResult updateCheckByOutBillID(@RequestBody OutBill outBill){
+        Integer i = outBillService.updateCheckByOutBillID(outBill);
+        if (i != null){
+            return KcsResult.ok(i);
+        }else
+            return KcsResult.build(500, "更新失败！");
+    }
+
+    @RequestMapping("/updateOutBill")
+    @ResponseBody
+    public KcsResult updateOutBill(@RequestBody OutBill outBill){
+        Integer i = outBillService.updateOutBill(outBill);
+        if (i != null){
+            return KcsResult.ok(i);
+        }else
+            return KcsResult.build(500, "更新失败！");
     }
 }

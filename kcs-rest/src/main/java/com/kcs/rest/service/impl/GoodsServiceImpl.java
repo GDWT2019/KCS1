@@ -1,6 +1,7 @@
 package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.GoodsDao;
+import com.kcs.rest.pojo.AddOutBill;
 import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,20 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> findItemsNameUnique() {
         return goodsDao.findItemsNameUnique();
+    }
+
+    @Override
+    public List<AddOutBill> findAddOutBillByCategoryName(String categoryName) {
+        return goodsDao.findAddOutBillByCategoryName(categoryName);
+    }
+
+    @Override
+    public List<String> findTheLastItemsNameByCategoryName(String categoryName) {
+        return goodsDao.findTheLastItemsNameByCategoryName(categoryName);
+    }
+
+    @Override
+    public List<AddOutBill> findAddOutBillByItemsName(String itemsName) {
+        return goodsDao.findAddOutBillByItemsName(itemsName);
     }
 }

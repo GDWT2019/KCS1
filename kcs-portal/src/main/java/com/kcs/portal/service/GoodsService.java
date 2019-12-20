@@ -1,5 +1,6 @@
 package com.kcs.portal.service;
 
+import com.kcs.rest.pojo.AddOutBill;
 import com.kcs.rest.pojo.Goods;
 
 import java.util.List;
@@ -24,4 +25,10 @@ public interface GoodsService {
 
     //联合汇总表和物品表，查找在汇总表最后更新的物品id，再根据该id查找物品名称，物品名称再分组
     List<Goods> findItemsNameUnique();
+
+    //物品类型》》物品id》》过滤汇总表最新数据（确定已入库且最新时间的物品》》过滤后的物品id》》物品名称》按名称分组
+    List<String> findTheLastItemsNameByCategoryName(String categoryName);
+
+    //根据物品名称，查询物品数据及汇总表的该物品的最新数据
+    List<AddOutBill> findAddOutBillByItemsName(String itemsName);
 }

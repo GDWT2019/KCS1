@@ -28,4 +28,9 @@ public class ItemInServiceImpl implements ItemInService {
     public void delItem(int itemsInID) {
         itemInDao.delItem(itemsInID);
     }
+
+    @Override
+    public ItemIn findItemsByGoodsID(int GoodsID) {
+        return itemInDao.findItemsByGoodsID(GoodsID);
+    }
 }

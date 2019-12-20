@@ -6,6 +6,7 @@ import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -58,9 +59,12 @@ public class OutBillServiceImpl implements OutBillService {
     }
 
     @Override
-    public List<OutBillPresent> getAllOutBillPresent() {
+    public List<OutBillPresent> getAllOutBillPresent(int begin,int end) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("begin",begin+ "");
+        param.put("end",end+ "");
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/outBillPresent");
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresent",param);
             KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
             if (result.getStatus() == 200) {
                 List<OutBillPresent> outBillPresentList = (List<OutBillPresent>) result.getData();
@@ -118,4 +122,37 @@ public class OutBillServiceImpl implements OutBillService {
         }
         return i;
     }
+
+    @Override
+    public Integer updateCheckByOutBillID(OutBill outBill) {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/outBill/updateCheckByOutBillID",JsonUtils.objectToJson(outBill));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public Integer updateOutBill(OutBill outBill) {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/outBill/updateOutBill",JsonUtils.objectToJson(outBill));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
 }

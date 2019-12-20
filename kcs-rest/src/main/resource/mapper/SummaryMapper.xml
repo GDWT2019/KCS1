@@ -33,12 +33,23 @@
     </select>
 
     <update id="updateSummary" parameterType="com.kcs.rest.pojo.Summary" >
-         update [Summary] set OutAmount = #{OutAmount},
-         OutPrice = #{OutPrice},
-         OutTotal = #{OutTotal},
-         ThisAmount = #{ThisAmount},
-         ThisPrice = #{ThisPrice},
-         ThisTotal = #{ThisTotal}
+         update [Summary]
+         <trim prefix="set" suffixOverrides=",">
+             <if test="GoodsID != null">GoodsID = #{GoodsID},</if>
+             <if test="PreAmount != null">PreAmount = #{PreAmount},</if>
+             <if test="PrePrice != null">PrePrice = #{PrePrice},</if>
+             <if test="PreTotal != null">PreTotal = #{PreTotal},</if>
+             <if test="InAmount != null">InAmount = #{InAmount},</if>
+             <if test="InPrice != null">InPrice = #{InPrice},</if>
+             <if test="InTotal != null">InTotal = #{InTotal},</if>
+             <if test="OutAmount != null">OutAmount = #{OutAmount},</if>
+             <if test="OutPrice != null">OutPrice = #{OutPrice},</if>
+             <if test="OutTotal != null">OutTotal = #{OutTotal},</if>
+             <if test="ThisAmount != null">ThisAmount = #{ThisAmount},</if>
+             <if test="ThisPrice != null">ThisPrice = #{ThisPrice},</if>
+            <if test="ThisTotal != null">ThisTotal = #{ThisTotal},</if>
+            <if test="Time != null">Time = #{Time},</if>
+         </trim>
          where SummaryID =#{SummaryID}
     </update>
 </mapper>
