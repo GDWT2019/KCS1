@@ -25,4 +25,5 @@ public interface InBillService {
     InBill findCheckMessageByID(String inBillID);
 
     void updateInBillByID(InBill inBill);
+
 }

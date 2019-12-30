@@ -24,4 +24,8 @@ public interface ItemInDao {
     List<GoodsAndCategoryAndItemsIn> getItemsInList(int billID);
 
     void delItemByInBillID(int inBillID);
+
+    int findInBillByItemsID(int itemsInID);
+
+    ItemIn finditemsByItemsID(int itemsInID);
 }

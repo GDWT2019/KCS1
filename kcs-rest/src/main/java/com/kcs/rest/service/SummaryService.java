@@ -1,5 +1,6 @@
 package com.kcs.rest.service;
 
+import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,5 +22,17 @@ public interface SummaryService {
 
     //更新
     int updateSummary(Summary summary);
+
+    List<SummartAndGoodsAndCategory> findAllTime();
+
+    List<SummartAndGoodsAndCategory> summartyBillData(int before, int after, String time);
+
+    int summaryTotal(String Time);
+
+    List<SummartAndGoodsAndCategory> summartyAllData();
+
+    int summaryAllTotal();
+
+    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after);
 }
 

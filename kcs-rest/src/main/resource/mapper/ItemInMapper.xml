@@ -46,4 +46,13 @@
         left join Category as c on a.CategoryID =c.CategoryID
         where InBillID = #{InBillID}
     </select>
+
+
+    <select id="findInBillByItemsID" parameterType="int" resultType="int">
+        select inBillID from ItemsIn where ItemsInID = #{itemsID};
+    </select>
+
+    <select id="finditemsByItemsID" resultType="com.kcs.rest.pojo.ItemIn" parameterType="int">
+        select * from ItemsIn where ItemsInID = #{itemsInID]};
+    </select>
 </mapper>

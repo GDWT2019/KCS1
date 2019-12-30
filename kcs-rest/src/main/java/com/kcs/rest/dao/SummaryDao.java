@@ -1,5 +1,6 @@
 package com.kcs.rest.dao;
 
+import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +31,21 @@ public interface SummaryDao {
      */
     List<Summary> findSummaryByGoodsIDAndTimeAfter(@Param("GoodsID")int GoodsID, @Param("Time") String Time);
 
+    List<SummartAndGoodsAndCategory> findAllTime();
+
+    List<SummartAndGoodsAndCategory> summartyBillData(@Param("front")int before, @Param("back")int after,@Param("time") String time);
+
+    int summaryTotal(String Time);
+
+    Summary findBeforeMonth(@Param("goodsID")Integer goodsID, @Param("time")String time);
+
+    void insertSummary(Summary summary1);
+
+    void delSummaryByid(Integer summaryID);
+
+    List<SummartAndGoodsAndCategory> summartyAllData();
+
+    int summaryAllTotal();
+
+    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(@Param("front")int before, @Param("back")int after);
 }
