@@ -1,6 +1,7 @@
 package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.SummaryDao;
+import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import com.kcs.rest.service.SummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,36 @@ public class SummaryServiceImpl implements SummaryService{
     @Override
     public int updateSummary(Summary summary) {
         return summaryDao.updateSummary(summary);
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> findAllTime() {
+        return summaryDao.findAllTime();
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> summartyBillData(int before, int after, String time) {
+        return summaryDao.summartyBillData(before,after,time);
+    }
+
+    @Override
+    public int summaryTotal(String Time) {
+        return summaryDao.summaryTotal(Time);
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> summartyAllData() {
+        return summaryDao.summartyAllData();
+    }
+
+    @Override
+    public int summaryAllTotal() {
+        return summaryDao.summaryAllTotal();
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after) {
+        return summaryDao.summaryAllCurrentdata(before,after);
     }
 
 

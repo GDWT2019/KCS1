@@ -18,6 +18,10 @@
         select count(*) from InBill
     </select>
 
+    <select id="findTimeByID" resultType="String" parameterType="int">
+        select TimeIn from InBill where inBillID=#{inBillID}
+    </select>
+
     <insert id="insertNewBill" parameterType="com.kcs.rest.pojo.InBill" useGeneratedKeys="true" keyProperty="InBillID">
         insert into InBill (ProviderID,StoreManager,TimeIn,Buyer,BuyTime,AllTotal,checker,CheckStatus,TableMaker,Operator,OperateTime)
         values (#{ProviderID},#{StoreManager},#{TimeIn},#{Buyer},#{BuyTime},#{AllTotal},#{Checker},#{CheckStatus},#{TableMaker},#{Operator},#{OperateTime})

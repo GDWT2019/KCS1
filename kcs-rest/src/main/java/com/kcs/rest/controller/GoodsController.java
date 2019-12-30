@@ -71,7 +71,7 @@ public class GoodsController {
             return KcsResult.build(500, "根据物品，未找到对应物品");
     }
 
-    //获取用户数据
+    //获取物品数据
     @RequestMapping(value="getALLGoods")
     @ResponseBody
     public  KcsResult getALLGoods(){

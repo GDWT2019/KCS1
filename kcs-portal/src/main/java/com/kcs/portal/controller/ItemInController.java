@@ -1,5 +1,6 @@
 package com.kcs.portal.controller;
 
+import com.kcs.portal.service.InBillService;
 import com.kcs.portal.service.ItemInService;
 import com.kcs.rest.pojo.GoodsAndCategoryAndItemsIn;
 import com.kcs.rest.pojo.InBill;
@@ -22,6 +23,10 @@ public class ItemInController  {
 
     @Autowired
     private ItemInService itemInService;
+    @Autowired
+    private InBillService inBillService;
+
+
 
     @RequestMapping(value = "itemsInData",produces = "text/html;charset=utf-8")
     public @ResponseBody String itemsInData(HttpServletRequest request) {
@@ -59,9 +64,9 @@ public class ItemInController  {
     public String updateInBill(HttpServletRequest request){
         String inBillID = request.getParameter("inBillID");
         List<GoodsAndCategoryAndItemsIn> itemInList=itemInService.getItemsInList(inBillID);
-        Date reDate = new Date(System.currentTimeMillis());
-        String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
-        request.setAttribute("loadtime", ft);
+        InBill inBill = inBillService.findCheckMessageByID(inBillID);
+        String timeIn = inBill.getTimeIn();
+        request.setAttribute("loadtime", timeIn);
         request.setAttribute("itemInList",itemInList);
         return "updateInBill";
     }

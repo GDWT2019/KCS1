@@ -3,6 +3,7 @@ package com.kcs.rest.utils;
 import com.kcs.rest.dao.GoodsDao;
 import com.kcs.rest.dao.InBillDao;
 import com.kcs.rest.dao.ItemInDao;
+import com.kcs.rest.dao.SummaryDao;
 import com.kcs.rest.pojo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -26,6 +30,46 @@ public class test {
 
     @Autowired
     private ItemInDao itemInDao;
+
+    @Autowired
+    private SummaryDao summaryDao;
+
+    @Test
+    public void test14(){
+        List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summartyAllData();
+        System.out.println(summartAndGoodsAndCategories);
+    }
+
+
+    @Test
+    public void test13(){
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            String date="2019-12"+"-1";
+            Date parse = simpleDateFormat.parse(date);
+            System.out.println(parse);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String date="2019-12"+"-1";
+        Summary beforeMonth = summaryDao.findBeforeMonth(17, date);
+        System.out.println(beforeMonth);
+    }
+
+
+    @Test
+    public void test12(){
+
+        int inBillByItemsID = itemInDao.findInBillByItemsID(343);
+        System.out.println(inBillByItemsID);
+    }
+
+    @Test
+    public void test11(){
+        int summartAndGoodsAndCategories = summaryDao.summaryTotal("2019-11");
+        System.out.println(summartAndGoodsAndCategories);
+    }
 
     @Test
     public void test10(){

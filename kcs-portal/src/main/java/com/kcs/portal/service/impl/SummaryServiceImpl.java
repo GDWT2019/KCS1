@@ -2,11 +2,13 @@ package com.kcs.portal.service.impl;
 
 import com.kcs.portal.service.SummaryService;
 import com.kcs.rest.pojo.KcsResult;
+import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service("summaryService")
@@ -51,6 +53,94 @@ public class SummaryServiceImpl implements SummaryService {
                 return summary;
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> findAllTime() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllTime");
+            KcsResult result = KcsResult.formatToList(s, SummartAndGoodsAndCategory.class);
+            if (result.getStatus() == 200) {
+                List<SummartAndGoodsAndCategory> sgcList = (List<SummartAndGoodsAndCategory>) result.getData();
+                return sgcList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> summartyBillData(int before, int after, String time) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("before",before+ "");
+        param.put("after",after+ "");
+        param.put("time",time);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summartyBillData",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<SummartAndGoodsAndCategory>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int countSummary(String time) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryTotal"+time);
+            return Integer.parseInt(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> summartyAllData() {
+
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summartyAllData");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<SummartAndGoodsAndCategory>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int countAll() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryAllTotal");
+            return Integer.parseInt(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("before",before+ "");
+        param.put("after",after+ "");
+
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryAllCurrentdata",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<SummartAndGoodsAndCategory>) result.getData();
+            }
+        }catch (Exception e){
             e.printStackTrace();
         }
         return null;

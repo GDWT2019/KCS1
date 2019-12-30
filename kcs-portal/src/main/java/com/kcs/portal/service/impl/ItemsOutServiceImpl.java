@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service("itemsOutService")
 public class ItemsOutServiceImpl implements ItemsOutService {
+
     @Override
     public Integer insertItemsOut(ItemsOut itemsOut) {
         Integer i = 0;

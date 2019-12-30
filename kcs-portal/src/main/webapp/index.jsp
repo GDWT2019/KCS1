@@ -82,7 +82,18 @@
                         <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">汇总管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a data-url="${pageContext.request.contextPath }/summary/rSummary" data-id="summary" data-title="汇总" href="#" class="site-demo-active" data-type="tabAdd">汇总</a>
+                        </dd>
+                        <dd>
+                            <a data-url="${pageContext.request.contextPath }/summary/rCurrentBill" data-id="currentBill" data-title="流水单" href="#" class="site-demo-active" data-type="tabAdd">流水单</a>
+                        </dd>
+                        <dd><a href="">超链接</a></dd>
+                    </dl>
+                </li>
                 <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
