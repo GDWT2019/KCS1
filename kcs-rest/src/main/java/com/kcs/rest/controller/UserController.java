@@ -3,8 +3,10 @@ package com.kcs.rest.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
+import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.service.UserService;
 import com.kcs.rest.utils.AjaxMesg;
+import com.kcs.rest.utils.LogAnno;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,6 @@ public class UserController {
     @RequestMapping(value = "updatePass" ,method = RequestMethod.POST)
     @ResponseBody
     public  void updatePass(@RequestBody User user){
-        System.out.println("user:   "+user);
         userService.updatePass(user);
 
     }
@@ -36,7 +37,6 @@ public class UserController {
     @RequestMapping(value = "updateBase" ,method = RequestMethod.POST)
     @ResponseBody
     public  void updateBase(@RequestBody User user){
-        System.out.println("user:   "+user);
         userService.updateBase(user);
 
     }
@@ -45,7 +45,6 @@ public class UserController {
     @RequestMapping("/getUser{loginName}")
     @ResponseBody
     public  KcsResult getUser(@PathVariable String loginName){
-
         List<User> users = userService.findoneUser(loginName);
         return KcsResult.ok(users);
     }
@@ -102,4 +101,36 @@ public class UserController {
         return  KcsResult.ok(userById);
     }
 
+    //登录
+    @RequestMapping("/findByName{name}")
+    @ResponseBody
+    public KcsResult findByName(@PathVariable String name){
+        List<User> userList = userService.findByName(name);
+        return  KcsResult.ok(userList);
+    }
+
+    @RequestMapping("/addUser")
+    @ResponseBody
+    public KcsResult addUser(@RequestBody User user){
+        return KcsResult.ok(userService.addUser(user));
+    }
+
+    @RequestMapping("/delUserByUserID{userID}")
+    @ResponseBody
+    public KcsResult delUserByUserID(@PathVariable int userID){
+        return KcsResult.ok(userService.delUserByUserID(userID));
+    }
+
+    @RequestMapping("/findUserPresentById{id}")
+    @ResponseBody
+    public KcsResult findUserPresentById(@PathVariable int id){
+        UserPresent userPresent = userService.findUserPresentById(id);
+        return  KcsResult.ok(userPresent);
+    }
+
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public KcsResult updateUser(@RequestBody User user){
+        return KcsResult.ok(userService.updateUser(user));
+    }
 }

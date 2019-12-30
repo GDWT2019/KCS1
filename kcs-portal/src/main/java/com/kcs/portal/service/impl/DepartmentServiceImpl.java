@@ -30,4 +30,19 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return null;
     }
+
+    @Override
+    public Integer addDepartment(String departmentName) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/department/addDepartment"+departmentName);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

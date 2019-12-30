@@ -31,8 +31,7 @@
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img id="photo" src="http://localhost:8080/static/${user.photo}" class="layui-nav-img">
-                    <%--<img id="photo" src="C:\Users\gdwt00001\Desktop\photoes${user.photo}" class="layui-nav-img">--%>
-                    <span>${user.userName}</span>
+                   <span>${user.userName}</span>
                 </a>
 
                 <dl class="layui-nav-child">
@@ -49,14 +48,14 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree layui-inline"   lay-filter="demo" style="margin-right: 10px;">
-                <li class="layui-nav-item layui-nav-itemed">
+                <li class="layui-nav-item">
                     <a class="" href="javascript:;">业务管理</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="1" data-title="用户数据" href="#" class="site-demo-active" data-type="tabAdd">用户数据</a>
                         </dd>
                         <dd>
-                            <a href="#" data-url=${pageContext.request.contextPath}+"/test.jsp" data-title="角色数据"  data-id="2" class="site-demo-active" data-type="tabAdd">角色数据</a>
+                            <a href="#" data-url=${pageContext.request.contextPath}/role/showRoleData" data-title="角色数据"  data-id="2" class="site-demo-active" data-type="tabAdd">角色数据</a>
                         </dd>
                         <dd><a href="javascript:;">列表三</a></dd>
                         <dd><a href="">超链接</a></dd>
@@ -82,16 +81,11 @@
                         <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
+                <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath }/log/showAllLog" data-id="log" data-title="用户日志" class="site-demo-active" data-type="tabAdd">用户日志</a></li>
                 <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
     </div>
-
-    <%--<div class="layui-body">
-        <!-- 内容主体区域 -->
-        <iframe id="frame" sre="" style="width: 50%; height: 50%" ></iframe>
-    </div>--%>
 
     <div class="layui-tab" lay-filter="demo" lay-allowclose="true" style="margin-left: 200px;">
         <ul class="layui-tab-title">

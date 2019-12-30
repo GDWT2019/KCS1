@@ -15,16 +15,17 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">添加数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">修改数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addUserData">添加数据</button>
     </div>
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="lock">冻结</a>
 </script>
-
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+</script>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
@@ -40,48 +41,109 @@
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                ,{field:'userID', title:'ID', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
-                ,{field:'positionID', title:'职位ID', width:120, edit: 'text'}
-                ,{field:'departmentID', title:'部门ID', width:120, edit: 'text'}
-                ,{field:'loginName', title:'登录名', width:120, edit: 'text'}
-                ,{field:'sex', title:'性别', width:120, edit: 'text',templet:function (d) {
-                        if(d.sex==true) return '男'
-                        else if(d.sex ==false) return '女'
-                    }}
-                ,{field:'userName', title:'用户名', width:120, edit: 'text'}
-                ,{field:'password', title:'密码', width:120, edit: 'text'}
-                ,{field:'tel', title:'电话', width:120, edit: 'text'}
-                ,{field:'email', title:'邮箱', width:150, edit: 'text', templet: function(res){
+                ,{type:'numbers',title:'序号'}
+                ,{field:'positionID', title:'职位', width:80}
+                ,{field:'departmentID', title:'部门', width:80}
+                ,{field:'loginName', title:'登录名', width:80}
+                ,{field:'userName', title:'用户名', width:80}
+                ,{field:'tel', title:'电话', width:120}
+                ,{field:'email', title:'邮箱', width:150, templet: function(res){
                         return '<em>'+ res.email +'</em>'
                     }}
-                ,{field:'photo', title:'头像', width:120, edit: 'text'}
-                ,{field:'note', title:'备注', width:120, edit: 'text'}
-                ,{field:'warehouseMark', title:'仓管员标记', width:120, edit: 'text'}
-                ,{field:'listerMark', title:'制表人标记', width:120, edit: 'text'}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                ,{field:'warehouseMark', title:'仓管员', width:80}
+                ,{field:'listerMark', title:'制表人', width:80}
+                ,{fixed: '', title:'角色', toolbar: '#bar', width:80}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
-            ,page: false
-            /*,limit:10
-            ,limits:[10,20,30]*/
+            ,page: true
+            ,limit:10
+            ,limits:[10,20,30]
             ,id:'testUser'
         });
 
         //工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
-            switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
-                    break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选')
-                    break;
-            };
+            if(obj.event = 'addUserData'){
+                layer.open({
+                    type:2,
+                    title:"添加用户",
+                    content:'${pageContext.request.contextPath }/user/showAddUser',
+                    area:['1000px','668px'],
+                    moveOut:true,
+                    end:function () {
+                        location.reload();
+                    }
+                });
+            }
+        });
+
+        //监听行工具事件
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            //编辑
+            if(obj.event === 'edit'){
+                layer.open({
+                    type:2,
+                    title:"修改出库",
+                    content:'${pageContext.request.contextPath}/user/showUpdateUser?userID='+data.userID,
+                    area:['1200px','668px'],
+                    moveOut:true,
+                    end:function () {
+                        location.reload();
+                    }
+                });
+
+                //删除数据！！
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        url:"${pageContext.request.contextPath}/user/delUserByUserID",
+                        title:"删除用户",
+                        type:"post",
+                        data:{"userID":data.userID},
+                        dataType:"text",
+                        success:function (result) {
+                            var ajaxResult = JSON.parse(result);
+                            if (ajaxResult){
+                                layer.confirm(ajaxResult.mesg);
+                                obj.del();
+                            }else{
+                                layer.confirm(ajaxResult.mesg);
+                            }
+                            layer.close(index);
+                        },
+                        error:function () {
+                            layer.confirm("删除请求错误！");
+                            layer.close(index);
+                        }
+                    })
+                });
+
+                //冻结！
+            }else if (obj.event === 'lock'){
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID",
+                    type:"post",
+                    data:{"outBillID":data.outBillID},
+                    dataType:"text",
+                    success:function (result) {
+                        layer.open({
+                            type:1,
+                            content: result,
+                            title:false,
+                            area:['1200px','668px'],
+                            end:function () {
+                                location.reload();
+                            }
+                        })
+                    },
+                    error:function () {
+                        layer.confirm("审批请求错误");
+                        layer.close(index);
+                    }
+                })
+            }
         });
     });
 </script>

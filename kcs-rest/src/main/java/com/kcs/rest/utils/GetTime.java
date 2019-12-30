@@ -6,7 +6,7 @@ import java.util.Calendar;
 //返回系统当前的年份，月份，直接调用 如 GetTime.YEAR_MONTH,格式为 2019-12
 public class GetTime {
     static Calendar cal = Calendar.getInstance();
-    static SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    static SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static String YEAR_MONTH;
 

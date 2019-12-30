@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.LogDao" >
+
+    <insert id="insertLog" parameterType="com.kcs.rest.pojo.Log">
+        insert into Log (UserID, Time, Operation,Result)
+        values (#{UserID},#{Time},#{Operation},#{Result})
+    </insert>
+    <select id="findAllLog" resultType="com.kcs.rest.pojo.LogPresent" parameterType="java.lang.Integer">
+        select top(#{end}-#{begin}+1) [Log].LogID,[Log].UserID,[Log].Time,[Log].Operation,[Log].Result,[User].UserName,[User].LoginName
+        from [Log],[User]
+        where [Log].UserID = [User].UserID
+        and [Log].LogID not in(select top(#{begin}-1) LogID from [Log])
+    </select>
+
+    <select id="getLogCount" resultType="java.lang.Integer">
+        select count(*)
+        from Log where 1=1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  [Log].Time between #{time1} and #{time2}
+        </if>
+        <if test="userID != 0 and userID !='' ">
+            and [Log].UserID = #{userID}
+        </if>
+    </select>
+
+    <select id="findLogByTimeUserID" resultType="com.kcs.rest.pojo.LogPresent">
+      select top(#{end}-#{begin}+1) [Log].LogID,[Log].UserID,[Log].Time,[Log].Operation,[Log].Result,[User].UserName,[User].LoginName
+        from [Log],[User]
+        where [Log].UserID = [User].UserID
+        and [Log].LogID not in(select top(#{begin}-1) LogID from [Log])
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+           and [Log].Time between #{time1} and #{time2}
+        </if>
+        <if test="userID != 0 and userID !='' ">
+            and [Log].UserID = #{userID}
+        </if>
+    </select>
+</mapper>

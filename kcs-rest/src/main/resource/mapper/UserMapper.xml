@@ -37,6 +37,10 @@
         select *  from  [User]  where  LoginName = #{LoginName}
     </select>
 
+    <select id="findByName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >
+        select *  from  [User]  where  LoginName = #{name} or UserName= #{name}
+    </select>
+
     <select id="count" resultType="int">
         select count(*) from [User]
     </select>
@@ -51,5 +55,54 @@
 
     <update id="updatePass" parameterType="com.kcs.rest.pojo.User" >
          update [User] set Password = #{password} where LoginName =#{loginName}
+    </update>
+
+    <insert id="addUser" parameterType="com.kcs.rest.pojo.User">
+        insert into [User](PositionID,DepartmentID,LoginName,UserName,Password,Sex,Tel,Email,Photo,Note,WarehouseMark,ListerMark)
+        values (#{positionID},#{departmentID},#{loginName},#{userName},#{password},#{sex},#{tel},#{email},#{photo},#{note},#{warehouseMark},#{listerMark})
+    </insert>
+
+    <delete id="delUserByUserID" parameterType="java.lang.Integer">
+        delete from [User]
+        where UserID = #{userID}
+    </delete>
+
+    <select id="findUserPresentById" resultType="com.kcs.rest.pojo.UserPresent" parameterType="java.lang.Integer">
+        select [User].UserID
+          ,[User].PositionID
+          ,[Position].PositionName
+          ,[User].DepartmentID
+          ,[Department].DepartmentName
+          ,[User].LoginName
+          ,[User].UserName
+          ,[User].Password
+          ,[User].Sex
+          ,[User].Tel
+          ,[User].Email
+          ,[User].Photo
+          ,[User].Note
+          ,[User].WarehouseMark
+          ,[User].ListerMark from [User],[Position],[Department]
+            where [User].UserID = #{userID}
+            and [User].DepartmentID = [Department].DepartmentID
+            and [User].PositionID = [Position].PositionID
+    </select>
+
+    <update id="updateUser" parameterType="com.kcs.rest.pojo.User">
+        update [User]
+        <trim prefix="set" suffixOverrides=",">
+            <if test="PositionID != null">PositionID = #{PositionID},</if>
+            <if test="DepartmentID != null">DepartmentID = #{DepartmentID},</if>
+            <if test="UserName != null">UserName = #{UserName},</if>
+            <if test="Password != null">Password = #{Password},</if>
+            <if test="Sex != null">Sex = #{Sex},</if>
+            <if test="Tel != null">Tel = #{Tel},</if>
+            <if test="Email != null">Email = #{Email},</if>
+            <if test="Photo != null">Photo = #{Photo},</if>
+            <if test="Note != null">Note = #{Note},</if>
+            <if test="WarehouseMark != null">WarehouseMark = #{WarehouseMark},</if>
+            <if test="ListerMark != null">ListerMark = #{ListerMark},</if>
+        </trim>
+        where UserID =#{UserID}
     </update>
 </mapper>

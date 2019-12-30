@@ -4,6 +4,12 @@
 
     <select id="findAllPosition" resultType="com.kcs.rest.pojo.Position">
         select * from Position
+        order by PositionID desc
     </select>
+
+    <insert id="addPosition" parameterType="java.lang.String">
+        insert into Position(PositionName)
+        values (#{positionName})
+    </insert>
 
 </mapper>

@@ -6,6 +6,12 @@
     <select id="findAllDepartment" resultType="com.kcs.rest.pojo.Department">
         select *
         from [Department]
+        order by DepartmentID desc
     </select>
+
+    <insert id="addDepartment" parameterType="java.lang.String">
+        insert into Department (DepartmentName)
+        values (#{departmentName})
+    </insert>
 
 </mapper>

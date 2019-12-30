@@ -2,14 +2,19 @@ package com.kcs.portal.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcs.portal.service.UserService;
+import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
+import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.utils.AjaxMesg;
+import com.kcs.rest.utils.LogAnno;
 import net.sf.json.JSONArray;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,7 +50,6 @@ public class UserController {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        System.out.println(user);
         userService.updatePass(user);
 
     }
@@ -64,7 +68,6 @@ public class UserController {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-        System.out.println(user);
         userService.updateBase(user);
 
     }
@@ -88,11 +91,10 @@ public class UserController {
                 String uuid = UUID.randomUUID()+"";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 // dateStr = simpleDateFormat.format(date);
-                String filepath = "E:\\photoes\\" +uuid+"." + prefix;
+                String filepath = "img/" +uuid+"." + prefix;
 
                 File files=new File(filepath);
-                //打印查看上传路径
-                System.out.println(filepath);
+
                 if(!files.getParentFile().exists()){
                     files.getParentFile().mkdirs();
                 }
@@ -105,7 +107,6 @@ public class UserController {
 //                map2.put("src","/photoes/"+ dateStr+"/"+uuid+"." + prefix);
                 map2.put("src",uuid+"." + prefix);
 //                map2.put("src","../../../static" + dateStr +uuid+ "." + prefix);
-                System.out.println(map);
                 return map;
             }
 
@@ -134,7 +135,6 @@ public class UserController {
         List<User> list=userService.findoneUser(loginName);
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
-        System.out.println(js);
         return js;
     }
 
@@ -156,7 +156,6 @@ public class UserController {
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
-        System.out.println(jso);
         return jso;
     }
 
@@ -249,8 +248,61 @@ public class UserController {
         String userID = request.getParameter("userID");
         int userid = Integer.parseInt(userID);
         User user = userService.findUserById(userid);
-        System.out.println("User :"+ user);
         return user;
     }
 
+    //返回新增用户页面
+    @RequestMapping("/showAddUser")
+    public String showAddUser(){
+        return "addUser";
+    }
+
+    //判断是否存在该用户
+    @RequestMapping("/loginNameExist")
+    @ResponseBody
+    public AjaxMesg loginNameExist(String loginName){
+        User user = userService.findByLoginName(loginName);
+        if (user==null){
+            return new AjaxMesg(true,"该登录名可以使用！");
+        }
+        return new AjaxMesg(false,user.getLoginName());
+    }
+
+    //新增用户
+    @RequestMapping("/addUser")
+    @ResponseBody
+    public AjaxMesg addUser(User user){
+        Integer integer = userService.addUser(user);
+        if (integer<0)
+            return new AjaxMesg(false,"新增用户失败！");
+        return new AjaxMesg(true,"新增用户成功!");
+    }
+
+    //删除用户
+    @RequestMapping("/delUserByUserID")
+    @ResponseBody
+    public AjaxMesg delUserByUserID(int userID){
+        Integer integer = userService.delUserByUserID(userID);
+        if (integer<0)
+            return new AjaxMesg(false,"删除失败！");
+        return new AjaxMesg(true,"删除成功！");
+    }
+
+    //跳转更新用户信息页面
+    @RequestMapping(value = "/showUpdateUser",method= RequestMethod.GET)
+    public String showUpdateUser(HttpServletRequest request,Model model){
+        int userID = Integer.valueOf(request.getParameter("userID"));
+        UserPresent user = userService.findUserPresentById(userID);
+        model.addAttribute("user",user);
+        return "updateUser";
+    }
+
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public AjaxMesg updateUser(User user){
+        Integer i = userService.updateUser(user);
+        if (i<0)
+            return new AjaxMesg(false,"更新失败！");
+        return new AjaxMesg(true,"更新成功");
+    }
 }

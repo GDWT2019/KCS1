@@ -11,4 +11,5 @@ public interface PositionService {
 
     List<Position> findAllPosition();
 
+    Integer addPosition(String positionName);
 }

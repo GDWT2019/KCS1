@@ -57,9 +57,10 @@ public class OutBillController {
         int end = page * limit;
 
         List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end);
+        Integer count = outBillService.outBillPresentCount();
         JSONArray json = JSONArray.fromObject(allOutBillPresent);
         String js=json.toString();
-        String outBillJson = "{\"code\":0,\"msg\":\"\",\"count\":"+allOutBillPresent.size()+",\"data\":"+js+"}";
+        String outBillJson = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
         return outBillJson;
     }
 
@@ -111,7 +112,6 @@ public class OutBillController {
     public Summary findSummaryByItemsNameAndItemsType(Goods g) {
 
         Goods goods = goodsService.findGoodsByItemsNameAndItemsType(g);     //根据品名和规格查找物品
-
 
         //根据物品id，在在所有最新物品的记录中查找该物品对应的汇总
         Summary thisSummary = summaryService.findSummaryInTheLastGoodsDataByGoodsID(goods.getGoodsID());
@@ -171,7 +171,7 @@ public class OutBillController {
     }
 
     @RequestMapping(value = "/showUpdateOutBill",method= RequestMethod.GET)
-    public String showUpdateOutBill(HttpServletRequest request, HttpServletResponse response, Model model){
+    public String showUpdateOutBill(HttpServletRequest request, Model model){
         int outBillID =Integer.valueOf(request.getParameter("outBillID"));
         List<OutBillPresent> outBillPresentList = outBillService.findOutBillPresentByOutBillID(outBillID);
 
@@ -205,7 +205,7 @@ public class OutBillController {
     }
 
     @RequestMapping("/checkOutBill")
-    public String checkInBill(HttpServletRequest request){
+    public String checkInBill(){
         return "checkOutBill";
     }
 

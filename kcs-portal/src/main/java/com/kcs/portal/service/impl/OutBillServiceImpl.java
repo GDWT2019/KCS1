@@ -77,6 +77,21 @@ public class OutBillServiceImpl implements OutBillService {
     }
 
     @Override
+    public Integer outBillPresentCount() {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/outBillPresentCount");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                Integer count = (Integer) result.getData();
+                return count;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public Integer insertOutBill(OutBill outBill) {
         Integer i = 0;
         try {

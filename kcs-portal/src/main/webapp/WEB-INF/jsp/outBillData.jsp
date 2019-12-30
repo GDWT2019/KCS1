@@ -14,13 +14,37 @@
 <body>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 <script type="text/html" id="toolbarDemo">
-	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" id="addOutBillBtn">添加出库</button>
+	<div class="layui-form">
+		<div class="layui-form-item">
+			<div class="layui-inline">
+				<button class="layui-btn layui-btn-sm" id="addOutBillBtn">添加出库</button>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width: 100px">时间范围：</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="test10" placeholder="请选择时间段">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<label class="layui-form-label" style="width: 100px">物品名：</label>
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input"  placeholder="请输入物品名">
+				</div>
+			</div>
+
+			<div class="layui-inline">
+				<div class="layui-input-inline">
+					<input type="button" class="layui-btn"  value="搜索">
+				</div>
+			</div>
+		</div>
 	</div>
 </script>
 <script type="text/html" id="toolRight">
-	<button class="layui-btn layui-btn-xs" lay-event="check">修改</button>
-	<a class="layui-btn layui-btn-xs" lay-event="edit">查看</a>
+	<button class="layui-btn layui-btn-xs" lay-event="check">审核</button>
+	<a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -57,8 +81,8 @@
 				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
 			]]
 			,page: true
-			,limit:15
-			,limits:[15,20,30,50]
+			,limit:10
+			,limits:[5,10,20,30,50]
 			,id:'testUser'
 		});
 

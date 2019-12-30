@@ -30,4 +30,19 @@ public class PositionServiceImpl implements PositionService {
         }
         return null;
     }
+
+    @Override
+    public Integer addPosition(String positionName) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/position/addPosition"+positionName);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

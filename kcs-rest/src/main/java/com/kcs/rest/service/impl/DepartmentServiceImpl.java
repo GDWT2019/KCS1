@@ -7,6 +7,7 @@ import com.kcs.rest.dao.DepartmentDao;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.Position;
 import com.kcs.rest.service.DepartmentService;
+import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> findAllDepartment() {
         return departmentDao.findAllDepartment();
+    }
+
+    @LogAnno(operateType ="新增部门" )
+    @Override
+    public Integer addDepartment(String departmentName) {
+        return departmentDao.addDepartment(departmentName);
     }
 }

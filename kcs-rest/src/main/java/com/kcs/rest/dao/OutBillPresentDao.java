@@ -11,4 +11,7 @@ public interface OutBillPresentDao {
 
     //根据outBillID查找,
     List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID);
+
+    //查找总数
+    Integer outBillPresentCount();
 }

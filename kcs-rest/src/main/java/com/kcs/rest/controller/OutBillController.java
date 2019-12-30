@@ -83,6 +83,16 @@ public class OutBillController {
             return KcsResult.build(500, "未找到出库任何数据");
     }
 
+    @RequestMapping(value="/outBillPresentCount")
+    @ResponseBody
+    public KcsResult outBillPresentCount(){
+        Integer count = outBillPresentService.outBillPresentCount();
+        if (count != null) {
+            return KcsResult.ok(count);
+        } else
+            return KcsResult.build(500, "未找到出库任何数据");
+    }
+
     @RequestMapping("/insertOutBill")
     @ResponseBody
     public KcsResult updatePass(@RequestBody OutBill outBill) {

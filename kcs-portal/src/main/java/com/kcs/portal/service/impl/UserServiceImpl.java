@@ -3,6 +3,7 @@ package com.kcs.portal.service.impl;
 import com.kcs.portal.service.UserService;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
+import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import net.sf.json.JSONArray;
@@ -101,7 +102,6 @@ public class UserServiceImpl implements UserService {
 //            String strUser = jsonUser.toString();
 
             HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/updateBase", JsonUtils.objectToJson(user));
-            System.out.println("jsonutils:  "+ JsonUtils.objectToJson(user));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -111,7 +111,6 @@ public class UserServiceImpl implements UserService {
     public void updatePass(User user) {
         try {
             HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/updatePass", JsonUtils.objectToJson(user));
-            System.out.println("jsonutils:  "+ JsonUtils.objectToJson(user));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -149,4 +148,74 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public List<User> findByName(String name) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findByName"+ name);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<User>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer addUser(User user) {
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/addUser", JsonUtils.objectToJson(user));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer delUserByUserID(int userID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/delUserByUserID"+userID);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public UserPresent findUserPresentById(int id) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findUserPresentById"+id);
+            KcsResult result = KcsResult.formatToPojo(s,UserPresent.class);
+            if (result.getStatus() == 200) {
+                UserPresent userPresent = (UserPresent) result.getData();
+                return userPresent;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer updateUser(User user) {
+        try {
+            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/updateUser", JsonUtils.objectToJson(user));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

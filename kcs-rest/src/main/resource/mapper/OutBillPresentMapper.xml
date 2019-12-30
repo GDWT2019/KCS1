@@ -14,6 +14,16 @@
         where ItemsOutID not in(select top(#{begin}-1) ItemsOutID from ItemsOut))
         order by [OutBill].OutBillID asc
     </select>
+    <select id="outBillPresentCount" resultType="java.lang.Integer">
+        select count(*)
+        from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
+        where [ItemsOut].OutBillID=[OutBill].OutBillID
+        and [ItemsOut].GoodsID=[Goods].GoodsID
+        and [ItemsOut].DepartmentID=[Department].DepartmentID
+        and	[Goods].CategoryID=[Category].CategoryID
+        and [Goods].GoodsID=[Summary].GoodsID
+        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
+    </select>
     <select id="findOutBillPresentByOutBillID" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="java.lang.Integer">
         select *
         from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]

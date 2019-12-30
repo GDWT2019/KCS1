@@ -7,4 +7,6 @@ import java.util.List;
 public interface OutBillPresentService {
     List<OutBillPresent> findAllOutBillPresent(int begin, int end);
     List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID);
+    //查找总数
+    Integer outBillPresentCount();
 }

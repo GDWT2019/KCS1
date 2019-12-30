@@ -9,6 +9,7 @@ public interface OutBillService {
     List<Summary> getAllSummary();
     List<Department> getAllDepartment();
     List<OutBillPresent> getAllOutBillPresent(int begin,int end);
+    Integer outBillPresentCount();
     Integer insertOutBill(OutBill outBill);
     //根据outBillID查找
     List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID);

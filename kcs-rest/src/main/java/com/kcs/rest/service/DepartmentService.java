@@ -11,4 +11,7 @@ import java.util.List;
 public interface DepartmentService {
     //查找部门表所有记录
     List<Department> findAllDepartment();
+
+    //新增部门
+    Integer addDepartment(String departmentName);
 }

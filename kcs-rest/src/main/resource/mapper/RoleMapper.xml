@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.RoleDao" >
+
+    <insert id="addRole" parameterType="com.kcs.rest.pojo.Role">
+        insert into Role (RoleID, RoleName)
+        values (#{roleID},#{roleName})
+    </insert>
+
+    <select id="findAllRole" resultType="com.kcs.rest.pojo.Role" parameterType="java.lang.Integer">
+        select top(#{end}-#{begin}+1) *
+        from [Role]
+        where RoleID not in(select top(#{begin}-1) RoleID from [Role])
+    </select>
+
+    <select id="getRoleCount" resultType="java.lang.Integer">
+        select count(*)
+        from [Role] where 1=1
+        <if test="roleName != null and roleName !='' ">
+            and RoleName = #{roleName}
+        </if>
+    </select>
+
+    <select id="findRoleByRoleName" resultType="com.kcs.rest.pojo.Role">
+      select top(#{end}-#{begin}+1) *
+      from [Log]
+        where RoleID not in(select top(#{begin}-1) RoleID from [Role])
+        <if test="roleName != null and roleName !='' ">
+            and RoleName = #{roleName}
+        </if>
+    </select>
+
+    <update id="updateRole" parameterType="com.kcs.rest.pojo.Role">
+        update Role
+        set RoleName = #{roleName}
+        where RoleID = #{RoleID}
+    </update>
+
+    <delete id="delRole" parameterType="java.lang.Integer">
+        delete * from Role
+        where RoleID = #{roleID}
+    </delete>
+</mapper>

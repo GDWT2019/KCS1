@@ -7,6 +7,7 @@ import com.kcs.rest.pojo.OutBillPresent;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.service.OutBillPresentService;
 import com.kcs.rest.service.UserService;
+import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
     @Autowired
     private UserDao userDao;
 
+    @LogAnno(operateType = "查看出库明细")
     @Override
     public List<OutBillPresent> findAllOutBillPresent(int begin,int end) {
         List<User> userList = userDao.findAllUser();
@@ -32,6 +34,11 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
         List<User> userList = userDao.findAllUser();
         List<OutBillPresent> allOutBillPresent = outBillPresentDao.findOutBillPresentByOutBillID(outBillID);
         return updatePerson(userList,allOutBillPresent);
+    }
+
+    @Override
+    public Integer outBillPresentCount() {
+        return outBillPresentDao.outBillPresentCount();
     }
 
     public List<OutBillPresent> updatePerson(List<User> userList,List<OutBillPresent> outBillPresentList){

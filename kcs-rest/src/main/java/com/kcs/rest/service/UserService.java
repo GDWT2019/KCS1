@@ -2,6 +2,7 @@ package com.kcs.rest.service;
 
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
+import com.kcs.rest.pojo.UserPresent;
 
 import java.util.List;
 
@@ -25,4 +26,14 @@ public interface UserService {
     List<User> findAllWarehouse();
 
     List<User> AllUser();
+
+    List<User> findByName(String name);
+
+    Integer addUser(User user);
+
+    Integer delUserByUserID(int userID);
+
+    UserPresent findUserPresentById(int id);
+
+    Integer updateUser(User user);
 }

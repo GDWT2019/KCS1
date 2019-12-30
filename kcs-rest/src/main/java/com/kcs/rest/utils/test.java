@@ -85,8 +85,11 @@ public class test {
     }
     @Test
     public void test4(){
-        List<InBill> inBill = itemInDao.valueIDandTime(150);
-        System.out.println(inBill);
+        System.out.println(GetTime.getTime());
+        System.out.println(GetTime.getTime());
+        System.out.println(GetTime.getTime());
+        System.out.println(GetTime.getTime());
+        System.out.println(Integer.parseInt(null));
     }
 
     @Test

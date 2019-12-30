@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PositionDao {
     List<Position> findAllPosition();
+
+    Integer addPosition(String positionName);
 }

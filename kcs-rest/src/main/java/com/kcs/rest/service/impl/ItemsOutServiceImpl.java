@@ -9,6 +9,7 @@ import com.kcs.rest.pojo.ItemsOut;
 import com.kcs.rest.pojo.OutBill;
 import com.kcs.rest.pojo.Summary;
 import com.kcs.rest.service.ItemsOutService;
+import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
     @Autowired
     private ItemInDao itemInDao;
 
+    @LogAnno(operateType = "新增出库物品")
     @Override
     public int insertItemsOut(ItemsOut itemsOut) {
         //更新出库物品仓库位置
@@ -62,6 +64,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
      * @param itemsOutID
      * @return
      */
+    @LogAnno(operateType = "删除出库物品")
     @Override
     public Integer delItemsOutByID(int itemsOutID) {
 
@@ -114,6 +117,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         return itemsOutDao.findItemsOutByOutBillID(outBillID);
     }
 
+    @LogAnno(operateType = "更新出库物品")
     @Override
     public Integer updateItemsOut(ItemsOut itemsOutNew) {
         //查找原来的数据
