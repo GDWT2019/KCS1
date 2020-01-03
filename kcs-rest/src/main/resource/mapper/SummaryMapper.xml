@@ -101,14 +101,30 @@ left join Category as c on b.CategoryID=c.CategoryID where a.Time = #{Time}
 select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getdate() ) as id , * from (
         select c.CategoryName,b.ItemsName,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
     left join Goods as b on a.GoodsID=b.GoodsID
-    left join Category as c on b.CategoryID=c.CategoryID
+    left join Category as c on b.CategoryID=c.CategoryID  where 1 = 1
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
+
         )as show)as show1
         where id not in (
             select top (#{front}-1) id from (
             select Row_Number() over ( order by getdate() ) as id , * from ( select c.CategoryName,b.ItemsName,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
     left join Goods as b on a.GoodsID=b.GoodsID
-    left join Category as c on b.CategoryID=c.CategoryID
+    left join Category as c on b.CategoryID=c.CategoryID where 1 = 1
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
         )as show) as show1) order by Time asc
+    </select>
+
+    <select id="countReload" resultType="int" parameterType="String">
+        select COUNT(*) from Summary as a
+        left join Goods as b on a.GoodsID=b.GoodsID
+        left join Category as c on b.CategoryID=c.CategoryID where 1 = 1
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
     </select>
 
     <select id="summaryAllTotal" resultType="int">

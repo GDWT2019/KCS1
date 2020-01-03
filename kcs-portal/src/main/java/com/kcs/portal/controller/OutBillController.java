@@ -39,6 +39,35 @@ public class OutBillController {
     @Autowired
     private CategoryService categoryService;
 
+    //跳转物品出库记录
+    @RequestMapping("/rItemOutRecord")
+    public String RItemOutRecord(HttpServletRequest request){
+
+        return "ItemOutRecord";
+    }
+
+    //获取出库记录数据
+    @RequestMapping(value="ItemOutRecord",produces="text/html;charset=utf-8")
+    public @ResponseBody
+    String ItemOutRecord(HttpServletRequest request){
+        int page = Integer.parseInt(request.getParameter("page"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+        int goodsID = Integer.parseInt(request.getParameter("goodsID"));
+
+
+        int before=limit*(page-1)+1;
+        int after = page * limit;
+
+        List<OutBillPresent> list=outBillService.ItemOutRecord(before,after,goodsID);
+        int count =outBillService.CountItemOutRecord(goodsID);
+
+        JSONArray json = JSONArray.fromObject(list);
+        String js=json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        System.out.println(jso);
+        return jso;
+    }
+
     //跳转到outBillData页面
     @RequestMapping("/showAllOutBill")
     public String showAllOutBill(){

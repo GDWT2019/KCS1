@@ -1,9 +1,6 @@
 package com.kcs.rest.utils;
 
-import com.kcs.rest.dao.GoodsDao;
-import com.kcs.rest.dao.InBillDao;
-import com.kcs.rest.dao.ItemInDao;
-import com.kcs.rest.dao.SummaryDao;
+import com.kcs.rest.dao.*;
 import com.kcs.rest.pojo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
@@ -33,6 +30,31 @@ public class test {
 
     @Autowired
     private SummaryDao summaryDao;
+
+    @Autowired
+    private OutBillDao outBillDao;
+
+    @Test
+    public void test19(){
+
+        int re = summaryDao.countReload("re");
+        System.out.println(re);
+
+      /*  List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summaryAllCurrentdata(1, 5, "re");
+        for (SummartAndGoodsAndCategory summartAndGoodsAndCategory : summartAndGoodsAndCategories) {
+            System.out.println(summartAndGoodsAndCategory);
+        }*/
+    }
+
+    @Test
+    public void test18(){
+
+        List<OutBillPresent> outBillPresents = outBillDao.ItemOutRecord(1, 5, 9);
+        for (OutBillPresent outBillPresent : outBillPresents) {
+
+            System.out.println(outBillPresent);
+        }
+    }
 
     @Test
     public void test17(){

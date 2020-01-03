@@ -177,4 +177,36 @@ public class OutBillServiceImpl implements OutBillService {
         return i;
     }
 
+    @Override
+    public List<OutBillPresent> ItemOutRecord(int before, int after, int goodsID) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("before",before+ "");
+        param.put("after",after+ "");
+        param.put("goodsID",goodsID+ "");
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/ItemOutRecord",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<OutBillPresent>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int CountItemOutRecord(int goodsID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/CountItemOutRecord"+goodsID);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }

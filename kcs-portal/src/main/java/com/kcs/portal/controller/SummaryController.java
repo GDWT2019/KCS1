@@ -87,14 +87,14 @@ public class SummaryController {
         String summaryAllCurrentdata(HttpServletRequest request){
             int page = Integer.parseInt(request.getParameter("page"));
             int limit = Integer.parseInt(request.getParameter("limit"));
-            String time = request.getParameter("time");
-            System.out.println("time"+time);
+            String itemName = request.getParameter("itemName");
+
 
             int before=limit*(page-1)+1;
             int after = page * limit;
 
-            List<SummartAndGoodsAndCategory> list=summaryService.summaryAllCurrentdata(before,after);
-            int count =summaryService.countAll();
+            List<SummartAndGoodsAndCategory> list=summaryService.summaryAllCurrentdata(before,after,itemName);
+            int count =summaryService.countReload(itemName);
 
             JSONArray json = JSONArray.fromObject(list);
             String js=json.toString();

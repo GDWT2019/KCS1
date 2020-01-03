@@ -25,5 +25,9 @@ public interface SummaryService {
 
     int countAll();
 
-    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after);
+    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String itemName);
+
+    int countReload(String itemName);
+
+
 }

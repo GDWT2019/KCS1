@@ -24,6 +24,28 @@ public class OutBillController {
     @Autowired
     private OutBillService outBillService;
 
+    //获取出库记录分页显示数据
+    @RequestMapping(value="ItemOutRecord",method=RequestMethod.GET)
+    @ResponseBody
+    public KcsResult ItemOutRecord(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("goodsID")String goodsID){
+
+        int front = Integer.parseInt(before);
+        int back = Integer.parseInt(after);
+        int id = Integer.parseInt(goodsID);
+
+        List<OutBillPresent> allInBill = outBillService.ItemOutRecord(front,back,id);
+
+        return KcsResult.ok(allInBill);
+    }
+
+    //出库记录数量
+    @RequestMapping("/CountItemOutRecord{goodsid}")
+    @ResponseBody
+    public  KcsResult CountItemOutRecord(@PathVariable int goodsid){
+        int count = outBillService.CountItemOutRecord(goodsid);
+        return KcsResult.ok(count);
+    }
+
     @RequestMapping("/getGoodsById{GoodsID}")
     @ResponseBody
     public KcsResult getGoodsById(@PathVariable int GoodsID) {

@@ -99,15 +99,24 @@ public class SummaryController {
     //获取分页显示数据
     @RequestMapping(value="summaryAllCurrentdata",method= RequestMethod.GET)
     @ResponseBody
-    public KcsResult summaryAllCurrentdata(@RequestParam("before")String before,@RequestParam("after")String after){
+    public KcsResult summaryAllCurrentdata(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("itemName")String itemName){
 
         int front = Integer.parseInt(before);
         int back = Integer.parseInt(after);
 
-        List<SummartAndGoodsAndCategory> summaryAllCurrentdata = summaryService.summaryAllCurrentdata(front,back);
+        List<SummartAndGoodsAndCategory> summaryAllCurrentdata = summaryService.summaryAllCurrentdata(front,back,itemName);
         System.out.println("summaryAllCurrentdata="+summaryAllCurrentdata);
 
         return KcsResult.ok(summaryAllCurrentdata);
+    }
+
+
+    //重载后数据的数量
+    @RequestMapping(value="countReload{itemName}")
+    @ResponseBody
+    public int countReload(@PathVariable String itemName){
+        int countReload = summaryService.countReload(itemName);
+        return countReload;
     }
 }
 
