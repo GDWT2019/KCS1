@@ -8,8 +8,8 @@ public interface OutBillService {
     List<Goods> getAllGoodsInSummaryGoodsId();
     List<Summary> getAllSummary();
     List<Department> getAllDepartment();
-    List<OutBillPresent> getAllOutBillPresent(int begin,int end);
-    Integer outBillPresentCount();
+    List<OutBillPresent> getAllOutBillPresent(int begin, int end,String time1,String time2,String itemName);
+    Integer outBillPresentCount(String time1, String time2, String itemName);
     Integer insertOutBill(OutBill outBill);
     //根据outBillID查找
     List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID);

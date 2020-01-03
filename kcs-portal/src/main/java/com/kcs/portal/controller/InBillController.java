@@ -30,7 +30,19 @@ public class InBillController {
     @Autowired
     private InBillService inBillService;
 
+    //跳转物品入库记录
+    @RequestMapping("/rItemInRecord")
+    public String RItemInRecord(HttpServletRequest request){
 
+        return "ItemInRecord";
+    }
+
+    //跳转物品出库记录
+    @RequestMapping("/rItemOutRecord")
+    public String RItemOutRecord(HttpServletRequest request){
+
+        return "ItemOutRecord";
+    }
 
     @RequestMapping("/addInBill")
     public String AddInBill(HttpServletRequest request){
@@ -81,13 +93,38 @@ public class InBillController {
     String InBillData(HttpServletRequest request){
         int page = Integer.parseInt(request.getParameter("page"));
         int limit = Integer.parseInt(request.getParameter("limit"));
+        String time1 = request.getParameter("time1");
+        String time2 = request.getParameter("time2");
+        String itemName = request.getParameter("itemName");
 
         int before=limit*(page-1)+1;
         int after = page * limit;
 
-        List<inBillShow> list=inBillService.PageInBillShow(before,after);
-        int count =inBillService.countShow();
+        List<inBillShow> list=inBillService.PageInBillShow(before,after,time1,time2,itemName);
+        int count =inBillService.countReload(time1,time2,itemName);
         request.getSession().setAttribute("count",count);
+
+        JSONArray json = JSONArray.fromObject(list);
+        String js=json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        System.out.println(jso);
+        return jso;
+    }
+
+    //获取入库单数据数据
+    @RequestMapping(value="ItemInRecord",produces="text/html;charset=utf-8")
+    public @ResponseBody
+    String ItemInRecord(HttpServletRequest request){
+        int page = Integer.parseInt(request.getParameter("page"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+        int goodsID = Integer.parseInt(request.getParameter("goodsID"));
+
+
+        int before=limit*(page-1)+1;
+        int after = page * limit;
+
+        List<inBillShow> list=inBillService.ItemInRecord(page,limit,goodsID);
+        int count =inBillService.CountItemInRecord(goodsID);
 
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();

@@ -56,11 +56,21 @@ public class OutBillController {
         int begin=limit*(page-1)+1;
         int end = page * limit;
 
-        List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end);
-        Integer count = outBillService.outBillPresentCount();
+        String time1 = request.getParameter("time1");
+        String time2 = request.getParameter("time2");
+        String itemName = request.getParameter("itemName");
+
+        List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName);
+        Integer count = outBillService.outBillPresentCount(time1,time2,itemName);
+
         JSONArray json = JSONArray.fromObject(allOutBillPresent);
         String js=json.toString();
+        if (allOutBillPresent==null){
+            count = 0;
+            js="[]";
+        }
         String outBillJson = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        System.out.println(outBillJson);
         return outBillJson;
     }
 

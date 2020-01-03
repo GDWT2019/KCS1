@@ -23,20 +23,20 @@
 			<div class="layui-inline">
 				<label class="layui-form-label" style="width: 100px">时间范围：</label>
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="test10" placeholder="请选择时间段">
+					<input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
 				</div>
 			</div>
 
 			<div class="layui-inline">
 				<label class="layui-form-label" style="width: 100px">物品名：</label>
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input"  placeholder="请输入物品名">
+					<input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
 				</div>
 			</div>
 
 			<div class="layui-inline">
 				<div class="layui-input-inline">
-					<input type="button" class="layui-btn"  value="搜索">
+					<input type="button" class="layui-btn" id="search" value="搜索">
 				</div>
 			</div>
 		</div>
@@ -80,11 +80,48 @@
 				,{field:'checkerName', title:'审批人', width:120}
 				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
 			]]
+			,where: {"time1":null,"time2":null,"itemName":null}
 			,page: true
 			,limit:10
 			,limits:[5,10,20,30,50]
 			,id:'testUser'
 		});
+
+		$('body').on('click',"#search",function () {
+			// 搜索条件
+			var time1 = null;
+			var time2 = null;
+			var itemName = null;
+			var timeRange = $('#timeRange').val();
+			if (($("#itemName").val()) != null && ($("#itemName").val()) != "") {
+				itemName = $("#itemName").val();
+			}
+			if (timeRange != null && timeRange != "") {
+				time1 = timeRange.substring(0, 10);
+				time2 = timeRange.substring(13, 23);
+			}
+			console.log(time1 + " " + time2 + " " + itemName)
+			table.reload('testUser', {
+				method: 'post'
+				, where: {
+					"time1": time1,
+					"time2": time2,
+					"itemName": itemName,
+				}
+				, page: {
+					curr: 1
+				}
+			});
+			layui.use('laydate', function() {
+				var laydate = layui.laydate;
+				//日期范围
+				laydate.render({
+					elem: '#timeRange'
+					, range: true
+				});
+			});
+		});
+
 
 		//工具栏事件
 		table.on('toolbar(test)', function(obj){
@@ -190,7 +227,7 @@
 		var laydate = layui.laydate;
 		//日期范围
 		laydate.render({
-			elem: '#test6'
+			elem: '#timeRange'
 			, range: true
 		});
 	});
