@@ -247,7 +247,7 @@
                         , page: {
                             curr: 1
                         }
-                    })
+                    });
                     reloadLaydate();
                 }
             });
@@ -262,23 +262,24 @@
             var value = obj.value;
             if(layEvent === 'inBill'){ //该物品的入库记录
                 window.goodsID=data.goodsID;
-                layer.open({
+                var index=layer.open({
                     type:2,
-                    title:false,
+                    title:['入库记录', 'font-size:18px;text-align: center;'],
                     content:'${pageContext.request.contextPath }/inBill/rItemInRecord',
-                    area:['1200px','500px'],
+                    area:['1200px','50%'],
                     end:function () {
                         location.reload();
                     }
                 });
+                // layer.full(index);
             } else if(layEvent === 'outBill'){ //该物品的出库记录
                 // layer.alert(data.inBillID);
-                window.InBillID=data.inBillID;
+                window.goodsID=data.goodsID;
                 layer.open({
                     type:2,
-                    title:false,
-                    content:'${pageContext.request.contextPath }/inBill/rItemOutRecord',
-                    area:['1200px','500px'],
+                    title:['出库记录', 'font-size:18px;text-align: center;'],
+                    content:'${pageContext.request.contextPath }/outBill/rItemOutRecord',
+                    area:['1200px','50%'],
                     end:function () {
                         location.reload();
                     }

@@ -20,4 +20,9 @@ public interface OutBillService {
 
     //更新出库单信息，若字段未null，这不更新该字段
     Integer updateOutBill(OutBill outBill);
+
+    List<OutBillPresent> ItemOutRecord(int before, int after, int goodsID);
+
+    int CountItemOutRecord(int goodsID);
+
 }

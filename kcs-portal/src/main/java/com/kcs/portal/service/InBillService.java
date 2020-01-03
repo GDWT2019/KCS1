@@ -31,4 +31,6 @@ public interface InBillService {
     List<inBillShow> ItemInRecord(int before, int after,int goodsID);
 
     int CountItemInRecord(int goodsID);
+
+
 }

@@ -112,7 +112,7 @@ public class InBillController {
         return KcsResult.ok(count);
     }
 
-    //获取入库分页显示数据
+    //获取入库记录分页显示数据
     @RequestMapping(value="ItemInRecord",method=RequestMethod.GET)
     @ResponseBody
     public KcsResult ItemInRecord(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("goodsID")String goodsID){
@@ -126,7 +126,7 @@ public class InBillController {
         return KcsResult.ok(allInBill);
     }
 
-    //入库显示的数据
+    //入库记录数量
     @RequestMapping("/CountItemInRecord{goodsid}")
     @ResponseBody
     public  KcsResult CountItemInRecord(@PathVariable int goodsid){

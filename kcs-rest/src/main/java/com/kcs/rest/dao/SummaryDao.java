@@ -47,5 +47,8 @@ public interface SummaryDao {
 
     int summaryAllTotal();
 
-    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(@Param("front")int before, @Param("back")int after);
+    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(@Param("front")int before, @Param("back")int after,@Param("itemName")String itemName);
+
+    int countReload(@Param("itemName")String itemName);
+
 }

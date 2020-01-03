@@ -40,7 +40,6 @@
                 ,{field:'itemNum', title:'入库数量', width:110,edit:'text'}
                 ,{field:'itemPrice', title:'入库单价', width:110,edit:'text'}
                 ,{field:'itemTotal', title:'合计', width:110}
-                ,{field:'allTotal', title:'合计金额', width:110}
                 ,{field:'userName', title:'入库人', width:120}
                 ,{field:'checkStatus', title:'审核状态', width:150,templet:function (d) {
                         if(d.checkStatus==0) return  '<span>等待审核</span>'
@@ -48,7 +47,6 @@
                         else if(d.checkStatus ==2) return  '<span style="color: #FF5722;">审核未通过</span>'
                     }}
                 ,{field:'note', title:'备注', width:150}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,where: {goodsID:goodsID}
             ,page: true

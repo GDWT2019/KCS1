@@ -11,6 +11,8 @@
     <script src="${pageContext.request.contextPath}/static/layui/layui.all.js"></script>
     <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
+    <script src="${pageContext.request.contextPath}/js/layui_exts/excel.js"></script>
+
 
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
@@ -18,9 +20,28 @@
 <table class="layui-table" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm export" id = "daochu">导出所有数据报表</button>
-        <button class="layui-btn layui-btn-sm export" id = "print">打印</button>
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-sm export" id = "daochu">导出所有数据报表</button>
+            </div>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-sm export" id = "print">打印</button>
+            </div>
+
+        <div class="layui-inline">
+            <label class="layui-form-label" style="width: 100px">物品名：</label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input type="button" class="layui-btn" id="search"  value="搜索">
+            </div>
+        </div>
+    </div>
     </div>
 
     <!--导出表 不展示-->
@@ -87,14 +108,33 @@
                 ,{field: 'time', title: '时间', width: 150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
+            ,where:{"itemName":null}
             ,page: true
             ,limit:10
-            ,limits:[5,10,20,30,50]
+            ,limits:[1,5,10,20,30,50]
             ,id:'testSummaryCurrent'
         });
 
+        $('body').on('click',"#search",function () {
+            // 搜索条件
+            var itemName = null;
+            if(($("#itemName").val()) != null && ($("#itemName").val()) != "")
+            {
+                itemName =$("#itemName").val();
+            }
+            table.reload('testSummaryCurrent', {
+                method: 'post'
+                , where: {
+                    "itemName": itemName,
+                }
+                , page: {
+                    curr: 1
+                }
+            });
+        });
 
-        $('#daochu').click(function(){
+        $('body').on('click',"#daochu",function () {
+        // $('#daochu').click(function(){
             $.ajax({
                 url: "${pageContext.request.contextPath }/summary/summaryAllData",
                 dataType: 'json',

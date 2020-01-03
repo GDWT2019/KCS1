@@ -37,12 +37,6 @@ public class InBillController {
         return "ItemInRecord";
     }
 
-    //跳转物品出库记录
-    @RequestMapping("/rItemOutRecord")
-    public String RItemOutRecord(HttpServletRequest request){
-
-        return "ItemOutRecord";
-    }
 
     @RequestMapping("/addInBill")
     public String AddInBill(HttpServletRequest request){
@@ -111,7 +105,7 @@ public class InBillController {
         return jso;
     }
 
-    //获取入库单数据数据
+    //获取入库记录数据
     @RequestMapping(value="ItemInRecord",produces="text/html;charset=utf-8")
     public @ResponseBody
     String ItemInRecord(HttpServletRequest request){
@@ -123,7 +117,7 @@ public class InBillController {
         int before=limit*(page-1)+1;
         int after = page * limit;
 
-        List<inBillShow> list=inBillService.ItemInRecord(page,limit,goodsID);
+        List<inBillShow> list=inBillService.ItemInRecord(before,after,goodsID);
         int count =inBillService.CountItemInRecord(goodsID);
 
         JSONArray json = JSONArray.fromObject(list);
@@ -132,6 +126,8 @@ public class InBillController {
         System.out.println(jso);
         return jso;
     }
+
+
 
     @RequestMapping("/findGoodsByItemsName")
     @ResponseBody

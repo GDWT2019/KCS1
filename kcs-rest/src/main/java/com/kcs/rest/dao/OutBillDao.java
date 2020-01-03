@@ -1,6 +1,10 @@
 package com.kcs.rest.dao;
 
 import com.kcs.rest.pojo.OutBill;
+import com.kcs.rest.pojo.OutBillPresent;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OutBillDao {
 
@@ -21,6 +25,10 @@ public interface OutBillDao {
 
     //更新审批信息
     Integer updateCheckByOutBillID(OutBill outBill);
+
+    List<OutBillPresent> ItemOutRecord(@Param("front")int front, @Param("back")int back, @Param("id")int id);
+
+    int CountItemOutRecord(int goodsid);
 
 }
 
