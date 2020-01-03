@@ -7,6 +7,7 @@ package com.kcs.rest.pojo;
 public class inBillShow {
     private Integer ItemsInID;
     private Integer InBillID;
+    private Integer GoodsID;
     private String TimeIn;
     private String ItemsName;
     private String Type;
@@ -24,6 +25,7 @@ public class inBillShow {
         return "inBillShow{" +
                 "ItemsInID=" + ItemsInID +
                 ", InBillID=" + InBillID +
+                ", GoodsID=" + GoodsID +
                 ", TimeIn='" + TimeIn + '\'' +
                 ", ItemsName='" + ItemsName + '\'' +
                 ", Type='" + Type + '\'' +
@@ -36,6 +38,14 @@ public class inBillShow {
                 ", CheckStatus=" + CheckStatus +
                 ", Note='" + Note + '\'' +
                 '}';
+    }
+
+    public Integer getGoodsID() {
+        return GoodsID;
+    }
+
+    public void setGoodsID(Integer goodsID) {
+        GoodsID = goodsID;
     }
 
     public Integer getItemsInID() {

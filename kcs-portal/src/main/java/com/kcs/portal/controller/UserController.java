@@ -151,7 +151,7 @@ public class UserController {
         /*int before=limit*(page-1)+1;
         int after = page * limit;*/
 
-        List<User> list=userService.findAllUser();
+        List<UserPresent> list=userService.findAllUserPresent();
         int count =userService.count();
 
         JSONArray json = JSONArray.fromObject(list);
@@ -327,4 +327,5 @@ public class UserController {
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+userRoleList.size()+",\"data\":"+js+"}";
         return jso;
     }
+
 }

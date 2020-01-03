@@ -72,21 +72,21 @@ public class OutBillController {
 
     @RequestMapping(value="/outBillPresent",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end ){
+    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName ){
 
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
-        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back);
+        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back,time1,time2,itemName);
         if (allOutBillPresent != null) {
             return KcsResult.ok(allOutBillPresent);
         } else
             return KcsResult.build(500, "未找到出库任何数据");
     }
 
-    @RequestMapping(value="/outBillPresentCount")
+    @RequestMapping(value="/outBillPresentCount",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresentCount(){
-        Integer count = outBillPresentService.outBillPresentCount();
+    public KcsResult outBillPresentCount(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName){
+        Integer count = outBillPresentService.outBillPresentCount(time1,time2,itemName);
         if (count != null) {
             return KcsResult.ok(count);
         } else

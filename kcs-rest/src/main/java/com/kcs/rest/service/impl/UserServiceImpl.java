@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserPresent> findAllUserPresent() {
+        return userDao.findAllUserPresent();
+    }
+
+    @Override
     public int count() {
         return userDao.count();
     }

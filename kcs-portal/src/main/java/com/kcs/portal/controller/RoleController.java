@@ -1,7 +1,9 @@
 package com.kcs.portal.controller;
 
 import com.kcs.portal.service.RoleService;
+import com.kcs.portal.service.UserService;
 import com.kcs.rest.pojo.Role;
+import com.kcs.rest.pojo.User;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping("/showRoleData")
     public String showRoleData(){
@@ -48,7 +52,9 @@ public class RoleController {
     @RequestMapping("/showAddUserRole")
     public String showAddUserRole(HttpServletRequest request, Model model){
         int userID =Integer.valueOf( request.getParameter("userID"));
+        User user = userService.findUserById(userID);
         List<Role> roleList = roleService.findTheOthersRoleByUserID(userID);
+        model.addAttribute("user",user);
         model.addAttribute("roleList",roleList);
         return "addUserRole";
     }

@@ -41,7 +41,7 @@
         on d.UserID = a.Operator
     </select>
 
-    <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow" parameterType="int">
+    <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow">
        select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by getdate() ) as id , * from (
         select a.InBillID, b.ItemsInID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
         left join ItemsIn as b
@@ -49,7 +49,13 @@
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
-        on d.UserID = a.Operator
+        on d.UserID = a.Operator where 1=1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  TimeIN between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
         )as show)as show1
         where id not in (
             select top (#{front}-1) id from (select Row_Number() over ( order by getdate() ) as id , * from (
@@ -59,8 +65,15 @@
         left join Goods as c
         on b.GoodsID=c.GoodsID
         left join [User] as d
-        on d.UserID = a.Operator
+        on d.UserID = a.Operator where 1 = 1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  TimeIN between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
         )as show)as show1 )
+
     </select>
 
     <select id="countShow" resultType="int">
@@ -72,4 +85,54 @@
         left join [User] as d
         on d.UserID = a.Operator) as show
     </select>
+
+    <select id="countReload" resultType="int">
+        select COUNT(*) from (select b.ItemsInID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator) as show where 1=1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  TimeIN between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
+    </select>
+
+    <select id="ItemInRecord" parameterType="int" resultType="com.kcs.rest.pojo.inBillShow">
+select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select a.InBillID, b.ItemsInID,c.GoodsID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator  where c.GoodsID = #{goodsId}
+        )as show)as show1
+        where id not in (
+            select top (#{front}-1) id from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select a.InBillID, b.ItemsInID,c.GoodsID, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator  where c.GoodsID = #{goodsId}
+        )as show)as show1 )
+    </select>
+
+    <select id="CountItemInRecord" parameterType="int" resultType="int">
+          select COUNT(*) from (select b.ItemsInID,c.GoodsID, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note from InBill as a
+        left join ItemsIn as b
+        on a.InBillID = b.InBillID
+        left join Goods as c
+        on b.GoodsID=c.GoodsID
+        left join [User] as d
+        on d.UserID = a.Operator where c.GoodsID= #{goodsid}
+        ) as show
+    </select>
+
 </mapper>

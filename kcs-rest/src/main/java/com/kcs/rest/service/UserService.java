@@ -14,6 +14,8 @@ public interface UserService {
 
     List<User> findAllUser();
 
+    List<UserPresent> findAllUserPresent();
+
     int count();
 
     List<User> findoneUser(String loginName);

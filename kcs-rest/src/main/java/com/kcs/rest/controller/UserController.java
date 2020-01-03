@@ -142,4 +142,12 @@ public class UserController {
     public KcsResult findUserRoleByUserID(@PathVariable int userID){
         return KcsResult.ok(userRoleService.findUserRoleByUserID(userID));
     }
+
+
+    @RequestMapping("/userPresentData")
+    @ResponseBody
+    public KcsResult findAllUserPresent(){
+        List<UserPresent> userPresent = userService.findAllUserPresent();
+        return  KcsResult.ok(userPresent);
+    }
 }

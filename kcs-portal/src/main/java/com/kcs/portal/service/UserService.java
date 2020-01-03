@@ -9,6 +9,8 @@ import java.util.List;
 public interface UserService {
     List<User> findAllUser();
 
+    List<UserPresent> findAllUserPresent();
+
     User findUserById(int id);
 
     User findByLoginName(String loginName);

@@ -11,6 +11,8 @@ public interface UserDao {
 
     User findByLoginName(String loginName);
 
+    List<UserPresent> findAllUserPresent();
+
     List<User> findAllUser();
 
     int count();

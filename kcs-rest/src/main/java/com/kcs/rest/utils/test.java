@@ -35,6 +35,36 @@ public class test {
     private SummaryDao summaryDao;
 
     @Test
+    public void test17(){
+
+        int count = inBillDao.CountItemInRecord(7);
+        System.out.println(count);
+
+        List<inBillShow> inBillShows = inBillDao.ItemInRecord(1, 10, 7);
+        for (inBillShow inBillShow : inBillShows) {
+            System.out.println(inBillShow);
+        }
+    }
+
+    @Test
+    public void test16(){
+
+        int i = inBillDao.countReload(null, null, null);
+        System.out.println(i);
+        int i1 = inBillDao.countReload("2019-11-01", "2019 - 12 - 01", null);
+        System.out.println(i1);
+        int i2 = inBillDao.countReload(null, null, "小");
+        System.out.println(i2);
+    }
+
+    @Test
+    public void test15(){
+
+        List<inBillShow> shows = inBillDao.inBillShowPage(1, 10, "2019-11-01", "2019-12-05", null);
+        System.out.println(shows);
+    }
+
+    @Test
     public void test14(){
         List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summartyAllData();
         System.out.println(summartAndGoodsAndCategories);

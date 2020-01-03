@@ -10,8 +10,38 @@
         and	[Goods].CategoryID=[Category].CategoryID
         and [Goods].GoodsID=[Summary].GoodsID
         and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
-        and [ItemsOut].ItemsOutID in(select top(#{end}-#{begin}+1) ItemsOutID from [ItemsOut]
-        where ItemsOutID not in(select top(#{begin}-1) ItemsOutID from ItemsOut))
+        and [ItemsOut].ItemsOutID in(select top(#{end}-#{begin}+1) ItemsOutID from (select [ItemsOut].ItemsOutID
+        from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
+        where [ItemsOut].OutBillID=[OutBill].OutBillID
+        and [ItemsOut].GoodsID=[Goods].GoodsID
+        and [ItemsOut].DepartmentID=[Department].DepartmentID
+        and	[Goods].CategoryID=[Category].CategoryID
+        and [Goods].GoodsID=[Summary].GoodsID
+        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  [OutBill].OutTime between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and [Goods].ItemsName like '%${itemName}%'
+        </if>)as i
+        where ItemsOutID not in(select top(#{begin}-1) ItemsOutID from  [ItemsOut]
+        where ItemsOutID in(
+        select [ItemsOut].ItemsOutID
+        from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
+        where [ItemsOut].OutBillID=[OutBill].OutBillID
+        and [ItemsOut].GoodsID=[Goods].GoodsID
+        and [ItemsOut].DepartmentID=[Department].DepartmentID
+        and	[Goods].CategoryID=[Category].CategoryID
+        and [Goods].GoodsID=[Summary].GoodsID
+        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  [OutBill].OutTime between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and [Goods].ItemsName like '%${itemName}%'
+        </if>))
+
+        )
         order by [OutBill].OutBillID asc
     </select>
     <select id="outBillPresentCount" resultType="java.lang.Integer">
@@ -23,6 +53,12 @@
         and	[Goods].CategoryID=[Category].CategoryID
         and [Goods].GoodsID=[Summary].GoodsID
         and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  [OutBill].OutTime between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and [Goods].ItemsName like '%${itemName}%'
+        </if>
     </select>
     <select id="findOutBillPresentByOutBillID" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="java.lang.Integer">
         select *

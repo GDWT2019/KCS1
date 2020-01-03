@@ -8,27 +8,25 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"/>
 </head>
 <body>
-
-<div class="layui-form" >
-    <div class="layui-inline">
-        <label class="layui-form-label">用户</label>
-        <div class="layui-input-inline">
-
+<div style="margin: 10px auto">
+    <div class="layui-form">
+        <div class="layui-inline">
+            <label class="layui-form-label">用户名：</label>
+            <div class="layui-input-inline">
+                <span>${user.userName}</span>
+            </div>
         </div>
-    </div>
-    <div class="layui-inline">
-        <label class="layui-form-label">角色</label>
-        <div class="layui-input-inline">
-            <select id="roleID" name="roleName">
-                <c:forEach items="${roleList}" var="role">
-                    <option value="${role.roleID}">${role.roleName}</option>
-                </c:forEach>
-            </select>
+        <div class="layui-inline">
+            <label class="layui-form-label">角色：</label>
+            <div class="layui-input-inline">
+                <select id="roleID" name="roleName">
+                    <c:forEach items="${roleList}" var="role">
+                        <option value="${role.roleID}">${role.roleName}</option>
+                    </c:forEach>
+                </select>
+            </div>
         </div>
-        <a id="addPermission"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
-    </div>
-    <div class="layui-form-item">
-        <div class="layui-input-block">
+        <div class="layui-inline">
             <button class="layui-btn"  lay-submit lay-filter="add">添加</button>
         </div>
     </div>

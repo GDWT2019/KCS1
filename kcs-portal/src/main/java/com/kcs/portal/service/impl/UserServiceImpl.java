@@ -22,9 +22,21 @@ public class UserServiceImpl implements UserService {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/userData");
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
-
-
                 return (List<User>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserPresent> findAllUserPresent() {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/user/userPresentData");
+            KcsResult result = KcsResult.formatToList(s,UserPresent.class);
+            if (result.getStatus() == 200) {
+                return (List<UserPresent>) result.getData();
             }
         }catch (Exception e){
             e.printStackTrace();

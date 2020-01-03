@@ -94,14 +94,44 @@ public class InBillController {
     //获取入库分页显示数据
     @RequestMapping(value="inBillShowPage",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult inBillShowPage(@RequestParam("before")String before,@RequestParam("after")String after ){
+    public KcsResult inBillShowPage(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName ){
 
         int front = Integer.parseInt(before);
         int back = Integer.parseInt(after);
 
-        List<inBillShow> allInBill = inBillService.inBillShowPage(front,back);
+        List<inBillShow> allInBill = inBillService.inBillShowPage(front,back,time1,time2,itemName);
         System.out.println("allInBill="+allInBill);
 
         return KcsResult.ok(allInBill);
     }
+    //入库显示的数据
+    @RequestMapping(value = "countReload",method=RequestMethod.GET)
+    @ResponseBody
+    public  KcsResult countReload(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName){
+        int count = inBillService.countReload(time1,time2,itemName);
+        return KcsResult.ok(count);
+    }
+
+    //获取入库分页显示数据
+    @RequestMapping(value="ItemInRecord",method=RequestMethod.GET)
+    @ResponseBody
+    public KcsResult ItemInRecord(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("goodsID")String goodsID){
+
+        int front = Integer.parseInt(before);
+        int back = Integer.parseInt(after);
+        int id = Integer.parseInt(goodsID);
+
+        List<inBillShow> allInBill = inBillService.ItemInRecord(front,back,id);
+
+        return KcsResult.ok(allInBill);
+    }
+
+    //入库显示的数据
+    @RequestMapping("/CountItemInRecord{goodsid}")
+    @ResponseBody
+    public  KcsResult CountItemInRecord(@PathVariable int goodsid){
+        int count = inBillService.CountItemInRecord(goodsid);
+        return KcsResult.ok(count);
+    }
+
 }
