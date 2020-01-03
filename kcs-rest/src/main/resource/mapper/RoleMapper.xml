@@ -8,9 +8,11 @@
     </insert>
 
     <select id="findAllRole" resultType="com.kcs.rest.pojo.Role" parameterType="java.lang.Integer">
-        select top(#{end}-#{begin}+1) *
-        from [Role]
-        where RoleID not in(select top(#{begin}-1) RoleID from [Role])
+      <if test="end != '' and end != null and begin != '' and begin != null">
+          select top(#{end}-#{begin}+1) *
+          from [Role]
+          where RoleID not in(select top(#{begin}-1) RoleID from [Role])
+      </if>
     </select>
 
     <select id="getRoleCount" resultType="java.lang.Integer">
@@ -40,4 +42,9 @@
         delete * from Role
         where RoleID = #{roleID}
     </delete>
+
+    <select id="findTheOthersRoleByUserID" parameterType="java.lang.Integer" resultType="com.kcs.rest.pojo.Role">
+        select * from Role
+        where RoleID not in(select RoleID from UserRole where UserID = #{userID})
+    </select>
 </mapper>

@@ -5,6 +5,7 @@ import com.kcs.portal.service.UserService;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
+import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.utils.AjaxMesg;
 import com.kcs.rest.utils.LogAnno;
 import net.sf.json.JSONArray;
@@ -304,5 +305,26 @@ public class UserController {
         if (i<0)
             return new AjaxMesg(false,"更新失败！");
         return new AjaxMesg(true,"更新成功");
+    }
+
+    //跳转用户角色详情页面
+    @RequestMapping(value = "/showUserRole",method= RequestMethod.GET)
+    public String showUserRole(HttpServletRequest request,Model model){
+        int userID = Integer.valueOf(request.getParameter("userID"));
+        UserPresent user = userService.findUserPresentById(userID);
+        model.addAttribute("user",user);
+        return "userRole";
+    }
+
+    //加载用户角色详情页面
+    @RequestMapping(value = "/userRole",method= RequestMethod.GET,produces ="text/html;charset=utf-8")
+    @ResponseBody
+    public String userRole(HttpServletRequest request){
+        int userID = Integer.valueOf(request.getParameter("userID"));
+        List<UserRole> userRoleList = userService.findUserRoleByUserID(userID);
+        JSONArray json = JSONArray.fromObject(userRoleList);
+        String js=json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+userRoleList.size()+",\"data\":"+js+"}";
+        return jso;
     }
 }

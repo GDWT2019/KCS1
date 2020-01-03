@@ -11,18 +11,18 @@
 
 <div class="layui-form" >
     <div class="layui-inline">
-        <label class="layui-form-label">角色</label>
+        <label class="layui-form-label">用户</label>
         <div class="layui-input-inline">
-            <select id="roleID" name="roleID" lay-verify="role" lay-search=""  lay-filter="role">
 
-            </select>
         </div>
-        <a id="addRole"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
     </div>
     <div class="layui-inline">
-        <label class="layui-form-label">权限</label>
+        <label class="layui-form-label">角色</label>
         <div class="layui-input-inline">
-            <select id="permissionID" name="permissionID" lay-verify="permission" lay-search="" lay-filter="permission">
+            <select id="roleID" name="roleName">
+                <c:forEach items="${roleList}" var="role">
+                    <option value="${role.roleID}">${role.roleName}</option>
+                </c:forEach>
             </select>
         </div>
         <a id="addPermission"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
@@ -46,7 +46,7 @@
             element = layui.element,
             upload = layui.upload;
 
-
+        form.render();
         //日期
         laydate.render({
             elem: '#date'

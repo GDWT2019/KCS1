@@ -18,4 +18,6 @@ public interface RoleDao {
     Integer updateRole(Role role);
 
     Integer delRole(int roleID);
+
+    List<Role> findTheOthersRoleByUserID(int userID);
 }

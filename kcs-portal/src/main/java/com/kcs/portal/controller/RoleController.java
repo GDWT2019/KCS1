@@ -5,6 +5,7 @@ import com.kcs.rest.pojo.Role;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,5 +40,16 @@ public class RoleController {
         return jso;
     }
 
+    @RequestMapping("/showAddRole")
+    public String showAddRole(){
+        return "addRole";
+    }
 
+    @RequestMapping("/showAddUserRole")
+    public String showAddUserRole(HttpServletRequest request, Model model){
+        int userID =Integer.valueOf( request.getParameter("userID"));
+        List<Role> roleList = roleService.findTheOthersRoleByUserID(userID);
+        model.addAttribute("roleList",roleList);
+        return "addUserRole";
+    }
 }

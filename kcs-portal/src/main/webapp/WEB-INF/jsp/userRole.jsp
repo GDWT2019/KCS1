@@ -15,16 +15,11 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addUserData">添加数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addUserRole">添加数据</button>
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="lock">冻结</a>
-</script>
-<script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
 </script>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
@@ -35,24 +30,14 @@
 
         table.render({
             elem: '#test'
-            ,url:"${pageContext.request.contextPath }/user/userData"
+            ,url:"${pageContext.request.contextPath }/user/userRole?userID=${user.userID}"
             ,toolbar: '#toolbarDemo'
-            ,title: '用户数据表'
+            ,title: '用户角色'
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 ,{type:'numbers',title:'序号'}
-                ,{field:'loginName', title:'登录名', width:80}
-                ,{field:'userName', title:'用户名', width:80}
-                ,{field:'tel', title:'电话', width:120}
-                ,{field:'email', title:'邮箱', width:150, templet: function(res){
-                        return '<em>'+ res.email +'</em>'
-                    }}
-                ,{field:'positionName', title:'职位', width:120}
-                ,{field:'departmentName', title:'部门', width:100}
-                ,{field:'warehouseMark', title:'仓管员', width:80}
-                ,{field:'listerMark', title:'制表人', width:80}
-                ,{fixed: '', title:'角色', toolbar: '#bar', width:80}
+                ,{field:'roleName', title:'角色', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,page: true
@@ -64,12 +49,12 @@
         //工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
-            if(obj.event = 'addUserData'){
+            if(obj.event = 'addUserRole'){
                 layer.open({
                     type:2,
-                    title:"添加用户",
-                    content:'${pageContext.request.contextPath }/user/showAddUser',
-                    area:['1000px','668px'],
+                    title:"添加用户角色",
+                    content:'${pageContext.request.contextPath }/role/showAddUserRole?userID='+${user.userID},
+                    area:['500px','300px'],
                     moveOut:true,
                     end:function () {
                         location.reload();
@@ -81,21 +66,8 @@
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            //编辑
-            if(obj.event === 'edit'){
-                layer.open({
-                    type:2,
-                    title:"修改出库",
-                    content:'${pageContext.request.contextPath}/user/showUpdateUser?userID='+data.userID,
-                    area:['1200px','668px'],
-                    moveOut:true,
-                    end:function () {
-                        location.reload();
-                    }
-                });
-
-                //删除数据！！
-            } else if(obj.event === 'del'){
+            //删除
+            if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     $.ajax({
                         url:"${pageContext.request.contextPath}/user/delUserByUserID",
@@ -118,41 +90,6 @@
                             layer.close(index);
                         }
                     })
-                });
-
-                //冻结！
-            }else if (obj.event === 'lock'){
-                $.ajax({
-                    url:"#",
-                    type:"post",
-                    data:{"outBillID":data.outBillID},
-                    dataType:"text",
-                    success:function (result) {
-                        layer.open({
-                            type:1,
-                            content: result,
-                            title:false,
-                            area:['1200px','668px'],
-                            end:function () {
-                                location.reload();
-                            }
-                        })
-                    },
-                    error:function () {
-                        layer.confirm("审批请求错误");
-                        layer.close(index);
-                    }
-                })
-            }else if (obj.event === 'detail'){
-                layer.open({
-                    type:2,
-                    title:data.userName+"的角色详情",
-                    content:'${pageContext.request.contextPath}/user/showUserRole?userID='+data.userID,
-                    area:['1200px','668px'],
-                    moveOut:true,
-                    end:function () {
-                        location.reload();
-                    }
                 });
             }
         });

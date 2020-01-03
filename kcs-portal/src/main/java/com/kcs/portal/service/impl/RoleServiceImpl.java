@@ -65,4 +65,19 @@ public class RoleServiceImpl implements RoleService {
     public Integer delRole(int roleID) {
         return null;
     }
+
+    @Override
+    public List<Role> findTheOthersRoleByUserID(int userID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findTheOthersRoleByUserID"+userID);
+            KcsResult result = KcsResult.formatToList(s,Role.class);
+            if (result.getStatus() == 200) {
+                List<Role> roleList = (List<Role>) result.getData();
+                return roleList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

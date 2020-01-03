@@ -2,7 +2,9 @@ package com.kcs.rest.controller;
 
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.Role;
+import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.service.RoleService;
+import com.kcs.rest.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+
 
     @RequestMapping(value = "/findAllRole",method= RequestMethod.GET)
     @ResponseBody
@@ -25,7 +28,6 @@ public class RoleController {
     @RequestMapping(value = "/getRoleCount",method= RequestMethod.GET)
     @ResponseBody
     public KcsResult getRoleCount( @RequestParam("roleName") String roleName){
-        System.out.println("3333333333333:"+roleName);
         return KcsResult.ok(roleService.getRoleCount(roleName));
     }
 
@@ -53,5 +55,11 @@ public class RoleController {
     @ResponseBody
     public KcsResult delRole(@PathVariable int roleID){
         return KcsResult.ok(roleService.delRole(roleID));
+    }
+
+    @RequestMapping("/findTheOthersRoleByUserID{userID}")
+    @ResponseBody
+    public KcsResult findTheOthersRoleByUserID(@PathVariable int userID){
+        return KcsResult.ok(roleService.findTheOthersRoleByUserID(userID));
     }
 }

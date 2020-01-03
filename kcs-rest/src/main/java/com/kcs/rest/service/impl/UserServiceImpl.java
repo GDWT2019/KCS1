@@ -4,6 +4,7 @@ import com.kcs.rest.dao.UserDao;
 import com.kcs.rest.dao.UserRoleDao;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
+import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.service.UserService;
 import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ public class UserServiceImpl implements UserService {
         return userDao.findUserById(id);
     }
 
-    @LogAnno(operateType = "登录系统")
     @Override
     public User findByLoginName(String loginName) {
         User user = userDao.findByLoginName(loginName);
@@ -93,7 +93,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer delUserByUserID(int userID) {
         //先删除用户所拥有的角色
-        Integer del = userRoleDao.delByUserID(userID);
+        List<UserRole> userRoleList = userRoleDao.findUserRoleByUserID(userID);
+        Integer del = 0;
+        if (userRoleList!=null)
+            del = userRoleDao.delByUserID(userID);
         if (del<1)
             return null;
         return userDao.delUserByUserID(userID);
@@ -109,5 +112,6 @@ public class UserServiceImpl implements UserService {
     public Integer updateUser(User user) {
         return userDao.updateUser(user);
     }
+
 
 }

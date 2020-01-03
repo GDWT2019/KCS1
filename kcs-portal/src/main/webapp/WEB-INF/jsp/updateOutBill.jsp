@@ -211,30 +211,5 @@
         //各种基于事件的操作
 
     });
-    function removeTr(obj) {
-        if (!confirm("删除后无法恢复该数据，是否确认删除？")) {
-            return;
-        }
-        $.ajax({
-            url:"${pageContext.request.contextPath}/itemsOut/delByItemsOutID",
-            type:"post",
-            data:{"itemsOutID":data.itemsOutID},
-            dataType:"text",
-            success:function (result) {
-                var ajaxResult = JSON.parse(result);
-                if (ajaxResult){
-                    layer.confirm(ajaxResult.mesg);
-                    obj.del();
-                }else{
-                    layer.confirm(ajaxResult.mesg);
-                }
-                layer.close(index);
-            },
-            error:function () {
-                layer.confirm("删除请求错误！");
-                layer.close(index);
-            }
-        })
-    }
 </script>
 </body>

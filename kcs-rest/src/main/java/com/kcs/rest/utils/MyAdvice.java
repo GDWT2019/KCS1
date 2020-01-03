@@ -109,7 +109,7 @@ public class MyAdvice {
             log.setResult("失败");
         }else
             log.setResult("成功");
-        //logService.insertLog(log);
+        logService.insertLog(log);
         // 环绕通知之后的业务逻辑部分
         System.out.println("----------------环绕通知之后的部分(注解)-----------------");
         return proceed;

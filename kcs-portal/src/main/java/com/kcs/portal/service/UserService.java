@@ -2,6 +2,7 @@ package com.kcs.portal.service;
 
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
+import com.kcs.rest.pojo.UserRole;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface UserService {
     UserPresent findUserPresentById(int id);
 
     Integer updateUser(User user);
+
+    List<UserRole> findUserRoleByUserID(int userID);
 }

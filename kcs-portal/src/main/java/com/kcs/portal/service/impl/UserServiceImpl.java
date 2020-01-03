@@ -4,6 +4,7 @@ import com.kcs.portal.service.UserService;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
+import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import net.sf.json.JSONArray;
@@ -212,6 +213,21 @@ public class UserServiceImpl implements UserService {
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserRole> findUserRoleByUserID(int userID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findUserRoleByUserID"+userID);
+            KcsResult result = KcsResult.formatToList(s,UserRole.class);
+            if (result.getStatus() == 200) {
+                List<UserRole> userRoleList = (List<UserRole>) result.getData();
+                return userRoleList;
             }
         }catch (Exception e){
             e.printStackTrace();

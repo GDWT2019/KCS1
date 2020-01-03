@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
+import com.kcs.rest.service.UserRoleService;
 import com.kcs.rest.service.UserService;
 import com.kcs.rest.utils.AjaxMesg;
 import com.kcs.rest.utils.LogAnno;
@@ -24,6 +25,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     //修改用户数密码
     @RequestMapping(value = "updatePass" ,method = RequestMethod.POST)
@@ -132,5 +135,11 @@ public class UserController {
     @ResponseBody
     public KcsResult updateUser(@RequestBody User user){
         return KcsResult.ok(userService.updateUser(user));
+    }
+
+    @RequestMapping("/findUserRoleByUserID{userID}")
+    @ResponseBody
+    public KcsResult findUserRoleByUserID(@PathVariable int userID){
+        return KcsResult.ok(userRoleService.findUserRoleByUserID(userID));
     }
 }

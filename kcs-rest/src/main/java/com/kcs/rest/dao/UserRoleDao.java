@@ -9,4 +9,6 @@ public interface UserRoleDao {
     List<UserRole> findAllUserRole();
 
     Integer delByUserID(int userID);
+
+    List<UserRole> findUserRoleByUserID(int userID);
 }

@@ -11,4 +11,12 @@
         delete from UserRole
         where UserID = #{userID}
     </delete>
+
+    <select id="findUserRoleByUserID" resultType="com.kcs.rest.pojo.UserRole" parameterType="java.lang.Integer">
+        select *
+        from [UserRole],[User],[Role]
+        where [UserRole].UserID = #{userID}
+        and [User].UserID=[UserRole].UserID
+        and [Role].RoleID=[UserRole].RoleID
+    </select>
 </mapper>

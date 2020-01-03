@@ -4,6 +4,7 @@ import com.kcs.rest.dao.InBillDao;
 import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.inBillShow;
 import com.kcs.rest.service.InBillService;
+import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,7 @@ public class InBillServiceImpl implements InBillService {
 
     }
 
+    @LogAnno(operateType = "查询入库单")
     @Override
     public List<inBillShow> inBillShowData() {
         return inBillDao.inBillShowData();
@@ -60,6 +62,7 @@ public class InBillServiceImpl implements InBillService {
         return inBillDao.findCheckMessageByID(inBillID);
     }
 
+    @LogAnno(operateType = "更新入库单")
     @Override
     public void UpdateInBill(InBill inBill) {
         inBillDao.UpdateInBill(inBill);

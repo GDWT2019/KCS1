@@ -17,8 +17,25 @@
         <result column="ListerMark" property="listermark" jdbcType="BIT" />
     </resultMap>
 
-    <select id="findAllUser"  resultType="com.kcs.rest.pojo.User" >
-        select * from [User]
+    <select id="findAllUser"  resultType="com.kcs.rest.pojo.UserPresent" >
+        select [User].UserID,
+                [User].PositionID,
+                [User].DepartmentID,
+                [User].LoginName,
+                [User].UserName,
+                [User].Password,
+                [User].Sex,
+                [User].Tel,
+                [User].Email,
+                [User].Photo,
+                [User].Note,
+                [User].WarehouseMark,
+                [User].ListerMark,
+                [Position].PositionName,
+                [Department].DepartmentName
+        from [User],[Position],[Department]
+        where [User].PositionID=[Position].PositionID
+        and [User].DepartmentID=[Department].DepartmentID
     </select>
 
     <select id="findAlllister"  resultType="com.kcs.rest.pojo.User" >

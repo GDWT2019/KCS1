@@ -14,19 +14,6 @@
     <div class="layui-header">
         <div class="layui-logo">库存管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav  layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <li class="layui-nav-item"><a href="">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">出库管理</a></dd>
-                    <dd><a href="">入库管理</a></dd>
-                    <dd><a href="">管理</a></dd>
-                </dl>
-            </li>
-        </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
@@ -57,8 +44,6 @@
                         <dd>
                             <a href="#" data-url=${pageContext.request.contextPath}/role/showRoleData" data-title="角色数据"  data-id="2" class="site-demo-active" data-type="tabAdd">角色数据</a>
                         </dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -67,18 +52,12 @@
                         <dd>
                             <a data-url="${pageContext.request.contextPath }/inBill/rInBill" data-id="3" data-title="入库明细单" href="#" class="site-demo-active" data-type="tabAdd">入库明细单</a>
                         </dd>
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">出库管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库记录" class="site-demo-active" data-type="tabAdd">出库记录</a></dd>
-                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAddOutBill" data-id="addOutBill" data-title="新增出库" class="site-demo-active" data-type="tabAdd">新增出库</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库明细单" class="site-demo-active" data-type="tabAdd">出库明细单</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
@@ -90,11 +69,9 @@
                         <dd>
                             <a data-url="${pageContext.request.contextPath }/summary/rCurrentBill" data-id="currentBill" data-title="流水单" href="#" class="site-demo-active" data-type="tabAdd">流水单</a>
                         </dd>
-                        <dd><a href="">超链接</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath }/log/showAllLog" data-id="log" data-title="用户日志" class="site-demo-active" data-type="tabAdd">用户日志</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
             </ul>
         </div>
     </div>
