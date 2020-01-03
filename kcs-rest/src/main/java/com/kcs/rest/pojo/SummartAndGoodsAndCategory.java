@@ -1,7 +1,7 @@
 package com.kcs.rest.pojo;
 
 public class SummartAndGoodsAndCategory {
-
+    private Integer GoodsID;
     private String CategoryName;
     private String ItemsName;
     private String ItemsType;
@@ -22,7 +22,8 @@ public class SummartAndGoodsAndCategory {
     @Override
     public String toString() {
         return "SummartAndGoodsAndCategory{" +
-                "CategoryName='" + CategoryName + '\'' +
+                "GoodsID=" + GoodsID +
+                ", CategoryName='" + CategoryName + '\'' +
                 ", ItemsName='" + ItemsName + '\'' +
                 ", ItemsType='" + ItemsType + '\'' +
                 ", PreAmount=" + PreAmount +
@@ -39,6 +40,14 @@ public class SummartAndGoodsAndCategory {
                 ", ThisTotal=" + ThisTotal +
                 ", Time='" + Time + '\'' +
                 '}';
+    }
+
+    public Integer getGoodsID() {
+        return GoodsID;
+    }
+
+    public void setGoodsID(Integer goodsID) {
+        GoodsID = goodsID;
     }
 
     public String getCategoryName() {

@@ -41,8 +41,8 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public List<inBillShow> inBillShowPage(int before, int after) {
-        return inBillDao.inBillShowPage(before,after);
+    public List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName) {
+        return inBillDao.inBillShowPage(before,after,time1,time2,itemName);
     }
 
     @Override
@@ -63,5 +63,20 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public void UpdateInBill(InBill inBill) {
         inBillDao.UpdateInBill(inBill);
+    }
+
+    @Override
+    public int countReload(String time1, String time2, String itemName) {
+        return inBillDao.countReload(time1,time2,itemName);
+    }
+
+    @Override
+    public List<inBillShow> ItemInRecord(int front, int back, int goodsId) {
+        return inBillDao.ItemInRecord(front,back,goodsId);
+    }
+
+    @Override
+    public int CountItemInRecord(int goodsid) {
+        return inBillDao.CountItemInRecord(goodsid);
     }
 }

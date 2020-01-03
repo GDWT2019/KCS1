@@ -71,10 +71,13 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public List<inBillShow> PageInBillShow(int before, int after) {
+    public List<inBillShow> PageInBillShow(int before, int after,String time1,String time2,String itemName) {
         HashMap<String, String> param = new HashMap<>();
         param.put("before",before+ "");
         param.put("after",after+ "");
+        param.put("time1",time1);
+        param.put("time2",time2);
+        param.put("itemName",itemName);
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowPage",param);
             KcsResult result = KcsResult.format(s);
@@ -141,7 +144,56 @@ public class InBillServiceImpl implements InBillService {
         }
     }
 
+    @Override
+    public int countReload(String time1, String time2, String itemName) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("time1",time1);
+        param.put("time2",time2);
+        param.put("itemName",itemName);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/countReload",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
+    @Override
+    public List<inBillShow> ItemInRecord(int before, int after,int goodsID) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("before",before+ "");
+        param.put("after",after+ "");
+        param.put("goodsID",goodsID+ "");
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/ItemInRecord",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (List<inBillShow>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int CountItemInRecord(int goodsID) {
+
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/CountItemInRecord"+goodsID);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 
 }

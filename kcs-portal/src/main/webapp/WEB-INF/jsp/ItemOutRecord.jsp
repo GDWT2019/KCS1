@@ -245,33 +245,33 @@
             method: 'post',
             title: '入库单',
             cols: [[
-            {type: 'checkbox', fixed: 'left'}
-            ,{field:'inBillID', title:'序号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
-            ,{field:'timeIn', title:'日期', width:160}
-            ,{field:'itemsName', title:'物品名称', width:110}
-            ,{field:'type', title:'物品规格', width:110}
-            ,{field:'storePosition', title:'仓库位置', width:110}
-            ,{field:'itemNum', title:'入库数量', width:110}
-            ,{field:'itemPrice', title:'入库单价', width:110}
-            ,{field:'itemTotal', title:'合计', width:110}
-            ,{field:'allTotal', title:'合计金额', width:110}
-            ,{field:'userName', title:'入库人', width:120}
-            ,{field:'checkStatus', title:'审核状态', width:150,templet:function (d) {
-                    if(d.checkStatus==0) return  '<span>等待审核</span>'
-                    else if(d.checkStatus ==1) return  '<span style="color: #009688;">审核通过</span>'
-                    else if(d.checkStatus ==2) return  '<span style="color: #FF5722;">审核未通过</span>'
-                }}
-            ,{field:'note', title:'备注', width:150}
-            ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
-        ]]
-        ,done: function (res, curr, count) {
+                {type: 'checkbox', fixed: 'left'}
+                ,{field:'inBillID', title:'序号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                ,{field:'timeIn', title:'日期', width:160}
+                ,{field:'itemsName', title:'物品名称', width:110}
+                ,{field:'type', title:'物品规格', width:110}
+                ,{field:'storePosition', title:'仓库位置', width:110}
+                ,{field:'itemNum', title:'入库数量', width:110}
+                ,{field:'itemPrice', title:'入库单价', width:110}
+                ,{field:'itemTotal', title:'合计', width:110}
+                ,{field:'allTotal', title:'合计金额', width:110}
+                ,{field:'userName', title:'入库人', width:120}
+                ,{field:'checkStatus', title:'审核状态', width:150,templet:function (d) {
+                        if(d.checkStatus==0) return  '<span>等待审核</span>'
+                        else if(d.checkStatus ==1) return  '<span style="color: #009688;">审核通过</span>'
+                        else if(d.checkStatus ==2) return  '<span style="color: #FF5722;">审核未通过</span>'
+                    }}
+                ,{field:'note', title:'备注', width:150}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
+            ]]
+            ,done: function (res, curr, count) {
                 exportData = res.data;
             }
         });
         //导出按钮
-       /* $(".export").click(function () {
-            table.exportFile(ins1.config.id, exportData, 'xls');
-        });*/
+        /* $(".export").click(function () {
+             table.exportFile(ins1.config.id, exportData, 'xls');
+         });*/
         $('body').on('click',"#export",function () {
             table.exportFile(ins1.config.id, exportData, 'xls');
         });
