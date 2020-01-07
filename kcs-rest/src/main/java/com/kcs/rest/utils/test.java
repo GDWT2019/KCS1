@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,16 +35,36 @@ public class test {
     @Autowired
     private OutBillDao outBillDao;
 
+
+    @Test
+    public void test21(){
+
+        Summary nearestSummaryByIdAndTime = summaryDao.findNearestSummaryByIdAndTime(24, "2019-12");
+        System.out.println(nearestSummaryByIdAndTime);
+
+    }
+
+    @Test
+    public void test20(){
+
+        List<inBillShow> presentItemIn = inBillDao.findPresentItemIn("2019-12", 8);
+        for (inBillShow inBillShow : presentItemIn) {
+
+            System.out.println(inBillShow);
+        }
+
+    }
+
     @Test
     public void test19(){
 
         int re = summaryDao.countReload("re");
         System.out.println(re);
 
-      /*  List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summaryAllCurrentdata(1, 5, "re");
+        List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summaryAllCurrentdata(1, 5, "re");
         for (SummartAndGoodsAndCategory summartAndGoodsAndCategory : summartAndGoodsAndCategories) {
             System.out.println(summartAndGoodsAndCategory);
-        }*/
+        }
     }
 
     @Test

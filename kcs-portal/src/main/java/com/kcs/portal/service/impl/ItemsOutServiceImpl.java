@@ -3,6 +3,7 @@ package com.kcs.portal.service.impl;
 import com.kcs.portal.service.ItemsOutService;
 import com.kcs.rest.pojo.ItemsOut;
 import com.kcs.rest.pojo.KcsResult;
+import com.kcs.rest.pojo.OutBill;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import org.springframework.stereotype.Service;
@@ -70,5 +71,14 @@ public class ItemsOutServiceImpl implements ItemsOutService {
             e.printStackTrace();
         }
         return i;
+    }
+
+    @Override
+    public void delItemByOutBillID(Integer outBill) {
+        try {
+            HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemsOut/delItemByOutBillID"+outBill);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

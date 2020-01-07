@@ -144,7 +144,6 @@ public class OutBillController {
 
         //根据物品id，在在所有最新物品的记录中查找该物品对应的汇总
         Summary thisSummary = summaryService.findSummaryInTheLastGoodsDataByGoodsID(goods.getGoodsID());
-
         return thisSummary;
     }
 
@@ -288,6 +287,7 @@ public class OutBillController {
         OutBill outBill= (OutBill)JSONObject.toBean(jsonobject,OutBill.class);
 
 
+
         //根据id，更新出库表信息
         Integer update = outBillService.updateOutBill(outBill);
         if (update<1){
@@ -306,10 +306,7 @@ public class OutBillController {
                     return new AjaxMesg(false,"出库物品更新失败！");
                 }
             }
-
-
         }
-
         return ajaxMesg;
     }
 }

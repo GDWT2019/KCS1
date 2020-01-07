@@ -1,6 +1,7 @@
 package com.kcs.portal.service;
 
 import com.kcs.rest.pojo.ItemsOut;
+import com.kcs.rest.pojo.OutBill;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface ItemsOutService {
 
     //根据id更新入库物品信息，为空则不更新该字段
     Integer updateItemsOut(ItemsOut itemsOut);
+
+    void delItemByOutBillID(Integer outBill);
+
 }

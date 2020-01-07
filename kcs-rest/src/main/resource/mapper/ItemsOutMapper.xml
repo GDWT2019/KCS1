@@ -56,4 +56,15 @@
         where ItemsOutID = #{ItemsOutID}
     </update>
 
+    <delete id="delItemByOutBillID" parameterType="int">
+        delete from ItemsOut where OutBillID = #{outBill}
+    </delete>
+
+    <select id="findItemsOutData" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="int">
+      select * from(
+        select a.OutBillID,a.OutTime,b.GoodsID,b.ItemsOutID,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.CheckStatus,b.Note from OutBill as a
+        left join ItemsOut as b
+        on a.OutBillID =b.OutBillID) as show1 where OutBillID = #{outBill}
+    </select>
+
 </mapper>

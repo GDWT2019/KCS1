@@ -111,4 +111,8 @@
         on d.UserID = a.Operator where c.GoodsID = #{goodsID}
         ) as show
     </select>
+
+    <select id="findTimeByID" parameterType="int" resultType="String">
+        select OutTime from OutBill where OutBillID=#{outBillID}
+    </select>
 </mapper>

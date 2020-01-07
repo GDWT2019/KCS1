@@ -44,7 +44,7 @@ public class ItemInServiceImpl implements ItemInService {
                 //判断是否是本月的数据，然后修改后面时间的数据
                 if(!s.getTime().equals(subTime)){
                     String nowTime = s.getTime()+"-1";
-                    Summary frontSummary=summaryDao.findBeforeMonth(s.getGoodsID(),nowTime);
+                    Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                     //将上月的本月结存放入到当前月的上月结存
                     s.setPreAmount(frontSummary.getThisAmount());
                     s.setPrePrice(frontSummary.getThisPrice());
@@ -65,7 +65,7 @@ public class ItemInServiceImpl implements ItemInService {
         //没有数据就查询就查询上一个月的数据，和这个月的一起存入
         else
         {
-            Summary BeforeSummary=summaryDao.findBeforeMonth(goodsID,time);
+            Summary BeforeSummary=summaryDao.findNearestSummaryByIdAndTime(goodsID,time);
             //如果存在上个月的数据，将上月的本月库存存在当前月的上月库存
             if(BeforeSummary!=null){
                 Summary summary1=new Summary();
@@ -89,7 +89,7 @@ public class ItemInServiceImpl implements ItemInService {
                     //判断是否是本月的数据，然后修改后面时间的数据
                     if(!s.getTime().equals(subTime)){
                         String nowTime = s.getTime()+"-1";
-                        Summary frontSummary=summaryDao.findBeforeMonth(s.getGoodsID(),nowTime);
+                        Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                         //将上月的本月结存放入到当前月的上月结存
                         s.setPreAmount(frontSummary.getThisAmount());
                         s.setPrePrice(frontSummary.getThisPrice());
@@ -128,7 +128,7 @@ public class ItemInServiceImpl implements ItemInService {
                     //判断是否是本月的数据，然后修改后面时间的数据
                     if(!s.getTime().equals(subTime)){
                         String nowTime = s.getTime()+"-1";
-                        Summary frontSummary=summaryDao.findBeforeMonth(s.getGoodsID(),nowTime);
+                        Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                         //将上月的本月结存放入到当前月的上月结存
                         s.setPreAmount(frontSummary.getThisAmount());
                         s.setPrePrice(frontSummary.getThisPrice());
@@ -186,7 +186,7 @@ public class ItemInServiceImpl implements ItemInService {
                         //判断是否是本月的数据，然后修改后面时间的数据
                         if(!s.getTime().equals(subTime)){
                             String nowTime = s.getTime()+"-1";
-                            Summary frontSummary=summaryDao.findBeforeMonth(s.getGoodsID(),nowTime);
+                            Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                             //将上月的本月结存放入到当前月的上月结存
                             if(frontSummary!=null){
                                 s.setPreAmount(frontSummary.getThisAmount());
@@ -252,7 +252,7 @@ public class ItemInServiceImpl implements ItemInService {
 
     @Override
     public void delItemByInBillID(int inBillID) {
-        //通过inBillID查询属于改单号的物品，然后操作汇总表，逐个清零
+        //通过inBillID查询属于该单号的物品，然后操作汇总表，逐个清零
         List<ItemsShow> itemsInData = itemInDao.findItemsInData(inBillID);
         String time = inBillDao.findTimeByID(inBillID);
         String subTime = time.substring(0, 7);
@@ -279,7 +279,7 @@ public class ItemInServiceImpl implements ItemInService {
                         if(!s.getTime().equals(subTime)){
                             //将上月的本月结存放入到当前月的上月结存
                             String nowTime = s.getTime()+"-1";
-                            Summary frontSummary=summaryDao.findBeforeMonth(s.getGoodsID(),nowTime);
+                            Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                             //将上月的本月结存放入到当前月的上月结存
                             s.setPreAmount(frontSummary.getThisAmount());
                             s.setPrePrice(frontSummary.getThisPrice());

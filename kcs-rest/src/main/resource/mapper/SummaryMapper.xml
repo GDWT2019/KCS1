@@ -20,6 +20,12 @@
         where GoodsID = #{GoodsID} and Time like #{Time}+'%'
     </select>
 
+    <select id="findSummaryByGoodsIDAndTimeBefore" resultType="com.kcs.rest.pojo.Summary">
+        select *
+        from [Summary]
+        where GoodsID = #{GoodsID} and Time &lt;= #{Time}
+    </select>
+
     <select id="findSummaryByGoodsIDAndTimeAfter" resultType="com.kcs.rest.pojo.Summary">
         select *
         from [Summary]
@@ -28,6 +34,10 @@
 
     <select id="findBeforeMonth" resultType="com.kcs.rest.pojo.Summary">
         select * from Summary  where GoodsID=#{goodsID} and  Time = CONVERT(varchar(7),DATEADD(MM,DATEDIFF(MONTH,0,#{time})-1,0),120)
+    </select>
+
+    <select id="findNearestSummaryByIdAndTime" resultType="com.kcs.rest.pojo.Summary">
+        select top 1 * from Summary where Time &lt; #{time} and GoodsID = #{goodsID} order by Time desc
     </select>
 
     <insert id="insertSummary" parameterType="com.kcs.rest.pojo.Summary">
@@ -99,7 +109,7 @@ left join Category as c on b.CategoryID=c.CategoryID where a.Time = #{Time}
     <select id="summaryAllCurrentdata"  resultType="com.kcs.rest.pojo.SummartAndGoodsAndCategory" >
 
 select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getdate() ) as id , * from (
-        select c.CategoryName,b.ItemsName,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
+        select c.CategoryName,a.GoodsID,b.ItemsName,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
     left join Goods as b on a.GoodsID=b.GoodsID
     left join Category as c on b.CategoryID=c.CategoryID  where 1 = 1
         <if test="itemName != null and itemName !='' ">
@@ -109,7 +119,7 @@ select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getd
         )as show)as show1
         where id not in (
             select top (#{front}-1) id from (
-            select Row_Number() over ( order by getdate() ) as id , * from ( select c.CategoryName,b.ItemsName,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
+            select Row_Number() over ( order by getdate() ) as id , * from ( select c.CategoryName,a.GoodsID,b.ItemsName,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
     left join Goods as b on a.GoodsID=b.GoodsID
     left join Category as c on b.CategoryID=c.CategoryID where 1 = 1
         <if test="itemName != null and itemName !='' ">
@@ -130,4 +140,5 @@ select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getd
     <select id="summaryAllTotal" resultType="int">
         select count(*) from Summary
     </select>
+
 </mapper>

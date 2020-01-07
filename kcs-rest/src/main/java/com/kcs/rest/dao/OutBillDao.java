@@ -30,5 +30,6 @@ public interface OutBillDao {
 
     int CountItemOutRecord(int goodsid);
 
+    String findTimeByID(Integer outBillID);
 }
 
