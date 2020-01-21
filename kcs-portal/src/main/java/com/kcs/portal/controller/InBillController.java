@@ -186,14 +186,14 @@ public class InBillController {
 
         if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0)
         {
-            Integer inBillID= inBillService.insertNewBill(inBill);
+            Integer inBillID= inBillService.insertNewBill(inBill);//插入新单号
             System.out.println(inBillID);
 
           for (ItemIn itemIn : list.getItemInList()) {
             System.out.println(itemIn);
             itemIn.setInBillID(inBillID);
             if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
-                itemInService.insertNewItem(itemIn);
+                itemInService.insertNewItem(itemIn); //向新单号插入物品
             }
          }
         }
@@ -237,7 +237,7 @@ public class InBillController {
 
                         inBillService.updateInBillByID(inBill);
 
-            itemInService.delItemByInBillID(inBillID);
+                        itemInService.delItemByInBillID(inBillID);
 
                         for (ItemIn itemIn : list.getItemInList()) {
                             System.out.println(itemIn);

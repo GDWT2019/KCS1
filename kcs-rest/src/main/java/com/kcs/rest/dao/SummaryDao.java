@@ -39,6 +39,12 @@ public interface SummaryDao {
 
     Summary findBeforeMonth(@Param("goodsID")Integer goodsID, @Param("time")String time);
 
+
+    Summary findNearestSummaryByIdAndTime(@Param("goodsID")Integer goodsID, @Param("time")String time);
+
+    List<Summary> findSummaryByGoodsIDAndTimeBefore(@Param("GoodsID")int GoodsID, @Param("Time") String Time);
+
+
     void insertSummary(Summary summary1);
 
     void delSummaryByid(Integer summaryID);

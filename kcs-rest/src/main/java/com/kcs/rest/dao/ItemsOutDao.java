@@ -1,6 +1,7 @@
 package com.kcs.rest.dao;
 
 import com.kcs.rest.pojo.ItemsOut;
+import com.kcs.rest.pojo.OutBillPresent;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface ItemsOutDao {
 
     //根据id更新入库物品信息，为空则不更新该字段
     Integer updateItemsOut(ItemsOut itemsOut);
+
+    void delItemByOutBillID(int outBill);
+
+    List<OutBillPresent> findItemsOutData(int outBill);
 }

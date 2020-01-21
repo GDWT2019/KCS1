@@ -64,6 +64,7 @@ public class OutBillController {
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        System.out.println(jso);
         return jso;
     }
 
@@ -153,7 +154,6 @@ public class OutBillController {
 
         //根据物品id，在在所有最新物品的记录中查找该物品对应的汇总
         Summary thisSummary = summaryService.findSummaryInTheLastGoodsDataByGoodsID(goods.getGoodsID());
-
         return thisSummary;
     }
 
@@ -323,8 +323,6 @@ public class OutBillController {
                     return new AjaxMesg(false,"出库物品更新失败！");
                 }
             }
-
-
         }
 
         return new AjaxMesg(true,"恭喜，修改成功！");

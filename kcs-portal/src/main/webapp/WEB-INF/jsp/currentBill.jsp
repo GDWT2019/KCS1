@@ -52,8 +52,8 @@
 </script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="update">入库单</a>
-    <a class="layui-btn layui-btn-xs" lay-event="check">出库单</a>
+    <a class="layui-btn layui-btn-xs" lay-event="inBill">入库记录</a>
+    <a class="layui-btn layui-btn-xs" lay-event="outBill">出库记录</a>
 </script>
 
 <script>
@@ -113,6 +113,61 @@
             ,limit:10
             ,limits:[1,5,10,20,30,50]
             ,id:'testSummaryCurrent'
+        });
+
+        table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            var value = obj.value;
+            if(layEvent === 'inBill'){ //该物品的入库记录
+                window.goodsID=data.goodsID;
+                var index=layer.open({
+                    type:2,
+                    title:['入库记录', 'font-size:18px;text-align: center;'],
+                    content:'${pageContext.request.contextPath }/inBill/rItemInRecord',
+                    area:['1200px','50%'],
+                    end:function () {
+                        location.reload();
+                    }
+                });
+                // layer.full(index);
+            } else if(layEvent === 'outBill'){ //该物品的出库记录
+                // layer.alert(data.inBillID);
+                window.goodsID=data.goodsID;
+                layer.open({
+                    type:2,
+                    title:['出库记录', 'font-size:18px;text-align: center;'],
+                    content:'${pageContext.request.contextPath }/outBill/rItemOutRecord',
+                    area:['1200px','50%'],
+                    end:function () {
+                        location.reload();
+                    }
+                });
+            }
+            else if(layEvent === 'del'){ //删除
+                layer.confirm('确定删除吗？', {
+                    btn: ['确定', '取消'] //可以无限个按钮
+                    ,btn1: function(index, layero){
+                        $.ajax({
+                            url:'${pageContext.request.contextPath }/itemIn/delItem'
+                            ,data:{"ItemsInID":data.itemsInID},
+                            success:function(){
+                                layer.msg("删除成功！");
+                            },
+                            error:function () {
+                                layer.msg("删除失败！");
+                            }
+                        });
+                    }
+                    ,btn2: function(index, layero){
+                        layer.close();
+                    }
+                    ,end:function () {
+                        location.reload();
+                    }
+                });
+            }
         });
 
         $('body').on('click',"#search",function () {

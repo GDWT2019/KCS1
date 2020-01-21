@@ -32,4 +32,6 @@ public interface InBillDao {
     List<inBillShow> ItemInRecord(@Param("front")int front, @Param("back")int back, @Param("goodsId")int goodsId);
 
     int CountItemInRecord(int goodsid);
+
+    List<inBillShow> findPresentItemIn(@Param("subTime")String subTime, @Param("goodsID") Integer goodsID);
 }

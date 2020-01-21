@@ -92,7 +92,7 @@ public class UserController {
                 String uuid = UUID.randomUUID()+"";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 // dateStr = simpleDateFormat.format(date);
-                String filepath = "img/" +uuid+"." + prefix;
+                String filepath = "G:\\photoes\\" +uuid+"." + prefix;
 
                 File files=new File(filepath);
 

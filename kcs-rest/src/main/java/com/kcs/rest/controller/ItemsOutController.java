@@ -64,4 +64,10 @@ public class ItemsOutController {
         }else
             return KcsResult.build(500, "更新失败！");
     }
+
+    @RequestMapping("/delItemByOutBillID{outBill}")
+    @ResponseBody
+    public void delItemByOutBillID(@PathVariable Integer outBill){
+        itemsOutService.delItemByOutBillID(outBill);
+    }
 }

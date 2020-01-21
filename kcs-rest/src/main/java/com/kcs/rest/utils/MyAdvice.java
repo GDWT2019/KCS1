@@ -99,7 +99,7 @@ public class MyAdvice {
         // 创建一个日志对象(准备记录日志)
         Log log = new Log();
         log.setOperation(operateType);// 操作说明
-        log.setUserID(1);// 设置操作人
+        log.setUserID(49);// 设置操作人
         if(user!=null){
             log.setUserID(user.getUserID());
         }

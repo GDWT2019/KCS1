@@ -19,4 +19,7 @@ public interface ItemsOutService {
 
     //根据id更新入库物品信息，为空则不更新该字段
     Integer updateItemsOut(ItemsOut itemsOut);
+
+    void delItemByOutBillID(int outBill);
+
 }

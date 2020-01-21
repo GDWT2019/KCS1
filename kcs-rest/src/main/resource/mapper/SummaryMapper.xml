@@ -20,6 +20,12 @@
         where GoodsID = #{GoodsID} and Time like #{Time}+'%'
     </select>
 
+    <select id="findSummaryByGoodsIDAndTimeBefore" resultType="com.kcs.rest.pojo.Summary">
+        select *
+        from [Summary]
+        where GoodsID = #{GoodsID} and Time &lt;= #{Time}
+    </select>
+
     <select id="findSummaryByGoodsIDAndTimeAfter" resultType="com.kcs.rest.pojo.Summary">
         select *
         from [Summary]
@@ -28,6 +34,10 @@
 
     <select id="findBeforeMonth" resultType="com.kcs.rest.pojo.Summary">
         select * from Summary  where GoodsID=#{goodsID} and  Time = CONVERT(varchar(7),DATEADD(MM,DATEDIFF(MONTH,0,#{time})-1,0),120)
+    </select>
+
+    <select id="findNearestSummaryByIdAndTime" resultType="com.kcs.rest.pojo.Summary">
+        select top 1 * from Summary where Time &lt; #{time} and GoodsID = #{goodsID} order by Time desc
     </select>
 
     <insert id="insertSummary" parameterType="com.kcs.rest.pojo.Summary">

@@ -1,18 +1,13 @@
 package com.kcs.rest.service.impl;
 
-import com.kcs.rest.dao.ItemInDao;
-import com.kcs.rest.dao.ItemsOutDao;
-import com.kcs.rest.dao.OutBillDao;
-import com.kcs.rest.dao.SummaryDao;
-import com.kcs.rest.pojo.ItemIn;
-import com.kcs.rest.pojo.ItemsOut;
-import com.kcs.rest.pojo.OutBill;
-import com.kcs.rest.pojo.Summary;
+import com.kcs.rest.dao.*;
+import com.kcs.rest.pojo.*;
 import com.kcs.rest.service.ItemsOutService;
 import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service("itemsOutService")
@@ -26,6 +21,10 @@ public class ItemsOutServiceImpl implements ItemsOutService {
     private SummaryDao summaryDao;
     @Autowired
     private ItemInDao itemInDao;
+    @Autowired
+    private InBillDao inBillDao;
+
+
 
     @LogAnno(operateType = "新增出库物品")
     @Override
@@ -127,6 +126,60 @@ public class ItemsOutServiceImpl implements ItemsOutService {
     public List<ItemsOut> findItemsOutByOutBillID(int outBillID) {
         return itemsOutDao.findItemsOutByOutBillID(outBillID);
     }
+    @Override
+    public void delItemByOutBillID(int outBill) {
+        //outBill，然后操作汇总表，逐个清零
+        List<OutBillPresent> itemsOutData = itemsOutDao.findItemsOutData(outBill);
+        String time = outBillDao.findTimeByID(outBill);
+        String subTime = time.substring(0, 7);
+
+        for (OutBillPresent itemsOutDatum : itemsOutData) {
+            try {
+                Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsOutDatum.getGoodsID(), subTime);
+                if(summary!=null){
+                    summary.setOutAmount(summary.getOutAmount()- itemsOutDatum.getItemNum());
+                    summary.setOutTotal(summary.getOutTotal()- itemsOutDatum.getItemTotal());
+                    summary.setOutPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
+                    summary.setThisTotal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal());
+                    if(summary.getThisAmount()==0){
+                        summary.setThisPrice(0.0);
+                    }else{
+                        summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    }
+                    summaryDao.updateSummary(summary);
+                    //插入本月数据后，同步后面时间的数据
+                    List<Summary> timeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(itemsOutDatum.getGoodsID(), subTime);
+                    for (Summary s : timeAfter) {
+                        //判断是否是本月的数据，然后修改后面时间的数据
+                        if(!s.getTime().equals(subTime)){
+                            //将上月的本月结存放入到当前月的上月结存
+                            String nowTime = s.getTime()+"-1";
+                            Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
+                            //将上月的本月结存放入到当前月的上月结存
+                            s.setPreAmount(frontSummary.getThisAmount());
+                            s.setPrePrice(frontSummary.getThisPrice());
+                            s.setPreTotal(frontSummary.getThisTotal());
+                            s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                            s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                            if(s.getThisAmount()==0){
+                                s.setThisPrice(0.0);
+                            }else{
+                                s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                            }
+                            summaryDao.updateSummary(s);
+                        }
+                    }
+
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+                itemsOutDao.delItemByOutBillID(outBill);
+            }
+
+        }
+    }
 
     @LogAnno(operateType = "更新出库物品")
     @Override
@@ -175,8 +228,8 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 //修改该出库时间 后面 的数据
                 if (!s.getTime().equals(outTime)){
                     //增加上月的数量，合计
-                    s.setPreAmount(s.getThisAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
-                    s.setPreTotal(s.getThisTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setPreAmount(s.getPreAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
+                    s.setPreTotal(s.getPreTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
 
                     //增加本月数量，合计
                     s.setThisAmount(s.getThisAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
@@ -196,8 +249,8 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 //修改该出库时间后面的数据
                 if (!s.getTime().equals(outTime)){
                     //减少上月的数量，合计
-                    s.setPreAmount(s.getThisAmount()- (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
-                    s.setPreTotal(s.getThisTotal()-(itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
+                    s.setPreAmount(s.getPreAmount()- (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
+                    s.setPreTotal(s.getPreTotal()-(itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
                     //增加本月数量，合计
                     s.setThisAmount(s.getThisAmount()- (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
                     s.setThisTotal(s.getThisTotal()-(itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
