@@ -25,7 +25,7 @@
 	<div class="layui-inline" style="margin-left: 200px;">
 		人员：
 		<div class="layui-input-inline">
-			<input type="text" class="layui-input" id="userName"  placeholder="请输入登录名">
+			<input type="text" class="layui-input" id="name"  placeholder="请输入登录名">
 		</div>
 	</div>
 
@@ -45,7 +45,7 @@
 		var table = layui.table;
 		table.render({
 			elem: '#test'
-			,url: '${pageContext.request.contextPath }/log/findLogByTimeUserID'
+			,url: '${pageContext.request.contextPath }/log/findAllLog'
 			,toolbar: '#toolbarDemo'
 			,title: '日志'
 			,totalRow: true//开启合计行
@@ -60,7 +60,7 @@
 				,{field:'operation', title:'操作', width:200}
 				,{field:'result', title:'结果', width:200}
 			]]
-			,where: {"time1":null,"time2":null,"userName":null}
+			,where: {"time1":null,"time2":null,"name":null}
 			,page: true
 			,limit:10
 			,limits:[5,10,20,30,50]
@@ -169,17 +169,17 @@
 		$("#do_search").on("click",function () {
 			var time1 = null;
 			var time2 = null;
-			var userName = null;
+			var name = null;
 			var timeRange=$("#test10").val();
 			if (timeRange!=null || timeRange !=""){
 				time1 = timeRange.substring(0,19);
 				time2 = timeRange.substring(21,41);
 			}
-			if(($("#userName").val()) != null || ($("#userName").val()) != "")
-				userName =$("#userName").val();
-			console.log(time1+" "+time2+" "+userName)
+			if(($("#name").val()) != null || ($("#name").val()) != "")
+				name =$("#name").val();
+			console.log(time1+" "+time2+" "+name)
 			table.reload('logTable', {
-				 where: {"time1":time1,"time2":time2,"userName":userName} //设定异步数据接口的额外参数
+				 where: {"time1":time1,"time2":time2,"name":name} //设定异步数据接口的额外参数
 				,height: 300
 			});
 		})

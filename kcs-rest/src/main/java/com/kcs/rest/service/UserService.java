@@ -14,9 +14,9 @@ public interface UserService {
 
     List<User> findAllUser();
 
-    List<UserPresent> findAllUserPresent();
+    List<UserPresent> findAllUserPresent(int front, int back, String name);
 
-    int count();
+    int count(String name);
 
     List<User> findoneUser(String loginName);
 
@@ -40,4 +40,5 @@ public interface UserService {
 
     Integer updateUser(User user);
 
+    Integer lockUser(int userID,Boolean status);
 }

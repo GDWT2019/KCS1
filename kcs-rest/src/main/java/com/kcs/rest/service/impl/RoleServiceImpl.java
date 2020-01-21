@@ -2,6 +2,7 @@ package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.RoleDao;
 import com.kcs.rest.pojo.Role;
+import com.kcs.rest.pojo.RolePresent;
 import com.kcs.rest.service.RoleService;
 import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,5 +54,20 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findTheOthersRoleByUserID(int userID) {
         return roleDao.findTheOthersRoleByUserID(userID);
+    }
+
+    @Override
+    public List<RolePresent> findAllRolePresent(int front, int back, int roleID) {
+        return roleDao.findAllRolePresent(front, back,roleID);
+    }
+
+    @Override
+    public int findRolePresentCount(int roleID) {
+        return roleDao.findRolePresentCount(roleID);
+    }
+
+    @Override
+    public Role findRoleByID(int roleID) {
+        return roleDao.findRoleByID(roleID);
     }
 }

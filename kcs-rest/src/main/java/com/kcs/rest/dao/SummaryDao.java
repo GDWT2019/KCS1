@@ -51,4 +51,6 @@ public interface SummaryDao {
 
     int countReload(@Param("itemName")String itemName);
 
+    int getThisAmount(@Param("goodsID") int goodsID, @Param("time") String time);
+
 }

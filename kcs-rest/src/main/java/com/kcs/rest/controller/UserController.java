@@ -53,10 +53,10 @@ public class UserController {
     }
 
     //查找用户数据条数
-    @RequestMapping(value="findTotal")
+    @RequestMapping(value="findTotal{name}")
     @ResponseBody
-    public  KcsResult findTotal(){
-        int count = userService.count();
+    public  KcsResult findTotal(@PathVariable String name){
+        int count = userService.count(name);
         return KcsResult.ok(count);
     }
 
@@ -144,10 +144,21 @@ public class UserController {
     }
 
 
-    @RequestMapping("/userPresentData")
+    @RequestMapping(value = "/userPresentData",method = RequestMethod.GET)
     @ResponseBody
-    public KcsResult findAllUserPresent(){
-        List<UserPresent> userPresent = userService.findAllUserPresent();
+    public KcsResult findAllUserPresent(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("name")String name){
+        int front = Integer.parseInt(before);
+        int back = Integer.parseInt(after);
+        List<UserPresent> userPresent = userService.findAllUserPresent(front,back,name);
         return  KcsResult.ok(userPresent);
+    }
+
+    @RequestMapping(value = "/lockUser",method = RequestMethod.GET)
+    @ResponseBody
+    public KcsResult lockUser(@RequestParam("userID")String userID,@RequestParam("status")String status){
+        int uid = Integer.parseInt(userID);
+        Boolean st = Boolean.parseBoolean(status);
+        Integer integer = userService.lockUser(uid, st);
+        return  KcsResult.ok(integer);
     }
 }

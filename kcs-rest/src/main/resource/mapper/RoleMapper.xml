@@ -47,4 +47,27 @@
         select * from Role
         where RoleID not in(select RoleID from UserRole where UserID = #{userID})
     </select>
+
+    <select id="findAllRolePresent" resultType="com.kcs.rest.pojo.RolePresent">
+        select top (#{back}-#{front}+1) [Role].RoleID,[Role].RoleName,[Permission].PermissionID, [Permission].PermissionName, [Permission].PermissionNum from [RolePermission],[Role],[Permission]
+        where [Role].RoleID = #{roleID}
+        and [Permission].PermissionID = [RolePermission].PermissionID
+        and [Role].RoleID = [RolePermission].RoleID
+        and [Permission].PermissionID not in(select top (#{front-1}) [Permission].PermissionID from [RolePermission],[Role],[Permission]
+        where [Role].RoleID = #{roleID}
+        and [Permission].PermissionID = [RolePermission].PermissionID
+        and [Role].RoleID = [RolePermission].RoleID)
+    </select>
+
+    <select id="findRolePresentCount">
+        select count(*) from [RolePermission],[Role],[Permission]
+        where [Role].RoleID = #{roleID}
+        and [Permission].PermissionID = [RolePermission].PermissionID
+        and [Role].RoleID = [RolePermission].RoleID
+    </select>
+
+    <select id="findRoleByID" resultType="com.kcs.rest.pojo.Role">
+        select * from Role
+        where RoleID = #{roleID}
+    </select>
 </mapper>

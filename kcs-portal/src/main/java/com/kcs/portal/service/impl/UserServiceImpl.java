@@ -11,6 +11,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service("userService")
@@ -31,9 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserPresent> findAllUserPresent() {
+    public List<UserPresent> findAllUserPresent(int before, int after, String name) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("before",before+"");
+        param.put("after",after+"");
+        param.put("name",name);
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/user/userPresentData");
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/userPresentData",param);
             KcsResult result = KcsResult.formatToList(s,UserPresent.class);
             if (result.getStatus() == 200) {
                 return (List<UserPresent>) result.getData();
@@ -81,9 +86,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int count() {
+    public int count(String name) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findTotal");
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findTotal"+name);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -240,6 +245,23 @@ public class UserServiceImpl implements UserService {
             if (result.getStatus() == 200) {
                 List<UserRole> userRoleList = (List<UserRole>) result.getData();
                 return userRoleList;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer lockUser(int userID, Boolean status) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("userID",userID+"");
+        param.put("status",status+"");
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/lockUser",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
             }
         }catch (Exception e){
             e.printStackTrace();

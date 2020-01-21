@@ -84,10 +84,10 @@
         <label class="layui-form-label">仓管员标记</label>
         <div class="layui-input-block">
             <c:if test="${user.warehouseMark==true}">
-                <input type="checkbox" checked  id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="是|否">
+                <input type="checkbox" checked  id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="true|false">
             </c:if>
             <c:if test="${user.warehouseMark==false}">
-                <input type="checkbox" id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="是|否">
+                <input type="checkbox" id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="true|false">
             </c:if>
         </div>
     </div>
@@ -95,10 +95,10 @@
         <label class="layui-form-label">制表人标记</label>
         <div class="layui-input-block">
             <c:if test="${user.listerMark==true}">
-                <input type="checkbox" checked id="listerMark" name="listerMark" lay-skin="switch" lay-text="是|否">
+                <input type="checkbox" checked id="listerMark" name="listerMark" lay-skin="switch" lay-text="true|false">
             </c:if>
             <c:if test="${user.listerMark==false}">
-                <input type="checkbox" id="listerMark" name="listerMark" lay-skin="switch" lay-text="是|否">
+                <input type="checkbox" id="listerMark" name="listerMark" lay-skin="switch" lay-text="true|false">
             </c:if>
         </div>
     </div>
@@ -199,28 +199,28 @@
             var warehouseMark = $("#warehouseMark").val();
             var listerMark = $("#listerMark").val();
             var note = $("#note").val();
-            console.log(warehouseMark +":::"+listerMark)
-            $.ajax({
-                url:"${pageContext.request.contextPath}/user/updateUser",
-                type:"post",
-                data:{
-                    "userID":userID,"loginName":loginName,"userName":userName,"password":password,
-                    "departmentID":departmentID,"positionID":positionID,"sex":sex,
-                    "tel":tel,"email":email,"photo":photo,"warehouseMark":warehouseMark,
-                    "listerMark":listerMark,"note":note},
-                dataType:"text",
-                success:function (result) {
-                    if (result!=null){
-                        var data = JSON.parse(result);
-                        alert(data.mesg);
-                    }
-                    else
-                        alert("失败！")
-                },
-                error:function () {
-                    alert("请求错误！")
-                }
-            })
+            console.log(warehouseMark +":::"+listerMark);
+            <%--$.ajax({--%>
+                <%--url:"${pageContext.request.contextPath}/user/updateUser",--%>
+                <%--type:"post",--%>
+                <%--data:{--%>
+                    <%--"userID":userID,"loginName":loginName,"userName":userName,"password":password,--%>
+                    <%--"departmentID":departmentID,"positionID":positionID,"sex":sex,--%>
+                    <%--"tel":tel,"email":email,"photo":photo,"warehouseMark":warehouseMark,--%>
+                    <%--"listerMark":listerMark,"note":note},--%>
+                <%--dataType:"text",--%>
+                <%--success:function (result) {--%>
+                    <%--if (result!=null){--%>
+                        <%--var data = JSON.parse(result);--%>
+                        <%--alert(data.mesg);--%>
+                    <%--}--%>
+                    <%--else--%>
+                        <%--alert("失败！")--%>
+                <%--},--%>
+                <%--error:function () {--%>
+                    <%--alert("请求错误！")--%>
+                <%--}--%>
+            <%--})--%>
         });
 
 

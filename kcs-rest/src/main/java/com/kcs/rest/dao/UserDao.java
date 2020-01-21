@@ -1,8 +1,8 @@
 package com.kcs.rest.dao;
 
-
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,11 +11,11 @@ public interface UserDao {
 
     User findByLoginName(String loginName);
 
-    List<UserPresent> findAllUserPresent();
+    List<UserPresent> findAllUserPresent(@Param("front") int front, @Param("back") int back, @Param("name") String name);
 
     List<User> findAllUser();
 
-    int count();
+    int count(@Param("name") String name);
 
     List<User> findoneUser(String loginName);
 
@@ -27,7 +27,7 @@ public interface UserDao {
 
     List<User> findAllWarehouse();
 
-    List<User> findByName(String name);
+    List<User> findByName(@Param("name") String name);
 
     Integer addUser(User user);
 
@@ -36,4 +36,6 @@ public interface UserDao {
     UserPresent findUserPresentById(int id);
 
     Integer updateUser(User user);
+
+    Integer lockUser(@Param("userID") int userID, @Param("status") Boolean status);
 }

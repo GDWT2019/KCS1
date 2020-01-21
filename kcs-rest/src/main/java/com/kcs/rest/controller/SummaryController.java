@@ -118,5 +118,14 @@ public class SummaryController {
         int countReload = summaryService.countReload(itemName);
         return countReload;
     }
+
+    //某时某物品的剩余数量
+    @RequestMapping(value="getThisTotal")
+    @ResponseBody
+   public KcsResult getThisTotal(@RequestParam("goodsID") String goodsID, @RequestParam("time") String time){
+        int gid = Integer.parseInt(goodsID);
+        int thisTotal = summaryService.getThisAmount(gid, time);
+        return KcsResult.ok(thisTotal);
+    }
 }
 

@@ -64,7 +64,6 @@ public class OutBillController {
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
-        System.out.println(jso);
         return jso;
     }
 
@@ -289,7 +288,6 @@ public class OutBillController {
     @RequestMapping("/updateOutBill")
     @ResponseBody
     public AjaxMesg updateOutBill(HttpSession session,String itemsOutJsonListString, String outBillString) throws IOException {
-        AjaxMesg ajaxMesg = new AjaxMesg(true,"恭喜，修改成功！");
 
         ObjectMapper mapper = new ObjectMapper();
         List<ItemsOut> itemsOutList = mapper.readValue(itemsOutJsonListString,new TypeReference<List<ItemsOut>>() { });
@@ -304,13 +302,22 @@ public class OutBillController {
             return new AjaxMesg(false,"出库信息更新失败！");
         }
 
+        String month = outBill.getOutTime().substring(0,7);
         for (ItemsOut out : itemsOutList) {
+
+            //插入新增的物品
             if (out.getItemsOutID()==null){
+                Integer thisTotal = summaryService.getThisAmount(out.getGoodsID(), month);
+                if (thisTotal == 0 || thisTotal ==null){
+                    Goods goods = goodsService.findGoodsByGoodsID(out.getGoodsID());
+                    return new AjaxMesg(false,"物品"+goods.getItemsName()+"在"+month+"月数量为0，无法添加到该出库单");
+                }
                 Integer i = itemsOutService.insertItemsOut(out);
                 if (i<1){
                     return new AjaxMesg(false,"出库物品插入失败！");
                 }
             }else{
+                //更新物品
                 Integer i = itemsOutService.updateItemsOut(out);
                 if (i<1){
                     return new AjaxMesg(false,"出库物品更新失败！");
@@ -320,6 +327,6 @@ public class OutBillController {
 
         }
 
-        return ajaxMesg;
+        return new AjaxMesg(true,"恭喜，修改成功！");
     }
 }

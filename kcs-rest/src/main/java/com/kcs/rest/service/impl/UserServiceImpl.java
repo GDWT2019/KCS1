@@ -44,13 +44,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserPresent> findAllUserPresent() {
-        return userDao.findAllUserPresent();
+    public List<UserPresent> findAllUserPresent(int front, int back, String name) {
+        return userDao.findAllUserPresent(front,back,name);
     }
 
     @Override
-    public int count() {
-        return userDao.count();
+    public int count(String name) {
+        return userDao.count(name);
     }
 
     @Override
@@ -99,11 +99,9 @@ public class UserServiceImpl implements UserService {
     public Integer delUserByUserID(int userID) {
         //先删除用户所拥有的角色
         List<UserRole> userRoleList = userRoleDao.findUserRoleByUserID(userID);
-        Integer del = 0;
-        if (userRoleList!=null)
-            del = userRoleDao.delByUserID(userID);
-        if (del<1)
-            return null;
+        if (userRoleList!=null){
+            userRoleDao.delUserRoleByUserID_RoleID(userID,0);
+        }
         return userDao.delUserByUserID(userID);
     }
 
@@ -116,6 +114,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer updateUser(User user) {
         return userDao.updateUser(user);
+    }
+
+    @Override
+    public Integer lockUser(int userID, Boolean status) {
+        return userDao.lockUser(userID,status);
     }
 
 

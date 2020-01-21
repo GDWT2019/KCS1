@@ -7,9 +7,15 @@
         from [UserRole]
     </select>
 
-    <delete id="delByUserID" parameterType="java.lang.Integer">
+    <delete id="delUserRoleByUserID_RoleID" parameterType="java.lang.Integer">
         delete from UserRole
-        where UserID = #{userID}
+        where 1=1
+        <if test="userID != 0 and userID !=''">
+            and UserID = #{userID}
+        </if>
+        <if test="roleID != 0 and roleID != ''">
+            and RoleID = #{roleID}
+        </if>
     </delete>
 
     <select id="findUserRoleByUserID" resultType="com.kcs.rest.pojo.UserRole" parameterType="java.lang.Integer">
@@ -19,4 +25,10 @@
         and [User].UserID=[UserRole].UserID
         and [Role].RoleID=[UserRole].RoleID
     </select>
+
+    <insert id="addUserRole">
+        insert into UserRole(UserID,RoleID)
+        values (#{userID},#{roleID})
+    </insert>
+
 </mapper>

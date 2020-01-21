@@ -30,6 +30,10 @@ public class ItemsOutServiceImpl implements ItemsOutService {
     @LogAnno(operateType = "新增出库物品")
     @Override
     public int insertItemsOut(ItemsOut itemsOut) {
+
+        //用于更新的summary
+        Summary summary = null;
+
         //更新出库物品仓库位置
         ItemIn itemIn = itemInDao.findItemsByGoodsID(itemsOut.getGoodsID());
         if (itemIn.getStorePosition()!=null){
@@ -37,10 +41,17 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         }
         //插入出库物品信息
         int i = itemsOutDao.insertItemsOut(itemsOut);
-        if (i>0){
-            //获取对应物品id的最新的汇总记录
-            Summary summary = summaryDao.findSummaryInTheLastGoodsDataByGoodsID(itemsOut.getGoodsID());
 
+        //判断该出库物品对应的出库单是否已存在
+        OutBill outBillByID = outBillDao.findOutBillByID(itemsOut.getOutBillID());
+        if (outBillByID != null){
+            summary = summaryDao.findSummaryByGoodsIDAndTime(itemsOut.getGoodsID(), outBillByID.getOutTime().substring(0,7));
+
+        }else{
+            //获取对应物品id的最新的汇总记录
+            summary = summaryDao.findSummaryInTheLastGoodsDataByGoodsID(itemsOut.getGoodsID());
+        }
+        if (i>0){
             //判断该记录出库信息
             if (summary.getOutAmount()>=0||summary.getOutAmount()!=null){
                 //出库物品插入后，更新汇总表出库信息

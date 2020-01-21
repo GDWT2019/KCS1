@@ -14,6 +14,7 @@ public class User {
     private String Note;
     private boolean WarehouseMark;
     private boolean ListerMark;
+    private boolean Status;
 
     @Override
     public String toString() {
@@ -31,7 +32,16 @@ public class User {
                 ", Note='" + Note + '\'' +
                 ", WarehouseMark=" + WarehouseMark +
                 ", ListerMark=" + ListerMark +
+                ", Status=" + Status +
                 '}';
+    }
+
+    public boolean isStatus() {
+        return Status;
+    }
+
+    public void setStatus(boolean status) {
+        Status = status;
     }
 
     public int getUserID() {

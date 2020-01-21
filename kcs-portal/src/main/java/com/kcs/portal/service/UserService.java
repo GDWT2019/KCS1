@@ -9,13 +9,13 @@ import java.util.List;
 public interface UserService {
     List<User> findAllUser();
 
-    List<UserPresent> findAllUserPresent();
+    List<UserPresent> findAllUserPresent(int before, int after, String name);
 
     User findUserById(int id);
 
     User findByLoginName(String loginName);
 
-    int count();
+    int count(String name);
 
     List<User> findoneUser(String loginName);
 
@@ -38,4 +38,6 @@ public interface UserService {
     Integer updateUser(User user);
 
     List<UserRole> findUserRoleByUserID(int userID);
+
+    Integer lockUser(int userID,Boolean status);
 }

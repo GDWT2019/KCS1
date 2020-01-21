@@ -157,5 +157,23 @@ public class SummaryServiceImpl implements SummaryService {
         }
         return 0;
     }
+
+    @Override
+    public int getThisAmount(int goodsID, String time) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("time",time);
+
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/getThisTotal",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
 

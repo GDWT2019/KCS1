@@ -84,7 +84,7 @@
 			,page: true
 			,limit:10
 			,limits:[5,10,20,30,50]
-			,id:'testUser'
+			,id:'outBillData'
 		});
 
 		$('body').on('click',"#search",function () {
@@ -101,7 +101,7 @@
 				time2 = timeRange.substring(13, 23);
 			}
 			console.log(time1 + " " + time2 + " " + itemName)
-			table.reload('testUser', {
+			table.reload('outBillData', {
 				method: 'post'
 				, where: {
 					"time1": time1,

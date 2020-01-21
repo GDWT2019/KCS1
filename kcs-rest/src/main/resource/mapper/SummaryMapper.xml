@@ -130,4 +130,11 @@ select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getd
     <select id="summaryAllTotal" resultType="int">
         select count(*) from Summary
     </select>
+
+    <select id="getThisAmount" resultType="int">
+        select ThisAmount from
+        Summary
+        where GoodsID = #{goodsID}
+        and Time = #{time}
+    </select>
 </mapper>

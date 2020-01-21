@@ -17,6 +17,16 @@ public class UserPresent {
     private boolean WarehouseMark;
     private boolean ListerMark;
 
+    public boolean isStatus() {
+        return Status;
+    }
+
+    public void setStatus(boolean status) {
+        Status = status;
+    }
+
+    private boolean Status;
+
     public int getUserID() {
         return UserID;
     }

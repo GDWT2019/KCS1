@@ -36,11 +36,22 @@
                 [User].Note,
                 [User].WarehouseMark,
                 [User].ListerMark,
+                [User].status,
                 [Position].PositionName,
                 [Department].DepartmentName
         from [User],[Position],[Department]
         where [User].PositionID=[Position].PositionID
         and [User].DepartmentID=[Department].DepartmentID
+		and [User].UserID in(select top(#{back}-#{front}+1) UserID from [User]
+		where UserID not in(select top(#{front}-1) UserID from [User]))
+		<if test="name != null and name != ''">
+         and [User].LoginName like '%${name}%'
+         or [User].PositionID=[Position].PositionID
+         and [User].DepartmentID=[Department].DepartmentID
+         and [User].UserID in(select top(#{back}-#{front}+1) UserID from [User]
+         where UserID not in(select top(#{front}-1) UserID from [User]))
+         and [User].UserName like '%${name}%'
+        </if>
     </select>
 
     <select id="findAlllister"  resultType="com.kcs.rest.pojo.User" >
@@ -59,12 +70,15 @@
         select *  from  [User]  where  LoginName = #{LoginName}
     </select>
 
-    <select id="findByName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >
-        select *  from  [User]  where  LoginName = #{name} or UserName= #{name}
+    <select id="findByName" resultType="com.kcs.rest.pojo.User">
+        select *  from  [User]  where  LoginName like '%${name}%' or UserName like '%${name}%'
     </select>
 
     <select id="count" resultType="int">
         select count(*) from [User]
+        <if test="name != null and name !=''">
+            where LoginName like '%${name}%' or UserName like '%${name}%'
+        </if>
     </select>
 
     <select id="findoneUser" resultType="com.kcs.rest.pojo.User" parameterType="String">
@@ -80,8 +94,8 @@
     </update>
 
     <insert id="addUser" parameterType="com.kcs.rest.pojo.User">
-        insert into [User](PositionID,DepartmentID,LoginName,UserName,Password,Sex,Tel,Email,Photo,Note,WarehouseMark,ListerMark)
-        values (#{positionID},#{departmentID},#{loginName},#{userName},#{password},#{sex},#{tel},#{email},#{photo},#{note},#{warehouseMark},#{listerMark})
+        insert into [User](PositionID,DepartmentID,LoginName,UserName,Password,Sex,Tel,Email,Photo,Note,WarehouseMark,ListerMark,status)
+        values (#{positionID},#{departmentID},#{loginName},#{userName},#{password},#{sex},#{tel},#{email},#{photo},#{note},#{warehouseMark},#{listerMark},1)
     </insert>
 
     <delete id="delUserByUserID" parameterType="java.lang.Integer">
@@ -126,5 +140,11 @@
             <if test="ListerMark != null">ListerMark = #{ListerMark},</if>
         </trim>
         where UserID =#{UserID}
+    </update>
+
+    <update id="lockUser">
+        update [User]
+        set status = #{status}
+        where UserID = #{userID}
     </update>
 </mapper>

@@ -30,9 +30,9 @@
 
         table.render({
             elem: '#test'
-            ,url:"${pageContext.request.contextPath }/user/userRole?userID=${user.userID}"
+            ,url:"${pageContext.request.contextPath }/role/rolePermission?roleID=${role.roleID}"
             ,toolbar: '#toolbarDemo'
-            ,title: '用户角色'
+            ,title: '角色权限'
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
@@ -52,8 +52,8 @@
             if(obj.event = 'addUserRole'){
                 layer.open({
                     type:2,
-                    title:"添加角色",
-                    content:'${pageContext.request.contextPath }/role/showAddUserRole?userID='+${user.userID},
+                    title:"添加权限",
+                    content:'${pageContext.request.contextPath }/role/showAddRolePermission?roleID='+${role.roleID},
                     area:['500px','300px'],
                     moveOut:true,
                     end:function () {
@@ -70,10 +70,10 @@
             if(obj.event === 'del'){
                 layer.confirm('真的删除？', function(index){
                     $.ajax({
-                        url:"${pageContext.request.contextPath}/role/delUserRole",
-                        title:"删除用户角色",
+                        url:"${pageContext.request.contextPath}/role/delRolePermission",
+                        title:"删除角色权限",
                         type:"post",
-                        data:{"userID":data.userID,"roleID":data.roleID},
+                        data:{"roleID":data.roleID,"PermissionID":data.permissionID},
                         dataType:"text",
                         success:function (result) {
                             var ajaxResult = JSON.parse(result);

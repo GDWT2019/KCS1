@@ -14,14 +14,29 @@
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addUserData">添加数据</button>
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-sm" lay-event="addUserData">添加数据</button>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">名字：</label>
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" id="name"  placeholder="登录名/用户名">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="button" class="layui-btn" id="search" value="搜索">
+                </div>
+            </div>
+        </div>
     </div>
 </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="lock">冻结</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="lock">冻结</a>
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
@@ -30,8 +45,9 @@
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
 <script>
-    layui.use('table', function(){
+    layui.use(['table','form'], function(){
         var table = layui.table;
+        var form =layui.form;
 
         table.render({
             elem: '#test'
@@ -48,17 +64,45 @@
                 ,{field:'email', title:'邮箱', width:150, templet: function(res){
                         return '<em>'+ res.email +'</em>'
                     }}
-                ,{field:'positionName', title:'职位', width:120}
                 ,{field:'departmentName', title:'部门', width:100}
+                ,{field:'positionName', title:'职位', width:120}
                 ,{field:'warehouseMark', title:'仓管员', width:80}
                 ,{field:'listerMark', title:'制表人', width:80}
                 ,{fixed: '', title:'角色', toolbar: '#bar', width:80}
+                ,{field:'status', title:'状态', width:100, templet: '#checkboxTpl', unresize: true,templet:function (d) {
+                        if(d.status==true) return '<span style="color: #009688;">正常</span>';
+                        else if(d.status ==false) return '<span style="color: grey;">已冻结</span>';
+                        else return '信息错误'
+                    }}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
+            ,where:{'name':null}
             ,page: true
             ,limit:10
             ,limits:[10,20,30]
             ,id:'testUser'
+        });
+
+        $('body').on('click',"#search",function () {
+            // 搜索条件
+            var name = null;
+            if (($("#name").val()) != null && ($("#name").val()) != "") {
+                name = $('#name').val();
+            }
+            table.reload('testUser', {
+                method: 'post'
+                , where: {
+                    "name": name,
+                }
+                , page: {
+                    curr: 1
+                }
+            });
+        });
+
+        //监听锁定操作
+        form.on('checkbox(lockDemo)', function(obj){
+            layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
         });
 
         //工具栏事件
@@ -111,6 +155,15 @@
                             }else{
                                 layer.confirm(ajaxResult.mesg);
                             }
+                            table.reload('testUser', {
+                                method: 'post'
+                                , where: {
+                                    "name": null,
+                                }
+                                , page: {
+                                    curr: 1
+                                }
+                            });
                             layer.close(index);
                         },
                         error:function () {
@@ -122,27 +175,54 @@
 
                 //冻结！
             }else if (obj.event === 'lock'){
-                $.ajax({
-                    url:"#",
-                    type:"post",
-                    data:{"outBillID":data.outBillID},
-                    dataType:"text",
-                    success:function (result) {
-                        layer.open({
-                            type:1,
-                            content: result,
-                            title:false,
-                            area:['1200px','668px'],
-                            end:function () {
-                                location.reload();
+                if (data.status){
+                    layer.confirm('确定冻结？', function(index){
+                        $.ajax({
+                            url:"${pageContext.request.contextPath}/user/lockUser",
+                            title:"冻结操作",
+                            type:"post",
+                            data:{"userID":data.userID,"status":false},
+                            dataType:"text",
+                            success:function (result) {
+                                var ajaxResult = JSON.parse(result);
+                                if (ajaxResult){
+                                    layer.confirm(ajaxResult.mesg);
+                                }else{
+                                    layer.confirm(ajaxResult.mesg);
+                                }
+                                layer.close(index);
+                            },
+                            error:function () {
+                                layer.confirm("冻结请求错误！");
+                                layer.close(index);
                             }
                         })
-                    },
-                    error:function () {
-                        layer.confirm("审批请求错误");
-                        layer.close(index);
-                    }
-                })
+                    })
+                }
+                else{
+                    layer.confirm('取消冻结？', function(index){
+                        $.ajax({
+                            url:"${pageContext.request.contextPath}/user/lockUser",
+                            title:"冻结操作",
+                            type:"post",
+                            data:{"userID":data.userID,"status":true},
+                            dataType:"text",
+                            success:function (result) {
+                                var ajaxResult = JSON.parse(result);
+                                if (ajaxResult){
+                                    layer.confirm(ajaxResult.mesg);
+                                }else{
+                                    layer.confirm(ajaxResult.mesg);
+                                }
+                                layer.close(index);
+                            },
+                            error:function () {
+                                layer.confirm("取消冻结请求错误！");
+                                layer.close(index);
+                            }
+                        })
+                    })
+                }
             }else if (obj.event === 'detail'){
                 layer.open({
                     type:2,

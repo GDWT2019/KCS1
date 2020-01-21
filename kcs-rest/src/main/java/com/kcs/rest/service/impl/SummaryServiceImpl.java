@@ -75,5 +75,10 @@ public class SummaryServiceImpl implements SummaryService{
         return summaryDao.countReload(itemName);
     }
 
+    @Override
+    public int getThisAmount(int goodsID, String time) {
+        return summaryDao.getThisAmount(goodsID,time);
+    }
+
 
 }

@@ -147,15 +147,22 @@ public class UserController {
 
     //获取用户数据
     @RequestMapping(value="userData",produces="text/html;charset=utf-8")
-    public @ResponseBody String UserData(){
-        /*int before=limit*(page-1)+1;
-        int after = page * limit;*/
+    public @ResponseBody String UserData(HttpServletRequest request,String name){
+        int page = Integer.parseInt(request.getParameter("page"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
+        int before=limit*(page-1)+1;
+        int after = page * limit;
 
-        List<UserPresent> list=userService.findAllUserPresent();
-        int count =userService.count();
+        List<UserPresent> list=userService.findAllUserPresent(before,after,name);
 
-        JSONArray json = JSONArray.fromObject(list);
-        String js=json.toString();
+        int count = 0;
+        JSONArray json = null;
+        String js="[]";
+        if (list!=null){
+            count = userService.count(name);
+            json = JSONArray.fromObject(list);
+            js = json.toString();
+        }
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
         return jso;
     }
@@ -322,10 +329,30 @@ public class UserController {
     public String userRole(HttpServletRequest request){
         int userID = Integer.valueOf(request.getParameter("userID"));
         List<UserRole> userRoleList = userService.findUserRoleByUserID(userID);
-        JSONArray json = JSONArray.fromObject(userRoleList);
-        String js=json.toString();
-        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+userRoleList.size()+",\"data\":"+js+"}";
+        String js= "";
+        int count = 0;
+        if (userRoleList == null){
+            js ="[]";
+        }
+        else{
+            JSONArray json = JSONArray.fromObject(userRoleList);
+            js = json.toString();
+            count = userRoleList.size();
+        }
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
         return jso;
     }
 
+    //冻结用户
+    @RequestMapping("/lockUser")
+    @ResponseBody
+    public AjaxMesg lockUser(int userID,Boolean status){
+        Integer integer = userService.lockUser(userID,status);
+        if (integer>0)
+            if (status)
+                return new AjaxMesg(true,"取消冻结成功！");
+            else
+                return new AjaxMesg(true,"冻结成功！");
+        return new AjaxMesg(true,"冻结失败！");
+    }
 }

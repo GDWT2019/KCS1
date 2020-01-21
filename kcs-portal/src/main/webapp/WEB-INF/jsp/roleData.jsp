@@ -109,7 +109,18 @@
 						}
 					})
 				});
-			}
+			}else if (obj.event === 'detail'){
+                layer.open({
+                    type:2,
+                    title:data.roleName+"的权限详情",
+                    content:'${pageContext.request.contextPath}/role/showRolePermission?roleID='+data.roleID,
+                    area:['1200px','668px'],
+                    moveOut:true,
+                    end:function () {
+                        location.reload();
+                    }
+                });
+            }
 		});
 	});
 </script>

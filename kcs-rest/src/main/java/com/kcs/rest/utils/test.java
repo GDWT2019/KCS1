@@ -207,13 +207,6 @@ public class test {
     }
 
     @Test
-    public void test(){
-        List<Goods> goodsInSummaryGoodsID = goodsDao.findGoodsBygoodsId(7);
-        for (Goods goods : goodsInSummaryGoodsID) {
-            System.out.println(goods);
-        }
-    }
-    @Test
     public void test1(){
         InBill inBill=new InBill();
         inBill.setTimeIn("2019-12-06 14:36:03");
