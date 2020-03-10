@@ -31,7 +31,16 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Integer addRole(Role role) {
+    public Integer addRole(String roleName) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/role/addRole"+roleName);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -128,8 +137,7 @@ public class RoleServiceImpl implements RoleService {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findAllRolePresent",param);
             KcsResult result = KcsResult.formatToList(s,RolePresent.class);
             if (result.getStatus() == 200) {
-                List<RolePresent> RolePresentList = (List<RolePresent>) result.getData();
-                return RolePresentList;
+                return (List<RolePresent>) result.getData();
             }
         }catch (Exception e){
             e.printStackTrace();

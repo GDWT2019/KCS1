@@ -1,5 +1,5 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <!DOCTYPE html>
 <html>
 
@@ -25,15 +25,17 @@
 
 <body style="background: #DDEEFE ">
 <%--<% request.getSession().invalidate();%>--%>
-<form id="form1" class="form-signin" method="post" >
+<form id="form1" action="${pageContext.request.contextPath}/login" class="form-signin" method="post" >
+    <security:csrfInput/>
     <h1 class="h3 mb-3 font-weight-normal" >Please sign in</h1><br />
     <!--判断-->
     <p id="message" style="color: red" ></p>
     <input class="sr-only" >账号</input>
-    <input type="text" id="name"  name="username" class="form-control" placeholder="Username"  required="" autofocus=""/><br />
+    <input type="text" id="name"  name="loginName" class="form-control" placeholder="loginName"  required="" autofocus=""/><br />
     <input class="sr-only" >密码</input>
     <input type="password" id="password" name="password" class="form-control" placeholder="Password"  required=""/><br />
-    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">Sign in</button>
+    <%--<button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">Sign in</button>--%>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
 </form>
 </body>
 <script>

@@ -12,12 +12,17 @@ import net.sf.json.JSONArray;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -37,9 +43,33 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    @RequestMapping("getInfo")
+    @ResponseBody
+    public Authentication getInfo(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication;
+    }
+
+    @RequestMapping("/success")
+    public String success(ModelAndView modelAndView,Model model,HttpServletRequest request){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username =null;
+        if (principal instanceof UserDetails) {
+            username=((UserDetails)principal).getUsername();
+        }
+        User user = userService.findByLoginName(username);
+//        model.addAttribute("user",user);
+//        modelAndView.addObject("user",user);
+        request.getSession().setAttribute("user",user);
+
+        return "forward:/index.jsp";
+    }
+
     //修改用户密码
     @RequestMapping("/updatePass")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户修改,用户管理,ROLE_ADMIN')" )
     public void updatePass(HttpServletRequest request){
         Map<String, String[]> map = request.getParameterMap();
         User user =new User();
@@ -58,6 +88,7 @@ public class UserController {
     //修改用户基本资料
     @RequestMapping("/updateBase")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户修改,用户管理,ROLE_ADMIN')" )
     public void updateBase(HttpServletRequest request){
         Map<String, String[]> map = request.getParameterMap();
         User user =new User();
@@ -92,7 +123,7 @@ public class UserController {
                 String uuid = UUID.randomUUID()+"";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 // dateStr = simpleDateFormat.format(date);
-                String filepath = "G:\\photoes\\" +uuid+"." + prefix;
+                String filepath = "E:\\photoes\\" +uuid+"." + prefix;
 
                 File files=new File(filepath);
 
@@ -140,7 +171,9 @@ public class UserController {
     }
 
     //返回用户数据页面
+
     @RequestMapping("/ruser")
+    @PreAuthorize("hasAnyAuthority('用户查看,用户管理,ROLE_ADMIN')" )
     public String Ruser(){
         return "userData";
     }
@@ -196,6 +229,7 @@ public class UserController {
 
     //返回安全设置
     @RequestMapping("/safeData")
+    @PreAuthorize("hasAnyAuthority('用户修改,用户管理,ROLE_ADMIN')" )
     public String safeData(HttpServletRequest request){
         return "safe";
     }
@@ -217,7 +251,7 @@ public class UserController {
         }
     }
 
-    //登录
+   /* //登录
     @RequestMapping("/loginUser")
     public void Login(HttpServletRequest request, HttpServletResponse response){
         String loginName = request.getParameter("loginName");
@@ -248,7 +282,8 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
+
 
     @RequestMapping("/findUserById")
     @ResponseBody
@@ -261,6 +296,7 @@ public class UserController {
 
     //返回新增用户页面
     @RequestMapping("/showAddUser")
+    @PreAuthorize("hasAnyAuthority('用户添加,用户管理,ROLE_ADMIN')" )
     public String showAddUser(){
         return "addUser";
     }
@@ -279,6 +315,7 @@ public class UserController {
     //新增用户
     @RequestMapping("/addUser")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户添加,用户管理,ROLE_ADMIN')" )
     public AjaxMesg addUser(User user){
         Integer integer = userService.addUser(user);
         if (integer<0)
@@ -289,6 +326,7 @@ public class UserController {
     //删除用户
     @RequestMapping("/delUserByUserID")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户删除,用户管理,ROLE_ADMIN')" )
     public AjaxMesg delUserByUserID(int userID){
         Integer integer = userService.delUserByUserID(userID);
         if (integer<0)
@@ -346,6 +384,7 @@ public class UserController {
     //冻结用户
     @RequestMapping("/lockUser")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户冻结,用户管理,ROLE_ADMIN')" )
     public AjaxMesg lockUser(int userID,Boolean status){
         Integer integer = userService.lockUser(userID,status);
         if (integer>0)

@@ -18,7 +18,7 @@
     <div class="layui-form">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm" lay-event="newInBill">新建入库单</button>
+                <button class="layui-btn layui-btn-sm" lay-event="newInBill">添加入库</button>
             </div>
             <div class="layui-inline">
                 <button class="layui-btn layui-btn-sm export" id="export" >导出所有数据报表</button>
@@ -39,6 +39,18 @@
             </div>
 
             <div class="layui-inline">
+                <label class="layui-form-label" style="width: 100px">审核状态：</label>
+                <div class="layui-input-inline">
+                    <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
+                        <option value="">请选择审核状态</option>
+                        <option value="1">等待审核</option>
+                        <option value="2">审核通过</option>
+                        <option value="3">审核未通过</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-inline">
                 <div class="layui-input-inline">
                     <input type="button" class="layui-btn" id="search"  value="搜索">
                 </div>
@@ -55,8 +67,8 @@
     </div>
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="update">编辑</a>
     <a class="layui-btn layui-btn-xs" lay-event="check">审批</a>
+    <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -72,7 +84,7 @@
             ,url:"${pageContext.request.contextPath }/inBill/inBillShowData"
             ,toolbar: '#toolbarDemo'
             ,title: '入库单'
-            ,totalRow: true//开启合计行
+            ,totalRow: false//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'inBillID', title:'入库单号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
@@ -93,7 +105,7 @@
                 ,{field:'note', title:'备注', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
-            ,where: {"time1":null,"time2":null,"itemName":null}
+            ,where: {"time1":null,"time2":null,"itemName":null,"checkStatus":null}
             ,page: true
             ,limit:10
             ,limits:[5,10,20,30,50]
@@ -106,13 +118,14 @@
             var time2 =null;
             var itemName = null;
             var timeRange = $('#timeRange').val();
+            var checkStatus = $("#checkStatus").val();
             if(($("#itemName").val()) != null && ($("#itemName").val()) != "")
             {
                 itemName =$("#itemName").val();
             }
             if( timeRange!=null && timeRange!="") {
-                time1 = timeRange.substring(0, 19);
-                time2 = timeRange.substring(22, 41);
+                time1 = timeRange.substring(0,10);
+                time2 = timeRange.substring(13, 23);
             }
             console.log(time1+" "+time2+" "+itemName)
             table.reload('testInBill', {
@@ -121,6 +134,7 @@
                     "time1": time1,
                     "time2": time2,
                     "itemName": itemName,
+                    "checkStatus": checkStatus,
                 }
                 , page: {
                     curr: 1
@@ -132,7 +146,7 @@
                 //日期时间范围
                 laydate.render({
                     elem: '#timeRange'
-                    ,type: 'datetime'
+                    ,type: 'date'
                     ,range: true
                 });
             });
@@ -148,9 +162,9 @@
                 window.InBillID=data.inBillID;
                 layer.open({
                     type:2,
-                    title:false,
+                    title:"修改入库",
                     content:'${pageContext.request.contextPath }/itemIn/updateInBill?inBillID='+data.inBillID,
-                    area:['1200px','500px'],
+                    area:['1200px','668px'],
                     end:function () {
                         location.reload();
                     }
@@ -158,15 +172,17 @@
             } else if(layEvent === 'check'){ //审批
                 // layer.alert(data.inBillID);
                 window.InBillID=data.inBillID;
-                layer.open({
+
+                var checklayer = layer.open({
                     type:2,
-                    title:false,
+                    title:"入库审核",
                     content:'${pageContext.request.contextPath }/inBill/checkInBill',
-                    area:['1200px','500px'],
+                    area:['1200px','668px'],
                     end:function () {
                         location.reload();
                     }
                 });
+                window.checklayer=checklayer;
             }
             else if(layEvent === 'del'){ //删除
                 layer.confirm('确定删除吗？', {
@@ -200,9 +216,9 @@
                 case 'newInBill':
                     layer.open({
                         type:2,
-                        title:false,
+                        title:"添加入库",
                         content:'${pageContext.request.contextPath }/inBill/addInBill',
-                        area:['1200px','500px'],
+                        area:['1200px','668px'],
                         end:function () {
                             location.reload();
                         }
@@ -234,7 +250,7 @@
             //日期时间范围
             laydate.render({
                 elem: '#timeRange'
-                ,type: 'datetime'
+                ,type: 'date'
                 ,range: true
             });
         });

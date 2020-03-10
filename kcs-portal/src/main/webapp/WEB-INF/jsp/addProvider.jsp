@@ -12,9 +12,21 @@
 <div class="layui-form" >
     <div class="layui-form" >
         <div class="layui-form-item">
-            <label class="layui-form-label">角色</label>
+            <label class="layui-form-label">供应商名称</label>
             <div class="layui-input-inline">
-                <input id="roleName"  type="text" name="roleName" lay-verify="roleName" placeholder="角色" autocomplete="off" class="layui-input">
+                <input id="providerName"  type="text" name="providerName" lay-verify="roleName" placeholder="供应商名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">供应商地址</label>
+            <div class="layui-input-inline">
+                <input id="providerAddress"  type="text" name="providerAddress" lay-verify="roleName" placeholder="供应商地址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">验证手机</label>
+            <div class="layui-input-inline">
+                <input type="tel" id="tel" name="tel" lay-verify="required|phone" autocomplete="off" class="layui-input">
             </div>
         </div>
     <div class="layui-form-item">
@@ -66,13 +78,18 @@
 
 
         form.on('submit(add)', function(){
-            var roleName = $("#roleName").val();
+             var providerName = $("#providerName").val();
+             var providerAddress =$("#providerAddress").val();
+             var tel =$("#tel").val();
 
             $.ajax({
-                url:"${pageContext.request.contextPath}/role/addRole",
+                url:"${pageContext.request.contextPath}/provider/addProvider",
                 type:"post",
                 data:{
-                    "roleName":roleName},
+                    "providerName":providerName,
+                    "providerAddress":providerAddress,
+                    "tel":tel
+                },
                 dataType:"text",
                 success:function (result) {
                     if (result!=null){

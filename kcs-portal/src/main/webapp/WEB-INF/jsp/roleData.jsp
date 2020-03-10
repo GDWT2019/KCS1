@@ -15,7 +15,7 @@
 
 <script type="text/html" id="toolbarDemo">
 	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" lay-event="addRoleData">添加数据</button>
+		<button class="layui-btn layui-btn-sm" lay-event="addRoleData">添加角色</button>
 	</div>
 </script>
 <script type="text/html" id="barDemo">

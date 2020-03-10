@@ -3,10 +3,11 @@ package com.kcs.portal.service;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.pojo.UserRole;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService {
+public interface  UserService extends UserDetailsService {
     List<User> findAllUser();
 
     List<UserPresent> findAllUserPresent(int before, int after, String name);

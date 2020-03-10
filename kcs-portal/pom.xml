@@ -17,11 +17,33 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+      <spring.security.version>5.0.1.RELEASE</spring.security.version>
     <!-- Spring版本号 -->
     <spring.version>5.2.0.RELEASE</spring.version>
   </properties>
   <dependencies>
     <!-- Spring相关包 -->
+      <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-web</artifactId>
+          <version>${spring.security.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-config</artifactId>
+          <version>${spring.security.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-core</artifactId>
+          <version>${spring.security.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.security</groupId>
+          <artifactId>spring-security-taglibs</artifactId>
+          <version>${spring.security.version}</version>
+      </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
@@ -202,6 +224,12 @@
           <artifactId>json-lib</artifactId>
           <version>2.4</version>
       </dependency>
+
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>jsr250-api</artifactId>
+      <version>1.0</version>
+    </dependency>
 
 
   </dependencies>

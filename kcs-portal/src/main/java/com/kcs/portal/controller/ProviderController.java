@@ -3,6 +3,7 @@ package com.kcs.portal.controller;
 
 import com.kcs.portal.service.ProviderService;
 import com.kcs.rest.pojo.Provider;
+import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,4 +26,19 @@ public class ProviderController {
         System.out.println(js);
         return js;
     }
+
+    @RequestMapping("/rAddProvider")
+    public String rAddProvider(){
+        return "addProvider";
+    }
+
+        @RequestMapping("/addProvider")
+        @ResponseBody
+        public AjaxMesg addProvider(String providerName,String providerAddress,String tel){
+
+            Integer integer = providerService.addProvider(providerName,providerAddress,tel);
+            if (integer<0)
+                return new AjaxMesg(false,"新增供应商失败！");
+            return new AjaxMesg(true,"新增供应商成功!");
+        }
 }

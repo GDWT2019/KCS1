@@ -8,44 +8,46 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"/>
 </head>
 <body>
-<div class="">
+<div class="layui-body" style="margin-left: -200px;">
     <div class="layui-col-lg12" style="padding: 10px 10px;">
         <div class=" layui-col-lg12" style="padding: 10px 15px; border-radius: 5px;">
-            <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库单</span></div>
+            <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库审批</span></div>
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
-                <form class="layui-form" id="checkStatusForm"  type="post">
+                <form class="layui-form" id="checkStatusForm" type="post">
                     <input type="hidden" name="checker" value="${user.userID}"/>
-                    <div class="layui-layout-left" style="margin-top: 30px;margin-left: -170px;">
-                        <span style="font-size: 25px;">审核时间：</span>
+                    <div class="layui-layout-left" style="margin-top: 10px;margin-left: -200px;">
+
+                        <label class="layui-form-label" style="font-size: 25px;">日期</label>
                         <div class="layui-inline">
                             <input id="InBillTime" type="text" class="layui-input" readonly name="checkTime"
                                    style="font-size: 25px;border: 0px" value="${loadtime}"/>
                         </div>
                     </div>
 
-                    <div class="layui-layout-right" style="margin-top: 30px;margin-right: 40px;">
+                    <div class="layui-layout-right" style="margin-top: 10px;margin-right: 50px;">
                         <span style="font-size: 25px;">编号：</span>
                         <div class="layui-inline">
-                            <input readonly id="InBillID" type="text" class="layui-input InBillID" name="InBillID" autocomplete="on" value="" style="font-size: 25px; border: 0px">
+                            <input readonly id="InBillID" type="text" class="layui-input InBillID" name="InBillID"
+                                   autocomplete="on" value="" style="font-size: 25px; border: 0px">
                         </div>
                     </div>
-                    <div class="layui-bg-gray" style="margin-top:50px;padding:10px;">
+                    <div class="" style="margin-top:50px;padding:10px;">
                         <div class="layui-table">
 
                             <table class="layui-hide" id="test" lay-filter="test"></table>
 
 
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border: 0px;width: 100px" readonly />元</span>
+                                <span style="font-size: 22px;">合计：<span id="alTotal"
+                                                                        style="font-size: 22px;"></span>元</span>
                             </div>
-                            <div class="layui-row" style="margin: 10px 5px;">
-                                <%--<label class="layui-form-label" style="font-size: 22px;">审批意见</label>--%>
-                                <span style="font-size: 22px;">审批意见：</span>
-                                <div class="grid-demo">
-                                    <textarea id="checkMessage" style="font-size: 22px;" placeholder="请输入内容" class="layui-textarea" name="checkMessage" ></textarea>
-                                </div>
+                            <label class="layui-form-label" style="font-size: 20px;width: 100px">审批意见：</label>
+                            <div class="layui-row">
+                                    <textarea id="checkMessage" placeholder="请输入内容" class="layui-textarea"
+                                              name="checkMessage"></textarea>
                             </div>
-                            <div style="text-align: center;">
+
+                            <div style="text-align: center;padding:20px;border-radius: 5px;">
                                 <div class="layui-inline">
                                     <button onclick="checkPass()" type="button" class="layui-btn ">
                                         <i class="layui-icon">&#x1005;</i> 通过
@@ -71,70 +73,85 @@
 
     $("#InBillID").val(parent.InBillID);
 
+    function changeWidth() {
+        var testLength = document.getElementById('alTotal').value.length,
+            testDom = document.getElementById('alTotal')
+        testDom.style.width = testLength * 8 + 'px';
+    }
+
 
     $.ajax({
-        method:'post',
-        url:"${pageContext.request.contextPath }/inBill/getCheckMessageByID",
-        data:{"InBillID":parent.InBillID},
-        success:function (htq) {
+        method: 'post',
+        url: "${pageContext.request.contextPath }/inBill/getCheckMessageByID",
+        data: {"InBillID": parent.InBillID},
+        success: function (htq) {
 
             $("#checkMessage").val(htq.checkMessage);
         }
     });
 
     $.ajax({
-        method:'post',
-        url:"${pageContext.request.contextPath }/itemIn/valueIDandTime",
-        data:{"InBillID":parent.InBillID},
-        success:function (htq) {
+        method: 'post',
+        url: "${pageContext.request.contextPath }/itemIn/valueIDandTime",
+        data: {"InBillID": parent.InBillID},
+        success: function (htq) {
 
-            $("#alTotal").val(htq[0].allTotal);
+            // $("#alTotal").val(htq[0].allTotal);
+            $("#alTotal").text(htq[0].allTotal);
         }
     });
 
     <%--function updateStatus() {--%>
-        <%--window.InBillID = parent.InBillID;--%>
-        <%--layer.open({--%>
-            <%--type: 2,--%>
-            <%--title: '审批操作',--%>
-            <%--skin: 'layui-layer-rim', //加上边框--%>
-            <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
-            <%--area: ['380px', '200px'],--%>
-            <%--end: function () {--%>
-                <%--location.reload();--%>
-            <%--}--%>
-        <%--});--%>
+    <%--window.InBillID = parent.InBillID;--%>
+    <%--layer.open({--%>
+    <%--type: 2,--%>
+    <%--title: '审批操作',--%>
+    <%--skin: 'layui-layer-rim', //加上边框--%>
+    <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
+    <%--area: ['380px', '200px'],--%>
+    <%--end: function () {--%>
+    <%--location.reload();--%>
     <%--}--%>
-    function checkPass(){
+    <%--});--%>
+    <%--}--%>
+
+    function checkPass() {
         $.ajax({
-            method:'post',
-            url:'${pageContext.request.contextPath }/itemIn/UpdateCheckStatus',
-            data:$.param({'checkStatus':1})+'&'+ $("#checkStatusForm").serialize(),
-            success:function () {
-                layer.alert("审核成功！");
+            method: 'post',
+            url: '${pageContext.request.contextPath }/itemIn/UpdateCheckStatus',
+            data: $.param({'checkStatus': 1}) + '&' + $("#checkStatusForm").serialize(),
+            success: function () {
+                var index = parent.layer.getFrameIndex(window.checklayer);
+                layer.alert("审核成功！",function(){
+                        layer.close(window.checklayer);
+                });
+
             },
-            error:function () {
+            error: function () {
                 layer.alert("审核失败!");
+                layer.close(checklayer);
             }
         });
     }
 
-    function checkFail(){
+    function checkFail() {
         var checkMessage = $("#checkMessage").val();
-        if(checkMessage!=null && checkMessage!="" && checkMessage!=" "){
+        if (checkMessage != null && checkMessage != "" && checkMessage != " ") {
             $.ajax({
-                method:'post',
-                url:'${pageContext.request.contextPath }/itemIn/UpdateCheckStatus',
-                data:$.param({'checkStatus':2})+'&'+$("#checkStatusForm").serialize(),
-                success:function () {
-                    layer.alert("审核成功！");
+                method: 'post',
+                url: '${pageContext.request.contextPath }/itemIn/UpdateCheckStatus',
+                data: $.param({'checkStatus': 2}) + '&' + $("#checkStatusForm").serialize(),
+                success: function () {
+                    layer.alert("审核成功！",function(){
+                        parent.layer.close(window.checklayer);
+                    });
                 },
-                error:function () {
+                error: function () {
                     layer.alert("审核失败!");
+                    layer.close(checklayer);
                 }
             });
-        }
-        else {
+        } else {
             layer.tips("请填写审核不通过的意见", '#checkMessage', {
                 tips: [1, "#2B2B2B"]
             });
@@ -149,7 +166,7 @@
             , url: "${pageContext.request.contextPath }/itemIn/itemsInData"
             // , toolbar: '#toolbarDemo'
             , title: '入库单'
-            , totalRow: true//开启合计行
+            , totalRow: false//开启合计行
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'inBillID', title: '入库单号', width: 110, fixed: 'left', unresize: true, sort: true}
@@ -272,7 +289,7 @@
                                 data: {"userID": userID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log('采购人'+ htq.userName);
+                                    console.log('采购人' + htq.userName);
                                     if (userID == htq.userID) {
                                         userName4 = htq.userName;
                                     }
@@ -314,22 +331,22 @@
         });
 
         <%--table.on('tool(test)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"--%>
-            <%--var data = obj.data; //获得当前行数据--%>
-            <%--var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）--%>
-            <%--var tr = obj.tr; //获得当前行 tr 的DOM对象--%>
-            <%--var value = obj.value;--%>
-            <%--if (layEvent === 'check') { //修改--%>
-                <%--layer.open({--%>
-                    <%--type: 2,--%>
-                    <%--title: '审批状态',--%>
-                    <%--skin: 'layui-layer-rim', //加上边框--%>
-                    <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
-                    <%--area: ['380px', '200px'],--%>
-                    <%--end: function () {--%>
-                        <%--location.reload();--%>
-                    <%--}--%>
-                <%--});--%>
-            <%--}--%>
+        <%--var data = obj.data; //获得当前行数据--%>
+        <%--var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）--%>
+        <%--var tr = obj.tr; //获得当前行 tr 的DOM对象--%>
+        <%--var value = obj.value;--%>
+        <%--if (layEvent === 'check') { //修改--%>
+        <%--layer.open({--%>
+        <%--type: 2,--%>
+        <%--title: '审批状态',--%>
+        <%--skin: 'layui-layer-rim', //加上边框--%>
+        <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
+        <%--area: ['380px', '200px'],--%>
+        <%--end: function () {--%>
+        <%--location.reload();--%>
+        <%--}--%>
+        <%--});--%>
+        <%--}--%>
         <%--});--%>
     });
 

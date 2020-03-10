@@ -9,6 +9,7 @@ import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service("goodsService")
@@ -170,6 +171,25 @@ public class GoodsServiceImpl implements GoodsService {
             if (result.getStatus() == 200) {
                 Category category = (Category) result.getData();
                 return category;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsName",goodsName);
+        param.put("categoryID",categoryID + "");
+        param.put("goodsType",goodsType);
+        param.put("goodsUnit",goodsUnit);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/addGoods",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (Integer) result.getData();
             }
         }catch (Exception e){
             e.printStackTrace();

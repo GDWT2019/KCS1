@@ -24,7 +24,7 @@ public class ItemInServiceImpl implements ItemInService {
     public List<ItemsShow> findItemsInData(String inBillID) {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/findItemsInData" + inBillID);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,ItemsShow.class);
             if (result.getStatus() == 200) {
                 return (List<ItemsShow>) result.getData();
             }
@@ -56,7 +56,7 @@ public class ItemInServiceImpl implements ItemInService {
     public List<InBill> valueIDandTime(String inBillID) {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/valueIDandTime" + inBillID);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,InBill.class);
             if (result.getStatus() == 200) {
                 return (List<InBill>) result.getData();
             }
@@ -70,7 +70,7 @@ public class ItemInServiceImpl implements ItemInService {
     public List<GoodsAndCategoryAndItemsIn> getItemsInList(String inBillID) {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/getItemsInList" + inBillID);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,GoodsAndCategoryAndItemsIn.class);
             if (result.getStatus() == 200) {
                 return (List<GoodsAndCategoryAndItemsIn>) result.getData();
             }

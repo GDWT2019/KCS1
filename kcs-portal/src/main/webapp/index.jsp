@@ -1,5 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +14,8 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">库存管理系统</div>
+        <div class="layui-logo" style="font-size: 25px ">库存管理系统</div>
+
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
@@ -24,10 +27,15 @@
                 <dl class="layui-nav-child">
                     <dd><a type="button" id="baseData">基本资料</a></dd>
                     <dd><a type="button" id="safeset">安全设置</a></dd>
+                    <dd><a href="${pageContext.request.contextPath }/user/getInfo">获取信息</a></dd>
                 </dl>
 
             </li>
-            <li class="layui-nav-item"><a href="user/loginOut">退出</a></li>
+            <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/logout">退出</a></li>
+            <%--<li class="layui-nav-item"><form action="${pageContext.request.contextPath}/logout" method="post">
+                <security:csrfInput/>
+                <input type="submit" value="退出">
+            </form></li>--%>
         </ul>
     </div>
 
@@ -36,32 +44,15 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree layui-inline"   lay-filter="demo" style="margin-right: 10px;">
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;">业务管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="1" data-title="用户数据" href="#" class="site-demo-active" data-type="tabAdd">用户数据</a>
-                        </dd>
-                        <dd>
-                            <a href="#" data-url=${pageContext.request.contextPath}/role/showRoleData" data-title="角色数据"  data-id="2" class="site-demo-active" data-type="tabAdd">角色数据</a>
-                        </dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">入库管理</a>
+                    <a class="" href="javascript:;">库存管理</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a data-url="${pageContext.request.contextPath }/inBill/rInBill" data-id="3" data-title="入库明细单" href="#" class="site-demo-active" data-type="tabAdd">入库明细单</a>
                         </dd>
                     </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">出库管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库明细单" class="site-demo-active" data-type="tabAdd">出库明细单</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库明细单" href="#" class="site-demo-active" data-type="tabAdd">出库明细单</a></dd>
                     </dl>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;">汇总管理</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a data-url="${pageContext.request.contextPath }/summary/rSummary" data-id="summary" data-title="汇总" href="#" class="site-demo-active" data-type="tabAdd">汇总</a>
@@ -71,7 +62,24 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a data-url="${pageContext.request.contextPath }/log/showAllLog" data-id="log" data-title="用户日志" class="site-demo-active" data-type="tabAdd">用户日志</a></li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="1" data-title="用户" href="#" class="site-demo-active" data-type="tabAdd">用户</a>
+                        </dd>
+                        <dd>
+                            <a href="#" data-url=${pageContext.request.contextPath}/role/showRoleData" data-title="角色"  data-id="2" class="site-demo-active" data-type="tabAdd">角色</a>
+                        </dd>
+                        <dd>
+                            <a href="#" data-url=${pageContext.request.contextPath}/permission/showPermissionData" data-title="权限"  data-id="permission" class="site-demo-active" data-type="tabAdd">权限</a>
+                        </dd>
+                        <dd>
+                            <a data-url="${pageContext.request.contextPath }/log/showAllLog" data-id="log" href="#" data-title="日志" class="site-demo-active" data-type="tabAdd">日志</a>
+                        </dd>
+                    </dl>
+                </li>
+
             </ul>
         </div>
     </div>

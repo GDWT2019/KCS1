@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Title</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -25,19 +25,21 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label" style="font-size: 25px;">日期</label>
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="outBillDate" placeholder="yyyy-MM-dd" value="${outBillPresentList[0].outTime}">
+                                <input type="text" class="layui-input" id="outBillDate" placeholder="yyyy-MM-dd"
+                                       value="${outBillPresentList[0].outTime}">
                             </div>
                         </div>
                     </div>
                     <div class="layui-layout-right" style="margin-top: 10px;margin-right: 50px;">
                         <span style="font-size: 25px;">编号：</span>
                         <div class="layui-inline">
-                            <input id="outBillID" type="text" class="layui-input" disabled="disabled" name="OutBillID" autocomplete="on" value="${outBillPresentList[0].outBillID}">
+                            <input id="outBillID" type="text" class="layui-input" disabled="disabled" name="OutBillID"
+                                   autocomplete="on" value="${outBillPresentList[0].outBillID}">
                         </div>
                     </div>
                     <div class="" style="margin-top:30px;padding:10px;">
                         <div class="layui-table">
-                            <table class="layui-table" id="tbData" >
+                            <table class="layui-table" id="tbData">
                                 <tr>
                                     <th>序号</th>
                                     <th>品名</th>
@@ -95,7 +97,8 @@
                             </table>
                         </div>
                         <div class="layui-row" style="margin: 10px 5px;">
-                            <span style="font-size: 22px;">合计：<span id="allTotal" style="font-size: 22px;">${outBillPresentList[0].allTotal}</span>元</span>
+                            <span style="font-size: 22px;">合计：<span id="allTotal"
+                                                                    style="font-size: 22px;">${outBillPresentList[0].allTotal}</span>元</span>
                         </div>
                     </div>
                     <div class="layui-form-item layui-form-text">
@@ -106,9 +109,12 @@
                     </div>
                     <div class="" style="padding:20px;border-radius: 5px;">
                         <div class="layui-row" style="margin: 10px auto;text-align: center">
-                            <div  style="margin-right: 30px;margin-top: 10px">
-                                <button type="button" class="layui-btn layui-btn-lg" onclick="getCheckStatus(true)">通过</button>
-                                <button type="button" class="layui-btn layui-btn-lg" onclick="getCheckStatus(false)">不通过</button>
+                            <div style="margin-right: 30px;margin-top: 10px">
+                                <button type="button" class="layui-btn layui-btn-lg" onclick="getCheckStatus(true)">通过
+                                </button>
+                                <button type="button" class="layui-btn layui-btn-lg" onclick="getCheckStatus(false)">
+                                    不通过
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -118,12 +124,12 @@
     </div>
 </div>
 <script>
-    layui.use(['form','laydate'], function(){
+    layui.use(['form', 'laydate'], function () {
         var form = layui.form;
         var laydate = layui.laydate;
 
         laydate.render({
-            elem:"#outBillDate"
+            elem: "#outBillDate"
         });
         //各种基于事件的操作
     });
@@ -131,19 +137,19 @@
     function getCheckStatus(status) {
         var outBillID = $("#outBillID").val();
         var checkMessage = $("#checkMessage").val();
-            $.ajax({
-                url:"${pageContext.request.contextPath}/outBill/makeOutBillCheckStatus",
-                type:"post",
-                data:{"outBillID":outBillID,"checkMessage":checkMessage,"status":status},
-                dataType:"text",
-                success:function (result) {
-                    var data = JSON.parse(result);
-                    alert(data.mesg)
-                },
-                error:function () {
-                    alert("审批请求错误！")
-                }
-            })
+        $.ajax({
+            url: "${pageContext.request.contextPath}/outBill/makeOutBillCheckStatus",
+            type: "post",
+            data: {"outBillID": outBillID, "checkMessage": checkMessage, "status": status},
+            dataType: "text",
+            success: function (result) {
+                var data = JSON.parse(result);
+                alert(data.mesg)
+            },
+            error: function () {
+                alert("审批请求错误！")
+            }
+        })
     }
 </script>
 </body>

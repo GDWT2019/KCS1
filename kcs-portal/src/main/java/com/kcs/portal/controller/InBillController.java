@@ -90,12 +90,21 @@ public class InBillController {
         String time1 = request.getParameter("time1");
         String time2 = request.getParameter("time2");
         String itemName = request.getParameter("itemName");
+        String status = request.getParameter("checkStatus");
+//        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+        Integer checkStatus = null;
+        if("".equals(status)){
+            checkStatus=null;
+        }else
+        {
+            checkStatus=Integer.parseInt(request.getParameter("checkStatus"));
+        }
 
         int before=limit*(page-1)+1;
         int after = page * limit;
 
-        List<inBillShow> list=inBillService.PageInBillShow(before,after,time1,time2,itemName);
-        int count =inBillService.countReload(time1,time2,itemName);
+        List<inBillShow> list=inBillService.PageInBillShow(before,after,time1,time2,itemName,checkStatus);
+        int count =inBillService.countReload(time1,time2,itemName,checkStatus);
         request.getSession().setAttribute("count",count);
 
         JSONArray json = JSONArray.fromObject(list);

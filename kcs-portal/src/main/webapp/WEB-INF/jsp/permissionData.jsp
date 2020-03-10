@@ -11,15 +11,20 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addRolePermission">添加权限</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addRoleData">添加权限</button>
     </div>
 </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
 </script>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
@@ -30,32 +35,32 @@
 
         table.render({
             elem: '#test'
-            ,url:"${pageContext.request.contextPath }/role/rolePermission?roleID=${role.roleID}"
+            ,url:"${pageContext.request.contextPath }/permission/permissionData"
             ,toolbar: '#toolbarDemo'
-            ,title: '角色权限'
+            ,title: '权限数据表'
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                ,{type:'numbers',title:'序号'}
+                ,{type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
                 ,{field:'permissionName', title:'权限名称', width:150}
-                ,{field:'permissionNum', title:'权限代码', width:150}
+                ,{field:'permissionNum', title:'权限代码',  width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,page: true
             ,limit:10
             ,limits:[10,20,30]
-            ,id:'testUser'
+            ,id:'testPermission'
         });
 
         //工具栏事件
         table.on('toolbar(test)', function(obj){
-            var data = obj.data;
-            if(obj.event = 'addRolePermission'){
+            var checkStatus = table.checkStatus(obj.config.id);
+            if(obj.event = 'addRoleData'){
                 layer.open({
                     type:2,
-                    title:"添加权限",
-                    content:'${pageContext.request.contextPath }/role/showAddRolePermission?roleID='+${role.roleID},
-                    area:['500px','300px'],
+                    title:"添加角色",
+                    content:'${pageContext.request.contextPath }/role/showAddRole',
+                    area:['1000px','668px'],
                     moveOut:true,
                     end:function () {
                         location.reload();
@@ -67,14 +72,27 @@
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-            //删除
-            if(obj.event === 'del'){
-                layer.confirm('真的删除？', function(index){
+            //编辑
+            if(obj.event === 'edit'){
+                layer.open({
+                    type:2,
+                    title:"修改角色",
+                    content:'${pageContext.request.contextPath}/role/showUpdateRole?RoleID='+data.RoleID,
+                    area:['1200px','668px'],
+                    moveOut:true,
+                    end:function () {
+                        location.reload();
+                    }
+                });
+
+                //删除数据！！
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
                     $.ajax({
-                        url:"${pageContext.request.contextPath}/role/delRolePermission",
-                        title:"删除角色权限",
+                        url:"${pageContext.request.contextPath}/role/delRoleByRoleID",
+                        title:"删除用户",
                         type:"post",
-                        data:{"roleID":data.roleID,"PermissionID":data.permissionID},
+                        data:{"userID":data.userID},
                         dataType:"text",
                         success:function (result) {
                             var ajaxResult = JSON.parse(result);
@@ -91,6 +109,17 @@
                             layer.close(index);
                         }
                     })
+                });
+            }else if (obj.event === 'detail'){
+                layer.open({
+                    type:2,
+                    title:data.roleName+"的权限详情",
+                    content:'${pageContext.request.contextPath}/role/showRolePermission?roleID='+data.roleID,
+                    area:['1200px','668px'],
+                    moveOut:true,
+                    end:function () {
+                        location.reload();
+                    }
                 });
             }
         });

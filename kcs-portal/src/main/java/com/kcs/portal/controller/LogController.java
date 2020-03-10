@@ -40,12 +40,11 @@ public class LogController {
         List<LogPresent> LogPresentList = new ArrayList<>();
         int count = 0;
         JSONArray json =new JSONArray();
-        String js = "[]";
-        System.out.println(name);
+        String js = "";
         if (!name.equals("")){
             List<User> userList = userService.findByName(name);
             if (userList != null){
-                js = "";
+
                 for (User u :
                         userList) {
                     LogPresentList = logService.findLogByTimeUserID(before,after,time1,time2,u.getUserID());

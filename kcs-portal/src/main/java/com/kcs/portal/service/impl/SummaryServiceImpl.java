@@ -81,7 +81,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("time",time);
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summartyBillData",param);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 return (List<SummartAndGoodsAndCategory>) result.getData();
             }
@@ -107,7 +107,7 @@ public class SummaryServiceImpl implements SummaryService {
 
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summartyAllData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 return (List<SummartAndGoodsAndCategory>) result.getData();
             }
@@ -137,7 +137,7 @@ public class SummaryServiceImpl implements SummaryService {
 
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryAllCurrentdata",param);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 return (List<SummartAndGoodsAndCategory>) result.getData();
             }

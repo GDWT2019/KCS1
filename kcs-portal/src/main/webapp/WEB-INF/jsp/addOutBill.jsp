@@ -182,10 +182,6 @@
 		var form = layui.form;
 		var laydate = layui.laydate;
 		var $ = layui.$;//重点在layui中引用JQ必须写这一句
-
-
-
-
 		laydate.render({
 			elem:"#outBillDate",
 			value:new Date()
