@@ -14,4 +14,6 @@ public interface UserRoleDao {
     List<UserRole> findUserRoleByUserID(int userID);
 
     Integer addUserRole(@Param("userID") int userID, @Param("roleID") int roleID);
+
+    List<UserRole> findUserRoleByRoleID(int roleID);
 }

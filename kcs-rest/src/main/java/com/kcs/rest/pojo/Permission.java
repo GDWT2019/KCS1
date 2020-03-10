@@ -1,9 +1,9 @@
 package com.kcs.rest.pojo;
 
 public class Permission {
-    private int PermissionID;
+    private Integer PermissionID;
     private String PermissionName;
-    private int PermissionNum;
+    private Integer PermissionNum;
 
     @Override
     public String toString() {
@@ -14,11 +14,11 @@ public class Permission {
                 '}';
     }
 
-    public int getPermissionID() {
+    public Integer getPermissionID() {
         return PermissionID;
     }
 
-    public void setPermissionID(int permissionID) {
+    public void setPermissionID(Integer permissionID) {
         PermissionID = permissionID;
     }
 
@@ -30,11 +30,11 @@ public class Permission {
         PermissionName = permissionName;
     }
 
-    public int getPermissionNum() {
+    public Integer getPermissionNum() {
         return PermissionNum;
     }
 
-    public void setPermissionNum(int permissionNum) {
+    public void setPermissionNum(Integer permissionNum) {
         PermissionNum = permissionNum;
     }
 }

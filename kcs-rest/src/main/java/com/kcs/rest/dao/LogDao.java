@@ -11,8 +11,8 @@ public interface LogDao {
 
     List<LogPresent> findAllLog(@Param("begin")int begin, @Param("end")int end);
 
-    Integer getLogCount(@Param("time1") String time1,@Param("time2") String time2,@Param("userID")int userID);
+    Integer getLogCount(@Param("time1") String time1,@Param("time2") String time2,@Param("name")String name);
 
     //时间或用户id皆可为空
-    List<LogPresent> findLogByTimeUserID(@Param("begin")int begin, @Param("end")int end,@Param("time1") String time1,@Param("time2") String time2,@Param("userID")int userID);
+    List<LogPresent> findLogByTimeName(@Param("begin")int begin, @Param("end")int end,@Param("time1") String time1,@Param("time2") String time2,@Param("name")String name);
 }

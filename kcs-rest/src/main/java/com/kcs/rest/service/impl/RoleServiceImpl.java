@@ -2,6 +2,7 @@ package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.RoleDao;
 import com.kcs.rest.pojo.Role;
+import com.kcs.rest.pojo.RolePermission;
 import com.kcs.rest.pojo.RolePresent;
 import com.kcs.rest.service.RoleService;
 import com.kcs.rest.utils.LogAnno;
@@ -24,8 +25,8 @@ public class RoleServiceImpl implements RoleService {
 
     @LogAnno(operateType = "新增角色")
     @Override
-    public Integer addRole(Role role) {
-        return roleDao.addRole(role);
+    public Integer addRole(String roleName) {
+        return roleDao.addRole(roleName);
     }
 
     @Override
@@ -69,5 +70,16 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findRoleByID(int roleID) {
         return roleDao.findRoleByID(roleID);
+    }
+
+    @Override
+    @LogAnno(operateType = "删除角色权限")
+    public int delRolePermission(int roleID, int permissionID) {
+        return roleDao.delRolePermission(roleID, permissionID);
+    }
+
+    @Override
+    public List<RolePermission> findRolePermission(RolePermission rolePermission) {
+        return null;
     }
 }

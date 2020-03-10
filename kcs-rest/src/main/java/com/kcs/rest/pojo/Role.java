@@ -1,9 +1,21 @@
 package com.kcs.rest.pojo;
 
+import java.util.List;
+
 public class Role {
     private int RoleID;
 
     private String RoleName;
+
+    private List<Permission> permissions;
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
+    }
 
     public int getRoleID() {
         return RoleID;

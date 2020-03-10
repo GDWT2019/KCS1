@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.RoleDao" >
 
-    <insert id="addRole" parameterType="com.kcs.rest.pojo.Role">
-        insert into Role (RoleID, RoleName)
-        values (#{roleID},#{roleName})
+    <insert id="addRole" parameterType="String">
+        insert into Role (RoleName)
+        values (#{roleName})
     </insert>
 
     <select id="findAllRole" resultType="com.kcs.rest.pojo.Role" parameterType="java.lang.Integer">
@@ -39,7 +39,7 @@
     </update>
 
     <delete id="delRole" parameterType="java.lang.Integer">
-        delete * from Role
+        delete  from Role
         where RoleID = #{roleID}
     </delete>
 
@@ -53,13 +53,13 @@
         where [Role].RoleID = #{roleID}
         and [Permission].PermissionID = [RolePermission].PermissionID
         and [Role].RoleID = [RolePermission].RoleID
-        and [Permission].PermissionID not in(select top (#{front-1}) [Permission].PermissionID from [RolePermission],[Role],[Permission]
+        and [Permission].PermissionID not in(select top (#{front}-1) [Permission].PermissionID from [RolePermission],[Role],[Permission]
         where [Role].RoleID = #{roleID}
         and [Permission].PermissionID = [RolePermission].PermissionID
         and [Role].RoleID = [RolePermission].RoleID)
     </select>
 
-    <select id="findRolePresentCount">
+    <select id="findRolePresentCount" resultType="int" parameterType="int">
         select count(*) from [RolePermission],[Role],[Permission]
         where [Role].RoleID = #{roleID}
         and [Permission].PermissionID = [RolePermission].PermissionID
@@ -68,6 +68,34 @@
 
     <select id="findRoleByID" resultType="com.kcs.rest.pojo.Role">
         select * from Role
+        where RoleID = #{roleID}
+    </select>
+
+    <delete id="delRolePermission" parameterType="int" >
+        delete from RolePermission
+        where 1= 1
+        <if test="RoleID != 0 and RoleID !='' ">
+            and RoleID = #{roleID}
+        </if>
+        <if test="PermissionID != 0 and PermissionID !='' ">
+            and PermissionID = #{permissionID}
+        </if>
+    </delete>
+
+    <select id="findRolePermission" parameterType="com.kcs.rest.pojo.RolePermission" resultType="com.kcs.rest.pojo.RolePermission">
+        select * from
+        RolePermission
+        where 1=1
+        <if test="RoleID != 0 and RoleID !='' ">
+            and RoleID = #{roleID}
+        </if>
+        <if test="PermissionID != 0 and PermissionID !='' ">
+            and PermissionID = #{permissionID}
+        </if>
+    </select>
+
+    <select id="findUserRoleByRoleID" parameterType="int" resultType="com.kcs.rest.pojo.UserRole">
+        select * from UserRole
         where RoleID = #{roleID}
     </select>
 </mapper>

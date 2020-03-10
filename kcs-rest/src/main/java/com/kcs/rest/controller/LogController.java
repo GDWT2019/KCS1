@@ -27,17 +27,15 @@ public class LogController {
 
     @RequestMapping(value = "/getLogCount",method= RequestMethod.GET)
     @ResponseBody
-    public KcsResult getLogCount(@RequestParam("time1")String time1, @RequestParam("time2") String time2, @RequestParam("userID") String userID){
-        int uid = Integer.parseInt(userID);
-        return KcsResult.ok(logService.getLogCount(time1,time2,uid));
+    public KcsResult getLogCount(@RequestParam("time1")String time1, @RequestParam("time2") String time2, @RequestParam("name") String name){
+        return KcsResult.ok(logService.getLogCount(time1,time2,name));
     }
 
-    @RequestMapping(value = "/findLogByTimeUserID",method= RequestMethod.GET)
+    @RequestMapping(value = "/findLogByTimeName",method= RequestMethod.GET)
     @ResponseBody
-    public KcsResult findLogByTimeUserID(@RequestParam("begin")String begin, @RequestParam("end")String end, @RequestParam("time1")String time1, @RequestParam("time2") String time2, @RequestParam("userID") String userID){
+    public KcsResult findLogByTimeName(@RequestParam("begin")String begin, @RequestParam("end")String end, @RequestParam("time1")String time1, @RequestParam("time2") String time2, @RequestParam("name") String name){
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
-        int uid = Integer.parseInt(userID);
-        return KcsResult.ok(logService.findLogByTimeUserID(front, back, time1, time2, uid));
+        return KcsResult.ok(logService.findLogByTimeName(front, back, time1, time2, name));
     }
 }

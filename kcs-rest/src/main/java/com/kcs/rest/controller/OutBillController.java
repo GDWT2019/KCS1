@@ -94,11 +94,12 @@ public class OutBillController {
 
     @RequestMapping(value="/outBillPresent",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName ){
+    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus ){
 
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
-        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back,time1,time2,itemName);
+        int status = Integer.parseInt(checkStatus);
+        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back,time1,time2,itemName,status);
         if (allOutBillPresent != null) {
             return KcsResult.ok(allOutBillPresent);
         } else
@@ -107,8 +108,9 @@ public class OutBillController {
 
     @RequestMapping(value="/outBillPresentCount",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresentCount(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName){
-        Integer count = outBillPresentService.outBillPresentCount(time1,time2,itemName);
+    public KcsResult outBillPresentCount(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus){
+        int status = Integer.parseInt(checkStatus);
+        Integer count = outBillPresentService.outBillPresentCount(time1,time2,itemName,status);
         if (count != null) {
             return KcsResult.ok(count);
         } else

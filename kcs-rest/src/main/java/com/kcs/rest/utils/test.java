@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,33 @@ public class test {
     @Autowired
     private OutBillDao outBillDao;
 
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private RoleDao roleDao;
+    @Autowired
+    private PermissionDao permissionDao;
+
+    @Test
+    public void test23(){
+        List<RolePresent> allRolePresent = roleDao.findAllRolePresent(1, 10, 1);
+        System.out.println(allRolePresent);
+        int count = roleDao.findRolePresentCount(1);
+        System.out.println(count);
+    }
+
+    @Test
+    public void test22(){
+        User user = userDao.findByLoginName("admin");
+        System.out.println("roles"+user.getRoles());
+        System.out.println(user);
+
+        /*List<Role> roleByUserId = RoleDao.findRoleByUserId("3");
+        System.out.println(roleByUserId);
+        List<Permission> permissionByRoleId = permissionDao.findPermissionByRoleId("1");
+        System.out.println(permissionByRoleId);*/
+
+    }
 
     @Test
     public void test21(){

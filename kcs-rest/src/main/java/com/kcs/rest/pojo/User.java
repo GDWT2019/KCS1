@@ -1,7 +1,10 @@
 package com.kcs.rest.pojo;
 
-public class User {
-    private int UserID;
+import java.io.Serializable;
+import java.util.List;
+
+public class User implements Serializable {
+    private Integer UserID;
     private String PositionID;
     private String DepartmentID;
     private String LoginName;
@@ -15,6 +18,8 @@ public class User {
     private boolean WarehouseMark;
     private boolean ListerMark;
     private boolean Status;
+    private List<Role> roles;
+
 
     @Override
     public String toString() {
@@ -36,6 +41,14 @@ public class User {
                 '}';
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public boolean isStatus() {
         return Status;
     }
@@ -44,13 +57,14 @@ public class User {
         Status = status;
     }
 
-    public int getUserID() {
+    public Integer getUserID() {
         return UserID;
     }
 
-    public void setUserID(int userID) {
+    public void setUserID(Integer userID) {
         UserID = userID;
     }
+
 
     public String getPositionID() {
         return PositionID;

@@ -12,4 +12,6 @@ public interface UserRoleService {
 
     Integer delUserRoleByUserID_RoleID(int userID, int roleID);
 
+    List<UserRole> findUserRoleByRoleID(int roleID);
+
 }

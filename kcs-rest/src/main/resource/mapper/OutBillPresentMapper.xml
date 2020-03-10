@@ -15,6 +15,9 @@
         <if test="itemName != null and itemName !='' ">
             and [Goods].ItemsName like '%${itemName}%'
         </if>
+        <if test="checkStatus != 3">
+            and [OutBill].CheckStatus = #{checkStatus}
+        </if>
         and ItemsOutID not in(select  oo from (select top(#{begin}-1)  [ItemsOut].ItemsOutID as oo
         from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
         where [ItemsOut].OutBillID=[OutBill].OutBillID
@@ -29,8 +32,11 @@
         <if test="itemName != null and itemName !='' ">
             and [Goods].ItemsName like '%${itemName}%'
         </if>
+        <if test="checkStatus != 3">
+            and [OutBill].CheckStatus = #{checkStatus}
+        </if>
         order by [OutBill].OutBillID)as o)
-        order by [OutBill].OutBillID
+        order by [OutBill].OutTime desc
     </select>
     <select id="outBillPresentCount" resultType="java.lang.Integer">
         select count(*)
@@ -46,6 +52,9 @@
         </if>
         <if test="itemName != null and itemName !='' ">
             and [Goods].ItemsName like '%${itemName}%'
+        </if>
+        <if test="checkStatus != 3">
+            and [OutBill].CheckStatus =#{checkStatus}
         </if>
     </select>
     <select id="findOutBillPresentByOutBillID" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="java.lang.Integer">

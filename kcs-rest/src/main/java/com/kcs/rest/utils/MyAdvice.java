@@ -22,6 +22,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Aspect // 表示该类是一个通知类
@@ -63,19 +64,19 @@ public class MyAdvice {
                 }
             }
         }
-        System.out.println("---------------前置通知结束(注解)~~~~~~~~~~~");
+        System.out.println("---------------前置通知结束");
     }
 
     // 后置通知(异常发生后不会调用)
     @AfterReturning("MyAdvice.pc()")
     public void afterRunning() {
-        System.out.println("这是后置通知(异常发生后不会调用)。。。。(注解)");
+        System.out.println("这是后置通知");
     }
 
     // 环绕通知
     @Around("MyAdvice.pc()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("----------------环绕通知之前 的部分(注解)----------------");
+        System.out.println("----------------环绕通知之前 的部分");
         // 获取方法签名
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         // 获取方法
@@ -86,20 +87,21 @@ public class MyAdvice {
         String operateType = logAnno.operateType();
 
 
-        //所有用这种方式获取session中属性(亲测有效)
-        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+       HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpSession session =request.getSession();
+
+        /*HttpSession session = SysContent.getSession();*/
         User user = (User) session.getAttribute("user");//获取session中的user对象
 
 
         // 让方法执行（proceed是方法的返回结果，可以针对返回结果做一些处理）
-        System.out.println("--------------方法开始执行(注解)------------------");
+        System.err.println("1111111111111111111111111111111111--------------方法开始执行");
         Object proceed = pjp.proceed();
 
         // 创建一个日志对象(准备记录日志)
         Log log = new Log();
         log.setOperation(operateType);// 操作说明
-        log.setUserID(49);// 设置操作人
+        log.setUserID(53);// 设置操作人
         if(user!=null){
             log.setUserID(user.getUserID());
         }
@@ -109,21 +111,21 @@ public class MyAdvice {
             log.setResult("失败");
         }else
             log.setResult("成功");
-        logService.insertLog(log);
+        //logService.insertLog(log);
         // 环绕通知之后的业务逻辑部分
-        System.out.println("----------------环绕通知之后的部分(注解)-----------------");
+        System.out.println("----------------环绕通知之后的部分");
         return proceed;
     }
 
     // 异常通知
     @AfterThrowing("MyAdvice.pc()")
     public void afterException() {
-        System.out.println("这是异常通知(发生异常后调用)~~~~~~~~~~~(注解)");
+        System.err.println("这是异常通知");
     }
 
     // 最终通知(发生异常也会在最终调用)
     @After("MyAdvice.pc()")
     public void after() {
-        System.out.println("这是最终通知(发生异常也会在最终调用)........(注解)");
+        System.out.println("这是最终通知");
     }
 }

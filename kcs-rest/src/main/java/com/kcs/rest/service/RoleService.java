@@ -1,6 +1,7 @@
 package com.kcs.rest.service;
 
 import com.kcs.rest.pojo.Role;
+import com.kcs.rest.pojo.RolePermission;
 import com.kcs.rest.pojo.RolePresent;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface RoleService {
 
     List<Role> findAllRole( int begin, int end);
 
-    Integer addRole(Role role);
+    Integer addRole(String roleName);
 
     Integer getRoleCount(String roleName);
 
@@ -26,4 +27,8 @@ public interface RoleService {
     int findRolePresentCount(int roleID);
 
     Role findRoleByID(int roleID);
+
+    int delRolePermission(int roleID, int permissionID);
+
+    List<RolePermission> findRolePermission(RolePermission rolePermission);
 }

@@ -23,9 +23,9 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
 
     @LogAnno(operateType = "查看出库明细")
     @Override
-    public List<OutBillPresent> findAllOutBillPresent(int begin,int end,String time1,String time2,String itemName) {
+    public List<OutBillPresent> findAllOutBillPresent(int begin,int end,String time1,String time2,String itemName,int checkStatus) {
         List<User> userList = userDao.findAllUser();
-        List<OutBillPresent> allOutBillPresent = outBillPresentDao.findAllOutBillPresent(begin, end,time1,time2,itemName);
+        List<OutBillPresent> allOutBillPresent = outBillPresentDao.findAllOutBillPresent(begin, end,time1,time2,itemName,checkStatus);
         return updatePerson(userList,allOutBillPresent);
     }
 
@@ -37,8 +37,8 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
     }
 
     @Override
-    public Integer outBillPresentCount(String time1, String time2, String itemName) {
-        return outBillPresentDao.outBillPresentCount(time1, time2, itemName);
+    public Integer outBillPresentCount(String time1, String time2, String itemName,int checkStatus) {
+        return outBillPresentDao.outBillPresentCount(time1, time2, itemName,checkStatus);
     }
 
     public List<OutBillPresent> updatePerson(List<User> userList,List<OutBillPresent> outBillPresentList){

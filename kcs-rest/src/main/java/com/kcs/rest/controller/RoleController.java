@@ -1,9 +1,6 @@
 package com.kcs.rest.controller;
 
-import com.kcs.rest.pojo.KcsResult;
-import com.kcs.rest.pojo.Role;
-import com.kcs.rest.pojo.RolePresent;
-import com.kcs.rest.pojo.UserRole;
+import com.kcs.rest.pojo.*;
 import com.kcs.rest.service.RoleService;
 import com.kcs.rest.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +33,10 @@ public class RoleController {
         return KcsResult.ok(roleService.getRoleCount(roleName));
     }
 
-    @RequestMapping("/addRole")
+    @RequestMapping("/addRole{roleName}")
     @ResponseBody
-    public KcsResult addRole(@RequestBody Role role){
-        return KcsResult.ok(roleService.addRole(role));
+    public KcsResult addRole(@PathVariable String roleName){
+        return KcsResult.ok(roleService.addRole(roleName));
     }
 
     @RequestMapping(value = "/findRoleByRoleName",method= RequestMethod.GET)
@@ -59,7 +56,23 @@ public class RoleController {
     @RequestMapping("/delRole{roleID}")
     @ResponseBody
     public KcsResult delRole(@PathVariable int roleID){
-        return KcsResult.ok(roleService.delRole(roleID));
+
+        //找出rolePermission表对应的数据
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setRoleID(roleID);
+        List<RolePermission> rolePermissionList = roleService.findRolePermission(rolePermission);
+
+        //如若不为空，则删除该角色的所有权限
+        if (rolePermissionList !=null){
+            roleService.delRolePermission(roleID,0);
+        }
+
+        //找出该角色对应的所有用户角色
+        //TODO
+        List<UserRole> userRoleList = userRoleService.findUserRoleByRoleID(roleID);
+        if(userRoleList != null)
+            userRoleService.delUserRoleByUserID_RoleID(0,roleID);
+        return KcsResult.ok( roleService.delRole(roleID));
     }
 
     @RequestMapping("/findTheOthersRoleByUserID{userID}")
@@ -86,9 +99,9 @@ public class RoleController {
         return KcsResult.ok(integer);
     }
 
-    @RequestMapping("/findAllRolePresent")
+    @RequestMapping(value = "findAllRolePresent",method = RequestMethod.GET)
     @ResponseBody
-    public KcsResult findAllRolePresent(@RequestParam("begin") String begin,@RequestParam("end") String end,@RequestParam("roleID") int roleID){
+    public KcsResult findAllRolePresent(@RequestParam("front") String begin,@RequestParam("back") String end,@RequestParam("roleID") int roleID){
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
         List<RolePresent> rolePresent = roleService.findAllRolePresent(front, back, roleID);
@@ -99,7 +112,8 @@ public class RoleController {
     @ResponseBody
     public KcsResult findRolePresentCount( @RequestParam("roleID") String roleID){
         int rid = Integer.parseInt(roleID);
-        return KcsResult.ok(roleService.findRolePresentCount(rid));
+        int count = roleService.findRolePresentCount(rid);
+        return KcsResult.ok(count);
     }
 
     @RequestMapping("/findRoleByID{roleID}")
@@ -107,5 +121,14 @@ public class RoleController {
     public KcsResult findRoleByID(@PathVariable int roleID){
         Role role = roleService.findRoleByID(roleID);
         return KcsResult.ok(role);
+    }
+
+    @RequestMapping("/delRolePermission")
+    @ResponseBody
+    public KcsResult delRolePermission(@RequestParam("roleID") String roleID, @RequestParam("permissionID") String permissionID){
+        int rid = Integer.parseInt(roleID);
+        int pid = Integer.parseInt(permissionID);
+        Integer integer = roleService.delRolePermission( rid, pid);
+        return KcsResult.ok(integer);
     }
 }

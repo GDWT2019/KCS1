@@ -27,13 +27,13 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public Integer getLogCount(String time1, String time2, int userID) {
-        return logDao.getLogCount(time1, time2, userID);
+    public Integer getLogCount(String time1, String time2, String name) {
+        return logDao.getLogCount(time1, time2, name);
     }
 
     @LogAnno(operateType = "搜索用户日志")
     @Override
-    public List<LogPresent> findLogByTimeUserID(int begin, int end, String time1, String time2, int userID) {
-        return logDao.findLogByTimeUserID(begin, end, time1, time2, userID);
+    public List<LogPresent> findLogByTimeName(int begin, int end, String time1, String time2, String name) {
+        return logDao.findLogByTimeName(begin, end, time1, time2, name);
     }
 }

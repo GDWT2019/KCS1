@@ -28,4 +28,9 @@ public class UserRoleServiceImpl implements UserRoleService {
     public Integer delUserRoleByUserID_RoleID(int userID, int roleID) {
         return userRoleDao.delUserRoleByUserID_RoleID(userID,roleID);
     }
+
+    @Override
+    public List<UserRole> findUserRoleByRoleID(int roleID) {
+        return userRoleDao.findUserRoleByRoleID(roleID);
+    }
 }
