@@ -78,6 +78,11 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit) {
+        return goodsDao.addGoods(goodsName,categoryID,goodsType,goodsUnit);
+    }
+
+    @Override
     public Category findCategoryNameByID(int categoryID) {
         return goodsDao.findCategoryNameByID(categoryID);
     }

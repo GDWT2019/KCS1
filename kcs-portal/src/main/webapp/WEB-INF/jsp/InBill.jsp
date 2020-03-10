@@ -182,7 +182,7 @@
                         location.reload();
                     }
                 });
-                window.checklayer=checklayer;
+
             }
             else if(layEvent === 'del'){ //删除
                 layer.confirm('确定删除吗？', {

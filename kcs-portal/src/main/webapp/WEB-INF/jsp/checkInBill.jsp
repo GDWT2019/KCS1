@@ -123,7 +123,7 @@
             success: function () {
                 var index = parent.layer.getFrameIndex(window.checklayer);
                 layer.alert("审核成功！",function(){
-                        layer.close(window.checklayer);
+                    window.parent.layer.closeAll();
                 });
 
             },
@@ -143,14 +143,15 @@
                 data: $.param({'checkStatus': 2}) + '&' + $("#checkStatusForm").serialize(),
                 success: function () {
                     layer.alert("审核成功！",function(){
-                        parent.layer.close(window.checklayer);
+                        window.parent.layer.closeAll();
                     });
                 },
                 error: function () {
                     layer.alert("审核失败!");
-                    layer.close(checklayer);
                 }
-            });
+
+
+        });
         } else {
             layer.tips("请填写审核不通过的意见", '#checkMessage', {
                 tips: [1, "#2B2B2B"]

@@ -95,7 +95,7 @@ public class OutBillController {
     @RequestMapping(value="/outBillPresent",method=RequestMethod.GET)
     @ResponseBody
     public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus ){
-
+        summaryService.updateSummaryToNewMonth();
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
         int status = Integer.parseInt(checkStatus);

@@ -38,5 +38,7 @@ public interface SummaryService {
     int countReload(String itemName);
 
     int getThisAmount(int goodsID, String time);
+
+    void updateSummaryToNewMonth();
 }
 

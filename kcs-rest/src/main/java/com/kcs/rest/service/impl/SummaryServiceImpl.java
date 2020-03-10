@@ -47,7 +47,12 @@ public class SummaryServiceImpl implements SummaryService{
 
     @Override
     public List<SummartAndGoodsAndCategory> summartyBillData(int before, int after, String time) {
-        return summaryDao.summartyBillData(before,after,time);
+
+        updateSummaryToNewMonth();
+
+        List<SummartAndGoodsAndCategory> summartyBillData = summaryDao.summartyBillData(before, after, time);
+
+        return summartyBillData;
     }
 
     @Override
@@ -80,5 +85,42 @@ public class SummaryServiceImpl implements SummaryService{
         return summaryDao.getThisAmount(goodsID,time);
     }
 
-
+    public void updateSummaryToNewMonth(){
+        //查找最新日期
+        String latestTime = summaryDao.findLatestTime();
+        List<Integer> AllGoodsID = summaryDao.findGoodsID();
+        for (Integer goodsID : AllGoodsID) {
+            //找出每个goodsID的时间最远的记录
+            Summary longTimeSummary=summaryDao.findLongTimeSummary(goodsID);
+            //查找最远月份与最新月相差多少个月
+            String longTime = longTimeSummary.getTime() + "-1";
+            Integer dateDiff = summaryDao.findDateDiff(longTime);//两个日期的差
+            for (int i = 1; i <=dateDiff ; i++) {
+                String dateAdd = summaryDao.dateAdd(i, longTime);
+                //取前一个月的值
+                String brforeMonth=summaryDao.findMonth(dateAdd+"-1");
+                Summary beforeMonth = summaryDao.findBeforeMonth(goodsID, dateAdd+"-1");
+                //在查找该月份有无数据
+                Summary everyTimeSummary = summaryDao.findSummaryByGoodsIDAndTime(goodsID, dateAdd);
+                if(everyTimeSummary==null){
+                    Summary summary =new Summary();
+                    summary.setGoodsID(beforeMonth.getGoodsID());
+                    summary.setPreAmount(beforeMonth.getThisAmount());
+                    summary.setPrePrice(beforeMonth.getThisPrice());
+                    summary.setPreTotal(beforeMonth.getThisTotal());
+                    summary.setInAmount(0);
+                    summary.setInPrice(0.0);
+                    summary.setInTotal(0.0);
+                    summary.setOutAmount(0);
+                    summary.setOutPrice(0.0);
+                    summary.setOutTotal(0.0);
+                    summary.setThisAmount(beforeMonth.getThisAmount());
+                    summary.setThisPrice(beforeMonth.getThisPrice());
+                    summary.setThisTotal(beforeMonth.getThisTotal());
+                    summary.setTime(dateAdd);
+                    summaryDao.insertSummary(summary);
+                }
+            }
+        }
+    }
 }

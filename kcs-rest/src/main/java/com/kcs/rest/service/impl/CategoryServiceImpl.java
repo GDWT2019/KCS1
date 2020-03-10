@@ -18,4 +18,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAllCategory() {
         return categoryDao.findAllCategory();
     }
+
+    @Override
+    public Integer addCategory(String categoryName) {
+        return categoryDao.addCategory(categoryName);
+    }
 }

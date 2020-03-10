@@ -215,7 +215,7 @@
 							title:"审批清单",
 							area:['1200px','668px'],
 							end:function () {
-								layer.close(layer.index);
+								window.parent.layer.closeAll();
 								location.reload();
 							}
 						})

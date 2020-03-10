@@ -43,4 +43,6 @@ public interface GoodsDao {
 
     //根据物品名称，查询物品数据及汇总表的该物品的最新数据
     List<AddOutBill> findAddOutBillByItemsName(String itemsName);
+
+    Integer addGoods(@Param("goodsName")String goodsName, @Param("categoryID")Integer categoryID, @Param("goodsType")String goodsType,@Param("goodsUnit") String goodsUnit);
 }

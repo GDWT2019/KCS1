@@ -114,7 +114,6 @@
 			}
 			if(($("#name").val()) != null || ($("#name").val()) != "")
 				name =$("#name").val();
-			console.log(time1+" "+time2+" "+name)
 			table.reload('logTable', {
 				 where: {"time1":time1,"time2":time2,"name":name} //设定异步数据接口的额外参数
 				,height: 300

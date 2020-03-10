@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service("userService")
+@Service("userService1")
 public class UserServiceImpl implements UserService {
 
     @Autowired

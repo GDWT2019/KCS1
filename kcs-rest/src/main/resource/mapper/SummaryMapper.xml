@@ -2,6 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.SummaryDao" >
 
+    <select id="findLatestTime" resultType="String">
+        select CONVERT(varchar(7),GETDATE(),120)
+    </select>
+
+    <select id="findGoodsID" resultType="Integer">
+        select GoodsID from Summary group by GoodsID
+    </select>
+
+    <select id="findLongTimeSummary" parameterType="Integer" resultType="com.kcs.rest.pojo.Summary">
+        select  top 1 * from Summary where Time &lt;=  CONVERT(varchar(7),GETDATE(),120) and GoodsID=#{goodsID} order by Time
+    </select>
+
+    <select id="findDateDiff" resultType="Integer">
+        select DATEDIFF(mm,#{currentDate},GETDATE())
+    </select>
+
+    <select id="dateAdd" resultType="String">
+        select CONVERT(varchar(7),DATEADD(MM,DATEDIFF(MONTH,0,DATEADD(month, #{i}, #{currentDate})),0),120)
+    </select>
+
+    <select id="findMonth" resultType="String">
+        select CONVERT(varchar(7),DATEADD(MM,DATEDIFF(MONTH,0,DATEADD(month, -1, #{dateAdd})),0),120)
+    </select>
 
     <select id="findAllSummary" resultType="com.kcs.rest.pojo.Summary">
         select *

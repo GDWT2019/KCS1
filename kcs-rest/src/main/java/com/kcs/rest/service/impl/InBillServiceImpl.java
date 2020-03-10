@@ -43,8 +43,8 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName) {
-        return inBillDao.inBillShowPage(before,after,time1,time2,itemName);
+    public List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName,Integer checkStatus) {
+        return inBillDao.inBillShowPage(before,after,time1,time2,itemName,checkStatus);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public int countReload(String time1, String time2, String itemName) {
-        return inBillDao.countReload(time1,time2,itemName);
+    public int countReload(String time1, String time2, String itemName,Integer checkStatus) {
+        return inBillDao.countReload(time1,time2,itemName,checkStatus);
     }
 
     @Override

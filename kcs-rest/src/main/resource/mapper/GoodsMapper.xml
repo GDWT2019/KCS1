@@ -15,6 +15,9 @@
     </resultMap>
 
 
+    <insert id="addGoods">
+        insert into Goods (CategoryID,ItemsName,ItemsType,ItemsUnit) values (#{categoryID},#{goodsName},#{goodsType},#{goodsUnit})
+    </insert>
 
     <select id="findGoodsById" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
         select *

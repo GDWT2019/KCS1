@@ -4,6 +4,7 @@ import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.inBillShow;
 import com.kcs.rest.service.InBillService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -94,12 +95,19 @@ public class InBillController {
     //获取入库分页显示数据
     @RequestMapping(value="inBillShowPage",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult inBillShowPage(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName ){
+    public KcsResult inBillShowPage(@RequestParam("before")String before, @RequestParam("after")String after, @RequestParam("time1")String time1, @RequestParam("time2")String time2, @RequestParam("itemName")String itemName, @RequestParam("checkStatus") String status){
 
         int front = Integer.parseInt(before);
         int back = Integer.parseInt(after);
+        Integer checkStatus = null;
+        if("null".equals(status)){
+            checkStatus = null;
+        }
+        else{
+            checkStatus =Integer.parseInt(status);
+        }
 
-        List<inBillShow> allInBill = inBillService.inBillShowPage(front,back,time1,time2,itemName);
+        List<inBillShow> allInBill = inBillService.inBillShowPage(front,back,time1,time2,itemName,checkStatus);
         System.out.println("allInBill="+allInBill);
 
         return KcsResult.ok(allInBill);
@@ -107,8 +115,15 @@ public class InBillController {
     //入库显示的数据
     @RequestMapping(value = "countReload",method=RequestMethod.GET)
     @ResponseBody
-    public  KcsResult countReload(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName){
-        int count = inBillService.countReload(time1,time2,itemName);
+    public  KcsResult countReload(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus") String status){
+        Integer checkStatus = null;
+        if("null".equals(status)){
+            checkStatus = null;
+        }else
+        {
+            checkStatus =Integer.parseInt(status);
+        }
+        int count = inBillService.countReload(time1,time2,itemName,checkStatus);
         return KcsResult.ok(count);
     }
 

@@ -117,7 +117,7 @@ public class test {
         }
     }
 
-    @Test
+/*    @Test
     public void test16(){
 
         int i = inBillDao.countReload(null, null, null);
@@ -126,15 +126,15 @@ public class test {
         System.out.println(i1);
         int i2 = inBillDao.countReload(null, null, "小");
         System.out.println(i2);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void test15(){
 
         List<inBillShow> shows = inBillDao.inBillShowPage(1, 10, "2019-11-01", "2019-12-05", null);
         System.out.println(shows);
     }
-
+*/
     @Test
     public void test14(){
         List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summartyAllData();
