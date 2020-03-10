@@ -446,6 +446,7 @@ function submitBill(itemsOutJsonList,outBill) {
             alert("请求错误！")
         }
     })
+    window.close();
 }
 
 

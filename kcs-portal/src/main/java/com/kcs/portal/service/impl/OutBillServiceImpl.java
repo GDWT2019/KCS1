@@ -59,13 +59,14 @@ public class OutBillServiceImpl implements OutBillService {
     }
 
     @Override
-    public List<OutBillPresent> getAllOutBillPresent(int begin, int end,String time1,String time2,String itemName) {
+    public List<OutBillPresent> getAllOutBillPresent(int begin, int end,String time1,String time2,String itemName,int checkStatus) {
         HashMap<String, String> param = new HashMap<>();
         param.put("begin",begin+ "");
         param.put("end",end+ "");
         param.put("time1",time1);
         param.put("time2",time2);
         param.put("itemName",itemName);
+        param.put("checkStatus",checkStatus+"");
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresent",param);
             KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
@@ -80,11 +81,12 @@ public class OutBillServiceImpl implements OutBillService {
     }
 
     @Override
-    public Integer outBillPresentCount(String time1, String time2, String itemName) {
+    public Integer outBillPresentCount(String time1, String time2, String itemName ,int checkStatus) {
         HashMap<String, String> param = new HashMap<>();
         param.put("time1",time1);
         param.put("time2",time2);
         param.put("itemName",itemName);
+        param.put("checkStatus",checkStatus+"");
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresentCount",param);
             KcsResult result = KcsResult.format(s);

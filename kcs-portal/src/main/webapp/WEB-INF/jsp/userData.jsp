@@ -17,7 +17,7 @@
     <div class="layui-form">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm" lay-event="addUserData">添加数据</button>
+                <button class="layui-btn layui-btn-sm" lay-event="addUserData">添加用户</button>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label" style="width: 100px">名字：</label>

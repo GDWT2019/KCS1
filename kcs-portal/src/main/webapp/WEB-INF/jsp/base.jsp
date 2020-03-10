@@ -206,6 +206,7 @@
         });
 
         var loginName = "${user.loginName}";
+        console.log("loginName"+loginName);
         //回显数据
         $.ajax({
             url: "${pageContext.request.contextPath }/user/getUser"

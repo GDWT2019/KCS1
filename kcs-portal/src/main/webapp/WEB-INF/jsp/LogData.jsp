@@ -67,23 +67,7 @@
 			,id:'logTable'
 		});
 
-		//工具栏事件
-		table.on('toolbar(test)', function(obj){
-			var checkStatus = table.checkStatus(obj.config.id);
-			switch(obj.event){
-				case 'getCheckData':
-					var data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-					break;
-				case 'getCheckLength':
-					var data = checkStatus.data;
-					layer.msg('选中了：'+ data.length + ' 个');
-					break;
-				case 'isAll':
-					layer.msg(checkStatus.isAll ? '全选': '未全选')
-					break;
-			};
-		});
+
 
 		//监听行工具事件
 		table.on('tool(test)', function(obj){
@@ -115,41 +99,6 @@
 				});
 
 				//编辑
-			} else if(obj.event === 'edit'){
-				layer.open({
-					type:2,
-					title:"修改出库",
-					content:'${pageContext.request.contextPath}/outBill/showUpdateOutBill?outBillID='+data.outBillID,
-					area:['1200px','668px'],
-					moveOut:true,
-					end:function () {
-						location.reload();
-					}
-				});
-
-				//审批
-			}else if (obj.event === 'check'){
-				$.ajax({
-					url:"${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID",
-					type:"post",
-					data:{"outBillID":data.outBillID},
-					dataType:"text",
-					success:function (result) {
-						layer.open({
-							type:1,
-							content: result,
-							title:false,
-							area:['1200px','668px'],
-							end:function () {
-								location.reload();
-							}
-						})
-					},
-					error:function () {
-						layer.confirm("审批请求错误");
-						layer.close(index);
-					}
-				})
 			}
 		});
 

@@ -1,27 +1,33 @@
 package com.kcs.portal.service.impl;
 
 import com.kcs.portal.service.UserService;
-import com.kcs.rest.pojo.KcsResult;
-import com.kcs.rest.pojo.User;
-import com.kcs.rest.pojo.UserPresent;
-import com.kcs.rest.pojo.UserRole;
+import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public List<User> findAllUser() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/userData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
                 return (List<User>) result.getData();
             }
@@ -103,7 +109,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findoneUser(String loginName) {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/getUser"+ loginName);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
                 return (List<User>) result.getData();
             }
@@ -138,7 +144,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAlllister() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/listerData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
 
 
@@ -154,7 +160,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllWarehouse() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/WarehouseData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
 
 
@@ -170,7 +176,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findByName(String name) {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findByName"+ name);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
                 return (List<User>) result.getData();
             }
@@ -183,6 +189,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer addUser(User user) {
         try {
+//            user.setUserID(1);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/addUser", JsonUtils.objectToJson(user));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
@@ -267,5 +275,44 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/loginUser"+loginName);
+            KcsResult result = KcsResult.formatToPojo(s,User.class);
+            if (result.getStatus() == 200) {
+                User user = (User) result.getData();
+                org.springframework.security.core.userdetails.User u = new org.springframework.security.core.userdetails.User(user.getLoginName(),user.getPassword(),user.isStatus(),true,true,true,getAuthority(user.getRoles()));
+                return u;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /*public List<SimpleGrantedAuthority> getAuthority(List<Role> roles){
+        List<SimpleGrantedAuthority> list=new ArrayList<>();
+        for (Role role : roles) {
+//            list.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+            List<Permission> permissions = role.getPermissions();
+            for (Permission permission : permissions) {
+                list.add(new SimpleGrantedAuthority(permission.getPermissionName()));
+            }
+        }
+        return list;
+    }*/
+    public List<SimpleGrantedAuthority> getAuthority(List<Role> roles){
+        List<SimpleGrantedAuthority> list=new ArrayList<>();
+        for (Role role : roles) {
+            list.add(new SimpleGrantedAuthority("ROLE_"+role.getRoleName()));
+//            list.add(new SimpleGrantedAuthority(role.getRoleName()));
+            List<Permission> permissions = role.getPermissions();
+            for (Permission permission : permissions) {
+                list.add(new SimpleGrantedAuthority(permission.getPermissionName()));
+            }
+        }
+        return list;
     }
 }

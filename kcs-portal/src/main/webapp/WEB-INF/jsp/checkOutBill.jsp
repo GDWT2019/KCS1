@@ -138,12 +138,16 @@
                 dataType:"text",
                 success:function (result) {
                     var data = JSON.parse(result);
-                    alert(data.mesg)
+                    alert(data.mesg);
+
                 },
                 error:function () {
                     alert("审批请求错误！")
                 }
             })
+        window.opener = null;
+        window.open('', '_self');
+        window.close();
     }
 </script>
 </body>

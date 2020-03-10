@@ -20,7 +20,7 @@ public class PositionServiceImpl implements PositionService {
     public List<Position> findAllPosition() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/position/positionData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,Position.class);
             if (result.getStatus() == 200) {
 
                 return (List<Position>) result.getData();

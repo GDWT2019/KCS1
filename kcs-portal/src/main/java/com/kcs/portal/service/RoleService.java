@@ -10,7 +10,7 @@ public interface RoleService {
 
     List<Role> findAllRole(@Param("begin") int begin, @Param("end") int end);
 
-    Integer addRole(Role role);
+    Integer addRole(String roleName);
 
     Integer getRoleCount(String roleName);
 
@@ -31,4 +31,7 @@ public interface RoleService {
     int findRolePresentCount(int roleID);
 
     Role findRoleByID(int roleID);
+
+    int delRolePermission(int roleID,int permissionID);
+
 }

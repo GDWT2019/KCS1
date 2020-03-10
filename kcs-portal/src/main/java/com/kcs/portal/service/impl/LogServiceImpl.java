@@ -36,11 +36,11 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public Integer getLogCount(String time1, String time2, int userID) {
+    public Integer getLogCount(String time1, String time2, String name) {
         HashMap<String, String> param = new HashMap<>();
         param.put("time1",time1);
         param.put("time2",time2);
-        param.put("userID",userID+ "");
+        param.put("name",name);
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/log/getLogCount",param);
             KcsResult result = KcsResult.format(s);
@@ -55,15 +55,15 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public List<LogPresent> findLogByTimeUserID(int begin, int end, String time1, String time2, int userID) {
+    public List<LogPresent> findLogByTimeName(int begin, int end, String time1, String time2, String name) {
         HashMap<String, String> param = new HashMap<>();
         param.put("begin",begin+ "");
         param.put("end",end+ "");
         param.put("time1",time1);
         param.put("time2",time2);
-        param.put("userID",userID+ "");
+        param.put("name",name);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/log/findLogByTimeUserID",param);
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/log/findLogByTimeName",param);
             KcsResult result = KcsResult.formatToList(s,LogPresent.class);
             if (result.getStatus() == 200) {
                 List<LogPresent> LogPresentList = (List<LogPresent>) result.getData();

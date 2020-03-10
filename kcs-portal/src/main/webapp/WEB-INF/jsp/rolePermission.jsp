@@ -15,7 +15,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="addUserRole">添加数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="addRolePermission">添加权限</button>
     </div>
 </script>
 <script type="text/html" id="barDemo">
@@ -37,7 +37,8 @@
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 ,{type:'numbers',title:'序号'}
-                ,{field:'roleName', title:'角色', width:150}
+                ,{field:'permissionName', title:'权限名称', width:150}
+                ,{field:'permissionNum', title:'权限代码', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,page: true
@@ -49,7 +50,7 @@
         //工具栏事件
         table.on('toolbar(test)', function(obj){
             var data = obj.data;
-            if(obj.event = 'addUserRole'){
+            if(obj.event = 'addRolePermission'){
                 layer.open({
                     type:2,
                     title:"添加权限",
@@ -73,7 +74,7 @@
                         url:"${pageContext.request.contextPath}/role/delRolePermission",
                         title:"删除角色权限",
                         type:"post",
-                        data:{"roleID":data.roleID,"PermissionID":data.permissionID},
+                        data:{"roleID":data.roleID,"permissionID":data.permissionID},
                         dataType:"text",
                         success:function (result) {
                             var ajaxResult = JSON.parse(result);

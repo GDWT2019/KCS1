@@ -27,17 +27,34 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+
+
 
   <!--修改监听器默认识别配置文件地址-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring/applicationContext-*.xml</param-value>
+    <param-value>classpath:spring/applicationContext-*.xml,classpath*:spring-portal-security.xml</param-value>
   </context-param>
 
   <!--监听器-->
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+  <error-page>
+    <error-code>403</error-code>
+    <location>/403.jsp</location>
+  </error-page>
 
   <!--前端控制器-->
   <servlet>

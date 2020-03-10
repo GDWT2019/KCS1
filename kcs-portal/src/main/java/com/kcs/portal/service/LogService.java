@@ -10,9 +10,9 @@ public interface LogService {
 
     List<LogPresent> findAllLog(int begin, int end);
 
-    Integer getLogCount(String time1, String time2, int userID);
+    Integer getLogCount(String time1, String time2, String name);
 
     //根据时间段或用户id查找日志记录
-    List<LogPresent> findLogByTimeUserID(int begin, int end, String time1, String time2, int userID);
+    List<LogPresent> findLogByTimeName(int begin, int end, String time1, String time2, String name);
 
 }

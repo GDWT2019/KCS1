@@ -17,7 +17,7 @@ public class InBillServiceImpl implements InBillService {
     public List<InBill> findAllInBill() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,InBill.class);
             if (result.getStatus() == 200) {
                 return (List<InBill>) result.getData();
             }
@@ -60,7 +60,7 @@ public class InBillServiceImpl implements InBillService {
     public List<inBillShow> findInBillShow() {
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowData");
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,inBillShow.class);
             if (result.getStatus() == 200) {
                 return (List<inBillShow>) result.getData();
             }
@@ -80,7 +80,7 @@ public class InBillServiceImpl implements InBillService {
         param.put("itemName",itemName);
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowPage",param);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,inBillShow.class);
             if (result.getStatus() == 200) {
                 return (List<inBillShow>) result.getData();
             }
@@ -170,7 +170,7 @@ public class InBillServiceImpl implements InBillService {
         param.put("goodsID",goodsID+ "");
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/ItemInRecord",param);
-            KcsResult result = KcsResult.format(s);
+            KcsResult result = KcsResult.formatToList(s,inBillShow.class);
             if (result.getStatus() == 200) {
                 return (List<inBillShow>) result.getData();
             }

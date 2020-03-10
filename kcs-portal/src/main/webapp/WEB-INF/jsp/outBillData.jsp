@@ -23,7 +23,7 @@
 			<div class="layui-inline">
 				<label class="layui-form-label" style="width: 100px">时间范围：</label>
 				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
+					<input type="text" class="layui-input" name="timeRange" id="timeRange" placeholder="请选择时间段">
 				</div>
 			</div>
 
@@ -33,6 +33,18 @@
 					<input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
 				</div>
 			</div>
+
+			<div class="layui-inline">
+			<label class="layui-form-label" style="width: 100px">审批状态：</label>
+			<div class="layui-input-inline">
+				<select id="checkStatu" name="checkStatu">
+						<option value="">请选择</option>
+						<option value="0">待审批</option>
+						<option value="1">通过</option>
+						<option value="2">未通过</option>
+				</select>
+			</div>
+		</div>
 
 			<div class="layui-inline">
 				<div class="layui-input-inline">
@@ -80,7 +92,7 @@
 				,{field:'checkerName', title:'审批人', width:120}
 				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
 			]]
-			,where: {"time1":null,"time2":null,"itemName":null}
+			,where: {"time1":"","time2":"","itemName":"","checkStatu":""}
 			,page: true
 			,limit:10
 			,limits:[5,10,20,30,50]
@@ -92,21 +104,27 @@
 			var time1 = null;
 			var time2 = null;
 			var itemName = null;
+			var checkStatu = null;
 			var timeRange = $('#timeRange').val();
 			if (($("#itemName").val()) != null && ($("#itemName").val()) != "") {
 				itemName = $("#itemName").val();
+			}
+			//TODO
+			if (($('select[name="checkStatu"]').find("option:selected").val()) != null && ($('select[name="checkStatu"]').find("option:selected").val()) != "") {
+				checkStatu = $('select[name="checkStatu"]').find("option:selected").val();
 			}
 			if (timeRange != null && timeRange != "") {
 				time1 = timeRange.substring(0, 10);
 				time2 = timeRange.substring(13, 23);
 			}
-			console.log(time1 + " " + time2 + " " + itemName)
+
 			table.reload('outBillData', {
 				method: 'post'
 				, where: {
 					"time1": time1,
 					"time2": time2,
 					"itemName": itemName,
+					"checkStatu":checkStatu,
 				}
 				, page: {
 					curr: 1
@@ -147,7 +165,7 @@
 
 			//删除数据！！
 			if(obj.event === 'del'){
-				layer.confirm('真的删除行么', function(index){
+				layer.confirm('真的删除行么',{title:'删除出库单'}, function(index){
 					$.ajax({
 						url:"${pageContext.request.contextPath}/itemsOut/delByItemsOutID",
 						type:"post",
@@ -161,11 +179,11 @@
 							}else{
 								layer.confirm(ajaxResult.mesg);
 							}
-							layer.close(index);
+							layer.close(layer.index);
 						},
 						error:function () {
 							layer.confirm("删除请求错误！");
-							layer.close(index);
+							layer.close();
 						}
 					})
 				});
@@ -194,16 +212,17 @@
 						layer.open({
 							type:1,
 							content: result,
-							title:false,
+							title:"审批清单",
 							area:['1200px','668px'],
 							end:function () {
+								layer.close(layer.index);
 								location.reload();
 							}
 						})
 					},
 					error:function () {
 						layer.confirm("审批请求错误");
-						layer.close(index);
+						layer.close(layer.index);
 					}
 				})
 			}
@@ -217,6 +236,7 @@
 				area:['1200px','668px'],
 				moveOut:true,
 				end:function () {
+					layer.close(layer.index);
 					location.reload();
 				}
 			});

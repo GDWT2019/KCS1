@@ -10,23 +10,13 @@
 <body>
 
 <div class="layui-form" >
-    <div class="layui-inline">
-        <label class="layui-form-label">角色</label>
-        <div class="layui-input-inline">
-            <select id="roleID" name="roleID" lay-verify="role" lay-search=""  lay-filter="role">
-
-            </select>
+    <div class="layui-form" >
+        <div class="layui-form-item">
+            <label class="layui-form-label">角色</label>
+            <div class="layui-input-inline">
+                <input id="roleName"  type="text" name="roleName" lay-verify="roleName" placeholder="角色" autocomplete="off" class="layui-input">
+            </div>
         </div>
-        <a id="addRole"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
-    </div>
-    <div class="layui-inline">
-        <label class="layui-form-label">权限</label>
-        <div class="layui-input-inline">
-            <select id="permissionID" name="permissionID" lay-verify="permission" lay-search="" lay-filter="permission">
-            </select>
-        </div>
-        <a id="addPermission"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
-    </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn"  lay-submit lay-filter="add">添加</button>
@@ -65,37 +55,24 @@
                 }
             }
 
-            //我们既支持上述函数式的方式，也支持下述数组的形式
+          /*  //我们既支持上述函数式的方式，也支持下述数组的形式
             //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
             ,permission: function(value, item) {
                 if(value==""||value==null){
                     return '权限不能为空！'
                 }
-            }
+            }*/
         });
 
 
         form.on('submit(add)', function(){
-            var loginName = $("#loginName").val();
-            var userName = $("#userName").val();
-            var password = $("#password1").val();
-            var departmentID = $("#departmentID").val();
-            var positionID = $("#positionID").val();
-            var sex = $('input[name="sex"]:checked').val();
-            var tel = $("#tel").val();
-            var email = $("#email").val();
-            var photo = $(".image").attr("value");
-            var warehouseMark = $("#warehouseMark").val();
-            var listerMark = $("#listerMark").val();
-            var note = $("#note").val();
+            var roleName = $("#roleName").val();
+
             $.ajax({
-                url:"${pageContext.request.contextPath}/user/addUser",
+                url:"${pageContext.request.contextPath}/role/addRole",
                 type:"post",
                 data:{
-                    "loginName":loginName,"userName":userName,"password":password,
-                    "departmentID":departmentID,"positionID":positionID,"sex":sex,
-                    "tel":tel,"email":email,"photo":photo,"warehouseMark":warehouseMark,
-                    "listerMark":listerMark,"note":note},
+                    "roleName":roleName},
                 dataType:"text",
                 success:function (result) {
                     if (result!=null){

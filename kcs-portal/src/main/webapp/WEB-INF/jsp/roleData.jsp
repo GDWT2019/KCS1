@@ -15,12 +15,12 @@
 
 <script type="text/html" id="toolbarDemo">
 	<div class="layui-btn-container">
-		<button class="layui-btn layui-btn-sm" lay-event="addRoleData">添加数据</button>
+		<button class="layui-btn layui-btn-sm" lay-event="addRoleData">添加角色</button>
 	</div>
 </script>
 <script type="text/html" id="barDemo">
-	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除角色</a>
 </script>
 <script type="text/html" id="bar">
 	<a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
@@ -75,8 +75,8 @@
 			if(obj.event === 'edit'){
 				layer.open({
 					type:2,
-					title:"修改角色",
-					content:'${pageContext.request.contextPath}/role/showUpdateRole?RoleID='+data.RoleID,
+					title:"修改角色名称",
+					content:'${pageContext.request.contextPath}/role/showUpdateRole?roleID='+data.roleID,
 					area:['1200px','668px'],
 					moveOut:true,
 					end:function () {
@@ -86,12 +86,12 @@
 
 				//删除数据！！
 			} else if(obj.event === 'del'){
-				layer.confirm('真的删除行么', function(index){
+				layer.confirm('删除该角色，会一并删除该角色对应的权限，是否确认删除？', function(index){
 					$.ajax({
-						url:"${pageContext.request.contextPath}/role/delRoleByRoleID",
+						url:"${pageContext.request.contextPath}/role/delRole",
 						title:"删除用户",
 						type:"post",
-						data:{"userID":data.userID},
+						data:{"roleID":data.roleID},
 						dataType:"text",
 						success:function (result) {
 							var ajaxResult = JSON.parse(result);

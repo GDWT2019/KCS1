@@ -84,13 +84,21 @@ public class OutBillController {
 
         int begin=limit*(page-1)+1;
         int end = page * limit;
-
+        int checkStatus = 3;
+        String checkStatus1 = request.getParameter("checkStatu");
+        if (!checkStatus1.equals("")){
+            checkStatus = Integer.parseInt(checkStatus1);
+        }
         String time1 = request.getParameter("time1");
         String time2 = request.getParameter("time2");
         String itemName = request.getParameter("itemName");
 
-        List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName);
-        Integer count = outBillService.outBillPresentCount(time1,time2,itemName);
+        request.setAttribute("timeRange",time1+"-"+time2);
+        request.setAttribute("itemName",itemName);
+        request.setAttribute("checkStatu",checkStatus);
+
+        List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName,checkStatus);
+        Integer count = outBillService.outBillPresentCount(time1,time2,itemName,checkStatus);
 
         JSONArray json = JSONArray.fromObject(allOutBillPresent);
         String js=json.toString();

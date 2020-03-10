@@ -34,7 +34,7 @@
 					<div class="layui-layout-right" style="margin-top: 10px;margin-right: 50px;">
 						<span style="font-size: 25px;">编号：</span>
 						<div class="layui-inline">
-							<input type="text" class="layui-input" disabled="disabled" name="OutBillID" autocomplete="on" value="${outBillID}">
+							<input type="text" class="layui-input" disabled="disabled" name="OutBillID" autocomplete="on" value="提交后自动生成！">
 						</div>
 					</div>
 					<div class="" style="margin-top:30px;padding:10px;">

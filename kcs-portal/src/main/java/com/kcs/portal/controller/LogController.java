@@ -40,32 +40,13 @@ public class LogController {
         List<LogPresent> LogPresentList = new ArrayList<>();
         int count = 0;
         JSONArray json =new JSONArray();
-        String js = "[]";
-        System.out.println(name);
-        if (!name.equals("")){
-            List<User> userList = userService.findByName(name);
-            if (userList != null){
-                js = "";
-                for (User u :
-                        userList) {
-                    LogPresentList = logService.findLogByTimeUserID(before,after,time1,time2,u.getUserID());
-                    count = count + logService.getLogCount(time1,time2,u.getUserID());
-                    json =  JSONArray.fromObject(LogPresentList);
-                    js = js + json.toString();
-                    String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
-                    return jso;
-                }
-
-            }else {
-                String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+0+",\"data\":"+"[]"+"}";
-                return jso;
-            }
-        }
-        LogPresentList = logService.findLogByTimeUserID(before,after,time1,time2,0);
-        count = logService.getLogCount(time1,time2,0);
+        String js = "";
+        LogPresentList = logService.findLogByTimeName(before,after,time1,time2,name);
+        count = count + logService.getLogCount(time1,time2,name);
         json =  JSONArray.fromObject(LogPresentList);
-        js = json.toString();
+        js = js + json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+
         return jso;
     }
 }
