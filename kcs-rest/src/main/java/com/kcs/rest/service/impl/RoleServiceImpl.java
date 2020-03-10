@@ -24,8 +24,8 @@ public class RoleServiceImpl implements RoleService {
 
     @LogAnno(operateType = "新增角色")
     @Override
-    public Integer addRole(Role role) {
-        return roleDao.addRole(role);
+    public Integer addRole(String roleName) {
+        return roleDao.addRole(roleName);
     }
 
     @Override

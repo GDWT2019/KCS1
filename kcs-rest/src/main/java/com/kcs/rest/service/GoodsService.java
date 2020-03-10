@@ -42,4 +42,6 @@ public interface GoodsService {
 
     //根据物品名称，查询物品数据及汇总表的该物品的最新数据
     List<AddOutBill> findAddOutBillByItemsName(String itemsName);
+
+    Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit);
 }

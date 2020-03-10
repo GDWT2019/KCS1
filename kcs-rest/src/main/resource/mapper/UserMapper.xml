@@ -15,7 +15,15 @@
         <result column="Note" property="note" jdbcType="VARCHAR" />
         <result column="WarehouseMark" property="warehousemark" jdbcType="BIT" />
         <result column="ListerMark" property="listermark" jdbcType="BIT" />
+        <result column="Status" property="Status" jdbcType="BIT" />
+        <collection property="roles" ofType="com.kcs.rest.pojo.Role">
+            <id column="RoleID" property="RoleID"/>
+            <result column="RoleName" property="RoleName"/>
+        </collection>
+
     </resultMap>
+
+
 
     <select id="findAllUser"  resultType="com.kcs.rest.pojo.User" >
         select *
@@ -66,9 +74,9 @@
         select * from [User] where UserID = #{userid}
     </select>
 
-    <select id="findByLoginName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >
-        select *  from  [User]  where  LoginName = #{LoginName}
-    </select>
+    <!--<select id="findByLoginName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >-->
+        <!--select *  from  [User]  where  LoginName = #{LoginName}-->
+    <!--</select>-->
 
     <select id="findByName" resultType="com.kcs.rest.pojo.User">
         select *  from  [User]  where  LoginName like '%${name}%' or UserName like '%${name}%'

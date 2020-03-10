@@ -7,10 +7,7 @@ import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +17,15 @@ public class GoodsController {
 
     @Autowired
     private GoodsService goodsService;
+
+    @RequestMapping("/addGoods")
+    @ResponseBody
+    public KcsResult addGoods(@RequestParam("goodsName") String goodsName, @RequestParam("categoryID") String ID, @RequestParam("goodsType") String goodsType, @RequestParam("goodsUnit") String goodsUnit){
+        Integer categoryID = Integer.parseInt(ID);
+        Integer integer = goodsService.addGoods(goodsName,categoryID , goodsType,goodsUnit);
+        return KcsResult.ok(integer);
+
+    }
 
     @RequestMapping("/getGoodsByItemName{itemName}")
     @ResponseBody

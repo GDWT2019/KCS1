@@ -6,4 +6,8 @@
         select *
         from [Category]
     </select>
+
+    <insert id="addCategory" parameterType="String">
+        insert into Category (CategoryName) values (#{categoryName})
+    </insert>
 </mapper>

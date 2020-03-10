@@ -9,7 +9,7 @@ public interface RoleService {
 
     List<Role> findAllRole( int begin, int end);
 
-    Integer addRole(Role role);
+    Integer addRole(String roleName);
 
     Integer getRoleCount(String roleName);
 

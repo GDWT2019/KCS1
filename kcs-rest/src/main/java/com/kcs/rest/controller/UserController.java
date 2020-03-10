@@ -10,6 +10,7 @@ import com.kcs.rest.utils.AjaxMesg;
 import com.kcs.rest.utils.LogAnno;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.*;
@@ -89,8 +90,8 @@ public class UserController {
     @RequestMapping("/loginUser{loginName}")
     @ResponseBody
     public KcsResult Login(@PathVariable String loginName){
-        User byLoginName = userService.findByLoginName(loginName);
-        return  KcsResult.ok(byLoginName);
+        User user = userService.findByLoginName(loginName);
+        return  KcsResult.ok(user);
     }
     /**
      * 使用url拼接参数，形参前加@PathVariable

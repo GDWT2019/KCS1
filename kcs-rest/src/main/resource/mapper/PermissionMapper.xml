@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcs.rest.dao.PermissionDao" >
+
+    <select id="findAllPermission" resultType="com.kcs.rest.pojo.Permission" parameterType="java.lang.Integer">
+        <if test="back != '' and back != null and front != '' and front != null">
+            select top(#{back}-#{front}+1) *
+            from [Permission]
+            where PermissionID not in(select top(#{front}-1) PermissionID from [Permission])
+        </if>
+    </select>
+
+    <select id="permissionCount" resultType="Integer">
+        select count(*) from Permission
+    </select>
+
+    <insert id="addRolePermission" parameterType="int" >
+        insert  into RolePermission (RoleID,PermissionID) values (#{roleID},#{permissionID})
+    </insert>
+
+
+
+</mapper>

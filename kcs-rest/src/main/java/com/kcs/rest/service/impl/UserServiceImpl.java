@@ -2,17 +2,23 @@ package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.UserDao;
 import com.kcs.rest.dao.UserRoleDao;
+import com.kcs.rest.pojo.Role;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.service.UserService;
 import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Service("userService")
+@Service("userService1")
 public class UserServiceImpl implements UserService {
 
     @Autowired

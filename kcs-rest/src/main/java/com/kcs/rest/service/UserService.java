@@ -4,10 +4,11 @@ import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.pojo.UserRole;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService  {
     User findUserById(int id);
 
     User findByLoginName(String loginName);

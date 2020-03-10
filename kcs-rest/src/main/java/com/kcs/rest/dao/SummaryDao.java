@@ -3,6 +3,7 @@ package com.kcs.rest.dao;
 import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -59,4 +60,17 @@ public interface SummaryDao {
 
     int getThisAmount(@Param("goodsID") int goodsID, @Param("time") String time);
 
+   List<Summary> findNearestSummaryTime();
+
+    String findLatestTime();
+
+    List<Integer> findGoodsID();
+
+    Summary findLongTimeSummary(Integer goodsID);
+
+    Integer findDateDiff(String currentDate);
+
+    String dateAdd(@Param("i") int i, @Param("currentDate") String currentDate);
+
+    String findMonth(String dateAdd);
 }

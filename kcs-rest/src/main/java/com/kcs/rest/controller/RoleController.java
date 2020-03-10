@@ -36,10 +36,10 @@ public class RoleController {
         return KcsResult.ok(roleService.getRoleCount(roleName));
     }
 
-    @RequestMapping("/addRole")
+    @RequestMapping("/addRole{roleName}")
     @ResponseBody
-    public KcsResult addRole(@RequestBody Role role){
-        return KcsResult.ok(roleService.addRole(role));
+    public KcsResult addRole(@PathVariable String roleName){
+        return KcsResult.ok(roleService.addRole(roleName));
     }
 
     @RequestMapping(value = "/findRoleByRoleName",method= RequestMethod.GET)
@@ -86,9 +86,9 @@ public class RoleController {
         return KcsResult.ok(integer);
     }
 
-    @RequestMapping("/findAllRolePresent")
+    @RequestMapping(value = "findAllRolePresent",method = RequestMethod.GET)
     @ResponseBody
-    public KcsResult findAllRolePresent(@RequestParam("begin") String begin,@RequestParam("end") String end,@RequestParam("roleID") int roleID){
+    public KcsResult findAllRolePresent(@RequestParam("front") String begin,@RequestParam("back") String end,@RequestParam("roleID") int roleID){
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
         List<RolePresent> rolePresent = roleService.findAllRolePresent(front, back, roleID);
@@ -99,7 +99,8 @@ public class RoleController {
     @ResponseBody
     public KcsResult findRolePresentCount( @RequestParam("roleID") String roleID){
         int rid = Integer.parseInt(roleID);
-        return KcsResult.ok(roleService.findRolePresentCount(rid));
+        int count = roleService.findRolePresentCount(rid);
+        return KcsResult.ok(count);
     }
 
     @RequestMapping("/findRoleByID{roleID}")
