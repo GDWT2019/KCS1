@@ -1,5 +1,5 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <!DOCTYPE html>
 <html>
 
@@ -26,6 +26,7 @@
 <body style="background: #DDEEFE ">
 <%--<% request.getSession().invalidate();%>--%>
 <form id="form1" action="${pageContext.request.contextPath}/login" class="form-signin" method="post" >
+    <security:csrfInput/>
     <h1 class="h3 mb-3 font-weight-normal" >Please sign in</h1><br />
     <!--判断-->
     <p id="message" style="color: red" ></p>

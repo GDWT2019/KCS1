@@ -102,18 +102,6 @@
 			}
 		});
 
-		$("#addOutBillBtn").on("click",function () {
-			layer.open({
-				type:2,
-				title:"添加出库",
-				content:'${pageContext.request.contextPath}/outBill/showAddOutBill',
-				area:['1200px','668px'],
-				moveOut:true,
-				end:function () {
-					location.reload();
-				}
-			});
-		});
 
 		$("#do_search").on("click",function () {
 			var time1 = null;

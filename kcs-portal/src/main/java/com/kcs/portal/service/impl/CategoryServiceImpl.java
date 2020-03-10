@@ -23,4 +23,19 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return null;
     }
+
+    @Override
+    public Integer addCategory(String categoryName) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/category/addCategory"+categoryName);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+
+                return (Integer) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

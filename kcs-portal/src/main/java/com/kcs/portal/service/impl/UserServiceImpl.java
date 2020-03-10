@@ -190,7 +190,7 @@ public class UserServiceImpl implements UserService {
     public Integer addUser(User user) {
         try {
 //            user.setUserID(1);
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/addUser", JsonUtils.objectToJson(user));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
@@ -284,7 +284,7 @@ public class UserServiceImpl implements UserService {
             KcsResult result = KcsResult.formatToPojo(s,User.class);
             if (result.getStatus() == 200) {
                 User user = (User) result.getData();
-                org.springframework.security.core.userdetails.User u = new org.springframework.security.core.userdetails.User(user.getLoginName(),user.getPassword(),user.isStatus(),true,true,true,getAuthority(user.getRoles()));
+                org.springframework.security.core.userdetails.User u = new org.springframework.security.core.userdetails.User(user.getLoginName(),new BCryptPasswordEncoder().encode(user.getPassword()),user.isStatus(),true,true,true,getAuthority(user.getRoles()));
                 return u;
             }
         }catch (Exception e){

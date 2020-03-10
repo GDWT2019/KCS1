@@ -36,4 +36,6 @@ public interface GoodsService {
     List<AddOutBill> findAddOutBillByItemsName(String itemsName);
 
     Category findCategoryNameByID(Integer categoryID);
+
+    Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit);
 }

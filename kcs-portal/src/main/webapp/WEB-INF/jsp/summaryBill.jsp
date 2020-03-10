@@ -266,7 +266,7 @@
                     type:2,
                     title:['入库记录', 'font-size:18px;text-align: center;'],
                     content:'${pageContext.request.contextPath }/inBill/rItemInRecord',
-                    area:['1200px','50%'],
+                    area:['1200px','668px'],
                     end:function () {
                         location.reload();
                     }
@@ -279,7 +279,7 @@
                     type:2,
                     title:['出库记录', 'font-size:18px;text-align: center;'],
                     content:'${pageContext.request.contextPath }/outBill/rItemOutRecord',
-                    area:['1200px','50%'],
+                    area:['1200px','668px'],
                     end:function () {
                         location.reload();
                     }

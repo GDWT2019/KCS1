@@ -43,7 +43,8 @@
   <!--修改监听器默认识别配置文件地址-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath:spring/applicationContext-*.xml,classpath*:spring-portal-security.xml</param-value>
+    <!--<param-value>classpath:spring/applicationContext-*.xml,classpath*:spring-portal-security.xml</param-value>-->
+    <param-value>classpath:spring/applicationContext-*.xml</param-value>
   </context-param>
 
   <!--监听器-->

@@ -31,7 +31,11 @@
                 </dl>
 
             </li>
-            <li class="layui-nav-item"><a href="user/loginOut">退出</a></li>
+            <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/logout">退出</a></li>
+            <%--<li class="layui-nav-item"><form action="${pageContext.request.contextPath}/logout" method="post">
+                <security:csrfInput/>
+                <input type="submit" value="退出">
+            </form></li>--%>
         </ul>
     </div>
 

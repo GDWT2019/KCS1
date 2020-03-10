@@ -14,14 +14,18 @@
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
-<%--<script type="text/html" id="toolbarDemo">
+<script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="addRoleData">添加权限</button>
     </div>
 </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>--%>
+</script>
+<script type="text/html" id="bar">
+    <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
+</script>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
@@ -40,7 +44,7 @@
                 ,{type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
                 ,{field:'permissionName', title:'权限名称', width:150}
                 ,{field:'permissionNum', title:'权限代码',  width:150}
-                /*,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}*/
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,page: true
             ,limit:10
@@ -48,14 +52,14 @@
             ,id:'testPermission'
         });
 
-      /*  //工具栏事件
+        //工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             if(obj.event = 'addRoleData'){
                 layer.open({
                     type:2,
-                    title:"添加权限",
-
+                    title:"添加角色",
+                    content:'${pageContext.request.contextPath }/role/showAddRole',
                     area:['1000px','668px'],
                     moveOut:true,
                     end:function () {
@@ -68,27 +72,27 @@
         //监听行工具事件
         table.on('tool(test)', function(obj){
             var data = obj.data;
-                        //编辑
-                        if(obj.event === 'edit'){
-                            layer.open({
-                                type:2,
-                                title:"修改角色",
-
+            //编辑
+            if(obj.event === 'edit'){
+                layer.open({
+                    type:2,
+                    title:"修改角色",
+                    content:'${pageContext.request.contextPath}/role/showUpdateRole?RoleID='+data.RoleID,
                     area:['1200px','668px'],
                     moveOut:true,
                     end:function () {
                         location.reload();
                     }
-                });}
+                });
 
                 //删除数据！！
-             if(obj.event === 'del'){
+            } else if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     $.ajax({
-
-                        title:"删除权限",
+                        url:"${pageContext.request.contextPath}/role/delRoleByRoleID",
+                        title:"删除用户",
                         type:"post",
-                        data:{"permissionID":data.permissionID},
+                        data:{"userID":data.userID},
                         dataType:"text",
                         success:function (result) {
                             var ajaxResult = JSON.parse(result);
@@ -106,8 +110,19 @@
                         }
                     })
                 });
+            }else if (obj.event === 'detail'){
+                layer.open({
+                    type:2,
+                    title:data.roleName+"的权限详情",
+                    content:'${pageContext.request.contextPath}/role/showRolePermission?roleID='+data.roleID,
+                    area:['1200px','668px'],
+                    moveOut:true,
+                    end:function () {
+                        location.reload();
+                    }
+                });
             }
-        });*/
+        });
     });
 </script>
 </body>

@@ -71,13 +71,14 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public List<inBillShow> PageInBillShow(int before, int after,String time1,String time2,String itemName) {
+    public List<inBillShow> PageInBillShow(int before, int after,String time1,String time2,String itemName,Integer checkStatus) {
         HashMap<String, String> param = new HashMap<>();
         param.put("before",before+ "");
         param.put("after",after+ "");
         param.put("time1",time1);
         param.put("time2",time2);
         param.put("itemName",itemName);
+        param.put("checkStatus",checkStatus+"");
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowPage",param);
             KcsResult result = KcsResult.formatToList(s,inBillShow.class);
@@ -145,11 +146,12 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public int countReload(String time1, String time2, String itemName) {
+    public int countReload(String time1, String time2, String itemName,Integer checkStatus) {
         HashMap<String, String> param = new HashMap<>();
         param.put("time1",time1);
         param.put("time2",time2);
         param.put("itemName",itemName);
+        param.put("checkStatus",checkStatus+"");
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/countReload",param);
             KcsResult result = KcsResult.format(s);

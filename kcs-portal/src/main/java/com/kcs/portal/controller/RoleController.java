@@ -12,7 +12,10 @@ import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -128,6 +131,7 @@ public class RoleController {
         model.addAttribute("permissionList",permissionList);
         return "addRolePermission";
     }
+
 
     @RequestMapping("/showUpdateRole")
     public String showUpdateRole(HttpServletRequest request,Model model){
