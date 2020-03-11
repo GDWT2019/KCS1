@@ -11,6 +11,29 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
+
+<div class="demoTable">
+    时间范围：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
+    </div>
+    物品名：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
+    </div>
+    审核状态：
+    <div class="layui-inline">
+        <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
+            <option value="">请选择审核状态</option>
+            <option value="1">等待审核</option>
+            <option value="2">审核通过</option>
+            <option value="3">审核未通过</option>
+        </select>
+    </div>
+    <input type="button" class="layui-btn" id="search"  value="搜索">
+    <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+</div>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
@@ -24,37 +47,37 @@
                 <button class="layui-btn layui-btn-sm export" id="export" >导出所有数据报表</button>
             </div>
 
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">时间范围：</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
-                </div>
-            </div>
+            <%--<div class="layui-inline">--%>
+                <%--<label class="layui-form-label" style="width: 100px">时间范围：</label>--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">物品名：</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
-                </div>
-            </div>
+            <%--<div class="layui-inline">--%>
+                <%--<label class="layui-form-label" style="width: 100px">物品名：</label>--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">审核状态：</label>
-                <div class="layui-input-inline">
-                    <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
-                        <option value="">请选择审核状态</option>
-                        <option value="1">等待审核</option>
-                        <option value="2">审核通过</option>
-                        <option value="3">审核未通过</option>
-                    </select>
-                </div>
-            </div>
+            <%--<div class="layui-inline">--%>
+                <%--<label class="layui-form-label" style="width: 100px">审核状态：</label>--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">--%>
+                        <%--<option value="">请选择审核状态</option>--%>
+                        <%--<option value="1">等待审核</option>--%>
+                        <%--<option value="2">审核通过</option>--%>
+                        <%--<option value="3">审核未通过</option>--%>
+                    <%--</select>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="button" class="layui-btn" id="search"  value="搜索">
-                </div>
-            </div>
+            <%--<div class="layui-inline">--%>
+                <%--<div class="layui-input-inline">--%>
+                    <%--<input type="button" class="layui-btn" id="search"  value="搜索">--%>
+                <%--</div>--%>
+            <%--</div>--%>
         </div>
     </div>
     </div>

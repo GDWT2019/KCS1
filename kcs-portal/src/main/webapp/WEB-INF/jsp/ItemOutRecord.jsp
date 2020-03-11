@@ -29,7 +29,7 @@
             elem: '#test'
             ,url:"${pageContext.request.contextPath }/outBill/ItemOutRecord"
             ,title: '出库单'
-            ,totalRow: true//开启合计行
+            ,totalRow: false//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 ,{type:'numbers',title:'序号'}

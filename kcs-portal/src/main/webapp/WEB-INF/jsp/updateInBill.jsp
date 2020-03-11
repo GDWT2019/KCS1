@@ -323,7 +323,9 @@
             url: "${pageContext.request.contextPath }/inBill/updateBill",
             data: $("#InBillForm").serialize(),
             success: function () {
-                layer.alert("修改成功")
+                layer.alert("修改成功",function(){
+                    window.parent.layer.closeAll();
+                });
             },
             error: function () {
                 layer.alert("修改失败！");
