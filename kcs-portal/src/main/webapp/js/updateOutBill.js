@@ -433,8 +433,9 @@ function submitBill(itemsOutJsonList,outBill) {
         success:function (result) {
             var data = JSON.parse(result);
             if (data.flag){
-                alert(data.mesg);
-                location.href="showAllOutBill";
+                layer.alert(data.mesg,function () {
+                    window.parent.layer.closeAll();
+                })
             }else{
                 alert(data.mesg);
                 return false;

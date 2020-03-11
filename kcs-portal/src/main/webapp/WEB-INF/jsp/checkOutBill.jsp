@@ -138,7 +138,10 @@
                 dataType:"text",
                 success:function (result) {
                     var data = JSON.parse(result);
-                    alert(data.mesg);
+                    layer.alert(data.mesg,function () {
+                        layer.closeAll();
+                        location.reload();
+                    })
 
                 },
                 error:function () {

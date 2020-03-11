@@ -180,10 +180,12 @@
 								layer.confirm(ajaxResult.mesg);
 							}
 							layer.close(layer.index);
+                            location.reload();
 						},
 						error:function () {
 							layer.confirm("删除请求错误！");
 							layer.close();
+                            location.reload();
 						}
 					})
 				});
@@ -215,7 +217,6 @@
 							title:"审批清单",
 							area:['1200px','668px'],
 							end:function () {
-								window.parent.layer.closeAll();
 								location.reload();
 							}
 						})
@@ -236,7 +237,6 @@
 				area:['1200px','668px'],
 				moveOut:true,
 				end:function () {
-					layer.close(layer.index);
 					location.reload();
 				}
 			});
