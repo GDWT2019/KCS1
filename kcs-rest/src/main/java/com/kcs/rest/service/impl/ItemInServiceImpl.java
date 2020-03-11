@@ -157,6 +157,7 @@ public class ItemInServiceImpl implements ItemInService {
     public void delItem(int itemsInID) {
         ItemIn itemIn =itemInDao.finditemsByItemsID(itemsInID);
         Integer inBillID = itemIn.getInBillID();
+
         //通过inBillID查询属于改单号的物品，然后操作汇总表，逐个清零
 //        List<ItemsShow> itemsInData = itemInDao.findItemsInData(inBillID);
         String time = inBillDao.findTimeByID(inBillID);
@@ -225,6 +226,8 @@ public class ItemInServiceImpl implements ItemInService {
                 e.printStackTrace();
             }finally {
                 itemInDao.delItem(itemsInID);
+                Float nowAllTotal=itemInDao.findAllTotal(inBillID);
+                inBillDao.updateInBillAlltotalByID(nowAllTotal,inBillID);
             }
 
 

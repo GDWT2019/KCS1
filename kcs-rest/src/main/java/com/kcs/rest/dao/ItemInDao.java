@@ -26,4 +26,5 @@ public interface ItemInDao {
 
     ItemIn finditemsByItemsID(int itemsInID);
 
+    Float findAllTotal(Integer inBillID);
 }
