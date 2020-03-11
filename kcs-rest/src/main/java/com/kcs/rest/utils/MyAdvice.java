@@ -41,16 +41,11 @@ public class MyAdvice {
     // @Before("MyAdvice.pc()")
     @Before("pc()")
     public void before(JoinPoint joinPoint) throws Exception {
-        System.out.println("---------------前置通知开始(注解)~~~~~~~~~~~");
         // 获取到类名
         String targetName = joinPoint.getTarget().getClass().getName();
-        System.out.println("代理的类是:" + targetName);
-        // 获取到方法名
         String methodName = joinPoint.getSignature().getName();
-        System.out.println("增强的方法是:" + methodName);
         // 获取到参数
-        Object[] parameter = joinPoint.getArgs();
-        System.out.println("传入的参数是:" + Arrays.toString(parameter));
+        Object[] parameter = joinPoint.getArgs();;
         // 获取字节码对象
         Class<?> targetClass = Class.forName(targetName);
         // 获取所有的方法
@@ -59,12 +54,10 @@ public class MyAdvice {
             if (method.getName().equals(methodName)) {
                 Class[] clazzs = method.getParameterTypes();
                 if (clazzs.length == parameter.length) {
-                    System.out.println("找到这个方法");
                     break;
                 }
             }
         }
-        System.out.println("---------------前置通知结束");
     }
 
     // 后置通知(异常发生后不会调用)
@@ -76,7 +69,6 @@ public class MyAdvice {
     // 环绕通知
     @Around("MyAdvice.pc()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
-        System.out.println("----------------环绕通知之前 的部分");
         // 获取方法签名
         MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
         // 获取方法
@@ -85,23 +77,15 @@ public class MyAdvice {
         LogAnno logAnno = method.getAnnotation(LogAnno.class);
         // 获取操作描述的属性值
         String operateType = logAnno.operateType();
-
-
-       HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        HttpSession session =request.getSession();
-
-        /*HttpSession session = SysContent.getSession();*/
-        User user = (User) session.getAttribute("user");//获取session中的user对象
+        User user = GetSession.getUser();//获取session中的user对象
 
 
         // 让方法执行（proceed是方法的返回结果，可以针对返回结果做一些处理）
-        System.err.println("1111111111111111111111111111111111--------------方法开始执行");
         Object proceed = pjp.proceed();
 
         // 创建一个日志对象(准备记录日志)
         Log log = new Log();
         log.setOperation(operateType);// 操作说明
-        log.setUserID(53);// 设置操作人
         if(user!=null){
             log.setUserID(user.getUserID());
         }
@@ -111,9 +95,10 @@ public class MyAdvice {
             log.setResult("失败");
         }else
             log.setResult("成功");
-        //logService.insertLog(log);
+        if (user.getUserID()!=null){
+            logService.insertLog(log);
+        }
         // 环绕通知之后的业务逻辑部分
-        System.out.println("----------------环绕通知之后的部分");
         return proceed;
     }
 

@@ -107,7 +107,6 @@ public class OutBillController {
             js="[]";
         }
         String outBillJson = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
-        System.out.println(outBillJson);
         return outBillJson;
     }
 

@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -275,6 +276,16 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void sentSession(User user) {
+        try {
+            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/sentSession", JsonUtils.objectToJson(user));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.utils.AjaxMesg;
+import com.kcs.rest.utils.GetSession;
 import com.kcs.rest.utils.LogAnno;
 import net.sf.json.JSONArray;
 import org.apache.commons.beanutils.BeanUtils;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +54,7 @@ public class UserController {
     }
 
     @RequestMapping("/success")
-    public String success(ModelAndView modelAndView,Model model,HttpServletRequest request){
+    public String success(ModelAndView modelAndView, Model model, HttpServletRequest request, HttpSession session){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username =null;
         if (principal instanceof UserDetails) {
@@ -62,7 +64,8 @@ public class UserController {
 //        model.addAttribute("user",user);
 //        modelAndView.addObject("user",user);
         request.getSession().setAttribute("user",user);
-
+        session.setAttribute("user",user);
+        userService.sentSession((User)session.getAttribute("user"));
         return "forward:/index.jsp";
     }
 

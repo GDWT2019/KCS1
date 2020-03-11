@@ -86,13 +86,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label">仓管员标记</label>
         <div class="layui-input-block">
-            <input type="checkbox" id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="是|否">
+            <input type="checkbox" id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-filter="switchTest1"  lay-text="on|off">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">制表人标记</label>
         <div class="layui-input-block">
-            <input type="checkbox" id="listerMark" name="listerMark" lay-skin="switch" lay-text="是|否">
+            <input type="checkbox" id="listerMark" name="listerMark" lay-skin="switch" lay-filter="switchTest2"  lay-text="on|off">
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
@@ -177,6 +177,17 @@
             }
         });
 
+        var warehouseMark = false;
+        var listerMark = false;
+
+        form.on('switch(switchTest1)', function(){
+            warehouseMark =this.checked ? 'true' : 'false'
+            layer.alert(warehouseMark+"wwww")
+    });
+        form.on('switch(switchTest2)', function(){
+            listerMark =this.checked ? 'true' : 'false'
+            layer.alert(listerMark+"wwww")
+        });
 
         form.on('submit(add)', function(){
             var loginName = $("#loginName").val();
@@ -188,9 +199,11 @@
             var tel = $("#tel").val();
             var email = $("#email").val();
             var photo = $(".image").attr("value");
-            var warehouseMark = $("#warehouseMark").val();
-            var listerMark = $("#listerMark").val();
+
             var note = $("#note").val();
+
+
+            layer.alert(warehouseMark + listerMark)
             $.ajax({
                 url:"${pageContext.request.contextPath}/user/addUser",
                 type:"post",
@@ -203,13 +216,17 @@
                 success:function (result) {
                     if (result!=null){
                         var data = JSON.parse(result);
-                        alert(data.mesg);
+                        layer.alert(data.mesg,function () {
+                            window.parent.layer.closeAll();
+                        })
                     }
                     else
-                        alert("失败！")
+                        layer.alert("失败！",function () {
+                            window.parent.layer.closeAll();
+                        })
                 },
                 error:function () {
-                    alert("请求错误！")
+                    layer.alert("请求错误！")
                 }
             })
         });
@@ -234,11 +251,11 @@
                     dataType:"text",
                     success:function (result) {
                         var data = JSON.parse(result);
-                        alert(data.mesg);
+                        layer.alert(data.mesg);
                         reflashDepartment();
                     },
                     error(){
-                        alert("新增部门请求错误！")
+                        layer.alert("新增部门请求错误！")
                     }
                 })
                 layer.close(index);
@@ -259,11 +276,11 @@
                     dataType:"text",
                     success:function (result) {
                         var data = JSON.parse(result);
-                        alert(data.mesg);
+                        layer.alert(data.mesg);
                         reflashPosition();
                     },
                     error(){
-                        alert("新增职位请求错误！")
+                        layer.alert("新增职位请求错误！")
                     }
                 });
                 layer.close(index);

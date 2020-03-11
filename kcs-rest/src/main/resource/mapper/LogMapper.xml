@@ -14,16 +14,12 @@
     </select>
 
     <select id="getLogCount" resultType="java.lang.Integer">
-        select count(*)
-        from Log where 1=1
+        select count(*)         from [Log],[User] where [Log].UserID=[User].UserID
         <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
             and  [Log].Time between #{time1} and #{time2}
         </if>
         <if test="name != null and name !='' ">
-            and [User].UserName like '%${name}%'
-        </if>
-        <if test="name != null and name !='' ">
-            or [User].LoginName like '%${name}%'
+            and [User].LoginName like '%${name}%'
         </if>
     </select>
 
@@ -36,10 +32,8 @@
            and [Log].Time between #{time1} and #{time2}
         </if>
         <if test="name != null and name !='' ">
-            and [User].UserName like '%${name}%'
+            and [User].LoginName like '%${name}%'
         </if>
-        <if test="name != null and name !='' ">
-            or [User].LoginName like '%${name}%'
-        </if>
+        order by [Log].Time desc
     </select>
 </mapper>

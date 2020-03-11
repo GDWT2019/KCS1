@@ -1,23 +1,14 @@
 package com.kcs.rest.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.service.UserRoleService;
 import com.kcs.rest.service.UserService;
-import com.kcs.rest.utils.AjaxMesg;
-import com.kcs.rest.utils.LogAnno;
-import net.sf.json.JSONObject;
+import com.kcs.rest.utils.GetSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @Controller("userController")
@@ -161,5 +152,11 @@ public class UserController {
         Boolean st = Boolean.parseBoolean(status);
         Integer integer = userService.lockUser(uid, st);
         return  KcsResult.ok(integer);
+    }
+
+    @RequestMapping("/sentSession")
+    @ResponseBody
+    public void sentSession(@RequestBody User user){
+        GetSession.setUser(user);
     }
 }

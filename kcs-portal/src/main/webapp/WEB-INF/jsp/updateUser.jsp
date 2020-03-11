@@ -84,10 +84,10 @@
         <label class="layui-form-label">仓管员标记</label>
         <div class="layui-input-block">
             <c:if test="${user.warehouseMark==true}">
-                <input type="checkbox" checked  id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="true|false">
+                <input type="checkbox" checked=""  id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-filter="switchTest1" lay-text="on|off">
             </c:if>
             <c:if test="${user.warehouseMark==false}">
-                <input type="checkbox" id="warehouseMark" name="warehouseMark" lay-skin="switch" lay-text="true|false">
+                <input type="checkbox" id="warehouseMark" name="warehouseMark" lay-skin="switch"  lay-filter="switchTest1" lay-text="on|off">
             </c:if>
         </div>
     </div>
@@ -95,10 +95,10 @@
         <label class="layui-form-label">制表人标记</label>
         <div class="layui-input-block">
             <c:if test="${user.listerMark==true}">
-                <input type="checkbox" checked id="listerMark" name="listerMark" lay-skin="switch" lay-text="true|false">
+                <input type="checkbox" checked="" id="listerMark" name="listerMark" lay-skin="switch" lay-filter="switchTest2" lay-text="on|off">
             </c:if>
             <c:if test="${user.listerMark==false}">
-                <input type="checkbox" id="listerMark" name="listerMark" lay-skin="switch" lay-text="true|false">
+                <input type="checkbox" id="listerMark" name="listerMark" lay-skin="switch" lay-filter="switchTest2" lay-text="on|off">
             </c:if>
         </div>
     </div>
@@ -184,6 +184,17 @@
             }
         });
 
+        var warehouseMark = false;
+        var listerMark = false;
+
+        form.on('switch(switchTest1)', function(data){
+            layer.alert(data.othis);
+            warehouseMark =this.checked ? 'true' : 'false'
+        });
+        form.on('switch(switchTest2)', function(){
+            layer.alert(data.othis);
+            listerMark =this.checked ? 'true' : 'false'
+        });
 
         form.on('submit(update)', function(){
             var userID = $("#userID").val();
@@ -196,38 +207,36 @@
             var tel = $("#tel").val();
             var email = $("#email").val();
             var photo = $(".image").attr("value");
-            var warehouseMark = $("#warehouseMark").val();
-            var listerMark = $("#listerMark").val();
             var note = $("#note").val();
-            console.log(warehouseMark +":::"+listerMark);
-            <%--$.ajax({--%>
-                <%--url:"${pageContext.request.contextPath}/user/updateUser",--%>
-                <%--type:"post",--%>
-                <%--data:{--%>
-                    <%--"userID":userID,"loginName":loginName,"userName":userName,"password":password,--%>
-                    <%--"departmentID":departmentID,"positionID":positionID,"sex":sex,--%>
-                    <%--"tel":tel,"email":email,"photo":photo,"warehouseMark":warehouseMark,--%>
-                    <%--"listerMark":listerMark,"note":note},--%>
-                <%--dataType:"text",--%>
-                <%--success:function (result) {--%>
-                    <%--if (result!=null){--%>
-                        <%--var data = JSON.parse(result);--%>
-                        <%--alert(data.mesg);--%>
-                    <%--}--%>
-                    <%--else--%>
-                        <%--alert("失败！")--%>
-                <%--},--%>
-                <%--error:function () {--%>
-                    <%--alert("请求错误！")--%>
-                <%--}--%>
-            <%--})--%>
+            $.ajax({
+                url:"${pageContext.request.contextPath}/user/updateUser",
+                type:"post",
+                data:{
+                    "userID":userID,"loginName":loginName,"userName":userName,"password":password,
+                    "departmentID":departmentID,"positionID":positionID,"sex":sex,
+                    "tel":tel,"email":email,"photo":photo,"warehouseMark":warehouseMark,
+                    "listerMark":listerMark,"note":note},
+                dataType:"text",
+                success:function (result) {
+                    if (result!=null){
+                        var data = JSON.parse(result);
+                        layer.alert(data.mesg,function () {
+                            window.parent.layer.closeAll();
+                        })
+                    }
+                    else
+                        layer.alert("失败！")
+                },
+                error:function () {
+                    layer.alert("请求错误！")
+                }
+            })
         });
 
 
         //表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
             var data = form.val('example');
-            alert(JSON.stringify(data));
         });
 
         $("#addDepartment").on('click',function () {
@@ -244,11 +253,11 @@
                     dataType:"text",
                     success:function (result) {
                         var data = JSON.parse(result);
-                        alert(data.mesg);
+                        layer.alert(data.mesg);
                         reflashDepartment();
                     },
                     error(){
-                        alert("新增部门请求错误！")
+                        layer.alert("新增部门请求错误！")
                     }
                 })
                 layer.close(index);
@@ -269,11 +278,11 @@
                     dataType:"text",
                     success:function (result) {
                         var data = JSON.parse(result);
-                        alert(data.mesg);
+                        layer.alert(data.mesg);
                         reflashPosition();
                     },
                     error(){
-                        alert("新增职位请求错误！")
+                        layer.alert("新增职位请求错误！")
                     }
                 });
                 layer.close(index);

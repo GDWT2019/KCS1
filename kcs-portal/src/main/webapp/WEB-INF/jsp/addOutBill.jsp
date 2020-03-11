@@ -593,11 +593,11 @@
 		var allTotal = Number($("#allTotal").text());
 
 		if (IsNull(time)){
-			alert("日期未填写哦！");
+			layer.alert("日期未填写哦！");
 			return false;
 		}
 		if(IsNull(storeManager)||IsNull(taker)||IsNull(checker)||IsNull(tableMaker)){
-			alert("还有人员未选择哦！");
+			layer.alert("还有人员未选择哦！");
 			return false;
 		}
 
@@ -632,31 +632,31 @@
 
 			//判断数量是否超出最大值
 			if(itemNum>itemNumMax){
-				alert("第："+i+"物品的数量为（"+itemNumMax+"），无法出库！");
+				layer.alert("第："+i+"物品的数量为（"+itemNumMax+"），无法出库！");
 				return false;
 			}
 
 			//判断数量是否小于1
 			if(itemNum<1){
-				alert("第："+i+"行的 数量 不能少于1！");
+				layer.alert("第："+i+"行的 数量 不能少于1！");
 				return false;
 			}
 
 			//判断是否为空
 			if (IsNull(goodsID)){
-				alert("第："+i+"的 品名 未选择！");
+				layer.alert("第："+i+"的 品名 未选择！");
 				return false;
 			}
 			if (IsNull(itemsType)){
-				alert("第："+i+"的 规格 未选择！");
+				layer.alert("第："+i+"的 规格 未选择！");
 				return false;
 			}
 			if (IsNull(itemNum)){
-				alert("第："+i+"的 数量 未选择！");
+				layer.alert("第："+i+"的 数量 未选择！");
 				return false;
 			}
 			if (IsNull(departmentID)){
-				alert("第："+i+"的 部门 未选择！");
+				layer.alert("第："+i+"的 部门 未选择！");
 				return false;
 			}
 
@@ -692,14 +692,14 @@
                         window.parent.layer.closeAll();
                     })
 				}else{
-					alert(data.mesg);
+					layer.alert(data.mesg);
 					return false;
 				}
 
 
 			},
 			error:function () {
-				alert("请求错误！")
+				layer.alert("请求错误！")
 			}
 		})
 	}

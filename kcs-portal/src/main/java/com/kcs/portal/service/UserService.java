@@ -5,6 +5,7 @@ import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.pojo.UserRole;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public interface  UserService extends UserDetailsService {
@@ -41,4 +42,6 @@ public interface  UserService extends UserDetailsService {
     List<UserRole> findUserRoleByUserID(int userID);
 
     Integer lockUser(int userID,Boolean status);
+
+    void sentSession(User user);
 }
