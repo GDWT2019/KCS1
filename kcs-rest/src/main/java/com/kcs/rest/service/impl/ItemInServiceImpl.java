@@ -36,7 +36,11 @@ public class ItemInServiceImpl implements ItemInService {
             summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
             summary.setThisTotal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal());
-            summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            if(summary.getThisAmount()==0){
+                summary.setThisPrice(0.0);
+            }else{
+                summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
             summaryDao.updateSummary(summary);
             //插入本月数据后，同步后面时间的数据
             List<Summary> timeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(goodsID, subTime);

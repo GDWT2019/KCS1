@@ -38,8 +38,7 @@
 
 
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <span style="font-size: 22px;">合计：<span id="alTotal"
-                                                                        style="font-size: 22px;"></span>元</span>
+                                <span style="font-size: 22px;">合计：<span id="alTotal" style="font-size: 22px;"></span>元</span>
                             </div>
                             <label class="layui-form-label" style="font-size: 20px;width: 100px">审批意见：</label>
                             <div class="layui-row">
@@ -73,11 +72,7 @@
 
     $("#InBillID").val(parent.InBillID);
 
-    function changeWidth() {
-        var testLength = document.getElementById('alTotal').value.length,
-            testDom = document.getElementById('alTotal')
-        testDom.style.width = testLength * 8 + 'px';
-    }
+
 
 
     $.ajax({
@@ -97,7 +92,7 @@
         success: function (htq) {
 
             // $("#alTotal").val(htq[0].allTotal);
-            $("#alTotal").text(htq[0].allTotal);
+            $("#alTotal").text(htq[0].allTotal.toFixed(2));
         }
     });
 
