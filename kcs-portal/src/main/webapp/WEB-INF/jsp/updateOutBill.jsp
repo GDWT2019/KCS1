@@ -82,7 +82,12 @@
                                     </td>
                                     <td>
                                         <div class="layui-form-item">
-                                            <input name="itemNum${status.count}"  class="layui-input" type="number" min="1" value="${outBillPresent.itemNum}" onclick="calAllTotal(${status.count})"/>
+                                            <c:forEach items="${summaryList}" var="summary">
+                                                <c:if test="${summary.goodsID == outBillPresent.goodsID}">
+                                                    <input name="itemNum${status.count}"  class="layui-input" type="number" min="1" MAX="${summary.thisAmount + outBillPresent.itemNum}" value="${outBillPresent.itemNum}" onclick="calAllTotal(${status.count})"/>
+                                                </c:if>
+                                            </c:forEach>
+
                                         </div>
                                     </td>
                                     <td>

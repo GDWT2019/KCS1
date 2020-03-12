@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller("addOutBillController")
@@ -229,11 +230,26 @@ public class OutBillController {
         //查找所有用户
         List<User> userList = userService.findAllUser();
 
+        //查找所有出库物品
+        List<ItemsOut> itemsOutList = itemsOutService.findItemsOutByOutBillID(outBillID);
+
+        //出库时间
+        String time = outBillPresentList.get(0).getOutTime().substring(0,7);
+
+        Summary summary = new Summary();
+        List<Summary> summaryList = new ArrayList<>();
+        for (ItemsOut itemsOut : itemsOutList){
+            summary.setGoodsID(itemsOut.getGoodsID());
+            summary.setTime(time);
+            Summary summary2 = summaryService.findSummaryByGoodsIDAndDate(summary);
+            summaryList.add(summary2);
+        }
 
         model.addAttribute("categoryList",categoryList);
         model.addAttribute("departmentList",departmentList);
         model.addAttribute("userList",userList);
         model.addAttribute("outBillPresentList",outBillPresentList);
+        model.addAttribute("summaryList",summaryList);
         return "updateOutBill";
     }
 

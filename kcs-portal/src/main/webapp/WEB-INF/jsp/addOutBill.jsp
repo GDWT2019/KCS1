@@ -216,7 +216,7 @@
 				dataType:"text",
 				success:function (result) {
 					if (result==null||result==""){
-						alert("该种类没有任何库存商品！！");
+						layer.alert("该种类没有任何库存商品！！");
 						return false;
 					}
 					var itemsNameList = JSON.parse(result);
@@ -252,7 +252,7 @@
 				dataType:"text",
 				success:function (result) {
 					if (result==null){
-						alert("未找到该物品的相关数据！")
+						layer.alert("未找到该物品的相关数据！")
 					}
 					var addOutBillList = JSON.parse(result);
 					$.each(addOutBillList,function (index,addOutBill) {
@@ -263,7 +263,7 @@
 							$('input[name="itemNum1"]').attr("max",addOutBill.thisAmount);
 						}
 						else {
-							alert("该物品存库数量为："+addOutBill.thisAmount);
+							layer.alert("该物品存库数量为："+addOutBill.thisAmount);
 							$('input[name="itemNum1"]').val("");
 							$('input[name="itemNum1"]').attr("disabled","disabled");
 						}
@@ -410,7 +410,7 @@
 					dataType:"text",
 					success:function (result) {
 						if (result==null||result==""){
-							alert("该种类没有任何库存商品！！");
+							layer.alert("该种类没有任何库存商品！！");
 							return false;
 						}
 						var itemsNameList = JSON.parse(result);
@@ -450,7 +450,7 @@
 					dataType:"text",
 					success:function (result) {
 						if (result==null){
-							alert("未找到该物品的相关数据！")
+							layer.alert("未找到该物品的相关数据！")
 						}
 						var addOutBillList = JSON.parse(result);
 						$.each(addOutBillList,function (index,addOutBill) {
@@ -461,7 +461,7 @@
 								$('input[name="'+itemNum+'"]').attr("max",addOutBill.thisAmount);
 							}
 							else {
-								alert("该物品存库数量为："+addOutBill.thisAmount);
+								layer.alert("该物品存库数量为："+addOutBill.thisAmount);
 								$('input[name="'+itemNum+'"]').val("");
 								$('input[name="'+itemNum+'"]').attr("disabled","disabled");
 							}
@@ -632,31 +632,31 @@
 
 			//判断数量是否超出最大值
 			if(itemNum>itemNumMax){
-				layer.alert("第："+i+"物品的剩余数量为："+itemNumMax+"，无法出库！");
+				layer.alert("第"+i+"物品的剩余数量为："+itemNumMax+"，你的选择数量已超过最大数量，无法出库！");
 				return false;
 			}
 
 			//判断数量是否小于1
 			if(itemNum<1){
-				layer.alert("第："+i+"行的数量不能少于1！");
+				layer.alert("第"+i+"行的数量不能少于1！");
 				return false;
 			}
 
 			//判断是否为空
 			if (IsNull(goodsID)){
-				layer.alert("第："+i+"的品名未选择！");
+				layer.alert("第"+i+"的品名未选择！");
 				return false;
 			}
 			if (IsNull(itemsType)){
-				layer.alert("第："+i+"的规格未选择！");
+				layer.alert("第"+i+"的规格未选择！");
 				return false;
 			}
 			if (IsNull(itemNum)){
-				layer.alert("第："+i+"的数量未选择！");
+				layer.alert("第"+i+"的数量未选择！");
 				return false;
 			}
 			if (IsNull(departmentID)){
-				layer.alert("第："+i+"的部门未选择！");
+				layer.alert("第"+i+"的部门未选择！");
 				return false;
 			}
 

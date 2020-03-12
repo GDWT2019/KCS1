@@ -129,8 +129,8 @@
             if(obj.event === 'edit'){
                 layer.open({
                     type:2,
-                    title:"修改出库",
-                    content:'${pageContext.request.contextPath}/user/showUpdateUser?userID='+data.userID,
+                    title:"修改用户信息",
+                    content:'${pageContext.request.contextPath}/user/toUpdateUser?userID='+data.userID,
                     area:['1200px','668px'],
                     moveOut:true,
                     end:function () {
