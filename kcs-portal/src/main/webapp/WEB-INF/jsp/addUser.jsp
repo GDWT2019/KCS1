@@ -181,10 +181,10 @@
         var listerMark = false;
 
         form.on('switch(switchTest1)', function(){
-            layer.alert(warehouseMark+"wwww")
+            warehouseMark= this.checked ? 'true' : 'false'
     });
         form.on('switch(switchTest2)', function(){
-            layer.alert(listerMark+"wwww")
+            listerMark = this.checked ? 'true' : 'false'
         });
 
         form.on('submit(add)', function(){
