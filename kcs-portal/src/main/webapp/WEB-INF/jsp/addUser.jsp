@@ -181,11 +181,9 @@
         var listerMark = false;
 
         form.on('switch(switchTest1)', function(){
-            warehouseMark =this.checked ? 'true' : 'false'
             layer.alert(warehouseMark+"wwww")
     });
         form.on('switch(switchTest2)', function(){
-            listerMark =this.checked ? 'true' : 'false'
             layer.alert(listerMark+"wwww")
         });
 
