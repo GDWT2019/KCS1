@@ -181,10 +181,9 @@
         var listerMark = false;
 
         form.on('switch(switchTest1)', function(){
-            layer.alert(warehouseMark+"wwww")
+
     });
         form.on('switch(switchTest2)', function(){
-            layer.alert(listerMark+"wwww")
         });
 
         form.on('submit(add)', function(){
@@ -201,7 +200,6 @@
             var note = $("#note").val();
 
 
-            layer.alert(warehouseMark + listerMark)
             $.ajax({
                 url:"${pageContext.request.contextPath}/user/addUser",
                 type:"post",
