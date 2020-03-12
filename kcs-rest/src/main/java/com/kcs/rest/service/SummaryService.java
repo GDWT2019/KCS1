@@ -40,5 +40,12 @@ public interface SummaryService {
     int getThisAmount(int goodsID, String time);
 
     void updateSummaryToNewMonth();
+
+    Summary findThisMonthInAmountByGoodsID(int gid, String subTime);
+
+    Integer findAllInAmout(Integer goodsID);
+
+    Integer findAllOutAmout(Integer goodsID);
+
 }
 

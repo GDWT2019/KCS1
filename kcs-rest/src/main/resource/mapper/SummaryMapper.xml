@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.SummaryDao" >
 
+    <select id="findThisMonthInAmountByGoodsID" resultType="com.kcs.rest.pojo.Summary">
+        select * from Summary where GoodsID = #{goodsID} and Time like #{subTime}+'%'
+    </select>
+
+    <select id="findAllInAmout" resultType="Integer">
+        select SUM(InAmount) from Summary where GoodsID=#{goodsID}
+    </select>
+
+    <select id="findAllOutAmout" resultType="Integer">
+        select SUM(OutAmount) from Summary where GoodsID=#{goodsID}
+    </select>
+
     <select id="findLatestTime" resultType="String">
         select CONVERT(varchar(7),GETDATE(),120)
     </select>

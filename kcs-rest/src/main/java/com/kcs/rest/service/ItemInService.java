@@ -28,4 +28,6 @@ public interface ItemInService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
     void delItemByInBillID(int inBillID);
+
+    void delItemByInBillIDandGoodsID(int inBillID, int goodsID);
 }

@@ -50,6 +50,14 @@ public class ItemInController {
         itemInService.delItemByInBillID(InBillID);
     }
 
+    @RequestMapping("/delItemByInBillIDandGoodsID")
+    @ResponseBody
+    public void delItemByInBillIDandGoodsID(@RequestParam("goodsID") String goodsID, @RequestParam("inBillID") String inBillID){
+        int InBillID = Integer.parseInt(inBillID);
+        int GoodsID = Integer.parseInt(goodsID);
+        itemInService.delItemByInBillIDandGoodsID(InBillID,GoodsID);
+    }
+
     @RequestMapping(value = "UpdateCheckStatus",method = RequestMethod.POST)
     @ResponseBody
     public void UpdateCheckStatus(@RequestBody InBill inBill){

@@ -33,6 +33,10 @@
         delete from ItemsIn where InBillID = #{inBillID}
     </delete>
 
+    <delete id="delItemByInBillIDandGoodsID" parameterType="int">
+        delete from ItemsIn where InBillID = #{inBillID} and GoodsID = #{goodsID}
+    </delete>
+
     <update id="UpdateCheckStatus" parameterType="com.kcs.rest.pojo.InBill">
         update InBill set CheckStatus = #{CheckStatus},CheckTime= #{CheckTime},CheckMessage=#{checkMessage},Checker=#{Checker} where InBillID = #{InBillID}
     </update>

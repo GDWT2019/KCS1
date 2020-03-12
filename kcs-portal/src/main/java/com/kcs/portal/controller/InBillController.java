@@ -4,7 +4,9 @@ package com.kcs.portal.controller;
 import com.kcs.portal.service.GoodsService;
 import com.kcs.portal.service.InBillService;
 import com.kcs.portal.service.ItemInService;
+import com.kcs.portal.service.SummaryService;
 import com.kcs.rest.pojo.*;
+import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +31,9 @@ public class InBillController {
 
     @Autowired
     private InBillService inBillService;
+
+    @Autowired
+    private SummaryService summaryService;
 
     //跳转物品入库记录
     @RequestMapping("/rItemInRecord")
@@ -243,19 +248,45 @@ public class InBillController {
 
         if(inBill.getOperator()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0) {
 
-
-                        inBillService.updateInBillByID(inBill);
-
-                        itemInService.delItemByInBillID(inBillID);
-
-                        for (ItemIn itemIn : list.getItemInList()) {
-                            System.out.println(itemIn);
-                            itemIn.setInBillID(Integer.parseInt(inBillID));
-                            if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
-                                itemInService.insertNewItem(itemIn);
-                            }
+            inBillService.updateInBillByID(inBill);
+//            String subTime = inBillTime.substring(0, 7);
+            /*for (ItemIn itemIn : list.getItemInList()) {
+                Summary thismonthSummary= summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(),subTime);
+                Integer allInAmout=summaryService.findAllInAmout(itemIn.getGoodsID());
+                Integer allOutAmout=summaryService.findAllOutAmout(itemIn.getGoodsID());
+                Integer total = allInAmout-thismonthSummary.getInAmount()+itemIn.getItemNum()-allOutAmout;
+                if(total>=0){*/
+                    itemInService.delItemByInBillID(inBillID);
+//                    itemInService.delItemByInBillIDandGoodsID(inBillID,itemIn.getGoodsID());
+                    for (ItemIn itemIn : list.getItemInList()) {
+                        System.out.println(itemIn);
+                        itemIn.setInBillID(Integer.parseInt(inBillID));
+                        if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
+                            itemInService.insertNewItem(itemIn);
                         }
+                    }
+               /* }else{
+                   throw new RuntimeException("入库小于出库的数量");
+                }*/
+//            };
         }
 
+    }
+
+    @RequestMapping("/checkInAmountbiggerOutAmonut")
+    @ResponseBody
+    public Integer checkInAmountbiggerOutAmonut(HandleAffair list,HttpServletRequest request) {
+        String inBillTime = request.getParameter("InBillTime");
+        String subTime = inBillTime.substring(0, 7);
+        for (ItemIn itemIn : list.getItemInList()) {
+            Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
+            Integer allInAmout = summaryService.findAllInAmout(itemIn.getGoodsID());
+            Integer allOutAmout = summaryService.findAllOutAmout(itemIn.getGoodsID());
+            Integer total = allInAmout - thismonthSummary.getInAmount() + itemIn.getItemNum() - allOutAmout;
+            if (total < 0) {
+                return -1;
+            }
+        }
+        return 1;
     }
 }

@@ -43,37 +43,6 @@
 				<button class="layui-btn layui-btn-sm" id="addOutBillBtn">添加出库</button>
 			</div>
 
-			<%--<div class="layui-inline">
-				<label class="layui-form-label" style="width: 100px">时间范围：</label>
-				<div class="layui-input-inline">
-					<input type="text" class="layui-input" name="timeRange" id="timeRange" placeholder="请选择时间段">
-				</div>
-			</div>
-
-			<div class="layui-inline">
-				<label class="layui-form-label" style="width: 100px">物品名：</label>
-				<div class="layui-input-inline">
-					<input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
-				</div>
-			</div>
-
-			<div class="layui-inline">
-			<label class="layui-form-label" style="width: 100px">审批状态：</label>
-			<div class="layui-input-inline">
-				<select id="checkStatu" name="checkStatu">
-						<option value="">请选择</option>
-						<option value="0">待审批</option>
-						<option value="1">通过</option>
-						<option value="2">未通过</option>
-				</select>
-			</div>
-		</div>
-
-			<div class="layui-inline">
-				<div class="layui-input-inline">
-					<input type="button" class="layui-btn" id="search" value="搜索">
-				</div>
-			</div>--%>
 		</div>
 	</div>
 </script>

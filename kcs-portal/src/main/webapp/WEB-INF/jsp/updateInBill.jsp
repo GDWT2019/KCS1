@@ -318,19 +318,35 @@
     });
 
     function updateBill() {
-        $.ajax({
+       $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/inBill/updateBill",
+            url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonut",
             data: $("#InBillForm").serialize(),
-            success: function () {
-                layer.alert("修改成功",function(){
-                    window.parent.layer.closeAll();
-                });
+            success: function (htq) {
+                if (htq == 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "${pageContext.request.contextPath }/inBill/updateBill",
+                        data: $("#InBillForm").serialize(),
+                        success: function () {
+                            layer.alert("修改成功",function(){
+                                window.parent.layer.closeAll();
+                            });
+                        },
+                        error: function () {
+                            layer.alert("修改失败！");
+                        }
+                    });
+                }else{
+                    layer.alert("入库数小于出库数！");
+                }
             },
             error: function () {
                 layer.alert("修改失败！");
             }
         });
+
+
     }
 
     function NumCount(ii) {

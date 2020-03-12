@@ -4,8 +4,10 @@ import com.kcs.portal.service.ItemInService;
 import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service("itemInService")
@@ -84,6 +86,18 @@ public class ItemInServiceImpl implements ItemInService {
     public void delItemByInBillID(String inBillID) {
         try {
             HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/delItemByInBillID"+inBillID);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delItemByInBillIDandGoodsID(String inBillID, Integer goodsID) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("inBillID",inBillID);
+        try {
+            HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/delItemByInBillIDandGoodsID",param);
         }catch (Exception e){
             e.printStackTrace();
         }

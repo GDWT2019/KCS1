@@ -175,5 +175,46 @@ public class SummaryServiceImpl implements SummaryService {
         }
         return 0;
     }
+
+    @Override
+    public Summary findThisMonthInAmountByGoodsID(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findThisMonthInAmountByGoodsID",param);
+            KcsResult result = KcsResult.formatToPojo(s, Summary.class);
+            if (result.getStatus() == 200) {
+                Summary summary = (Summary) result.getData();
+                return summary;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findAllInAmout(Integer goodsID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllInAmout"+goodsID);
+            return Integer.parseInt(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer findAllOutAmout(Integer goodsID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllOutAmout"+goodsID);
+            return Integer.parseInt(s);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }
 
