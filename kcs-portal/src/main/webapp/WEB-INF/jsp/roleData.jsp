@@ -59,7 +59,7 @@
 					type:2,
 					title:"添加角色",
 					content:'${pageContext.request.contextPath }/role/showAddRole',
-					area:['1000px','668px'],
+					area:['500px','300px'],
 					moveOut:true,
 					end:function () {
 						location.reload();
@@ -77,7 +77,7 @@
 					type:2,
 					title:"修改角色名称",
 					content:'${pageContext.request.contextPath}/role/showUpdateRole?roleID='+data.roleID,
-					area:['1200px','668px'],
+					area:['500px','300px'],
 					moveOut:true,
 					end:function () {
 						location.reload();

@@ -37,8 +37,8 @@ public class RoleController {
 
             Integer integer = roleService.addRole(roleName);
             if (integer<0)
-                return new AjaxMesg(false,"新增用户失败！");
-            return new AjaxMesg(true,"新增用户成功!");
+                return new AjaxMesg(false,"新增角色失败！");
+            return new AjaxMesg(true,"新增角色成功!");
     }
 
     @RequestMapping("/showRoleData")
@@ -82,8 +82,8 @@ public class RoleController {
     public AjaxMesg addUserRole(int userID,int roleID){
         Integer i = roleService.addUserRole(userID, roleID);
         if (i<0)
-            return new AjaxMesg(false,"新增角色失败！");
-        return new AjaxMesg(false,"新增角色成功！");
+            return new AjaxMesg(false,"新增用户角色失败！");
+        return new AjaxMesg(false,"新增用户角色成功！");
     }
 
     @RequestMapping("/delUserRole")

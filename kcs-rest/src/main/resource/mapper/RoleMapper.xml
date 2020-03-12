@@ -94,8 +94,4 @@
         </if>
     </select>
 
-    <select id="findUserRoleByRoleID" parameterType="int" resultType="com.kcs.rest.pojo.UserRole">
-        select * from UserRole
-        where RoleID = #{roleID}
-    </select>
 </mapper>

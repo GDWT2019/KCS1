@@ -68,7 +68,6 @@ public class RoleController {
         }
 
         //找出该角色对应的所有用户角色
-        //TODO
         List<UserRole> userRoleList = userRoleService.findUserRoleByRoleID(roleID);
         if(userRoleList != null)
             userRoleService.delUserRoleByUserID_RoleID(0,roleID);

@@ -11,10 +11,10 @@
 
 <div class="layui-form" >
     <div class="layui-form" >
-        <div class="layui-form-item">
+        <div class="layui-form-item" style="margin: 10px 0">
             <label class="layui-form-label">角色</label>
             <div class="layui-input-inline">
-                <input id="roleName"  type="text" name="roleName" lay-verify="roleName" placeholder="角色" autocomplete="off" class="layui-input">
+                <input id="roleName"  type="text" name="roleName" lay-verify="roleName" placeholder="角色名称" autocomplete="off" class="layui-input">
             </div>
         </div>
     <div class="layui-form-item">
@@ -49,8 +49,8 @@
         //自定义验证规则
         form.verify({
 
-            role: function(value, item){ //value：表单的值、item：表单的DOM对象
-                if(value==""||value==null){
+            roleName: function(value, item){ //value：表单的值、item：表单的DOM对象
+                if(value==""||value==null||value=="undefined"){
                     return '角色不能为空！'
                 }
             }
@@ -77,18 +77,25 @@
                 success:function (result) {
                     if (result!=null){
                         var data = JSON.parse(result);
-                        alert(data.mesg);
+                        layer.alert(data.mesg,function () {
+                            window.parent.layer.closeAll();
+                        })
                     }
                     else
-                        alert("失败！")
+                        layer.alert("失败！",function () {
+                            window.parent.layer.closeAll();
+                        })
                 },
                 error:function () {
-                    alert("请求错误！")
+                    layer.alert("请求错误！！",function () {
+                        window.parent.layer.closeAll();
+                    })
                 }
             })
         });
 
-        //表单取值
+
+        /*//表单取值
         layui.$('#LAY-component-form-getval').on('click', function () {
             var data = form.val('example');
             alert(JSON.stringify(data));
@@ -102,7 +109,7 @@
                 area: ['200px', '20px'] //自定义文本域宽高
             }, function(value, index, elem){
                 $.ajax({
-                    url:"${pageContext.request.contextPath}/department/addDepartment",
+                    url:"/department/addDepartment",
                     type:"post",
                     data:{"departmentName":value},
                     dataType:"text",
@@ -126,7 +133,7 @@
                 area: ['200px', '20px'] //自定义文本域宽高
             }, function(value, index, elem){
                 $.ajax({
-                    url:"${pageContext.request.contextPath}/position/addPosition",
+                    url:"/position/addPosition",
                     type:"post",
                     data:{"positionName":value},
                     dataType:"text",
@@ -144,7 +151,7 @@
 
         $.ajax({
             type:"POST",
-            url:'${pageContext.request.contextPath}/role/getAllRole',  //从数据库查询返回的是个list
+            url:'/role/getAllRole',  //从数据库查询返回的是个list
             dataType: "json",
             async: false,
             cache: false,
@@ -165,7 +172,7 @@
             $("#departmentID").empty();
             $.ajax({
                 type:"POST",
-                url:'${pageContext.request.contextPath}/department/getDepartment',  //从数据库查询返回的是个list
+                url:'/department/getDepartment',  //从数据库查询返回的是个list
                 dataType: "json",
                 async: false,
                 cache: false,
@@ -186,7 +193,7 @@
             $("#positionID").empty();
             $.ajax({
                 type:"POST",
-                url:'${pageContext.request.contextPath}/position/getPosition',  //从数据库查询返回的是个list
+                url:'/position/getPosition',  //从数据库查询返回的是个list
                 dataType: "json",
                 async: false,
                 cache: false,
@@ -204,7 +211,7 @@
         var loginName= $("#loginName").val();
         $.ajax({
             type:"POST",
-            url:'${pageContext.request.contextPath}/user/loginNameExist',
+            url:'/user/loginNameExist',
             data:{"loginName":loginName},
             dataType: "text",
             success: function (result) {
@@ -227,7 +234,7 @@
             error:function () {
 
             }
-        });
+        });*/
     })
 </script>
 

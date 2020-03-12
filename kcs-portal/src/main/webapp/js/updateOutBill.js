@@ -27,7 +27,7 @@ layui.use('form', function ($, form) {
                     dataType: "text",
                     success: function (result) {
                         if (result == null || result == "") {
-                            alert("该种类没有任何库存商品！！");
+                            layer.alert("该种类没有任何库存商品！！");
                             return false;
                         }
                         var itemsNameList = JSON.parse(result);
@@ -63,7 +63,7 @@ layui.use('form', function ($, form) {
                     dataType: "text",
                     success: function (result) {
                         if (result == null) {
-                            alert("未找到该物品的相关数据！")
+                            layer.alert("未找到该物品的相关数据！")
                         }
                         var addOutBillList = JSON.parse(result);
                         $.each(addOutBillList, function (index, addOutBill) {
@@ -74,7 +74,7 @@ layui.use('form', function ($, form) {
                                 $('input[name="itemNum'+i+'"]').attr("max", addOutBill.thisAmount);
                                 $('select[name="storePosition'+i+'"]').append("<option value='"+addOutBill.storePosition+"'>"+addOutBill.storePosition+"</option>");
                             } else {
-                                alert("该物品存库数量为：" + addOutBill.thisAmount);
+                                layer.alert("该物品存库数量为：" + addOutBill.thisAmount);
                                 $('input[name="itemNum'+i+'"]').val("");
                                 $('input[name="itemNum'+i+'"]').attr("disabled", "disabled");
                                 $('select[name="itemsType'+i+'"]').empty();
@@ -329,11 +329,11 @@ function checkBill() {
     var allTotal = Number($("#allTotal").text());
 
     if (IsNull(time)){
-        alert("日期未填写哦！");
+        layer.alert("日期未填写哦！");
         return false;
     }
     if(IsNull(storeManager)||IsNull(taker)||IsNull(checker)||IsNull(tableMaker)){
-        alert("还有人员未选择哦！");
+        layer.alert("还有人员未选择哦！");
         return false;
     }
 
@@ -375,31 +375,31 @@ function checkBill() {
 
         //判断数量是否超出最大值
         if(itemNum>itemNumMax){
-            alert("第："+i+"物品的数量为（"+itemNumMax+"），无法出库！");
+            layer.alert("第："+i+"物品的剩余数量为："+itemNumMax+"，无法出库！");
             return false;
         }
 
         //判断数量是否小于1
         if(itemNum<1){
-            alert("第："+i+"行的 数量 不能少于1！");
+            layer.alert("第："+i+"行的数量不能少于1！");
             return false;
         }
 
         //判断是否为空
         if (IsNull(goodsID)){
-            alert("第："+i+"的 品名 未选择！");
+            layer.alert("第："+i+"的品名未选择！");
             return false;
         }
         if (IsNull(itemsType)){
-            alert("第："+i+"的 规格 未选择！");
+            layer.alert("第："+i+"的规格未选择！");
             return false;
         }
         if (IsNull(itemNum)){
-            alert("第："+i+"的 数量 未选择！");
+            layer.alert("第："+i+"的数量未选择！");
             return false;
         }
         if (IsNull(departmentID)){
-            alert("第："+i+"的 部门 未选择！");
+            layer.alert("第："+i+"的 部门 未选择！");
             return false;
         }
 
@@ -437,14 +437,14 @@ function submitBill(itemsOutJsonList,outBill) {
                     window.parent.layer.closeAll();
                 })
             }else{
-                alert(data.mesg);
+                layer.alert(data.mesg);
                 return false;
             }
 
 
         },
         error:function () {
-            alert("请求错误！")
+            layer.alert("请求错误！")
         }
     })
     window.close();

@@ -632,31 +632,31 @@
 
 			//判断数量是否超出最大值
 			if(itemNum>itemNumMax){
-				layer.alert("第："+i+"物品的数量为（"+itemNumMax+"），无法出库！");
+				layer.alert("第："+i+"物品的剩余数量为："+itemNumMax+"，无法出库！");
 				return false;
 			}
 
 			//判断数量是否小于1
 			if(itemNum<1){
-				layer.alert("第："+i+"行的 数量 不能少于1！");
+				layer.alert("第："+i+"行的数量不能少于1！");
 				return false;
 			}
 
 			//判断是否为空
 			if (IsNull(goodsID)){
-				layer.alert("第："+i+"的 品名 未选择！");
+				layer.alert("第："+i+"的品名未选择！");
 				return false;
 			}
 			if (IsNull(itemsType)){
-				layer.alert("第："+i+"的 规格 未选择！");
+				layer.alert("第："+i+"的规格未选择！");
 				return false;
 			}
 			if (IsNull(itemNum)){
-				layer.alert("第："+i+"的 数量 未选择！");
+				layer.alert("第："+i+"的数量未选择！");
 				return false;
 			}
 			if (IsNull(departmentID)){
-				layer.alert("第："+i+"的 部门 未选择！");
+				layer.alert("第："+i+"的部门未选择！");
 				return false;
 			}
 
