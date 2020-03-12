@@ -220,9 +220,11 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 //减少本月出库数量，合计
                     s.setOutAmount(s.getOutAmount()-(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
                     s.setOutTotal(s.getOutTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
-                    s.setThisAmount(s.getThisAmount()+(itemsOutOld.getItemNum())-itemsOutNew.getItemNum());
-                    s.setThisTotal(s.getThisTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
 
                 //修改该出库时间 后面 的数据
@@ -230,10 +232,12 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     //增加上月的数量，合计
                     s.setPreAmount(s.getPreAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
                     s.setPreTotal(s.getPreTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
-
+                    s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
-                    s.setThisAmount(s.getThisAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
-                    s.setThisTotal(s.getThisTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                 }
             }
             if (flag==1){
@@ -241,19 +245,23 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     //增加出库数量，合计
                     s.setOutAmount(s.getOutAmount() + (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
                     s.setOutTotal(s.getOutTotal() + (itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
+                    s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
                     //减少本月数量，合计
-                    s.setThisAmount(s.getThisAmount() - (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
-                    s.setThisTotal(s.getThisTotal() - (itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
+                    s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
                 //修改该出库时间后面的数据
                 if (!s.getTime().equals(outTime)){
                     //减少上月的数量，合计
-                    s.setPreAmount(s.getPreAmount()- (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
-                    s.setPreTotal(s.getPreTotal()-(itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
-                    //增加本月数量，合计
-                    s.setThisAmount(s.getThisAmount()- (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
-                    s.setThisTotal(s.getThisTotal()-(itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
+                    s.setPreAmount(s.getPreAmount()-(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
+                    s.setPreTotal(s.getPreTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    //减少本月数量，合计
+                    s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
             }
 

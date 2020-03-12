@@ -337,18 +337,19 @@ public class UserController {
         return new AjaxMesg(true,"删除成功！");
     }
 
-    //跳转更新用户信息页面
     @RequestMapping(value = "/toUpdateUser")
     public String toUpdateUser(HttpServletRequest request,Model model){
-        String userID = request.getParameter("userID");
-        model.addAttribute("userID",userID);
-        return "updateUser2";
+        int userID = Integer.valueOf(request.getParameter("userID"));
+        UserPresent user = userService.findUserPresentById(userID);
+        model.addAttribute("user",user);
+        return "updateUser";
     }
 
-    @RequestMapping(value = "/showUpdateUser",method= RequestMethod.GET)
-    public String showUpdateUser(String userID){
-        int id = Integer.valueOf(userID);
-        UserPresent user = userService.findUserPresentById(id);
+    //跳转更新用户信息页面
+    @RequestMapping(value = "/showUpdateUser")
+    @ResponseBody
+    public String showUpdateUser(int userID){
+        UserPresent user = userService.findUserPresentById(userID);
         JSONArray json = JSONArray.fromObject(user);
         String js=json.toString();
         return js;
