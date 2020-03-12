@@ -157,7 +157,9 @@
 
         form.on('submit(demo1)', function(data){
             $.post("${pageContext.request.contextPath }/user/updateBase" , $("#baseForm").serialize());
-            layer.alert("修改成功！");
+            layer.alert("修改成功！",function () {
+                window.parent.layer.closeAll();
+            });
             return false;
         });
 

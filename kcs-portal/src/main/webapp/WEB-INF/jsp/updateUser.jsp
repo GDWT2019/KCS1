@@ -81,6 +81,7 @@
         </div>
     </div>
     <div class="layui-form-item">
+
         <label class="layui-form-label">仓管员标记</label>
         <div class="layui-input-block">
             <c:if test="${user.warehouseMark==true}">
