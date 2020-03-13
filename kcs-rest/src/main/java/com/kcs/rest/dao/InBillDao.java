@@ -3,6 +3,7 @@ package com.kcs.rest.dao;
 import com.kcs.rest.pojo.InBill;
 import com.kcs.rest.pojo.inBillShow;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -34,4 +35,6 @@ public interface InBillDao {
     int CountItemInRecord(int goodsid);
 
     List<inBillShow> findPresentItemIn(@Param("subTime")String subTime, @Param("goodsID") Integer goodsID);
+
+    void updateInBillAlltotalByID(@Param("nowAllTotal") Float nowAllTotal, @Param("inBillID") Integer inBillID);
 }

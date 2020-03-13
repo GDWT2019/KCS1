@@ -73,4 +73,10 @@ public interface SummaryDao {
     String dateAdd(@Param("i") int i, @Param("currentDate") String currentDate);
 
     String findMonth(String dateAdd);
+
+    Summary findThisMonthInAmountByGoodsID(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Integer findAllInAmout(Integer goodsID);
+
+    Integer findAllOutAmout(Integer goodsID);
 }

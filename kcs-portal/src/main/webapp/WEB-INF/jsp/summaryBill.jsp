@@ -16,24 +16,25 @@
 </head>
 
 
-<%--<div class="layui-inline">
-    <label class="layui-form-label">时间：</label>
-    <div class="layui-input-inline">
-        <input type="text" class="layui-input" id="time" name="time" placeholder="yyyy-MM">
+<div class="demoTable">
+    时间：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="time1" name="time" placeholder="yyyy-MM">
     </div>
-</div>--%>
+    <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+</div>
 <table class="layui-table" id="test" lay-filter="test"></table>
 
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-form">
         <div class="layui-form-item">
-            <div class="layui-inline">
+            <%--<div class="layui-inline">
                 <label class="layui-form-label">时间：</label>
                 <div class="layui-input-inline">
                     <input type="text" class="layui-input" id="time1" name="time" placeholder="yyyy-MM">
                 </div>
-            </div>
+            </div>--%>
             <div class="layui-inline">
                 <button class="layui-btn layui-btn-sm export" id = "daochu">导出所有数据报表</button>
             </div>
@@ -103,7 +104,7 @@
             ,url:"${pageContext.request.contextPath }/summary/summartyBillData"
             ,toolbar: '#toolbarDemo'
             ,title: '汇总'
-            ,totalRow: true//开启合计行
+            ,totalRow: false//开启合计行
             , cols:  [[ //标题栏
                 {type: 'checkbox', fixed: 'left', rowspan:2}
                 ,{type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
@@ -268,7 +269,7 @@
                     content:'${pageContext.request.contextPath }/inBill/rItemInRecord',
                     area:['1200px','668px'],
                     end:function () {
-                        location.reload();
+
                     }
                 });
                 // layer.full(index);
@@ -281,7 +282,7 @@
                     content:'${pageContext.request.contextPath }/outBill/rItemOutRecord',
                     area:['1200px','668px'],
                     end:function () {
-                        location.reload();
+
                     }
                 });
             }

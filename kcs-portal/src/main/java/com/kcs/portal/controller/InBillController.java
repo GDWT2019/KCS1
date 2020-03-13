@@ -4,7 +4,9 @@ package com.kcs.portal.controller;
 import com.kcs.portal.service.GoodsService;
 import com.kcs.portal.service.InBillService;
 import com.kcs.portal.service.ItemInService;
+import com.kcs.portal.service.SummaryService;
 import com.kcs.rest.pojo.*;
+import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,28 +32,32 @@ public class InBillController {
     @Autowired
     private InBillService inBillService;
 
+    @Autowired
+    private SummaryService summaryService;
+
     //跳转物品入库记录
     @RequestMapping("/rItemInRecord")
-    public String RItemInRecord(HttpServletRequest request){
+    public String RItemInRecord(HttpServletRequest request) {
 
         return "ItemInRecord";
     }
 
 
     @RequestMapping("/addInBill")
-    public String AddInBill(HttpServletRequest request){
+    public String AddInBill(HttpServletRequest request) {
 
         Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
         request.setAttribute("loadtime", ft);
 
-        int maxInBillID=inBillService.findMaxInBillID();
-        request.setAttribute("newInBillID",maxInBillID+1);
+        int maxInBillID = inBillService.findMaxInBillID();
+        request.setAttribute("newInBillID", maxInBillID + 1);
 
         return "addInBill";
     }
+
     @RequestMapping("/checkInBill")
-    public String checkInBill(HttpServletRequest request){
+    public String checkInBill(HttpServletRequest request) {
 
         Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
@@ -62,29 +68,30 @@ public class InBillController {
 
     //返回用户数据页面
     @RequestMapping("/rInBill")
-    public String RInBill(){
+    public String RInBill() {
         return "InBill";
     }
 
     //获取入库单数据数据
-    @RequestMapping(value="InBillPrint",produces="text/html;charset=utf-8")
-    public @ResponseBody String InBillPrint(HttpServletRequest request){
+    @RequestMapping(value = "InBillPrint", produces = "text/html;charset=utf-8")
+    public @ResponseBody
+    String InBillPrint(HttpServletRequest request) {
 
-        List<inBillShow> list=inBillService.findInBillShow();
-        int count =inBillService.countShow();
-        request.getSession().setAttribute("count",count);
+        List<inBillShow> list = inBillService.findInBillShow();
+        int count = inBillService.countShow();
+        request.getSession().setAttribute("count", count);
 
         JSONArray json = JSONArray.fromObject(list);
-        String js=json.toString();
-        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        String js = json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
         System.out.println(jso);
         return jso;
     }
 
     //获取入库单数据数据
-    @RequestMapping(value="inBillShowData",produces="text/html;charset=utf-8")
+    @RequestMapping(value = "inBillShowData", produces = "text/html;charset=utf-8")
     public @ResponseBody
-    String InBillData(HttpServletRequest request){
+    String InBillData(HttpServletRequest request) {
         int page = Integer.parseInt(request.getParameter("page"));
         int limit = Integer.parseInt(request.getParameter("limit"));
         String time1 = request.getParameter("time1");
@@ -93,49 +100,47 @@ public class InBillController {
         String status = request.getParameter("checkStatus");
 //        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
         Integer checkStatus = null;
-        if("".equals(status)){
-            checkStatus=null;
-        }else
-        {
-            checkStatus=Integer.parseInt(request.getParameter("checkStatus"));
+        if ("".equals(status)) {
+            checkStatus = null;
+        } else {
+            checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
         }
 
-        int before=limit*(page-1)+1;
+        int before = limit * (page - 1) + 1;
         int after = page * limit;
 
-        List<inBillShow> list=inBillService.PageInBillShow(before,after,time1,time2,itemName,checkStatus);
-        int count =inBillService.countReload(time1,time2,itemName,checkStatus);
-        request.getSession().setAttribute("count",count);
+        List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, checkStatus);
+        int count = inBillService.countReload(time1, time2, itemName, checkStatus);
+        request.getSession().setAttribute("count", count);
 
         JSONArray json = JSONArray.fromObject(list);
-        String js=json.toString();
-        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        String js = json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
         System.out.println(jso);
         return jso;
     }
 
     //获取入库记录数据
-    @RequestMapping(value="ItemInRecord",produces="text/html;charset=utf-8")
+    @RequestMapping(value = "ItemInRecord", produces = "text/html;charset=utf-8")
     public @ResponseBody
-    String ItemInRecord(HttpServletRequest request){
+    String ItemInRecord(HttpServletRequest request) {
         int page = Integer.parseInt(request.getParameter("page"));
         int limit = Integer.parseInt(request.getParameter("limit"));
         int goodsID = Integer.parseInt(request.getParameter("goodsID"));
 
 
-        int before=limit*(page-1)+1;
+        int before = limit * (page - 1) + 1;
         int after = page * limit;
 
-        List<inBillShow> list=inBillService.ItemInRecord(before,after,goodsID);
-        int count =inBillService.CountItemInRecord(goodsID);
+        List<inBillShow> list = inBillService.ItemInRecord(before, after, goodsID);
+        int count = inBillService.CountItemInRecord(goodsID);
 
         JSONArray json = JSONArray.fromObject(list);
-        String js=json.toString();
-        String jso = "{\"code\":0,\"msg\":\"\",\"count\":"+count+",\"data\":"+js+"}";
+        String js = json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
         System.out.println(jso);
         return jso;
     }
-
 
 
     @RequestMapping("/findGoodsByItemsName")
@@ -166,7 +171,7 @@ public class InBillController {
     //插入物品到入库单
     @RequestMapping("/insertBill")
     @ResponseBody
-    public void insertBill(HandleAffair list,HttpServletRequest request){
+    public void insertBill(HandleAffair list, HttpServletRequest request) {
         String alTotal = request.getParameter("alTotal");
         String inBillTime = request.getParameter("InBillTime");
         String providerID = request.getParameter("providerID");
@@ -176,7 +181,7 @@ public class InBillController {
         String Checker = request.getParameter("Approvaler");
         String TableMaker = request.getParameter("lister");
 
-        InBill inBill=new InBill();
+        InBill inBill = new InBill();
         inBill.setTimeIn(inBillTime);
         inBill.setProviderID(Integer.parseInt(providerID));
         inBill.setOperator(Integer.parseInt(operatorID));
@@ -191,27 +196,26 @@ public class InBillController {
         System.out.println(inBill);
 
 
-        System.out.println(inBillTime+"--"+providerID+"--"+"--"+StoreManager+"--"+buyer+"--"+TableMaker+"--"+operatorID+"--"+alTotal);
+        System.out.println(inBillTime + "--" + providerID + "--" + "--" + StoreManager + "--" + buyer + "--" + TableMaker + "--" + operatorID + "--" + alTotal);
 
-        if(inBill.getOperator()!=null&&inBill.getTimeIn()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0)
-        {
-            Integer inBillID= inBillService.insertNewBill(inBill);//插入新单号
+        if (inBill.getOperator() != null && inBill.getTimeIn() != null && inBill.getProviderID() != null && inBill.getOperateTime() != null && inBill.getBuyer() != null && inBill.getBuyTime() != null && inBill.getTableMaker() != null && inBill.getStoreManager() != null && inBill.getAllTotal() != null && inBill.getAllTotal() > 0) {
+            Integer inBillID = inBillService.insertNewBill(inBill);//插入新单号
             System.out.println(inBillID);
 
-          for (ItemIn itemIn : list.getItemInList()) {
-            System.out.println(itemIn);
-            itemIn.setInBillID(inBillID);
-            if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
-                itemInService.insertNewItem(itemIn); //向新单号插入物品
+            for (ItemIn itemIn : list.getItemInList()) {
+                System.out.println(itemIn);
+                itemIn.setInBillID(inBillID);
+                if (itemIn.getGoodsID() != null && itemIn.getItemNum() > 0 && itemIn.getItemPrice() > 0) {
+                    itemInService.insertNewItem(itemIn); //向新单号插入物品
+                }
             }
-         }
         }
     }
 
     //插入物品到入库单
     @RequestMapping("/updateBill")
     @ResponseBody
-    public void updateBill(HandleAffair list,HttpServletRequest request){
+    public void updateBill(HandleAffair list, HttpServletRequest request) {
         String inBillTime = request.getParameter("InBillTime");
         String providerID = request.getParameter("providerID");
         String inBillID = request.getParameter("InBillID");
@@ -223,9 +227,9 @@ public class InBillController {
         String Checker = request.getParameter("Approvaler");
         String TableMaker = request.getParameter("lister");
 
-        System.out.println(inBillID+"--"+inBillTime+"--"+providerID+"--"+StoreManager+"--"+buyer+"--"+TableMaker+"--"+operatorID+"--"+alTotal);
+        System.out.println(inBillID + "--" + inBillTime + "--" + providerID + "--" + StoreManager + "--" + buyer + "--" + TableMaker + "--" + operatorID + "--" + alTotal);
 
-        InBill inBill=new InBill();
+        InBill inBill = new InBill();
         inBill.setTimeIn(inBillTime);
         inBill.setProviderID(Integer.parseInt(providerID));
         inBill.setOperator(Integer.parseInt(operatorID));
@@ -240,22 +244,37 @@ public class InBillController {
         inBill.setInBillID(Integer.parseInt(inBillID));
 
 
+        if (inBill.getOperator() != null && inBill.getProviderID() != null && inBill.getOperateTime() != null && inBill.getBuyer() != null && inBill.getBuyTime() != null && inBill.getTableMaker() != null && inBill.getStoreManager() != null && inBill.getAllTotal() != null && inBill.getAllTotal() > 0) {
 
-        if(inBill.getOperator()!=null&&inBill.getProviderID()!=null&&inBill.getOperateTime()!=null&&inBill.getBuyer()!=null&&inBill.getBuyTime()!=null&&inBill.getTableMaker()!=null&&inBill.getStoreManager()!=null&&inBill.getAllTotal()!=null&&inBill.getAllTotal()>0) {
+            inBillService.updateInBillByID(inBill);
+            itemInService.delItemByInBillID(inBillID);
 
+            for (ItemIn itemIn : list.getItemInList()) {
+                System.out.println(itemIn);
+                itemIn.setInBillID(Integer.parseInt(inBillID));
+                if (itemIn.getGoodsID() != null && itemIn.getItemNum() > 0 && itemIn.getItemPrice() > 0) {
+                    itemInService.insertNewItem(itemIn);
+                }
+            }
 
-                        inBillService.updateInBillByID(inBill);
-
-                        itemInService.delItemByInBillID(inBillID);
-
-                        for (ItemIn itemIn : list.getItemInList()) {
-                            System.out.println(itemIn);
-                            itemIn.setInBillID(Integer.parseInt(inBillID));
-                            if(itemIn.getGoodsID()!=null&&itemIn.getItemNum()>0&&itemIn.getItemPrice()>0){
-                                itemInService.insertNewItem(itemIn);
-                            }
-                        }
         }
 
+    }
+
+    @RequestMapping("/checkInAmountbiggerOutAmonut")
+    @ResponseBody
+    public Integer checkInAmountbiggerOutAmonut(HandleAffair list, HttpServletRequest request) {
+        String inBillTime = request.getParameter("InBillTime");
+        String subTime = inBillTime.substring(0, 7);
+        for (ItemIn itemIn : list.getItemInList()) {
+            Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
+            Integer allInAmout = summaryService.findAllInAmout(itemIn.getGoodsID());
+            Integer allOutAmout = summaryService.findAllOutAmout(itemIn.getGoodsID());
+            Integer total = allInAmout - thismonthSummary.getInAmount() + itemIn.getItemNum() - allOutAmout;
+            if (total < 0) {
+                return -1;
+            }
+        }
+        return 1;
     }
 }

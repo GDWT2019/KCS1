@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.ItemInDao" >
+
+    <select id="findAllTotal" resultType="Float">
+        select SUM(ItemTotal) from ItemsIn where InBillID = #{inBillID}
+    </select>
+
     <insert id="insertNewItem" parameterType="com.kcs.rest.pojo.ItemIn">
         insert into ItemsIn (InBillID,GoodsID,CategoryID,[Type],ItemPrice,ItemNum,ItemTotal,StorePosition,Note)
          values (#{InBillID},#{GoodsID},#{CategoryID},#{Type},#{ItemPrice},#{ItemNum},#{ItemTotal},#{StorePosition},#{Note})
@@ -26,6 +31,10 @@
 
     <delete id="delItemByInBillID" parameterType="int">
         delete from ItemsIn where InBillID = #{inBillID}
+    </delete>
+
+    <delete id="delItemByInBillIDandGoodsID" parameterType="int">
+        delete from ItemsIn where InBillID = #{inBillID} and GoodsID = #{goodsID}
     </delete>
 
     <update id="UpdateCheckStatus" parameterType="com.kcs.rest.pojo.InBill">

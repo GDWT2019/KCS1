@@ -17,6 +17,28 @@ public class SummaryController {
     @Autowired
     private SummaryService summaryService;
 
+    @RequestMapping(value="findThisMonthInAmountByGoodsID")
+    @ResponseBody
+    public KcsResult findThisMonthInAmountByGoodsID(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Summary ThisMonthInAmount = summaryService.findThisMonthInAmountByGoodsID(gid, subTime);
+        return KcsResult.ok(ThisMonthInAmount);
+    }
+
+    @RequestMapping(value="findAllInAmout{goodsID}")
+    @ResponseBody
+    public Integer findAllInAmout(@PathVariable Integer goodsID){
+        Integer allInAmout = summaryService.findAllInAmout(goodsID);
+        return allInAmout;
+    }
+
+    @RequestMapping(value="findAllOutAmout{goodsID}")
+    @ResponseBody
+    public Integer findAllOutAmout(@PathVariable Integer goodsID){
+        Integer allOutAmout = summaryService.findAllOutAmout(goodsID);
+        return allOutAmout;
+    }
+
     @RequestMapping("/getSummaryByGoodsIDAndTime")
     @ResponseBody
     public KcsResult getSummaryByGoodsIDAndTime(@RequestBody Summary s){

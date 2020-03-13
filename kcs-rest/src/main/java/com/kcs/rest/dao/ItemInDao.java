@@ -26,4 +26,7 @@ public interface ItemInDao {
 
     ItemIn finditemsByItemsID(int itemsInID);
 
+    Float findAllTotal(Integer inBillID);
+
+    void delItemByInBillIDandGoodsID(@Param("inBillID") int inBillID, @Param("goodsID")int goodsID);
 }

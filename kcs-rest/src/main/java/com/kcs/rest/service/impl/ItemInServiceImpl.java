@@ -36,7 +36,11 @@ public class ItemInServiceImpl implements ItemInService {
             summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
             summary.setThisTotal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal());
-            summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            if(summary.getThisAmount()==0){
+                summary.setThisPrice(0.0);
+            }else{
+                summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
             summaryDao.updateSummary(summary);
             //插入本月数据后，同步后面时间的数据
             List<Summary> timeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(goodsID, subTime);
@@ -157,6 +161,7 @@ public class ItemInServiceImpl implements ItemInService {
     public void delItem(int itemsInID) {
         ItemIn itemIn =itemInDao.finditemsByItemsID(itemsInID);
         Integer inBillID = itemIn.getInBillID();
+
         //通过inBillID查询属于改单号的物品，然后操作汇总表，逐个清零
 //        List<ItemsShow> itemsInData = itemInDao.findItemsInData(inBillID);
         String time = inBillDao.findTimeByID(inBillID);
@@ -225,6 +230,8 @@ public class ItemInServiceImpl implements ItemInService {
                 e.printStackTrace();
             }finally {
                 itemInDao.delItem(itemsInID);
+                Float nowAllTotal=itemInDao.findAllTotal(inBillID);
+                inBillDao.updateInBillAlltotalByID(nowAllTotal,inBillID);
             }
 
 
@@ -300,6 +307,61 @@ public class ItemInServiceImpl implements ItemInService {
                 e.printStackTrace();
             }finally {
                 itemInDao.delItemByInBillID(inBillID);
+            }
+
+        }
+    }
+
+    @Override
+    public void delItemByInBillIDandGoodsID(int inBillID, int goodsID) {
+        //通过inBillID查询属于该单号的物品，然后操作汇总表，逐个清零
+        List<ItemsShow> itemsInData = itemInDao.findItemsInData(inBillID);
+        String time = inBillDao.findTimeByID(inBillID);
+        String subTime = time.substring(0, 7);
+
+        for (ItemsShow itemsInDatum : itemsInData) {
+            try {
+                Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsInDatum.getGoodsID(), subTime);
+                if(summary!=null){
+                    summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
+                    summary.setInTotal(summary.getInTotal()-itemsInDatum.getItemTotal());
+                    summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
+                    summary.setThisTotal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal());
+                    if(summary.getThisAmount()==0){
+                        summary.setThisPrice(0.0);
+                    }else{
+                        summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    }
+                    summaryDao.updateSummary(summary);
+                    //插入本月数据后，同步后面时间的数据
+                    List<Summary> timeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(itemsInDatum.getGoodsID(), subTime);
+                    for (Summary s : timeAfter) {
+                        //判断是否是本月的数据，然后修改后面时间的数据
+                        if(!s.getTime().equals(subTime)){
+                            //将上月的本月结存放入到当前月的上月结存
+                            String nowTime = s.getTime()+"-1";
+                            Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
+                            //将上月的本月结存放入到当前月的上月结存
+                            s.setPreAmount(frontSummary.getThisAmount());
+                            s.setPrePrice(frontSummary.getThisPrice());
+                            s.setPreTotal(frontSummary.getThisTotal());
+                            s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                            s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                            if(s.getThisAmount()==0){
+                                s.setThisPrice(0.0);
+                            }else{
+                                s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                            }
+                            summaryDao.updateSummary(s);
+                        }
+                    }
+
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }finally {
+                itemInDao.delItemByInBillIDandGoodsID(inBillID,goodsID);
             }
 
         }

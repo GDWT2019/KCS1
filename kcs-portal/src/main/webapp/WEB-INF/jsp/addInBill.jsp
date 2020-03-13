@@ -67,7 +67,7 @@
                                     <td style="white-space: nowrap">
                                         <div class="layui-form-item">
                                             <a id="addGoods" style="display: inline"><i class="layui-icon layui-icon-add-circle" style="font-size: 25px;display: inline"></i></a>
-                                            <div class="layui-inline">
+                                            <div class="layui-inline layui-form" lay-filter="goods">
                                                 <select id="itemsName" lay-verify="required"  style="width: 150px" name="itemInList[0].GoodsID" lay-filter="itemsName1">
                                                     <option value="null" selected>请选择</option>
                                                 </select>
@@ -179,7 +179,8 @@
 </div>
 
 <script>
-
+    layui.use(['form'], function () {
+        var form = layui.form;
     $("#addProvider").on('click', function () {
         layer.open({
             type: 2,
@@ -187,9 +188,24 @@
             content: '${pageContext.request.contextPath }/provider/rAddProvider',
             area: ['600px', '334px'],
             end: function () {
-                location.reload();
+                $("#providerID").empty();
+                $.ajax({
+                    type: "POST",
+                    url: '${pageContext.request.contextPath }/provider/getProvider',  //从数据库查询返回的是个list
+                    dataType: "json",
+                    async: false,
+                    cache: false,
+                    success: function (data) {
+                        $.each(data, function (index, item) {
+                            $("#providerID").append("<option value='" + item.providerID + "'>" + item.providerName + "</option>");//往下拉菜单里添加元素
+                        })
+                        form.render();//菜单渲染 把内容加载进去
+                    }
+                });
+
             }
         });
+    });
     });
 
     layui.use('laydate', function () {
@@ -208,10 +224,14 @@
             url: "${pageContext.request.contextPath }/inBill/insertBill",
             data: $("#InBillForm").serialize(),
             success: function () {
-                layer.alert("添加成功")
+                layer.alert("添加成功",function(){
+                    window.parent.layer.closeAll();
+                });
             },
             error: function () {
-                layer.alert("添加失败！");
+                layer.alert("添加失败！",function(){
+                    window.parent.layer.closeAll();
+                });
             }
         });
     }
@@ -322,8 +342,8 @@
             "<td style=\"white-space: nowrap\">" +
             "<div class=\"layui-form-item\">" +
                 "<a id=\"addGoods" + num + "\" style=\"display: inline\"><i class=\"layui-icon layui-icon-add-circle\" style=\"font-size: 25px;display: inline\"></i></a>\n" +
-            "                                            <div class=\"layui-inline\">"+
-            "<select value=\"null\" lay-verify=\"required\" id=\"itemsName\" name=\"itemInList[" + (num - 1) + "].GoodsID\" lay-filter=\"itemsName" + num + "\">" +
+            "                                            <div class=\"layui-inline layui-form\" lay-filter=\"goods" + num + "\">"+
+            "<select value=\"null\" lay-verify=\"required\" id=\"itemsName" + num + "\" name=\"itemInList[" + (num - 1) + "].GoodsID\" lay-filter=\"itemsName" + num + "\">" +
             itemsName +
             "</select>" +
             "</div>" +
@@ -384,7 +404,22 @@
                     content: '${pageContext.request.contextPath }/goods/rAddGoods',
                     area: ['600px', '334px'],
                     end: function () {
-                        location.reload();
+                        $("#itemsName"+num).empty();
+                        $("#itemsName"+num).append("<option value=''>" + "请选择"+ "</option>");
+                        $.ajax({
+                            type: "POST",
+                            url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
+                            dataType: "json",
+                            async: false,
+                            cache: false,
+                            success: function (data) {
+                                $.each(data, function (index, item) {
+                                    $("#itemsName"+num).append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                                })
+                                form.render();//菜单渲染 把内容加载进去
+                            }
+                        });
+                        form.render('select','goods'+num);
                     }
                 });
             });
@@ -547,7 +582,22 @@
                 content: '${pageContext.request.contextPath }/goods/rAddGoods',
                 area: ['600px', '334px'],
                 end: function () {
-                    location.reload();
+                    $("#itemsName").empty();
+                    $("#itemsName").append("<option value=''>" + "请选择"+ "</option>");
+                    $.ajax({
+                        type: "POST",
+                        url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
+                        dataType: "json",
+                        async: false,
+                        cache: false,
+                        success: function (data) {
+                            $.each(data, function (index, item) {
+                                $("#itemsName").append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                            })
+                            form.render();//菜单渲染 把内容加载进去
+                        }
+                    });
+                    form.render('select','goods');
                 }
             });
         });

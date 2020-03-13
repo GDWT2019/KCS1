@@ -44,6 +44,56 @@ public class test {
     private PermissionDao permissionDao;
 
     @Test
+    public void test28(){
+        String s = test27();
+        System.out.println(s);
+    }
+
+
+    public String test27(){
+        List<Integer> list =new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(0);
+        list.add(1);
+        list.add(2);
+        for (Integer integer : list) {
+            if(integer<0){
+                return "小于0";
+            }
+        }
+        return "没有小于0";
+
+    }
+
+    @Test
+    public void test26(){
+        Summary summary = summaryDao.findThisMonthInAmountByGoodsID(6, "2020-03");
+        Integer inAmount = summary.getInAmount();
+        Integer allInAmout = summaryDao.findAllInAmout(6);
+        Integer allOutAmout = summaryDao.findAllOutAmout(6);
+        Integer total=allInAmout+3-inAmount-allOutAmout;
+        System.out.println("total:"+total);
+        System.out.println();
+        if((allInAmout+3-inAmount-allOutAmout)>=0){
+            System.out.println("入库大于出库");
+        }else {
+            System.out.println("入库小于出库");
+        }
+    }
+
+    @Test
+    public void test25(){
+       inBillDao.updateInBillAlltotalByID(5330f,104);
+    }
+
+    @Test
+    public void test24(){
+        Float allTotal = itemInDao.findAllTotal(104);
+        System.out.println(allTotal);
+    }
+
+    @Test
     public void test23(){
         List<RolePresent> allRolePresent = roleDao.findAllRolePresent(1, 10, 1);
         System.out.println(allRolePresent);

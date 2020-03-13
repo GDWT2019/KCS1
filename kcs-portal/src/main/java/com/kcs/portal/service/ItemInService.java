@@ -21,4 +21,6 @@ public interface ItemInService {
     List<GoodsAndCategoryAndItemsIn> getItemsInList(String inBillID);
 
     void delItemByInBillID(String inBillID);
+
+    void delItemByInBillIDandGoodsID(String inBillID, Integer goodsID);
 }
