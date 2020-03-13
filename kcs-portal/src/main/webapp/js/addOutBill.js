@@ -64,19 +64,25 @@ layui.use('form', function ($, form) {
                     layer.alert("未找到该物品的相关数据！")
                 } 
                 var addOutBillList = JSON.parse(result);
-                $.each(addOutBillList,function (index,addOutBill) {
-                    if (addOutBill.thisAmount>0){
-                        $('select[name="itemsName1"]').find("option:selected").val(addOutBill.goodsID);
-                        $('select[name="itemsType1"]').append("<option value='"+addOutBill.itemsType+"'>"+addOutBill.itemsType+"</option>");
-                        $('input[name="itemPrice1"]').val(addOutBill.thisPrice);
-                        $('input[name="itemNum1"]').attr("max",addOutBill.thisAmount);
-                    }
-                    else {
-                        layer.alert("该物品存库数量为："+addOutBill.thisAmount);
-                        $('input[name="itemNum1"]').val("");
-                        $('input[name="itemNum1"]').attr("disabled","disabled");
-                    }
-                });
+                for(var i=0;i<addOutBillList.length;i++){
+                    $('select[name="itemsName1"]').find("option:selected").val(addOutBillList[0].goodsID);
+                            $('select[name="itemsType1"]').append("<option value='"+addOutBillList[i].itemsType+"'>"+addOutBillList[i].itemsType+"</option>");
+                            $('input[name="itemPrice1"]').val(addOutBillList[0].thisPrice);
+                            $('input[name="itemNum1"]').attr("max",addOutBillList[0].thisAmount);
+                }
+                // $.each(addOutBillList,function (index,addOutBill) {
+                //
+                //         $('select[name="itemsName1"]').find("option:selected").val(addOutBill.goodsID);
+                //         $('select[name="itemsType1"]').append("<option value='"+addOutBill.itemsType+"'>"+addOutBill.itemsType+"</option>");
+                //         $('input[name="itemPrice1"]').val(addOutBill.thisPrice);
+                //         $('input[name="itemNum1"]').attr("max",addOutBill.thisAmount);
+                //     if (addOutBill.thisAmount<0){
+                //         layer.alert("该物品存库数量为aaaaaaa："+addOutBill.itemsName+addOutBill.itemsType+addOutBill.thisAmount);
+                //         $('input[name="itemNum1"]').val("");
+                //         $('input[name="itemNum1"]').attr("disabled","disabled");
+                //
+                //     }
+                // });
                 form.render();
             }
         })
@@ -262,19 +268,12 @@ function addTr(){
                         layer.alert("未找到该物品的相关数据！")
                     }
                     var addOutBillList = JSON.parse(result);
-                    $.each(addOutBillList,function (index,addOutBill) {
-                        if (addOutBill.thisAmount>0){
-                            $('select[name="'+itemsName+'"]').find("option:selected").val(addOutBill.goodsID);
-                            $('select[name="'+itemsType+'"]').append("<option value='"+addOutBill.itemsType+"'>"+addOutBill.itemsType+"</option>");
-                            $('input[name="'+itemPrice+'"]').val(addOutBill.thisPrice);
-                            $('input[name="'+itemNum+'"]').attr("max",addOutBill.thisAmount);
-                        }
-                        else {
-                            layer.alert("该物品存库数量为："+addOutBill.thisAmount);
-                            $('input[name="'+itemNum+'"]').val("");
-                            $('input[name="'+itemNum+'"]').attr("disabled","disabled");
-                        }
-                    });
+                    for(var i=0;i<addOutBillList.length;i++){
+                        $('select[name="'+itemsName+'"]').find("option:selected").val(addOutBillList[0].goodsID);
+                        $('select[name="'+itemsType+'"]').append("<option value='"+addOutBillList[i].itemsType+"'>"+addOutBillList[i].itemsType+"</option>");
+                        $('input[name="'+itemPrice+'"]').val(addOutBillList[0].thisPrice);
+                        $('input[name="'+itemNum+'"]').attr("max",addOutBillList[0].thisAmount);
+                    }
                     form.render();
                 }
             })
