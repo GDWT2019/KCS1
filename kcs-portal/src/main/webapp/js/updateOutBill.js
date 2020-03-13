@@ -360,7 +360,7 @@ function checkBill() {
         var itemPrice = $('input[name="itemPrice'+i+'"]').val();
         var itemTotal = $('input[name="itemTotal'+i+'"]').val();
         var project = $('input[name="project'+i+'"]').val();
-        var storePosition = $('input[name="storePosition'+i+'"]').val();
+        var storePosition = $('select[name="storePosition'+i+'"]').val();
         var itemsOutID = $('input[name="itemsOutID'+i+'"]').val();
 
         //如果其中一个为undefined,跳过此次循环
@@ -404,8 +404,8 @@ function checkBill() {
         }
 
         //转成对象格式，
-        itemsOut = {"itemsOutID":itemsOutID,"departmentID":departmentID,"outBillID":outBillID,"goodsID":+goodsID
-            ,"itemNum":itemNum,"itemPrice":+itemPrice,"itemTotal":+itemTotal,"project":project,"note":null,"storePosition":storePosition};
+        itemsOut = {"itemsOutID":itemsOutID,"departmentID":departmentID,"outBillID":outBillID,"goodsID":goodsID
+            ,"itemNum":itemNum,"itemPrice":itemPrice,"itemTotal":itemTotal,"project":project,"note":"","storePosition":storePosition};
 
         //对象数组
         itemsOutList.push(itemsOut);

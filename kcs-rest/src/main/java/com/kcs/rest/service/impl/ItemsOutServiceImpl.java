@@ -196,6 +196,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         if (itemsOutNew.getItemNum()<itemsOutOld.getItemNum()){
             updateSummary(itemsOutNew,itemsOutOld,0);
         }
+        System.out.println("222222222222");
         return itemsOutDao.updateItemsOut(itemsOutNew);
     }
 
@@ -220,10 +221,12 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 //减少本月出库数量，合计
                     s.setOutAmount(s.getOutAmount()-(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
                     s.setOutTotal(s.getOutTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    if (s.getOutAmount() != 0)
                     s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
                     s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    if (s.getThisAmount() != 0)
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
 
@@ -232,10 +235,12 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     //增加上月的数量，合计
                     s.setPreAmount(s.getPreAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
                     s.setPreTotal(s.getPreTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    if (s.getPreAmount() != 0)
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
                     s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    if (s.getThisAmount() != 0)
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
                 }
@@ -245,22 +250,26 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     //增加出库数量，合计
                     s.setOutAmount(s.getOutAmount() + (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
                     s.setOutTotal(s.getOutTotal() + (itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
+                    if (s.getOutAmount() != 0)
                     s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
                     //减少本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
                     s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
-                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    if (s.getThisAmount() != 0)
+                        s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
                 //修改该出库时间后面的数据
                 if (!s.getTime().equals(outTime)){
                     //减少上月的数量，合计
                     s.setPreAmount(s.getPreAmount()-(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
                     s.setPreTotal(s.getPreTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    if (s.getPreAmount() != 0)
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //减少本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
                     s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    if (s.getThisAmount() != 0)
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
             }
