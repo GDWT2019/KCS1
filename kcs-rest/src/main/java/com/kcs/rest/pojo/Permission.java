@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Permission {
+import java.io.Serializable;
+
+public class Permission implements Serializable {
     private Integer PermissionID;
     private String PermissionName;
     private Integer PermissionNum;

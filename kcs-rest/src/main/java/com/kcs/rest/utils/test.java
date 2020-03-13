@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -42,6 +43,9 @@ public class test {
     private RoleDao roleDao;
     @Autowired
     private PermissionDao permissionDao;
+
+
+
 
     @Test
     public void test28(){

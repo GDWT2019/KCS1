@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class InBill {
+import java.io.Serializable;
+
+public class InBill implements Serializable {
     private Integer InBillID;
     private Integer ProviderID;
     private Integer StoreManager;

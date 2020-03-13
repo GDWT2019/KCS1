@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
 
     private Integer CategoryID;
     private String CategoryName;

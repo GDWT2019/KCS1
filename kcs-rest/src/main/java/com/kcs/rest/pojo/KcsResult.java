@@ -3,9 +3,10 @@ package com.kcs.rest.pojo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class KcsResult {
+public class KcsResult implements Serializable {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 

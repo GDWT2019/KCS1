@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class RolePresent {
+import java.io.Serializable;
+
+public class RolePresent implements Serializable {
     private int RoleID;
     private String RoleName;
     private int PermissionID;

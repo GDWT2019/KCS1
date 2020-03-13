@@ -216,5 +216,14 @@ public class SummaryServiceImpl implements SummaryService {
         }
         return 0;
     }
+
+    @Override
+    public void export() {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/poiSummary");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
 

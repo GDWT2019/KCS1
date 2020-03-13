@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class UserPresent {
+import java.io.Serializable;
+
+public class UserPresent implements Serializable {
     private int UserID;
     private String PositionID;
     private String PositionName;        //职位名称

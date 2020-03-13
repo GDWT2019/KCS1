@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Provider {
+import java.io.Serializable;
+
+public class Provider implements Serializable {
     private Integer ProviderID;
     private String ProviderName;
     private String ProviderAddress;

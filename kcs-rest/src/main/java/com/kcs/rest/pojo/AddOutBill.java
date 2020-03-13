@@ -1,9 +1,11 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
+
 /**
  * 用于添加出库物品时的各种展示
  */
-public class AddOutBill {
+public class AddOutBill implements Serializable {
     private Integer GoodsID;        //物品id
 
     private Integer CategoryID;     //类别id

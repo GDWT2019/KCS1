@@ -1,10 +1,12 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
+
 /**
  * 用户表物品表和类别表的结合
  */
 
-public class GoodsAndCategoryAndItemsIn {
+public class GoodsAndCategoryAndItemsIn implements Serializable {
 
 
     private Integer ItemsInID;

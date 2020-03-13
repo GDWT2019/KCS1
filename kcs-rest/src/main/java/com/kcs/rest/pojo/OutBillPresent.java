@@ -1,11 +1,12 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 该类用于呈现出库明细，是出库表，出库物品表，物品表，部门表，类别表，汇总表 的集合
  */
-public class OutBillPresent {
+public class OutBillPresent implements Serializable {
 
     private Integer OutBillID;      //出库清单id
 

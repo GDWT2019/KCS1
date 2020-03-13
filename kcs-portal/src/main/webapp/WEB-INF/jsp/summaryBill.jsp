@@ -22,6 +22,7 @@
         <input type="text" class="layui-input" id="time1" name="time" placeholder="yyyy-MM">
     </div>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+<a href="${pageContext.request.contextPath }/summary/poiSummary">导出</a>
 </div>
 <table class="layui-table" id="test" lay-filter="test"></table>
 
@@ -35,12 +36,13 @@
                     <input type="text" class="layui-input" id="time1" name="time" placeholder="yyyy-MM">
                 </div>
             </div>--%>
-            <div class="layui-inline">
+            <%--<div class="layui-inline">
                 <button class="layui-btn layui-btn-sm export" id = "daochu">导出所有数据报表</button>
-            </div>
-            <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm export" id = "print">打印</button>
-            </div>
+            </div>--%>
+               <%-- <div class="layui-inline">
+                    <button class="layui-btn layui-btn-sm export" id="print">导出所有数据报表</button>
+                </div>--%>
+
         </div>
     </div>
             <!--导出表 不展示-->
@@ -310,7 +312,12 @@
                 });
             }
         });
-
+        $('body').on('click', "#print", function () {
+            $.ajax({
+                <%--url: '${pageContext.request.contextPath }/summary/poiSummary'--%>
+                url: 'http://localhost:8081/kcs_rest_war/summary/poiSummary'
+            });
+        });
         $('#daochu').click(function(){
             $.ajax({
                 url: "${pageContext.request.contextPath }/summary/summaryAllData",

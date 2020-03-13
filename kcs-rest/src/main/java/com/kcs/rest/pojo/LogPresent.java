@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class LogPresent {
+import java.io.Serializable;
+
+public class LogPresent implements Serializable {
     private int LogID;      //日志id
 
     private int UserID;     //用户id

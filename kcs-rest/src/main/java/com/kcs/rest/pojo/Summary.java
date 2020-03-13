@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Summary {
+import java.io.Serializable;
+
+public class Summary implements Serializable {
     private Integer SummaryID;      //汇总id
 
     private Integer GoodsID;        //物品id

@@ -1,180 +1,178 @@
 package com.kcs.rest.pojo;
 
-public class SummartAndGoodsAndCategory {
-    private Integer GoodsID;
-    private String CategoryName;
-    private String ItemsName;
-    private String ItemsType;
-    private Integer PreAmount;
-    private Double PrePrice;
-    private Double PreTotal;
-    private Integer InAmount;
-    private Double InPrice;
-    private Double InTotal;
-    private Integer OutAmount;
-    private Double OutPrice;
-    private Double OutTotal;
-    private Integer ThisAmount;
-    private Double ThisPrice;
-    private Double ThisTotal;
-    private String Time;
+import cn.afterturn.easypoi.excel.annotation.Excel;
 
-    @Override
-    public String toString() {
-        return "SummartAndGoodsAndCategory{" +
-                "GoodsID=" + GoodsID +
-                ", CategoryName='" + CategoryName + '\'' +
-                ", ItemsName='" + ItemsName + '\'' +
-                ", ItemsType='" + ItemsType + '\'' +
-                ", PreAmount=" + PreAmount +
-                ", PrePrice=" + PrePrice +
-                ", PreTotal=" + PreTotal +
-                ", InAmount=" + InAmount +
-                ", InPrice=" + InPrice +
-                ", InTotal=" + InTotal +
-                ", OutAmount=" + OutAmount +
-                ", OutPrice=" + OutPrice +
-                ", OutTotal=" + OutTotal +
-                ", ThisAmount=" + ThisAmount +
-                ", ThisPrice=" + ThisPrice +
-                ", ThisTotal=" + ThisTotal +
-                ", Time='" + Time + '\'' +
-                '}';
-    }
+import java.io.Serializable;
+
+public class SummartAndGoodsAndCategory implements Serializable {
+
+    private Integer goodsID;
+    @Excel(name = "类别", groupName = "物品", orderNum = "0")
+    private String categoryName;
+    @Excel(name = "品名", groupName = "物品", orderNum = "1")
+    private String itemsName;
+    @Excel(name = "规格", groupName = "物品", orderNum = "2")
+    private String itemsType;
+    @Excel(name = "数量", groupName = "上月结存", orderNum = "3")
+    private Integer preAmount;
+    @Excel(name = "单价", groupName = "上月结存", orderNum = "4")
+    private Double prePrice;
+    @Excel(name = "金额", groupName = "上月结存", orderNum = "5")
+    private Double preTotal;
+    @Excel(name = "数量", groupName = "本月入库", orderNum = "6")
+    private Integer inAmount;
+    @Excel(name = "单价", groupName = "本月入库", orderNum = "7")
+    private Double inPrice;
+    @Excel(name = "金额", groupName = "本月入库", orderNum = "8")
+    private Double inTotal;
+    @Excel(name = "数量", groupName = "本月出库", orderNum = "9")
+    private Integer outAmount;
+    @Excel(name = "单价", groupName = "本月出库", orderNum = "10")
+    private Double outPrice;
+    @Excel(name = "金额", groupName = "本月出库", orderNum = "11")
+    private Double outTotal;
+    @Excel(name = "数量", groupName = "本月结存", orderNum = "12")
+    private Integer thisAmount;
+    @Excel(name = "单价", groupName = "本月结存", orderNum = "13")
+    private Double thisPrice;
+    @Excel(name = "金额", groupName = "本月结存", orderNum = "14")
+    private Double thisTotal;
+    @Excel(name = "时间")
+    private String time;
 
     public Integer getGoodsID() {
-        return GoodsID;
+        return goodsID;
     }
 
     public void setGoodsID(Integer goodsID) {
-        GoodsID = goodsID;
+        this.goodsID = goodsID;
     }
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
     public void setCategoryName(String categoryName) {
-        CategoryName = categoryName;
+        this.categoryName = categoryName;
     }
 
     public String getItemsName() {
-        return ItemsName;
+        return itemsName;
     }
 
     public void setItemsName(String itemsName) {
-        ItemsName = itemsName;
+        this.itemsName = itemsName;
     }
 
     public String getItemsType() {
-        return ItemsType;
+        return itemsType;
     }
 
     public void setItemsType(String itemsType) {
-        ItemsType = itemsType;
+        this.itemsType = itemsType;
     }
 
     public Integer getPreAmount() {
-        return PreAmount;
+        return preAmount;
     }
 
     public void setPreAmount(Integer preAmount) {
-        PreAmount = preAmount;
+        this.preAmount = preAmount;
     }
 
     public Double getPrePrice() {
-        return PrePrice;
+        return prePrice;
     }
 
     public void setPrePrice(Double prePrice) {
-        PrePrice = prePrice;
+        this.prePrice = prePrice;
     }
 
     public Double getPreTotal() {
-        return PreTotal;
+        return preTotal;
     }
 
     public void setPreTotal(Double preTotal) {
-        PreTotal = preTotal;
+        this.preTotal = preTotal;
     }
 
     public Integer getInAmount() {
-        return InAmount;
+        return inAmount;
     }
 
     public void setInAmount(Integer inAmount) {
-        InAmount = inAmount;
+        this.inAmount = inAmount;
     }
 
     public Double getInPrice() {
-        return InPrice;
+        return inPrice;
     }
 
     public void setInPrice(Double inPrice) {
-        InPrice = inPrice;
+        this.inPrice = inPrice;
     }
 
     public Double getInTotal() {
-        return InTotal;
+        return inTotal;
     }
 
     public void setInTotal(Double inTotal) {
-        InTotal = inTotal;
+        this.inTotal = inTotal;
     }
 
     public Integer getOutAmount() {
-        return OutAmount;
+        return outAmount;
     }
 
     public void setOutAmount(Integer outAmount) {
-        OutAmount = outAmount;
+        this.outAmount = outAmount;
     }
 
     public Double getOutPrice() {
-        return OutPrice;
+        return outPrice;
     }
 
     public void setOutPrice(Double outPrice) {
-        OutPrice = outPrice;
+        this.outPrice = outPrice;
     }
 
     public Double getOutTotal() {
-        return OutTotal;
+        return outTotal;
     }
 
     public void setOutTotal(Double outTotal) {
-        OutTotal = outTotal;
+        this.outTotal = outTotal;
     }
 
     public Integer getThisAmount() {
-        return ThisAmount;
+        return thisAmount;
     }
 
     public void setThisAmount(Integer thisAmount) {
-        ThisAmount = thisAmount;
+        this.thisAmount = thisAmount;
     }
 
     public Double getThisPrice() {
-        return ThisPrice;
+        return thisPrice;
     }
 
     public void setThisPrice(Double thisPrice) {
-        ThisPrice = thisPrice;
+        this.thisPrice = thisPrice;
     }
 
     public Double getThisTotal() {
-        return ThisTotal;
+        return thisTotal;
     }
 
     public void setThisTotal(Double thisTotal) {
-        ThisTotal = thisTotal;
+        this.thisTotal = thisTotal;
     }
 
     public String getTime() {
-        return Time;
+        return time;
     }
 
     public void setTime(String time) {
-        Time = time;
+        this.time = time;
     }
 }

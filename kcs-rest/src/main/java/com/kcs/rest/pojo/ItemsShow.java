@@ -1,10 +1,12 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
+
 /**
  * 审核时候显示的字段   入库物品表、用户表的集合
  */
 
-public class ItemsShow {
+public class ItemsShow implements Serializable {
     private Integer InBillID;
     private String TimeIn;
     private Integer GoodsID;

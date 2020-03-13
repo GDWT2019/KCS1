@@ -36,4 +36,7 @@ public interface SummaryService {
     Integer findAllInAmout(Integer goodsID);
 
     Integer findAllOutAmout(Integer goodsID);
+
+    void export();
+
 }
