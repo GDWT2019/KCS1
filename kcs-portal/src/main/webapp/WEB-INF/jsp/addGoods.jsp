@@ -97,7 +97,9 @@
                         dataType:"text",
                         success:function (result) {
                             var data = JSON.parse(result);
-                            alert(data.mesg);
+                            alert(data.mesg,function(){
+                                window.parent.layer.closeAll();
+                            });
                             reflashPosition();
                         },
                         error(){

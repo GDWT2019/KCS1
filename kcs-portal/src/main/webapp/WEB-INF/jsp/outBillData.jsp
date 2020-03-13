@@ -12,44 +12,39 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 <body>
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
+
 <script type="text/html" id="toolbarDemo">
 	<div class="layui-form">
 		<div class="layui-form-item">
 			<div class="layui-inline">
 				<button class="layui-btn layui-btn-sm" id="addOutBillBtn">添加出库</button>
 			</div>
-
 			<div class="layui-inline">
-				<label class="layui-form-label" style="width: 100px">时间范围：</label>
-				<div class="layui-input-inline">
-					<input type="text" class="layui-input" name="timeRange" id="timeRange" placeholder="请选择时间段">
-				</div>
+				<button class="layui-btn layui-btn-sm export" id="export" >导出所有数据报表</button>
 			</div>
 
-			<div class="layui-inline">
-				<label class="layui-form-label" style="width: 100px">物品名：</label>
-				<div class="layui-input-inline">
+			<div class="demoTable">
+				时间范围：
+				<div class="layui-inline">
+					<input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
+				</div>
+				物品名：
+				<div class="layui-inline">
 					<input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
 				</div>
-			</div>
-
-			<div class="layui-inline">
-			<label class="layui-form-label" style="width: 100px">审批状态：</label>
-			<div class="layui-input-inline">
-				<select id="checkStatu" name="checkStatu">
-						<option value="">请选择</option>
-						<option value="0">待审批</option>
+				审核状态：
+				<div class="layui-inline">
+					<select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
+						<option value="">请选择审核状态</option>
+						<option value="0">待审核</option>
 						<option value="1">通过</option>
 						<option value="2">未通过</option>
-				</select>
-			</div>
-		</div>
-
-			<div class="layui-inline">
-				<div class="layui-input-inline">
-					<input type="button" class="layui-btn" id="search" value="搜索">
+					</select>
 				</div>
+				<input type="button" class="layui-btn" id="search"  value="搜索">
+				<%--<button class="layui-btn" data-type="reload">搜索</button>--%>
 			</div>
 		</div>
 	</div>
@@ -70,7 +65,7 @@
 			,url:"${pageContext.request.contextPath }/outBill/getAllOutBill"
 			,toolbar: '#toolbarDemo'
 			,title: '出库清单表'
-			,totalRow: true//开启合计行
+			,totalRow: false//开启合计行
 			,cols: [[
 				{type: 'checkbox', fixed: 'left'}
 				,{type:'numbers',title:'序号'}
@@ -104,15 +99,17 @@
 			var time1 = null;
 			var time2 = null;
 			var itemName = null;
-			var checkStatu = null;
+			var checkStatus =  $("#checkStatus").val();
+			var checkText = null;
 			var timeRange = $('#timeRange').val();
 			if (($("#itemName").val()) != null && ($("#itemName").val()) != "") {
 				itemName = $("#itemName").val();
 			}
-			//TODO
-			if (($('select[name="checkStatu"]').find("option:selected").val()) != null && ($('select[name="checkStatu"]').find("option:selected").val()) != "") {
-				checkStatu = $('select[name="checkStatu"]').find("option:selected").val();
-			}
+			//
+			// if (($('select[name="checkStatus"]').find("option:selected").val()) != null && ($('select[name="checkStatu"]').find("option:selected").val()) != "") {
+			// 	checkStatu = $('select[name="checkStatu"]').find("option:selected").val();
+			// 	checkText = $('select[name="checkStatu"]').find("option:selected").text();
+			// }
 			if (timeRange != null && timeRange != "") {
 				time1 = timeRange.substring(0, 10);
 				time2 = timeRange.substring(13, 23);
@@ -124,7 +121,7 @@
 					"time1": time1,
 					"time2": time2,
 					"itemName": itemName,
-					"checkStatu":checkStatu,
+					"checkStatu":checkStatus,
 				}
 				, page: {
 					curr: 1
@@ -138,6 +135,9 @@
 					, range: true
 				});
 			});
+			$("#itemName").val(itemName);
+			$('#timeRange').val(timeRange);
+			$("#checkStatus").val(checkStatus);
 		});
 
 

@@ -123,4 +123,19 @@ public class SummaryServiceImpl implements SummaryService{
             }
         }
     }
+
+    @Override
+    public Summary findThisMonthInAmountByGoodsID(int gid, String subTime) {
+        return summaryDao.findThisMonthInAmountByGoodsID(gid,subTime);
+    }
+
+    @Override
+    public Integer findAllInAmout(Integer goodsID) {
+        return summaryDao.findAllInAmout(goodsID);
+    }
+
+    @Override
+    public Integer findAllOutAmout(Integer goodsID) {
+        return summaryDao.findAllOutAmout(goodsID);
+    }
 }

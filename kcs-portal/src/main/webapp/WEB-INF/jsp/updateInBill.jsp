@@ -259,7 +259,8 @@
                                 </div>
                             </div>
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>
+                                <span style="font-size: 22px;">合计：<input  id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>
+                                <%--<span style="font-size: 22px;">合计：<input  id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>--%>
                             </div>
                         </div>
                         <div class="layui-bg-gray" style="border-radius: 2px;">
@@ -318,17 +319,35 @@
     });
 
     function updateBill() {
-        $.ajax({
+       $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath }/inBill/updateBill",
+            url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonut",
             data: $("#InBillForm").serialize(),
-            success: function () {
-                layer.alert("修改成功")
+            success: function (htq) {
+                if (htq == 1) {
+                    $.ajax({
+                        type: "POST",
+                        url: "${pageContext.request.contextPath }/inBill/updateBill",
+                        data: $("#InBillForm").serialize(),
+                        success: function () {
+                            layer.alert("修改成功",function(){
+                                window.parent.layer.closeAll();
+                            });
+                        },
+                        error: function () {
+                            layer.alert("修改失败！");
+                        }
+                    });
+                }else{
+                    layer.alert("入库数小于出库数！");
+                }
             },
             error: function () {
                 layer.alert("修改失败！");
             }
         });
+
+
     }
 
     function NumCount(ii) {
@@ -354,9 +373,8 @@
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
             altotal = Number(altotal) + Number(text);
         }
-        $("#alTotal").val(altotal);
-        /*   $("#alTotal").empty();
-          $("#alTotal").append(altotal);*/
+        $("#alTotal").val(altotal.toFixed(2));
+
     }
 
     function PriceCount(ii) {
@@ -382,7 +400,7 @@
             altotal = Number(altotal) + Number(text);
 
         }
-        $("#alTotal").val(altotal);
+        $("#alTotal").val(altotal.toFixed(2));
     }
 
     function getParent(el, parentTag) {
@@ -404,12 +422,12 @@
             for (i = 1; i < length; i++) {
                 var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
                 altotal = Number(altotal) + Number(text);
-                console.log(altotal);
+
             }
-            $("#alTotal").val(altotal);
+            $("#alTotal").val(altotal.toFixed(2));
             layui.use(['form'], function () {
                 var form = layui.form;
-                $("#alTotal").val(altotal);
+                $("#alTotal").val(altotal.toFixed(2));
                 form.render();
             })
         }
@@ -716,7 +734,7 @@
             $("#Approvaler").val(htq[0].checker);
             $("#lister").val(htq[0].tableMaker);
             $("#providerID").val(htq[0].providerID);
-            $("#alTotal").val(htq[0].allTotal);
+            $("#alTotal").val(htq[0].allTotal.toFixed(2));
             form.render();   //重新渲染新增的行中select的信息
         }
     });

@@ -18,6 +18,7 @@ public class ItemsOutController {
     @ResponseBody
     public AjaxMesg delByItemsOutID(int itemsOutID){
         int i = itemsOutService.delItemsOutByID(itemsOutID);
+
         if (i>0)
             return new AjaxMesg(true,"删除成功！");
         else

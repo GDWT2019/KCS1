@@ -30,4 +30,10 @@ public interface SummaryService {
     int countReload(String itemName);
 
     int getThisAmount(int goodsID,String time);
+
+    Summary findThisMonthInAmountByGoodsID(Integer goodsID, String subTime);
+
+    Integer findAllInAmout(Integer goodsID);
+
+    Integer findAllOutAmout(Integer goodsID);
 }

@@ -29,7 +29,7 @@
             elem: '#test'
             ,url:"${pageContext.request.contextPath }/inBill/ItemInRecord"
             ,title: '入库单'
-            ,totalRow: true//开启合计行
+            ,totalRow: false//开启合计行
             ,cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'inBillID', title:'入库单号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}

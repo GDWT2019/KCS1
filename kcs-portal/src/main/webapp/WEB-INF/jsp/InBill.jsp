@@ -11,6 +11,8 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
+
+
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
@@ -18,48 +20,35 @@
     <div class="layui-form">
         <div class="layui-form-item">
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm" lay-event="newInBill">添加入库</button>
+                <button class="layui-btn layui-btn-sm" id="newInBill">添加入库</button>
             </div>
             <div class="layui-inline">
                 <button class="layui-btn layui-btn-sm export" id="export" >导出所有数据报表</button>
             </div>
 
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">时间范围：</label>
-                <div class="layui-input-inline">
+            <div class="demoTable">
+                时间范围：
+                <div class="layui-inline">
                     <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
                 </div>
-            </div>
-
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">物品名：</label>
-                <div class="layui-input-inline">
+                物品名：
+                <div class="layui-inline">
                     <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
                 </div>
-            </div>
-
-            <div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">审核状态：</label>
-                <div class="layui-input-inline">
+                审核状态：
+                <div class="layui-inline">
                     <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
                         <option value="">请选择审核状态</option>
-                        <option value="1">等待审核</option>
-                        <option value="2">审核通过</option>
-                        <option value="3">审核未通过</option>
+                        <option value="1">待审核</option>
+                        <option value="2">通过</option>
+                        <option value="3">未通过</option>
                     </select>
                 </div>
-            </div>
-
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="button" class="layui-btn" id="search"  value="搜索">
-                </div>
+                <input type="button" class="layui-btn" id="search"  value="搜索">
+                <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
             </div>
         </div>
     </div>
-    </div>
-
-
     <!--导出表 不展示-->
     <div style="display: none;">
         <table id="data_export">
@@ -127,7 +116,6 @@
                 time1 = timeRange.substring(0,10);
                 time2 = timeRange.substring(13, 23);
             }
-            console.log(time1+" "+time2+" "+itemName)
             table.reload('testInBill', {
                 method: 'post'
                 , where: {
@@ -150,6 +138,9 @@
                     ,range: true
                 });
             });
+            $('#timeRange').val(timeRange);
+            $("#checkStatus").val(checkStatus);
+            $("#itemName").val(itemName);
         });
 
 
@@ -190,7 +181,7 @@
                     ,btn1: function(index, layero){
                         $.ajax({
                             url:'${pageContext.request.contextPath }/itemIn/delItem'
-                            ,data:{"ItemsInID":data.itemsInID},
+                            ,data:{"ItemsInID":data.itemsInID,"inBillID":data.inBillID},
                             success:function(){
                                 layer.msg("删除成功！");
                             },
@@ -208,6 +199,7 @@
                 });
             }
         });
+
 
         //工具栏事件
         table.on('toolbar(test)', function(obj){
@@ -243,6 +235,18 @@
         var table = layui.table,
             form = layui.form,
             layer = layui.layer;
+
+        $("#newInBill").on("click",function () {
+            layer.open({
+                type:2,
+                title:"添加入库",
+                content:'${pageContext.request.contextPath }/inBill/addInBill',
+                area:['1200px','668px'],
+                end:function () {
+                    location.reload();
+                }
+            });
+        });
 
         layui.use('laydate', function() {
             var laydate = layui.laydate;

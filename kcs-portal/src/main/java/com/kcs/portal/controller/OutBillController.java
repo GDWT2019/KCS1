@@ -94,9 +94,6 @@ public class OutBillController {
         String time2 = request.getParameter("time2");
         String itemName = request.getParameter("itemName");
 
-        request.setAttribute("timeRange",time1+"-"+time2);
-        request.setAttribute("itemName",itemName);
-        request.setAttribute("checkStatu",checkStatus);
 
         List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName,checkStatus);
         Integer count = outBillService.outBillPresentCount(time1,time2,itemName,checkStatus);

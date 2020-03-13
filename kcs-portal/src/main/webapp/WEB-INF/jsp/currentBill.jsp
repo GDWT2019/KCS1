@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
+
+
 <table class="layui-table" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
@@ -29,7 +31,15 @@
                 <button class="layui-btn layui-btn-sm export" id = "print">打印</button>
             </div>
 
-        <div class="layui-inline">
+            <div class="demoTable">
+                物品名称
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
+                </div>
+                <input type="button" class="layui-btn" id="search"  value="搜索">
+                <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+            </div>
+        <%--<div class="layui-inline">
             <label class="layui-form-label" style="width: 100px">物品名：</label>
             <div class="layui-input-inline">
                 <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
@@ -40,7 +50,7 @@
             <div class="layui-input-inline">
                 <input type="button" class="layui-btn" id="search"  value="搜索">
             </div>
-        </div>
+        </div>--%>
     </div>
     </div>
 
@@ -80,7 +90,7 @@
             ,url:"${pageContext.request.contextPath }/summary/summaryAllCurrentdata"
             ,toolbar: '#toolbarDemo'
             ,title: '流水单'
-            ,totalRow: true//开启合计行
+            ,totalRow: false//开启合计行
             , cols:  [[ //标题栏
                 {type: 'checkbox', fixed: 'left', rowspan:2}
                 ,{type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
@@ -128,7 +138,7 @@
                     content:'${pageContext.request.contextPath }/inBill/rItemInRecord',
                     area:['1200px','668px'],
                     end:function () {
-                        location.reload();
+
                     }
                 });
                 // layer.full(index);
@@ -141,7 +151,7 @@
                     content:'${pageContext.request.contextPath }/outBill/rItemOutRecord',
                     area:['1200px','668px'],
                     end:function () {
-                        location.reload();
+
                     }
                 });
             }
@@ -186,6 +196,7 @@
                     curr: 1
                 }
             });
+            $("#itemName").val(itemName);
         });
 
         $('body').on('click',"#daochu",function () {
