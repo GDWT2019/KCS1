@@ -17,14 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
-<div class="demoTable">
-    物品名称
-    <div class="layui-inline">
-        <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
-    </div>
-    <input type="button" class="layui-btn" id="search"  value="搜索">
-    <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
-</div>
+
 
 <table class="layui-table" id="test" lay-filter="test"></table>
 
@@ -38,6 +31,14 @@
                 <button class="layui-btn layui-btn-sm export" id = "print">打印</button>
             </div>
 
+            <div class="demoTable">
+                物品名称
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
+                </div>
+                <input type="button" class="layui-btn" id="search"  value="搜索">
+                <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+            </div>
         <%--<div class="layui-inline">
             <label class="layui-form-label" style="width: 100px">物品名：</label>
             <div class="layui-input-inline">
@@ -195,6 +196,7 @@
                     curr: 1
                 }
             });
+            $("#itemName").val(itemName);
         });
 
         $('body').on('click',"#daochu",function () {

@@ -23,6 +23,8 @@ public class ItemsOutController {
     private SummaryService summaryService;
     @Autowired
     private ItemInService itemInService;
+    @Autowired
+    private OutBillService outBillService;
 
     @RequestMapping("/insertItemsOut")
     @ResponseBody
@@ -39,6 +41,7 @@ public class ItemsOutController {
     @ResponseBody
     public KcsResult delItemsOut(@PathVariable int itemsOutID) {
         int i = itemsOutService.delItemsOutByID(itemsOutID);
+
         if (i > 0) {
             return KcsResult.ok(i);
         } else

@@ -12,27 +12,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
-<div class="demoTable">
-    时间范围：
-    <div class="layui-inline">
-        <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
-    </div>
-    物品名：
-    <div class="layui-inline">
-        <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
-    </div>
-    审核状态：
-    <div class="layui-inline">
-        <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
-            <option value="">请选择审核状态</option>
-            <option value="1">等待审核</option>
-            <option value="2">审核通过</option>
-            <option value="3">审核未通过</option>
-        </select>
-    </div>
-    <input type="button" class="layui-btn" id="search"  value="搜索">
-    <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
-</div>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
@@ -47,11 +26,29 @@
                 <button class="layui-btn layui-btn-sm export" id="export" >导出所有数据报表</button>
             </div>
 
+            <div class="demoTable">
+                时间范围：
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
+                </div>
+                物品名：
+                <div class="layui-inline">
+                    <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
+                </div>
+                审核状态：
+                <div class="layui-inline">
+                    <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
+                        <option value="">请选择审核状态</option>
+                        <option value="1">待审核</option>
+                        <option value="2">通过</option>
+                        <option value="3">未通过</option>
+                    </select>
+                </div>
+                <input type="button" class="layui-btn" id="search"  value="搜索">
+                <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+            </div>
         </div>
     </div>
-    </div>
-
-
     <!--导出表 不展示-->
     <div style="display: none;">
         <table id="data_export">
@@ -119,7 +116,6 @@
                 time1 = timeRange.substring(0,10);
                 time2 = timeRange.substring(13, 23);
             }
-            console.log(time1+" "+time2+" "+itemName)
             table.reload('testInBill', {
                 method: 'post'
                 , where: {
@@ -142,6 +138,9 @@
                     ,range: true
                 });
             });
+            $('#timeRange').val(timeRange);
+            $("#checkStatus").val(checkStatus);
+            $("#itemName").val(itemName);
         });
 
 

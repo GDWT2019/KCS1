@@ -66,21 +66,14 @@ layui.use('form', function ($, form) {
                             layer.alert("未找到该物品的相关数据！")
                         }
                         var addOutBillList = JSON.parse(result);
-                        $.each(addOutBillList, function (index, addOutBill) {
-                            if (addOutBill.thisAmount > 0) {
-                                $('select[name="itemsName'+i+'"]').find("option:selected").val(addOutBill.goodsID);
-                                $('select[name="itemsType'+i+'"]').append("<option value='" + addOutBill.itemsType + "'>" + addOutBill.itemsType + "</option>");
-                                $('input[name="itemPrice'+i+'"]').val(addOutBill.thisPrice);
-                                $('input[name="itemNum'+i+'"]').attr("max", addOutBill.thisAmount);
-                                $('select[name="storePosition'+i+'"]').append("<option value='"+addOutBill.storePosition+"'>"+addOutBill.storePosition+"</option>");
-                            } else {
-                                layer.alert("该物品存库数量为：" + addOutBill.thisAmount);
-                                $('input[name="itemNum'+i+'"]').val("");
-                                $('input[name="itemNum'+i+'"]').attr("disabled", "disabled");
-                                $('select[name="itemsType'+i+'"]').empty();
-                                $('input[name="itemPrice'+i+'"]').val("");
-                            }
-                        });
+                        for(var n=0;n<addOutBillList.length;n++){
+                            $('select[name="itemsName'+i+'"]').find("option:selected").val(addOutBillList[0].goodsID);
+                            $('select[name="itemsType'+i+'"]').append("<option value='"+addOutBillList[n].itemsType+"'>"+addOutBillList[n].itemsType+"</option>");
+                            $('input[name="itemPrice'+i+'"]').val(addOutBillList[0].thisPrice);
+                            $('input[name="itemNum'+i+'"]').attr("max",addOutBillList[0].thisAmount);
+                            $('select[name="storePosition'+i+'"]').append("<option value='"+addOutBillList[0].storePosition+"'>"+addOutBillList[0].storePosition+"</option>");
+                        }
+
                         form.render();
                     }
                 })
@@ -263,19 +256,13 @@ function removeTr(obj) {
 
 //删除原有数据
 function delTr(obj) {
-    console.log(obj);
     var trName=$(obj).parents("tr").attr("name");
-
-    console.log("1:"+trName);
     var count = trName.substring(2);
-    console.log("2:"+count);
     var itemsOutID = "itemsOutID"+count
     var itemsOutIDVal = $('input[name="'+itemsOutID+'"]').val();
-    console.log("3:"+itemsOutIDVal);
     if (!confirm("删除后将无法恢复，是否确认删除？")) {
         return;
     }
-    console.log(getContextPath())
     $.ajax({
         url:getContextPath()+"itemsOut/delByItemsOutID",
         type:"post",

@@ -99,6 +99,8 @@
                     ,range: true
                 });
             });
+            $("#test10").val(timeRange);
+            $('#name').val(name);
         });
 
 

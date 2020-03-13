@@ -95,25 +95,42 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 summaryByGoodsIDAndTimeAfter) {
             //修改删除的对应月
             if (s.getTime().equals(outTime)) {
-                s.setOutAmount(s.getOutAmount()-itemsOut.getItemNum());
-                s.setOutTotal(s.getOutTotal()-itemsOut.getItemTotal());
-                s.setThisAmount(s.getThisAmount()+itemsOut.getItemNum());
-                s.setThisTotal(s.getThisTotal()+itemsOut.getItemTotal());
+                s.setOutAmount(0);
+                s.setOutTotal(0d);
+
+                s.setThisAmount(s.getPreAmount()+s.getInAmount());
+                s.setThisTotal(s.getPreTotal()+s.getInTotal());
+                if(s.getThisAmount()==0){
+                    s.setThisPrice(0.0);
+                }else{
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
             }
             if (!s.getTime().equals(outTime)) {
                 s.setPreAmount(s.getPreAmount()+itemsOut.getItemNum());
                 s.setPreTotal(s.getPreTotal()+itemsOut.getItemTotal());
-                s.setThisAmount(s.getThisAmount()+itemsOut.getItemNum());
-                s.setThisTotal(s.getThisTotal()+itemsOut.getItemTotal());
+                if(s.getPreAmount()==0){
+                    s.setPrePrice(0.0);
+                }else{
+                    s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
+                s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
+                s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                if(s.getThisAmount()==0){
+                    s.setThisPrice(0.0);
+                }else{
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
             }
 
             summaryDao.updateSummary(s);
         }
         int i = itemsOutDao.delItemsOutByID(itemsOutID);
          //若出库单合计减去当前商品合计<=0,则删除该出库单
-        if ((outBill.getAllTotal()-itemsOut.getItemTotal())<=0){
+        if ((outBill.getAllTotal())<=0){
             return outBillDao.delOutBillByOutBillID(outBill.getOutBillID());
         }
+        System.out.println("2222222222222222222222");
          return i;
     }
 
