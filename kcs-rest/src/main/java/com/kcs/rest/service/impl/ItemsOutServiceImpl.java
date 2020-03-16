@@ -130,7 +130,6 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         if ((outBill.getAllTotal())<=0){
             return outBillDao.delOutBillByOutBillID(outBill.getOutBillID());
         }
-        System.out.println("2222222222222222222222");
          return i;
     }
 

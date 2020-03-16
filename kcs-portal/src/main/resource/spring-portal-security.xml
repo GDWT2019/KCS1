@@ -17,7 +17,8 @@
     <security:http pattern="/failer.jsp" security="none"/>
     <security:http pattern="/css/**" security="none"/>
     <security:http pattern="/img/**" security="none"/>
-    <security:http pattern="/plugins/**" security="none"/>
+    <security:http pattern="/js/**" security="none"/>
+    <security:http pattern="/static/**" security="none"/>
 
 
 

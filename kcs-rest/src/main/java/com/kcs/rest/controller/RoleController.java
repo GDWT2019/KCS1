@@ -127,6 +127,7 @@ public class RoleController {
     public KcsResult delRolePermission(@RequestParam("roleID") String roleID, @RequestParam("permissionID") String permissionID){
         int rid = Integer.parseInt(roleID);
         int pid = Integer.parseInt(permissionID);
+        System.out.println(rid+"ddddd"+pid);
         Integer integer = roleService.delRolePermission( rid, pid);
         return KcsResult.ok(integer);
     }

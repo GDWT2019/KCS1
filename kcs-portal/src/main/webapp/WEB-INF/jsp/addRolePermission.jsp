@@ -61,7 +61,9 @@
                 success:function (result) {
                     if (result!=null) {
                         var data = JSON.parse(result);
-                        layer.alert(data.mesg)
+                        layer.alert(data.mesg,function () {
+                            window.parent.layer.closeAll()
+                        })
                     }else
                         layer.alert("程序错误！")
                 },

@@ -74,13 +74,13 @@
         select * from [User] where UserID = #{userid}
     </select>
 
-    <!--<select id="findByLoginName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >-->
-        <!--select *  from  [User]  where  LoginName = #{LoginName}-->
-    <!--</select>-->
-
-    <select id="findByName" resultType="com.kcs.rest.pojo.User">
-        select *  from  [User]  where  LoginName like '%${name}%' or UserName like '%${name}%'
+    <select id="findByLoginName" resultType="com.kcs.rest.pojo.User" parameterType="java.lang.String" >
+        select *  from  [User]  where  LoginName = #{LoginName}
     </select>
+
+    <!--<select id="findByName" resultType="com.kcs.rest.pojo.User">
+        select *  from  [User]  where  LoginName like '%${name}%' or UserName like '%${name}%'
+    </select>-->
 
     <select id="count" resultType="int">
         select count(*) from [User]

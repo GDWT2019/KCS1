@@ -74,10 +74,10 @@
     <delete id="delRolePermission" parameterType="int" >
         delete from RolePermission
         where 1= 1
-        <if test="RoleID != 0 and RoleID !='' ">
+        <if test="roleID != 0 and roleID !='' ">
             and RoleID = #{roleID}
         </if>
-        <if test="PermissionID != 0 and PermissionID !='' ">
+        <if test="permissionID != 0 and permissionID !='' ">
             and PermissionID = #{permissionID}
         </if>
     </delete>
