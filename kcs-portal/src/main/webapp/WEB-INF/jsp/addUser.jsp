@@ -182,7 +182,9 @@
 
         form.on('switch(switchTest1)', function(){
             warehouseMark= this.checked ? 'true' : 'false'
-    });
+
+        });
+
         form.on('switch(switchTest2)', function(){
             listerMark = this.checked ? 'true' : 'false'
         });
@@ -201,7 +203,6 @@
             var note = $("#note").val();
 
 
-            layer.alert(warehouseMark + listerMark)
             $.ajax({
                 url:"${pageContext.request.contextPath}/user/addUser",
                 type:"post",

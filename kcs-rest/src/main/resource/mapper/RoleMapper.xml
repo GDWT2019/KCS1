@@ -86,7 +86,7 @@
         select * from
         RolePermission
         where 1=1
-        <if test="RoleID != 0 and RoleID !='' ">
+        <if test="oleID != 0 and RoleID !='' ">
             and RoleID = #{roleID}
         </if>
         <if test="PermissionID != 0 and PermissionID !='' ">
