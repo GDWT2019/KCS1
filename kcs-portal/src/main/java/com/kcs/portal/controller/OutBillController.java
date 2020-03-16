@@ -9,6 +9,7 @@ import com.kcs.rest.utils.GetTime;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +72,7 @@ public class OutBillController {
 
     //跳转到outBillData页面
     @RequestMapping("/showAllOutBill")
+    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库,ROLE_ADMIN')")
     public String showAllOutBill(){
         return "outBillData";
     }
@@ -110,6 +112,7 @@ public class OutBillController {
 
     //跳转到addOutBill页面
     @RequestMapping("/showAddOutBill")
+    @PreAuthorize("hasAnyAuthority('添加出库,出库,ROLE_ADMIN')")
     public String showAddOutBill(Model model){
 
         //查找所有类型
@@ -214,6 +217,7 @@ public class OutBillController {
     }
 
     @RequestMapping(value = "/showUpdateOutBill",method= RequestMethod.GET)
+    @PreAuthorize("hasAnyAuthority('出库修改,出库,ROLE_ADMIN')")
     public String showUpdateOutBill(HttpServletRequest request, Model model){
         int outBillID =Integer.valueOf(request.getParameter("outBillID"));
         List<OutBillPresent> outBillPresentList = outBillService.findOutBillPresentByOutBillID(outBillID);
@@ -263,6 +267,7 @@ public class OutBillController {
     }
 
     @RequestMapping("/checkOutBill")
+    @PreAuthorize("hasAnyAuthority('出库审批,出库,ROLE_ADMIN')")
     public String checkInBill(){
         return "checkOutBill";
     }

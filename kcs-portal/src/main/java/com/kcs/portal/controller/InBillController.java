@@ -9,6 +9,7 @@ import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +45,7 @@ public class InBillController {
 
 
     @RequestMapping("/addInBill")
+    @PreAuthorize("hasAnyAuthority('添加入库,入库,ROLE_ADMIN')")
     public String AddInBill(HttpServletRequest request) {
 
         Date reDate = new Date(System.currentTimeMillis());
@@ -57,6 +59,7 @@ public class InBillController {
     }
 
     @RequestMapping("/checkInBill")
+    @PreAuthorize("hasAnyAuthority('入库审批,入库,ROLE_ADMIN')")
     public String checkInBill(HttpServletRequest request) {
 
         Date reDate = new Date(System.currentTimeMillis());
@@ -68,6 +71,7 @@ public class InBillController {
 
     //返回用户数据页面
     @RequestMapping("/rInBill")
+    @PreAuthorize("hasAnyAuthority('入库查询全部记录,入库,ROLE_ADMIN')")
     public String RInBill() {
         return "InBill";
     }
@@ -214,6 +218,7 @@ public class InBillController {
 
     //插入物品到入库单
     @RequestMapping("/updateBill")
+    @PreAuthorize("hasAnyAuthority('入库修改,入库,ROLE_ADMIN')")
     @ResponseBody
     public void updateBill(HandleAffair list, HttpServletRequest request) {
         String inBillTime = request.getParameter("InBillTime");
