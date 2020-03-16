@@ -23,7 +23,7 @@
         <input type="text" class="layui-input" id="itemName" placeholder="请输入物品名">
     </div>
     <input  type="button" class="layui-btn" id="search" value="搜索">
-    <a href="${pageContext.request.contextPath }/summary/poiSummary">导出</a>
+    <a href="${pageContext.request.contextPath }/summary/poiSummary" class="layui-btn">导出</a>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
 </div>
 

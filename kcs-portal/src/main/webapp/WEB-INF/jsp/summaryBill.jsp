@@ -22,7 +22,7 @@
         <input type="text" class="layui-input" id="time1" name="time" placeholder="yyyy-MM">
     </div>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
-<a href="${pageContext.request.contextPath }/summary/poiSummary">导出</a>
+<a href="${pageContext.request.contextPath }/summary/poiSummary" class="layui-btn">导出</a>
 </div>
 <table class="layui-table" id="test" lay-filter="test"></table>
 

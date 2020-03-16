@@ -30,4 +30,7 @@ public interface ItemInService {
     void delItemByInBillID(int inBillID);
 
     void delItemByInBillIDandGoodsID(int inBillID, int goodsID);
+
+    ItemIn findItemsInByItemsID(int itemsInID);
+
 }

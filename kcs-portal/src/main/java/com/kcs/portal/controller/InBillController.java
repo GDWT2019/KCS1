@@ -270,11 +270,54 @@ public class InBillController {
             Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
             Integer allInAmout = summaryService.findAllInAmout(itemIn.getGoodsID());
             Integer allOutAmout = summaryService.findAllOutAmout(itemIn.getGoodsID());
-            Integer total = allInAmout - thismonthSummary.getInAmount() + itemIn.getItemNum() - allOutAmout;
-            if (total < 0) {
-                return -1;
+            if (thismonthSummary != null) {
+                Integer total = allInAmout - thismonthSummary.getInAmount() + itemIn.getItemNum() - allOutAmout;
+                if (total < 0) {
+                    return -1;
+                }
+            } else if (thismonthSummary == null) {
+                Integer total = allInAmout + itemIn.getItemNum() - allOutAmout;
+                if (total < 0) {
+                    return -1;
+                }
             }
         }
         return 1;
+    }
+
+    @RequestMapping("/checkInAmountbiggerOutAmonutForDel")
+    @ResponseBody
+    public Integer checkInAmountbiggerOutAmonutForDel(HttpServletRequest request) {
+        String itemsInID = request.getParameter("ItemsInID");
+        ItemIn delItem = itemInService.findItemsInByItemsID(itemsInID);
+        Integer allInAmout = summaryService.findAllInAmout(delItem.getGoodsID());
+        Integer allOutAmout = summaryService.findAllOutAmout(delItem.getGoodsID());
+        Integer total = allInAmout - delItem.getItemNum() - allOutAmout;
+        if (total < 0) {
+            return -1;
+        } else {
+
+            return 1;
+        }
+    }
+
+    @RequestMapping("/checkInAmountbiggerOutAmonutForRemove")
+    @ResponseBody
+    public Integer checkInAmountbiggerOutAmonutForRemove(HttpServletRequest request) {
+        Integer itemsNum = Integer.parseInt(request.getParameter("itemsNum"));
+        String itemsName = request.getParameter("itemsName");
+        String itemsType = request.getParameter("itemsType");
+        Goods g =new Goods();
+        g.setItemsName(itemsName);
+        g.setItemsType(itemsType);
+        Goods goods = goodsService.findGoodsByItemsNameAndItemsType(g);
+        Integer allInAmout = summaryService.findAllInAmout(goods.getGoodsID());
+        Integer allOutAmout = summaryService.findAllOutAmout(goods.getGoodsID());
+        Integer total = allInAmout - itemsNum - allOutAmout;
+        if (total < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 }

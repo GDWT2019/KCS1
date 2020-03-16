@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.ItemInDao" >
 
+    <select id="findItemsInByItemsID" resultType="com.kcs.rest.pojo.ItemIn" parameterType="int">
+        select  * from ItemsIn where ItemsInID=#{itemsInID}
+    </select>
+
     <select id="findAllTotal" resultType="Float">
         select SUM(ItemTotal) from ItemsIn where InBillID = #{inBillID}
     </select>

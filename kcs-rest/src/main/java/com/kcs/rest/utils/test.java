@@ -45,7 +45,13 @@ public class test {
     private PermissionDao permissionDao;
 
 
-
+    @Test
+    public void test29(){
+        ItemIn ite = itemInDao.findItemsInByItemsID(200);
+        Integer itemNum = ite.getItemNum();
+        System.out.println(ite);
+        System.out.println(itemNum);
+    }
 
     @Test
     public void test28(){

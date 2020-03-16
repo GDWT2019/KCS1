@@ -102,4 +102,19 @@ public class ItemInServiceImpl implements ItemInService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public ItemIn findItemsInByItemsID(String itemsInID) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/itemIn/findItemsInByItemsID"+itemsInID);
+            KcsResult result = KcsResult.formatToPojo(s, ItemIn.class);
+            if (result.getStatus() == 200) {
+                ItemIn itemIn = (ItemIn) result.getData();
+                return itemIn;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

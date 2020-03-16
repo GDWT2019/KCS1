@@ -31,6 +31,7 @@
         </select>
     </div>
     <input type="button" class="layui-btn" id="search"  value="搜索">
+    <button class="layui-btn " id="export" >导出</button>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
 </div>
 
@@ -44,13 +45,12 @@
                 <button class="layui-btn layui-btn-sm" id="newInBill">添加入库</button>
             </div>
             <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm export" id="export" >导出所有数据报表</button>
+
             </div>
 
         </div>
     </div>
     </div>
-
 
     <!--导出表 不展示-->
     <div style="display: none;">
@@ -180,23 +180,41 @@
                 layer.confirm('确定删除吗？', {
                     btn: ['确定', '取消'] //可以无限个按钮
                     ,btn1: function(index, layero){
+
                         $.ajax({
-                            url:'${pageContext.request.contextPath }/itemIn/delItem'
-                            ,data:{"ItemsInID":data.itemsInID,"inBillID":data.inBillID},
-                            success:function(){
-                                layer.msg("删除成功！");
+                            type: "POST",
+                            url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonutForDel",
+                            data: {"ItemsInID":data.itemsInID},
+                            success: function (htq) {
+                                if (htq == 1) {
+                                    $.ajax({
+                                        url:'${pageContext.request.contextPath }/itemIn/delItem'
+                                        ,data:{"ItemsInID":data.itemsInID,"inBillID":data.inBillID},
+                                        success:function(){
+                                            layer.msg("删除成功！",function(){
+                                                location.reload();
+                                            });
+                                        },
+                                        error:function () {
+                                            layer.msg("删除失败！");
+                                        }
+                                    });
+                                }else{
+                                    layer.msg("入库数小于出库数！删除失败！");
+                                }
                             },
-                            error:function () {
-                                layer.msg("删除失败！");
+                            error: function () {
+                                layer.alert("删除失败！");
                             }
                         });
+
                     }
                     ,btn2: function(index, layero){
                         layer.close();
                     }
-                    ,end:function () {
+                   /* ,end:function () {
                         location.reload();
-                    }
+                    }*/
                 });
             }
         });

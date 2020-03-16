@@ -411,29 +411,52 @@
     }
 
     function delTr(el) {
-        el = getParent(el, 'TR');
-        var rowIndex = el.rowIndex;
-        if (rowIndex > 1) {
-            el = getParent(el, 'TABLE');
-            el.deleteRow(rowIndex);
-            var altotal = 0;
-            var length = $("#table").find("tr").length; //行数
-            console.log("length" + length);
-            for (i = 1; i < length; i++) {
-                var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
-                altotal = Number(altotal) + Number(text);
+        var length1 = $("#table").find("tr").length;
+        for (i = 1; i < length1; i++) {
+            var itemsName = $("#table").find("tr").eq(i).find("td").eq(1).find("input").val();
+            var itemsType = $("#table").find("tr").eq(i).find("td").eq(3).find("input").val();
+            var itemsNum = $("#table").find("tr").eq(i).find("td").eq(4).find("input").val();
+        }
 
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonutForRemove",
+            data: {"itemsType": itemsType, "itemsName": itemsName,"itemsNum":itemsNum},
+            success: function (htq) {
+                if (htq == 1) {
+                    el = getParent(el, 'TR');
+                    var rowIndex = el.rowIndex;
+                    if (rowIndex > 1) {
+                        el = getParent(el, 'TABLE');
+                        el.deleteRow(rowIndex);
+                        var altotal = 0;
+                        var length = $("#table").find("tr").length; //行数
+                        console.log("length" + length);
+                        for (i = 1; i < length; i++) {
+                            var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
+                            altotal = Number(altotal) + Number(text);
+
+                        }
+                        $("#alTotal").val(altotal.toFixed(2));
+                        layui.use(['form'], function () {
+                            var form = layui.form;
+                            $("#alTotal").val(altotal.toFixed(2));
+                            form.render();
+                        })
+                    }
+                    else {
+                        layer.alert("删除失败！");
+                    }
+                }else{
+                    layer.alert("入库数小于出库数！");
+                }
+            },
+            error: function () {
+                layer.alert("修改失败！");
             }
-            $("#alTotal").val(altotal.toFixed(2));
-            layui.use(['form'], function () {
-                var form = layui.form;
-                $("#alTotal").val(altotal.toFixed(2));
-                form.render();
-            })
-        }
-        else {
-            layer.alert("删除失败！");
-        }
+        });
+
+
 
     }
 
