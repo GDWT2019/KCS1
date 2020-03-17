@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable {
     private int PositionID;
     private String PositionName;
 

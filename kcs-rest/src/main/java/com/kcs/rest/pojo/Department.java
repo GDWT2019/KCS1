@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Department {
+import java.io.Serializable;
+
+public class Department implements Serializable {
     private Integer DepartmentID;       //部门id
 
     private String DepartmentName;      //部门名称

@@ -1,8 +1,9 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OutBill {
+public class OutBill  implements Serializable {
     private Integer OutBillID;      //出库清单id
 
     private String OutTime;           //出库时间

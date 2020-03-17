@@ -81,4 +81,14 @@ public class ItemInController {
         return KcsResult.ok(ItemInList);
     }
 
+    @RequestMapping("/findItemsInByItemsID{itemsInID}")
+    @ResponseBody
+    public KcsResult findItemsInByItemsID(@PathVariable int itemsInID){
+        ItemIn itemIn = itemInService.findItemsInByItemsID(itemsInID);
+        if (itemIn != null) {
+            return KcsResult.ok(itemIn);
+        } else
+            return KcsResult.build(500, "根据入库ID，未找到对应物品");
+    }
+
 }

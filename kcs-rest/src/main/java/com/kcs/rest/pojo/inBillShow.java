@@ -1,10 +1,12 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
+
 /**
  * 入库明细表字段    入库物品表和用户表和入库明细表的集合
  */
 
-public class inBillShow {
+public class inBillShow implements Serializable {
     private Integer ItemsInID;
     private Integer InBillID;
     private Integer GoodsID;

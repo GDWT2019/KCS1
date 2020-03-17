@@ -5,6 +5,7 @@ import com.kcs.portal.service.LogService;
 import com.kcs.rest.pojo.LogPresent;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,11 +24,13 @@ public class LogController {
     private UserService userService;
 
     @RequestMapping("/showAllLog")
+    @PreAuthorize("hasAnyAuthority('查看日志,日志,ROLE_ADMIN')")
     public String showLog(){
         return "logData";
     }
 
     @RequestMapping(value = "/findAllLog",produces="text/html;charset=utf-8")
+    @PreAuthorize("hasAnyAuthority('查看日志,日志,ROLE_ADMIN')")
     @ResponseBody
     public String findLogByTimeUserID(HttpServletRequest request,String time1,String time2,String name){
         int page = Integer.parseInt(request.getParameter("page"));

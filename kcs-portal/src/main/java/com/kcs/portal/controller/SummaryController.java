@@ -1,14 +1,22 @@
 package com.kcs.portal.controller;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.kcs.portal.service.SummaryService;
 import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
+import net.sf.json.JSONArray;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import net.sf.json.JSONArray;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Controller("summaryController")
@@ -106,5 +114,27 @@ public class SummaryController {
         }
 
 
+        /*@RequestMapping("/poiSummary")
+        public void  poiSummary(HttpServletResponse response){
+            summaryService.export();
+        }*/
+
+    @RequestMapping("/poiSummary")
+    public void  poiSummary1(HttpServletResponse response){
+        List<SummartAndGoodsAndCategory> list=summaryService.summartyAllData();
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("汇总表","汇总"),SummartAndGoodsAndCategory .class, list);
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("content-Type", "application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("汇总.xls", "UTF-8"));
+            response.setHeader("Pragma", "No-cache");//设置不要缓存
+            OutputStream outputStream = response.getOutputStream();
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 

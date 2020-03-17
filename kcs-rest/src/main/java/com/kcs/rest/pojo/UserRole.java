@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class UserRole {
+import java.io.Serializable;
+
+public class UserRole implements Serializable {
 
     private int UserID;     //用户id
 

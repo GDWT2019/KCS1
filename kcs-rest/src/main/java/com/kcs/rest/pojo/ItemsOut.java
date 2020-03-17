@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class ItemsOut {
+import java.io.Serializable;
+
+public class ItemsOut implements Serializable {
     private Integer ItemsOutID;     //出库物品id
 
     private Integer DepartmentID;       //部门id

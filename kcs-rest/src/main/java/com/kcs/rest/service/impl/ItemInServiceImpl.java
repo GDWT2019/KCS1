@@ -85,7 +85,13 @@ public class ItemInServiceImpl implements ItemInService {
             summary1.setOutTotal(0.0);
             summary1.setThisAmount(summary1.getPreAmount()+summary1.getInAmount()-summary1.getOutAmount());
             summary1.setThisTotal(summary1.getPreTotal()+summary1.getInTotal()-summary1.getOutTotal());
-            summary1.setThisPrice(new BigDecimal(summary1.getThisTotal()/summary1.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(summary1.getThisAmount()==0){
+                    summary1.setThisPrice(0.0);
+                }else{
+                    summary1.setThisPrice(new BigDecimal(summary1.getThisTotal()/summary1.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
+
+
             summary1.setTime(subTime);
             summaryDao.insertSummary(summary1);
                 List<Summary> timeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(goodsID, subTime);
@@ -124,7 +130,12 @@ public class ItemInServiceImpl implements ItemInService {
                 summary2.setOutTotal(0.0);
                 summary2.setThisAmount(summary2.getPreAmount() + summary2.getInAmount()- summary2.getOutAmount());
                 summary2.setThisTotal(summary2.getPreTotal()+summary2.getInTotal()-summary2.getOutTotal());
-                summary2.setThisPrice(new BigDecimal(summary2.getThisTotal()/summary2.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(summary2.getThisAmount()==0){
+                    summary2.setThisPrice(0.0);
+                }else{
+                    summary2.setThisPrice(new BigDecimal(summary2.getThisTotal()/summary2.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
+
                 summary2.setTime(subTime);
                 summaryDao.insertSummary(summary2);
                 List<Summary> timeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(goodsID, subTime);
@@ -365,5 +376,10 @@ public class ItemInServiceImpl implements ItemInService {
             }
 
         }
+    }
+
+    @Override
+    public ItemIn findItemsInByItemsID(int itemsInID) {
+        return itemInDao.findItemsInByItemsID(itemsInID);
     }
 }

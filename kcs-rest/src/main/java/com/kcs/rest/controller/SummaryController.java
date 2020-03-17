@@ -1,13 +1,22 @@
 package com.kcs.rest.controller;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import com.kcs.rest.service.SummaryService;
+import com.kcs.rest.utils.FileUtil;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 @Controller("summaryController")
@@ -102,11 +111,10 @@ public class SummaryController {
     //获取全部显示数据
     @RequestMapping(value="summartyAllData",method= RequestMethod.GET)
     @ResponseBody
-    public KcsResult summartyAllData(){
+    public KcsResult summartyAllData(HttpServletResponse response){
 
 
         List<SummartAndGoodsAndCategory> summartyAllData = summaryService.summartyAllData();
-
         return KcsResult.ok(summartyAllData);
     }
 
@@ -148,6 +156,24 @@ public class SummaryController {
         int gid = Integer.parseInt(goodsID);
         int thisTotal = summaryService.getThisAmount(gid, time);
         return KcsResult.ok(thisTotal);
+    }
+
+    @RequestMapping("/poiSummary")
+    public void  poiSummary(HttpServletResponse response){
+        List<SummartAndGoodsAndCategory> list=summaryService.summartyAllData();
+        Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("汇总表","汇总"),SummartAndGoodsAndCategory .class, list);
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("content-Type", "application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("汇总.xls", "UTF-8"));
+            response.setHeader("Pragma", "No-cache");//设置不要缓存
+            OutputStream outputStream = response.getOutputStream();
+            workbook.write(outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

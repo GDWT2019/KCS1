@@ -10,11 +10,11 @@ import com.kcs.rest.pojo.User;
 import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +33,7 @@ public class RoleController {
 
     @RequestMapping("/addRole")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('角色管理,角色添加,ROLE_ADMIN')")
     public AjaxMesg addRole(String roleName){
 
             Integer integer = roleService.addRole(roleName);
@@ -42,6 +43,7 @@ public class RoleController {
     }
 
     @RequestMapping("/showRoleData")
+    @PreAuthorize("hasAnyAuthority('角色管理,角色查看,ROLE_ADMIN')")
     public String showRoleData(){
         return "roleData";
     }
@@ -63,11 +65,13 @@ public class RoleController {
     }
 
     @RequestMapping("/showAddRole")
+    @PreAuthorize("hasAnyAuthority('角色管理,角色添加,ROLE_ADMIN')")
     public String showAddRole(){
         return "addRole";
     }
 
     @RequestMapping("/showAddUserRole")
+    @PreAuthorize("hasAnyAuthority('用户管理,角色分配,ROLE_ADMIN')")
     public String showAddUserRole(HttpServletRequest request, Model model){
         int userID =Integer.valueOf( request.getParameter("userID"));
         User user = userService.findUserById(userID);
@@ -79,6 +83,7 @@ public class RoleController {
 
     @RequestMapping("/addUserRole")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户管理,角色分配,ROLE_ADMIN')")
     public AjaxMesg addUserRole(int userID,int roleID){
         Integer i = roleService.addUserRole(userID, roleID);
         if (i<0)
@@ -88,6 +93,7 @@ public class RoleController {
 
     @RequestMapping("/delUserRole")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('用户管理,角色删除,ROLE_ADMIN')")
     public AjaxMesg delUserRole(int userID,int roleID){
         Integer i = roleService.delUserRoleByUserID_RoleID(userID, roleID);if (i<0)
             return new AjaxMesg(false,"删除角色失败！");
@@ -95,6 +101,7 @@ public class RoleController {
     }
 
     @RequestMapping("/showRolePermission")
+    @PreAuthorize("hasAnyAuthority('角色管理,权限分配,ROLE_ADMIN')")
     public String showRolePermission(HttpServletRequest request,Model model){
         int roleID =Integer.valueOf(request.getParameter("roleID"));
         Role role = roleService.findRoleByID(roleID);
@@ -104,6 +111,7 @@ public class RoleController {
 
     @RequestMapping(value = "/rolePermission",method= RequestMethod.GET,produces ="text/html;charset=utf-8")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('角色管理,权限分配,ROLE_ADMIN')")
     public String RolePermission(HttpServletRequest request,Model model){
         int roleID = Integer.valueOf(request.getParameter("roleID"));
         int page = Integer.parseInt(request.getParameter("page"));
@@ -123,6 +131,7 @@ public class RoleController {
     }
 
     @RequestMapping("/showAddRolePermission")
+    @PreAuthorize("hasAnyAuthority('角色管理,权限分配,ROLE_ADMIN')")
     public String showAddRolePermission(HttpServletRequest request,Model model){
         int roleID =Integer.valueOf( request.getParameter("roleID"));
         Role role = roleService.findRoleByID(roleID);
@@ -134,6 +143,7 @@ public class RoleController {
 
 
     @RequestMapping("/showUpdateRole")
+    @PreAuthorize("hasAnyAuthority('角色管理,角色修改,ROLE_ADMIN')")
     public String showUpdateRole(HttpServletRequest request,Model model){
         int roleID =Integer.valueOf( request.getParameter("roleID"));
         Role role = roleService.findRoleByID(roleID);
@@ -143,6 +153,7 @@ public class RoleController {
 
     @RequestMapping("/delRolePermission")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('角色管理,角色删除,ROLE_ADMIN')")
     public AjaxMesg delRolePermission(int roleID,int permissionID){
 
         int i = roleService.delRolePermission(roleID, permissionID);
@@ -156,6 +167,7 @@ public class RoleController {
 
     @RequestMapping("/updateRole")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('角色管理,角色修改,ROLE_ADMIN')")
     public AjaxMesg updateRole(Role role){
 
         int i = roleService.updateRole(role);
@@ -169,6 +181,7 @@ public class RoleController {
 
     @RequestMapping("/delRole")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('角色管理,角色删除,ROLE_ADMIN')")
     public AjaxMesg delRole(int roleID){
 
         int i = roleService.delRole(roleID);

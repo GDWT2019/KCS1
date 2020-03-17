@@ -23,4 +23,7 @@ public interface ItemInService {
     void delItemByInBillID(String inBillID);
 
     void delItemByInBillIDandGoodsID(String inBillID, Integer goodsID);
+
+    ItemIn findItemsInByItemsID(String itemsInID);
+
 }

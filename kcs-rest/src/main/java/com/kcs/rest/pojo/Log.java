@@ -1,6 +1,8 @@
 package com.kcs.rest.pojo;
 
-public class Log {
+import java.io.Serializable;
+
+public class Log implements Serializable {
     private int LogID;      //日志id
 
     private int UserID;     //用户id

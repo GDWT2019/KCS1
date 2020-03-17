@@ -1,10 +1,11 @@
 package com.kcs.rest.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.kcs.rest.pojo.Category;
 
-public class Goods {
+public class Goods implements Serializable {
     private Integer GoodsID;        //物品id
 
     private Integer CategoryID;     //类别id
