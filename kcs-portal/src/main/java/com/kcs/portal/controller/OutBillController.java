@@ -80,6 +80,7 @@ public class OutBillController {
     //获取所有出库表数据
     @RequestMapping(value = "/getAllOutBill",produces="text/html;charset=utf-8")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库,ROLE_ADMIN')")
     public String allOutBill(HttpServletRequest request){
 
         int page = Integer.parseInt(request.getParameter("page"));
@@ -274,6 +275,7 @@ public class OutBillController {
 
     //获取所有出库表数据
     @RequestMapping("/outBillPresentByOutBillID")
+    @PreAuthorize("hasAnyAuthority('出库审批,出库,ROLE_ADMIN')")
     public String OutBillPresentByOutBillID(int outBillID,Model model){
         List<OutBillPresent> allOutBillPresent = outBillService.findOutBillPresentByOutBillID(outBillID);
         model.addAttribute("outBillPresentList",allOutBillPresent);
@@ -351,5 +353,20 @@ public class OutBillController {
         }
 
         return new AjaxMesg(true,"恭喜，修改成功！");
+    }
+
+    @RequestMapping(value = "outBillPrint", produces = "text/html;charset=utf-8")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('出库导出,出库,ROLE_ADMIN')")
+    public String outBillPrint(HttpServletRequest request) {
+
+        List<OutBillPresent> allOutBillPresentPrint = outBillService.findAllOutBillPresentPrint();
+        int count =  allOutBillPresentPrint.size();
+        request.getSession().setAttribute("count",count);
+
+        JSONArray json = JSONArray.fromObject(allOutBillPresentPrint);
+        String js = json.toString();
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
+        return jso;
     }
 }

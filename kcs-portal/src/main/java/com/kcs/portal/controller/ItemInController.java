@@ -8,6 +8,7 @@ import com.kcs.rest.pojo.ItemIn;
 import com.kcs.rest.pojo.ItemsShow;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,6 +42,7 @@ public class ItemInController  {
 
     @RequestMapping("/delItem")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('入库删除,入库,ROLE_ADMIN')")
     public void delItem(HttpServletRequest request){
         String itemsInID = request.getParameter("ItemsInID");
         itemInService.delItem(itemsInID);
@@ -62,6 +64,7 @@ public class ItemInController  {
 
     //跳转编辑页面
     @RequestMapping("/updateInBill")
+    @PreAuthorize("hasAnyAuthority('入库修改,入库,ROLE_ADMIN')")
     public String updateInBill(HttpServletRequest request){
         String inBillID = request.getParameter("inBillID");
         List<GoodsAndCategoryAndItemsIn> itemInList=itemInService.getItemsInList(inBillID);

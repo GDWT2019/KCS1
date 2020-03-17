@@ -14,4 +14,6 @@ public interface OutBillPresentDao {
 
     //查找总数
     Integer outBillPresentCount(@Param("time1") String time1,@Param("time2") String time2,@Param("itemName") String itemName,@Param("checkStatus") int checkStatus);
+
+    List<OutBillPresent> findAllOutBillPresentPrint();
 }

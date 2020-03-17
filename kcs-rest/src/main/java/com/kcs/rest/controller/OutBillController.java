@@ -163,4 +163,12 @@ public class OutBillController {
         }else
             return KcsResult.build(500, "更新失败！");
     }
+
+    //获取入库显示数据
+    @RequestMapping(value="outBillPresentPrint")
+    @ResponseBody
+    public KcsResult outBillPresentPrint(){
+        List<OutBillPresent> outBillPresents = outBillPresentService.findAllOutBillPresentPrint();
+        return KcsResult.ok(outBillPresents);
+    }
 }

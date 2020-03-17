@@ -9,4 +9,5 @@ public interface OutBillPresentService {
     List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID);
     //查找总数
     Integer outBillPresentCount(String time1, String time2, String itemName,int checkStatus);
+    List<OutBillPresent> findAllOutBillPresentPrint();
 }

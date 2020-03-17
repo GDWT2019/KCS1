@@ -3,6 +3,7 @@ package com.kcs.portal.controller;
 import com.kcs.portal.service.ItemsOutService;
 import com.kcs.rest.utils.AjaxMesg;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +17,7 @@ public class ItemsOutController {
 
     @RequestMapping("/delByItemsOutID")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('出库删除,出库,ROLE_ADMIN')")
     public AjaxMesg delByItemsOutID(int itemsOutID){
         int i = itemsOutService.delItemsOutByID(itemsOutID);
 

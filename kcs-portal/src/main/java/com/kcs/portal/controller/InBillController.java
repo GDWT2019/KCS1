@@ -79,6 +79,7 @@ public class InBillController {
     //获取入库单数据数据
     @RequestMapping(value = "InBillPrint", produces = "text/html;charset=utf-8")
     public @ResponseBody
+    @PreAuthorize("hasAnyAuthority('入库导出,入库,ROLE_ADMIN')")
     String InBillPrint(HttpServletRequest request) {
 
         List<inBillShow> list = inBillService.findInBillShow();
@@ -94,6 +95,7 @@ public class InBillController {
 
     //获取入库单数据数据
     @RequestMapping(value = "inBillShowData", produces = "text/html;charset=utf-8")
+    @PreAuthorize("hasAnyAuthority('入库查询全部记录,入库,ROLE_ADMIN')")
     public @ResponseBody
     String InBillData(HttpServletRequest request) {
         int page = Integer.parseInt(request.getParameter("page"));

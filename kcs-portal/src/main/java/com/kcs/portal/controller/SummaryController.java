@@ -3,6 +3,7 @@ package com.kcs.portal.controller;
 import com.kcs.portal.service.SummaryService;
 import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,6 +42,7 @@ public class SummaryController {
 
     //获取汇总单数据数据
     @RequestMapping(value="summartyBillData",produces="text/html;charset=utf-8")
+    @PreAuthorize("hasAnyAuthority('库存查询,库存查询本人记录,ROLE_ADMIN')")
     public @ResponseBody
     String summartyBillData(HttpServletRequest request){
         int page = Integer.parseInt(request.getParameter("page"));

@@ -69,4 +69,14 @@
         and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
         order by [OutBill].OutBillID asc
     </select>
+    <select id="findAllOutBillPresentPrint" resultType="com.kcs.rest.pojo.OutBillPresent">
+        select  * from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
+        where [ItemsOut].OutBillID=[OutBill].OutBillID
+        and [ItemsOut].GoodsID=[Goods].GoodsID
+        and [ItemsOut].DepartmentID=[Department].DepartmentID
+        and	[Goods].CategoryID=[Category].CategoryID
+        and [Goods].GoodsID=[Summary].GoodsID
+        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
+        order by [OutBill].OutTime desc
+    </select>
 </mapper>

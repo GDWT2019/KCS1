@@ -25,4 +25,5 @@ public interface OutBillService {
 
     int CountItemOutRecord(int goodsID);
 
+    List<OutBillPresent> findAllOutBillPresentPrint();
 }
