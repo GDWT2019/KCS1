@@ -266,6 +266,7 @@ public class InBillController {
                     itemInService.insertNewItem(itemIn); //向新单号插入物品
                 }
             }
+
         }
     }
 

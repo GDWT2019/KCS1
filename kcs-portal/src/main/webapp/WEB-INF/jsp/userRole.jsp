@@ -35,7 +35,6 @@
             ,title: '用户角色'
             ,totalRow: true//开启合计行
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
                 ,{type:'numbers',title:'序号'}
                 ,{field:'roleName', title:'角色', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}

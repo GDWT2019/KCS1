@@ -46,7 +46,6 @@ public class ItemInController  {
     public void delItem(HttpServletRequest request){
         String itemsInID = request.getParameter("ItemsInID");
         itemInService.delItem(itemsInID);
-
     }
 
   /*  @RequestMapping("/delItemByInBillID")

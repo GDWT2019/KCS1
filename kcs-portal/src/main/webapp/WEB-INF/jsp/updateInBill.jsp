@@ -305,7 +305,7 @@
     </div>
     <div class="layui-row">
         <div  style="float: right; margin-right: 30px;">
-            <button onclick="updateBill()" class="layui-btn layui-btn-lg">
+            <button onclick="checkUpdateBill()" class="layui-btn layui-btn-lg">
                 修改入库单
             </button>
         </div>
@@ -317,6 +317,72 @@
         var form = layui.form;
         form.render();   //重新渲染新增的行中select的信息
     });
+
+    function checkUpdateBill() {
+        //入库日期
+        var time = $("#InBillTime").val();
+        //供应商
+        var provider = $("#providerID").val();
+
+        //仓管员id
+        var warehouse = Number($("#warehouse").val());
+        //领用人id
+        var buyer = Number($("#buyer").val());
+        //审批人id
+        var Approvaler = Number($("#Approvaler").val());
+        //制表人id
+        var lister = Number($("#lister").val());
+
+        var alTotal = Number($("#alTotal").text());
+
+        if (IsNull(time)){
+            layer.alert("日期未填写哦！");
+            return false;
+        }
+        if (IsNull(provider)){
+            layer.alert("供应商未填写！");
+            return false;
+        }
+
+        if(IsNull(warehouse)||IsNull(buyer)||IsNull(Approvaler)||IsNull(lister)){
+            layer.alert("还有人员未选择哦！");
+            return false;
+        }
+        //获取最后一行数据的编号,以确定循环次数
+        var trl = document.getElementsByTagName("tr").length;
+        var num = trl-1;
+
+
+
+        for(var i =1;i<=num;i++){
+            // var goods = Number($('select[name="itemInList['+i+'].GoodsID"]').val());
+            var itemsName = $("#itemsName"+i).val();
+            var itemNum = $('input[name="itemInList['+(i-1)+'].ItemNum"]').val();
+
+            var itemPrice = $('input[name="itemInList['+(i-1)+'].ItemPrice"]').val();
+
+            //判断是否为空
+            if (IsNull(itemsName)){
+                layer.alert("品名未选择！");
+                return false;
+            }
+            if (IsNull(itemNum)){
+                layer.alert("数量未填写！");
+                return false;
+            }
+            if (IsNull(itemPrice)){
+                layer.alert("价格未填写！");
+                return false;
+            }
+        }
+       updateBill();
+    }
+
+    function IsNull(exp) {
+        if (exp == "null" || exp =="" || exp == null)
+            return true;
+        return false;
+    }
 
     function updateBill() {
        $.ajax({

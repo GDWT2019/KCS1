@@ -35,8 +35,7 @@
             ,title: '角色权限'
             ,totalRow: true//开启合计行
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{type:'numbers',title:'序号'}
+                {type:'numbers',title:'序号'}
                 ,{field:'permissionName', title:'权限名称', width:150}
                 ,{field:'permissionNum', title:'权限代码', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}

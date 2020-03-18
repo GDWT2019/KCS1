@@ -559,9 +559,6 @@
 	}
 
 	function checkBill() {
-
-
-
 		//出库日期
 		var time = $("#outBillDate").val();
 		//编号

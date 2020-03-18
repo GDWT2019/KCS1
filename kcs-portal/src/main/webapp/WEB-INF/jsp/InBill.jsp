@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
-<div class="demoTable">
+<div class="demoTable" style="white-space: nowrap">
     <div class="layui-inline">
         <button class="layui-btn layui-btn-sm" id="newInBill">添加入库</button>
     </div>
@@ -83,8 +83,7 @@
             ,title: '入库单'
             ,totalRow: false//开启合计行
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{field:'inBillID', title:'入库单号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                {field:'inBillID', title:'入库单号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
                 ,{field:'timeIn', title:'日期', width:160}
                 ,{field:'itemsName', title:'物品名称', width:110}
                 ,{field:'type', title:'物品规格', width:110}
