@@ -44,6 +44,17 @@ public class test {
     @Autowired
     private PermissionDao permissionDao;
 
+    @Test
+    public void test30(){
+        boolean b =true;
+        if(!b){//如果B是false
+            System.out.println(b);
+            System.out.println(1);
+        }else {
+            System.out.println(b);
+            System.out.println(2);
+        }
+    }
 
     @Test
     public void test29(){
@@ -146,13 +157,12 @@ public class test {
     @Test
     public void test19(){
 
-        int re = summaryDao.countReload("re");
-        System.out.println(re);
-
-        List<SummartAndGoodsAndCategory> summartAndGoodsAndCategories = summaryDao.summaryAllCurrentdata(1, 5, "re");
-        for (SummartAndGoodsAndCategory summartAndGoodsAndCategory : summartAndGoodsAndCategories) {
+       /* List<SummartAndGoodsAndCategory> list = summaryDao.summaryAllCurrentdata(1, 10, "2020-02", "2020-03", null);
+        for (SummartAndGoodsAndCategory summartAndGoodsAndCategory : list) {
             System.out.println(summartAndGoodsAndCategory);
-        }
+        }*/
+        int i = summaryDao.countReload(null,null, null);
+        System.out.println(i);
     }
 
     @Test

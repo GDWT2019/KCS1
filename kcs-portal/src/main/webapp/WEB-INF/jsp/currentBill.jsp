@@ -22,6 +22,10 @@
     <div class="layui-inline">
         <input type="text" class="layui-input" id="itemName" placeholder="请输入物品名">
     </div>
+    时间范围：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
+    </div>
     <input  type="button" class="layui-btn" id="search" value="搜索">
     <a href="${pageContext.request.contextPath }/summary/poiSummary" class="layui-btn">导出</a>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
@@ -32,23 +36,6 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-form">
         <div class="layui-form-item">
-           <%-- <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm export" id="daochu">导出所有数据报表</button>
-            </div>--%>
-
-
-            <%--<div class="layui-inline">
-                <label class="layui-form-label" style="width: 100px">物品名：</label>
-                <div class="layui-input-inline">
-                    <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
-                </div>
-            </div>
-
-            <div class="layui-inline">
-                <div class="layui-input-inline">
-                    <input type="button" class="layui-btn" id="search"  value="搜索">
-                </div>
-            </div>--%>
         </div>
     </div>
 
@@ -75,6 +62,15 @@
             form = layui.form,
             table = layui.table;
         var laydate = layui.laydate;
+
+
+            //日期范围
+            //日期时间范围
+            laydate.render({
+                elem: '#timeRange'
+                ,type: 'month'
+                ,range: true
+            });
 
 
         layui.config({
@@ -116,7 +112,7 @@
                 , {field: 'time', title: '时间', width: 150}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
             ]]
-            , where: {"itemName": null}
+            , where: {"time1":null,"time2":null,"itemName": null}
             , page: true
             , limit: 10
             , limits: [1, 5, 10, 20, 30, 50]
@@ -181,13 +177,25 @@
 
         $('body').on('click', "#search", function () {
             // 搜索条件
+            var time1 =null;
+            var time2 =null;
             var itemName = null;
+            var timeRange = $('#timeRange').val();
+            console.log(timeRange);
             if (($("#itemName").val()) != null && ($("#itemName").val()) != "") {
                 itemName = $("#itemName").val();
+            }
+            if( timeRange!=null && timeRange!="") {
+                time1 = timeRange.substring(0,7);
+                time2 = timeRange.substring(10,17);
+                console.log(time1);
+                console.log(time2);
             }
             table.reload('testSummaryCurrent', {
                 method: 'post'
                 , where: {
+                    "time1": time1,
+                    "time2": time2,
                     "itemName": itemName,
                 }
                 , page: {

@@ -10,6 +10,9 @@ import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -71,7 +75,7 @@ public class InBillController {
 
     //返回用户数据页面
     @RequestMapping("/rInBill")
-    @PreAuthorize("hasAnyAuthority('入库查询全部记录,入库,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('入库查询全部记录,入库查询个人记录,入库,ROLE_ADMIN')")
     public String RInBill() {
         return "InBill";
     }
@@ -95,35 +99,82 @@ public class InBillController {
 
     //获取入库单数据数据
     @RequestMapping(value = "inBillShowData", produces = "text/html;charset=utf-8")
-    @PreAuthorize("hasAnyAuthority('入库查询全部记录,入库,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('入库查询全部记录,入库查询个人记录,入库,ROLE_ADMIN')")
     public @ResponseBody
     String InBillData(HttpServletRequest request) {
-        int page = Integer.parseInt(request.getParameter("page"));
-        int limit = Integer.parseInt(request.getParameter("limit"));
-        String time1 = request.getParameter("time1");
-        String time2 = request.getParameter("time2");
-        String itemName = request.getParameter("itemName");
-        String status = request.getParameter("checkStatus");
-//        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
-        Integer checkStatus = null;
-        if ("".equals(status)) {
-            checkStatus = null;
-        } else {
-            checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            GrantedAuthority next = iterator.next();
+            if("入库查询全部记录".equals(next.getAuthority())||"入库".equals(next.getAuthority())||"ROLE_ADMIN".equals(next.getAuthority())){
+//            if (iterator.next().toString().equals("入库查询全部记录")||iterator.next().toString().equals("入库")||iterator.next().toString().equals("ROLE_ADMIN")){
+                b = true;
+            }
         }
 
-        int before = limit * (page - 1) + 1;
-        int after = page * limit;
+        if(b==false){
+            int page = Integer.parseInt(request.getParameter("page"));
+            int limit = Integer.parseInt(request.getParameter("limit"));
+            String time1 = request.getParameter("time1");
+            String time2 = request.getParameter("time2");
+            String itemName = request.getParameter("itemName");
+            User user = (User) request.getSession().getAttribute("user");
+            String username = user.getUserName();
+            String status = request.getParameter("checkStatus");
+//        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+            Integer checkStatus = null;
+            if ("".equals(status)) {
+                checkStatus = null;
+            } else {
+                checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+            }
 
-        List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, checkStatus);
-        int count = inBillService.countReload(time1, time2, itemName, checkStatus);
-        request.getSession().setAttribute("count", count);
+            int before = limit * (page - 1) + 1;
+            int after = page * limit;
 
-        JSONArray json = JSONArray.fromObject(list);
-        String js = json.toString();
-        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
-        System.out.println(jso);
-        return jso;
+            List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, username,checkStatus);
+            int count = inBillService.countReload(time1, time2, itemName,username, checkStatus);
+            request.getSession().setAttribute("count", count);
+            JSONArray json = JSONArray.fromObject(list);
+            String js = json.toString();
+            String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
+            System.out.println(jso);
+            return jso;
+
+        }else{
+
+            int page = Integer.parseInt(request.getParameter("page"));
+            int limit = Integer.parseInt(request.getParameter("limit"));
+            String time1 = request.getParameter("time1");
+            String time2 = request.getParameter("time2");
+            String itemName = request.getParameter("itemName");
+            String username = request.getParameter("username");
+            String status = request.getParameter("checkStatus");
+//        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+            Integer checkStatus = null;
+            if ("".equals(status)) {
+                checkStatus = null;
+            } else {
+                checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+            }
+
+            int before = limit * (page - 1) + 1;
+            int after = page * limit;
+
+            List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, username,checkStatus);
+            int count = inBillService.countReload(time1, time2, itemName,username, checkStatus);
+            request.getSession().setAttribute("count", count);
+            JSONArray json = JSONArray.fromObject(list);
+            String js = json.toString();
+            String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
+            System.out.println(jso);
+            return jso;
+        }
+
+
+
     }
 
     //获取入库记录数据
