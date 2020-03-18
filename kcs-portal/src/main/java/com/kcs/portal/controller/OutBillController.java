@@ -89,7 +89,8 @@ public class OutBillController {
         Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
         boolean b =false;
         while (iterator.hasNext()){
-            if (iterator.next().toString().equals("出库查询全部记录")){
+            GrantedAuthority next = iterator.next();
+            if("出库查询全部记录".equals(next.getAuthority())||"出库".equals(next.getAuthority())||"ROLE_ADMIN".equals(next.getAuthority())){
                 b = true;
             }
         }

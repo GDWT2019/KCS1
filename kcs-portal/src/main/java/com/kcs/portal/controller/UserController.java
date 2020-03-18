@@ -179,6 +179,7 @@ public class UserController {
 
     //获取用户数据
     @RequestMapping(value="userData",produces="text/html;charset=utf-8")
+    @PreAuthorize("hasAnyAuthority('用户查看,用户管理,ROLE_ADMIN')" )
     public @ResponseBody String UserData(HttpServletRequest request,String name){
         int page = Integer.parseInt(request.getParameter("page"));
         int limit = Integer.parseInt(request.getParameter("limit"));
