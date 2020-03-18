@@ -16,7 +16,7 @@ public interface InBillDao {
 
     List<inBillShow> inBillShowData();
 
-    List<inBillShow> inBillShowPage(@Param("front")int before,@Param("back") int after,@Param("time1") String time1,@Param("time2") String time2,@Param("itemName") String itemName,@Param("checkStatus") Integer checkStatus);
+    List<inBillShow> inBillShowPage(@Param("front")int before,@Param("back") int after,@Param("time1") String time1,@Param("time2") String time2,@Param("itemName") String itemName,@Param("username") String username,@Param("checkStatus") Integer checkStatus);
 
     int countShow();
 
@@ -28,7 +28,7 @@ public interface InBillDao {
 
     String findTimeByID(Integer inBillID);
 
-    int countReload(@Param("time1") String time1,@Param("time2") String time2,@Param("itemName") String itemName,@Param("checkStatus") Integer checkStatus);
+    int countReload(@Param("time1") String time1,@Param("time2") String time2,@Param("itemName") String itemName,@Param("username") String username,@Param("checkStatus") Integer checkStatus);
 
     List<inBillShow> ItemInRecord(@Param("front")int front, @Param("back")int back, @Param("goodsId")int goodsId);
 

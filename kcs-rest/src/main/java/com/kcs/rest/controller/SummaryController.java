@@ -129,12 +129,12 @@ public class SummaryController {
     //获取分页显示数据
     @RequestMapping(value="summaryAllCurrentdata",method= RequestMethod.GET)
     @ResponseBody
-    public KcsResult summaryAllCurrentdata(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("itemName")String itemName){
+    public KcsResult summaryAllCurrentdata(@RequestParam("before")String before,@RequestParam("after")String after,@RequestParam("time1")String time1, @RequestParam("time2")String time2,@RequestParam("itemName")String itemName){
 
         int front = Integer.parseInt(before);
         int back = Integer.parseInt(after);
 
-        List<SummartAndGoodsAndCategory> summaryAllCurrentdata = summaryService.summaryAllCurrentdata(front,back,itemName);
+        List<SummartAndGoodsAndCategory> summaryAllCurrentdata = summaryService.summaryAllCurrentdata(front,back,time1,time2,itemName);
         System.out.println("summaryAllCurrentdata="+summaryAllCurrentdata);
 
         return KcsResult.ok(summaryAllCurrentdata);
@@ -142,11 +142,11 @@ public class SummaryController {
 
 
     //重载后数据的数量
-    @RequestMapping(value="countReload{itemName}")
+    @RequestMapping(value="countReload")
     @ResponseBody
-    public int countReload(@PathVariable String itemName){
-        int countReload = summaryService.countReload(itemName);
-        return countReload;
+    public  KcsResult countReload(@RequestParam("time1")String time1, @RequestParam("time2")String time2,@RequestParam("itemName")String itemName){
+        int countReload = summaryService.countReload(time1,time2,itemName);
+        return KcsResult.ok(countReload);
     }
 
     //某时某物品的剩余数量

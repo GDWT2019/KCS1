@@ -61,6 +61,9 @@
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
         </if>
+        <if test="username != null and username !='' ">
+            and username like '%${username}%'
+        </if>
         <if test="checkStatus != null and checkStatus !='' ">
             and CheckStatus = (#{checkStatus} - 1)
         </if>
@@ -80,6 +83,9 @@
         </if>
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
+        </if>
+        <if test="username != null and username !='' ">
+            and username like '%${username}%'
         </if>
         <if test="checkStatus != null and checkStatus !='' ">
             and CheckStatus = (#{checkStatus} - 1)
@@ -111,6 +117,9 @@
         </if>
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
+        </if>
+        <if test="username != null and username !='' ">
+            and username like '%${username}%'
         </if>
         <if test="checkStatus != null and checkStatus !='' ">
             and CheckStatus = (#{checkStatus} - 1)

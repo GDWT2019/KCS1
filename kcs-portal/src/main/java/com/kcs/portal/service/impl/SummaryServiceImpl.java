@@ -129,10 +129,12 @@ public class SummaryServiceImpl implements SummaryService {
     }
 
     @Override
-    public List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String itemName) {
+    public List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String time1, String time2,String itemName) {
         HashMap<String, String> param = new HashMap<>();
         param.put("before",before+ "");
         param.put("after",after+ "");
+        param.put("time1",time1);
+        param.put("time2",time2);
         param.put("itemName",itemName);
 
         try {
@@ -148,10 +150,17 @@ public class SummaryServiceImpl implements SummaryService {
     }
 
     @Override
-    public int countReload(String itemName) {
+    public int countReload(String time1, String time2,String itemName) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("time1",time1);
+        param.put("time2",time2);
+        param.put("itemName",itemName);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/countReload"+itemName);
-            return Integer.parseInt(s);
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/countReload",param);
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

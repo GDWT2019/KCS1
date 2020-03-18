@@ -147,6 +147,9 @@ select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getd
         select c.CategoryName,b.ItemsName,b.GoodsID,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
     left join Goods as b on a.GoodsID=b.GoodsID
     left join Category as c on b.CategoryID=c.CategoryID  where 1 = 1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  Time between #{time1} and #{time2}
+        </if>
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
         </if>
@@ -157,6 +160,9 @@ select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getd
             select Row_Number() over ( order by getdate() ) as id , * from ( select c.CategoryName,b.ItemsName,b.GoodsID,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
     left join Goods as b on a.GoodsID=b.GoodsID
     left join Category as c on b.CategoryID=c.CategoryID where 1 = 1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  Time between #{time1} and #{time2}
+        </if>
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
         </if>
@@ -167,6 +173,9 @@ select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getd
         select COUNT(*) from Summary as a
         left join Goods as b on a.GoodsID=b.GoodsID
         left join Category as c on b.CategoryID=c.CategoryID where 1 = 1
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and  Time between #{time1} and #{time2}
+        </if>
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
         </if>

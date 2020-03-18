@@ -71,13 +71,13 @@ public class SummaryServiceImpl implements SummaryService{
     }
 
     @Override
-    public List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String itemName) {
-        return summaryDao.summaryAllCurrentdata(before,after,itemName);
+    public List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String time1,String time2,String itemName) {
+        return summaryDao.summaryAllCurrentdata(before,after,time1,time2,itemName);
     }
 
     @Override
-    public int countReload(String itemName) {
-        return summaryDao.countReload(itemName);
+    public int countReload(String time1, String time2,String itemName) {
+        return summaryDao.countReload(time1,time2,itemName);
     }
 
     @Override

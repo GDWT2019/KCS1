@@ -28,12 +28,14 @@ public class SummaryController {
 
     //返回汇总数据页面
     @RequestMapping("/rCurrentBill")
+    @PreAuthorize("hasAnyAuthority('库存查询,查询全部记录,ROLE_ADMIN')")
     public String RCurrentBill(){
         return "currentBill";
     }
 
     //返回汇总数据页面
     @RequestMapping("/rSummary")
+    @PreAuthorize("hasAnyAuthority('统计汇总,库存统计,ROLE_ADMIN')")
     public String RInBill(){
         return "summaryBill";
     }
@@ -50,7 +52,7 @@ public class SummaryController {
 
     //获取汇总单数据数据
     @RequestMapping(value="summartyBillData",produces="text/html;charset=utf-8")
-    @PreAuthorize("hasAnyAuthority('库存查询,库存查询本人记录,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('统计汇总,库存统计,ROLE_ADMIN')")
     public @ResponseBody
     String summartyBillData(HttpServletRequest request){
         int page = Integer.parseInt(request.getParameter("page"));
@@ -93,18 +95,21 @@ public class SummaryController {
 
       //获取流水单数据数据
         @RequestMapping(value="summaryAllCurrentdata",produces="text/html;charset=utf-8")
+        @PreAuthorize("hasAnyAuthority('库存查询,查询全部记录,ROLE_ADMIN')")
         public @ResponseBody
         String summaryAllCurrentdata(HttpServletRequest request){
             int page = Integer.parseInt(request.getParameter("page"));
             int limit = Integer.parseInt(request.getParameter("limit"));
+            String time1 = request.getParameter("time1");
+            String time2 = request.getParameter("time2");
             String itemName = request.getParameter("itemName");
 
 
             int before=limit*(page-1)+1;
             int after = page * limit;
 
-            List<SummartAndGoodsAndCategory> list=summaryService.summaryAllCurrentdata(before,after,itemName);
-            int count =summaryService.countReload(itemName);
+            List<SummartAndGoodsAndCategory> list=summaryService.summaryAllCurrentdata(before,after,time1,time2,itemName);
+            int count =summaryService.countReload(time1, time2,itemName);
 
             JSONArray json = JSONArray.fromObject(list);
             String js=json.toString();
@@ -113,13 +118,8 @@ public class SummaryController {
             return jso;
         }
 
-
-        /*@RequestMapping("/poiSummary")
-        public void  poiSummary(HttpServletResponse response){
-            summaryService.export();
-        }*/
-
     @RequestMapping("/poiSummary")
+    @PreAuthorize("hasAnyAuthority('汇总导出,库存统计,ROLE_ADMIN')")
     public void  poiSummary1(HttpServletResponse response){
         List<SummartAndGoodsAndCategory> list=summaryService.summartyAllData();
         Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("汇总表","汇总"),SummartAndGoodsAndCategory .class, list);

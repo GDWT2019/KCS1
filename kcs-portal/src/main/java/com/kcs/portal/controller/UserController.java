@@ -10,6 +10,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,8 @@ public class UserController {
     @ResponseBody
     public Authentication getInfo(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        System.out.println(iterator);
         return authentication;
     }
 

@@ -33,9 +33,9 @@ public interface SummaryService {
 
     int summaryAllTotal();
 
-    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String itemName);
+    List<SummartAndGoodsAndCategory> summaryAllCurrentdata(int before, int after,String time1, String time2,String itemName);
 
-    int countReload(String itemName);
+    int countReload(String time1, String time2,String itemName);
 
     int getThisAmount(int goodsID, String time);
 

@@ -13,6 +13,9 @@
 </head>
 
 <div class="demoTable">
+    <div class="layui-inline">
+        <button class="layui-btn layui-btn-sm" id="newInBill">添加入库</button>
+    </div>
     时间范围：
     <div class="layui-inline">
         <input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
@@ -20,6 +23,10 @@
     物品名：
     <div class="layui-inline">
         <input type="text" class="layui-input" id="itemName"  placeholder="请输入物品名">
+    </div>
+    入库人：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="username"  placeholder="请填写入库人">
     </div>
     审核状态：
     <div class="layui-inline">
@@ -41,9 +48,7 @@
 
     <div class="layui-form">
         <div class="layui-form-item">
-            <div class="layui-inline">
-                <button class="layui-btn layui-btn-sm" id="newInBill">添加入库</button>
-            </div>
+
             <div class="layui-inline">
 
             </div>
@@ -97,7 +102,7 @@
                 ,{field:'note', title:'备注', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
-            ,where: {"time1":null,"time2":null,"itemName":null,"checkStatus":null}
+            ,where: {"time1":null,"time2":null,"itemName":null,"username":null,"checkStatus":null}
             ,page: true
             ,limit:10
             ,limits:[5,10,20,30,50]
@@ -109,12 +114,19 @@
             var time1 =null;
             var time2 =null;
             var itemName = null;
+            var username = null;
             var timeRange = $('#timeRange').val();
             var checkStatus = $("#checkStatus").val();
             if(($("#itemName").val()) != null && ($("#itemName").val()) != "")
             {
                 itemName =$("#itemName").val();
             }
+
+            if(($("#username").val()) != null && ($("#username").val()) != "")
+            {
+                username =$("#username").val();
+            }
+
             if( timeRange!=null && timeRange!="") {
                 time1 = timeRange.substring(0,10);
                 time2 = timeRange.substring(13, 23);
@@ -126,6 +138,7 @@
                     "time1": time1,
                     "time2": time2,
                     "itemName": itemName,
+                    "username": username,
                     "checkStatus": checkStatus,
                 }
                 , page: {
