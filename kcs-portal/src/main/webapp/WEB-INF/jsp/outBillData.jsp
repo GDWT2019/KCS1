@@ -176,16 +176,16 @@
 						success:function (result) {
 							var ajaxResult = JSON.parse(result);
 							if (ajaxResult){
-								layer.confirm(ajaxResult.mesg);
+								layer.alert(ajaxResult.mesg);
+								alert(ajaxResult.mesg)
 								obj.del();
 							}else{
-								layer.confirm(ajaxResult.mesg);
+								layer.alert(ajaxResult.mesg);
 							}
-							layer.close(layer.index);
                             location.reload();
 						},
 						error:function () {
-							layer.confirm("删除请求错误！");
+							layer.alert("删除请求错误！");
 							layer.close();
                             location.reload();
 						}

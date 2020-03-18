@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller("outBillController")
@@ -94,12 +93,13 @@ public class OutBillController {
 
     @RequestMapping(value="/outBillPresent",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus ){
+    public KcsResult outBillPresent(@RequestParam("begin")String begin,@RequestParam("end")String end,@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus,@RequestParam("userID")String userID ){
         summaryService.updateSummaryToNewMonth();
         int front = Integer.parseInt(begin);
         int back = Integer.parseInt(end);
         int status = Integer.parseInt(checkStatus);
-        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back,time1,time2,itemName,status);
+        int uid = Integer.parseInt(userID);
+        List<OutBillPresent> allOutBillPresent = outBillPresentService.findAllOutBillPresent(front,back,time1,time2,itemName,status,uid);
         if (allOutBillPresent != null) {
             return KcsResult.ok(allOutBillPresent);
         } else
@@ -108,9 +108,10 @@ public class OutBillController {
 
     @RequestMapping(value="/outBillPresentCount",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult outBillPresentCount(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus){
+    public KcsResult outBillPresentCount(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("checkStatus")String checkStatus,@RequestParam("userID") String userID){
         int status = Integer.parseInt(checkStatus);
-        Integer count = outBillPresentService.outBillPresentCount(time1,time2,itemName,status);
+        int uid = Integer.parseInt(userID);
+        Integer count = outBillPresentService.outBillPresentCount(time1,time2,itemName,status,uid);
         if (count != null) {
             return KcsResult.ok(count);
         } else

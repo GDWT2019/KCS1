@@ -2,11 +2,9 @@ package com.kcs.rest.service.impl;
 
 import com.kcs.rest.dao.OutBillPresentDao;
 import com.kcs.rest.dao.UserDao;
-import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.OutBillPresent;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.service.OutBillPresentService;
-import com.kcs.rest.service.UserService;
 import com.kcs.rest.utils.LogAnno;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +21,9 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
 
     @LogAnno(operateType = "查看出库明细")
     @Override
-    public List<OutBillPresent> findAllOutBillPresent(int begin,int end,String time1,String time2,String itemName,int checkStatus) {
+    public List<OutBillPresent> findAllOutBillPresent(int begin,int end,String time1,String time2,String itemName,int checkStatus,int userID) {
         List<User> userList = userDao.findAllUser();
-        List<OutBillPresent> allOutBillPresent = outBillPresentDao.findAllOutBillPresent(begin, end,time1,time2,itemName,checkStatus);
+        List<OutBillPresent> allOutBillPresent = outBillPresentDao.findAllOutBillPresent(begin, end,time1,time2,itemName,checkStatus,userID);
         return updatePerson(userList,allOutBillPresent);
     }
 
@@ -37,8 +35,8 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
     }
 
     @Override
-    public Integer outBillPresentCount(String time1, String time2, String itemName,int checkStatus) {
-        return outBillPresentDao.outBillPresentCount(time1, time2, itemName,checkStatus);
+    public Integer outBillPresentCount(String time1, String time2, String itemName,int checkStatus,int userID) {
+        return outBillPresentDao.outBillPresentCount(time1, time2, itemName,checkStatus,userID);
     }
 
     @Override

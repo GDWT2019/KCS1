@@ -10,18 +10,20 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller("addOutBillController")
@@ -72,7 +74,7 @@ public class OutBillController {
 
     //跳转到outBillData页面
     @RequestMapping("/showAllOutBill")
-    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库查询本人记录,出库,ROLE_ADMIN')")
     public String showAllOutBill(){
         return "outBillData";
     }
@@ -80,8 +82,17 @@ public class OutBillController {
     //获取所有出库表数据
     @RequestMapping(value = "/getAllOutBill",produces="text/html;charset=utf-8")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库查询本人记录,出库,ROLE_ADMIN')")
     public String allOutBill(HttpServletRequest request){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            if (iterator.next().toString().equals("出库查询全部记录")){
+                b = true;
+            }
+        }
 
         int page = Integer.parseInt(request.getParameter("page"));
         int limit = Integer.parseInt(request.getParameter("limit"));
@@ -96,10 +107,16 @@ public class OutBillController {
         String time1 = request.getParameter("time1");
         String time2 = request.getParameter("time2");
         String itemName = request.getParameter("itemName");
-
-
-        List<OutBillPresent> allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName,checkStatus);
-        Integer count = outBillService.outBillPresentCount(time1,time2,itemName,checkStatus);
+        List<OutBillPresent> allOutBillPresent = new ArrayList<>();
+        Integer count = 0;
+        if(!b){
+            User user = (User) request.getSession().getAttribute("user");
+            allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName,checkStatus,user.getUserID());
+            count = outBillService.outBillPresentCount(time1,time2,itemName,checkStatus,user.getUserID());
+        }else {
+            allOutBillPresent = outBillService.getAllOutBillPresent(begin,end,time1,time2,itemName,checkStatus,0);
+            count = outBillService.outBillPresentCount(time1,time2,itemName,checkStatus,0);
+        }
 
         JSONArray json = JSONArray.fromObject(allOutBillPresent);
         String js=json.toString();
@@ -144,6 +161,7 @@ public class OutBillController {
     }
 
     @RequestMapping("/addOutBill")
+    @PreAuthorize("hasAnyAuthority('添加出库,出库,ROLE_ADMIN')")
     public String AddOutBill(){
         return "addOutBill";
     }
@@ -169,7 +187,7 @@ public class OutBillController {
     @RequestMapping("/insertOutBill")
     @ResponseBody
     public AjaxMesg insertBill(HttpSession session,String itemsOutJsonListString, String outBillString) throws IOException {
-        AjaxMesg ajaxMesg = new AjaxMesg(true,"恭喜，插入成功了！");
+        AjaxMesg ajaxMesg = new AjaxMesg(true,"添加成功了！");
 
         ObjectMapper mapper = new ObjectMapper();
         List<ItemsOut> itemsOutList = mapper.readValue(itemsOutJsonListString,new TypeReference<List<ItemsOut>>() { });
@@ -192,14 +210,14 @@ public class OutBillController {
 
         //把每一条出库物品都插入出库id
         if (outBillID == null){
-            return new AjaxMesg(false,"出库单插入失败！");
+            return new AjaxMesg(false,"出库单添加失败！");
         }
         
         for (ItemsOut out : itemsOutList) {
             out.setOutBillID(outBillID);
             Integer i = itemsOutService.insertItemsOut(out);
             if (i<1){
-                return new AjaxMesg(false,"出库物品插入失败！");
+                return new AjaxMesg(false,"出库物品添加失败！");
             }
         }
 
@@ -314,6 +332,7 @@ public class OutBillController {
 
     @RequestMapping("/updateOutBill")
     @ResponseBody
+    @PreAuthorize("hasAnyAuthority('出库修改,出库,ROLE_ADMIN')")
     public AjaxMesg updateOutBill(HttpSession session,String itemsOutJsonListString, String outBillString) throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
@@ -341,7 +360,7 @@ public class OutBillController {
                 }
                 Integer i = itemsOutService.insertItemsOut(out);
                 if (i<1){
-                    return new AjaxMesg(false,"出库物品插入失败！");
+                    return new AjaxMesg(false,"出库物品新增失败！");
                 }
             }else{
                 //更新物品

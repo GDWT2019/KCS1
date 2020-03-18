@@ -13,6 +13,7 @@
 </head>
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
+<%--
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
@@ -26,6 +27,7 @@
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>
 </script>
+--%>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
@@ -44,7 +46,7 @@
                 ,{type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
                 ,{field:'permissionName', title:'权限名称', width:150}
                 ,{field:'permissionNum', title:'权限代码',  width:150}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
+                //,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,page: true
             ,limit:10
