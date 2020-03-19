@@ -242,11 +242,9 @@
                                                    type="text" placeholder="" value="${inBillPresent.note}"/>
                                         </td>
                                         <td>
-                                            <div class="layui-form-item">
                                                 <button type="button" onclick="delTr(this)"
                                                         class="layui-btn layui-btn-danger">移除
                                                 </button>
-                                            </div>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -550,25 +548,19 @@
         var tr = "<tr id=" + num + " >" +
             "<td>" + num + "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<select value=\"null\" lay-verify=\"required\" id=\"itemsName" + num + "\" name=\"itemInList[" + (num - 1) + "].GoodsID\" lay-filter=\"itemsName" + num + "\">" +
             "<option value=\"\" selected> </option>" +
             "</select>" +
-            "</div>" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<select  id=\"Category" + num + "\" name=\"itemInList[" + (num - 1) + "].CategoryID\" lay-verify=\"required\" lay-filter=\"Category" + num + "\">" +
             "<option value=\"\" selected> </option>" +
             "</select>" +
-            "</div>" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<select  id=\"itemsType" + num + "\" name=\"itemInList[" + (num - 1) + "].Type\" lay-verify=\"required\" lay-filter=\"itemsType" + num + "\">" +
             "<option value=\"\" selected> </option>" +
             "</select>" +
-            "</div>" +
             "</td>" +
             "<td>" +
             "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
@@ -583,14 +575,10 @@
             "<input id=\"StorePosition" + num + "\" name=\"itemInList[" + (num - 1) + "].StorePosition\" class=\"layui-input\"  type=\"text\" />" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
-            "</div>" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"delTr(this)\">移除</button>" +
-            "</div>" +
             "</td>" +
             "</tr>";
         $("#table").append(tr);

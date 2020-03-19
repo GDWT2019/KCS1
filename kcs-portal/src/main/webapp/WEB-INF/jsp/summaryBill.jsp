@@ -120,7 +120,6 @@
                 ,{field: 'time', title: '时间', width: 150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
-
             ,page: true
             ,where: {time: time}
             ,limit:10

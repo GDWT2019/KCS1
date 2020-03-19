@@ -29,7 +29,7 @@
         <input type="text" class="layui-input" id="username"  placeholder="请填写入库人">
     </div>
     审核状态：
-    <div class="layui-inline">
+    <div class="layui-inline layui-form">
         <select id="checkStatus" name="checkStatus" lay-verify="required" lay-search="">
             <option value="">请选择审核状态</option>
             <option value="1">等待审核</option>

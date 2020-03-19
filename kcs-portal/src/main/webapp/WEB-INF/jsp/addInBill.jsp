@@ -112,9 +112,7 @@
                                                type="text"/>
                                     </td>
                                     <td>
-                                        <div class="layui-form-item">
                                             <button type="button" class="layui-btn layui-btn-disabled">移除</button>
-                                        </div>
                                     </td>
                                 </tr>
 
@@ -169,16 +167,17 @@
                         </div>
                     </div>
                 </form>
+                <div class="layui-row">
+                    <div style="float: right; margin-right: 30px;margin-top: 10px">
+                        <button onclick="checkInBill()" class="layui-btn layui-btn-lg">
+                            提交入库单
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="layui-row">
-        <div style="float: right; margin-right: 30px;margin-top: 10px">
-            <button onclick="checkInBill()" class="layui-btn layui-btn-lg">
-                提交入库单
-            </button>
-        </div>
-    </div>
+
 </div>
 
 <script>
@@ -340,7 +339,7 @@
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
             altotal = Number(altotal) + Number(text);
         }
-        $("#alTotal").val(altotal);
+        $("#alTotal").val(altotal.toFixed(2));
         /*   $("#alTotal").empty();
           $("#alTotal").append(altotal);*/
     }
@@ -368,7 +367,7 @@
             altotal = Number(altotal) + Number(text);
 
         }
-        $("#alTotal").val(altotal);
+        $("#alTotal").val(altotal.toFixed(2));
         /* $("#alTotal").empty();
          $("#alTotal").append(altotal);*/
     }
@@ -396,10 +395,10 @@
             altotal = Number(altotal) + Number(text);
             console.log(altotal);
         }
-        $("#alTotal").val(altotal);
+        $("#alTotal").val(altotal.toFixed(2));
         layui.use(['form'], function () {
             var form = layui.form;
-            $("#alTotal").val(altotal);
+            $("#alTotal").val(altotal.toFixed(2));
 
             form.render();
         })
@@ -429,18 +428,14 @@
             "</div>" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<select  id=\"Category" + num + "\" name=\"itemInList[" + (num - 1) + "].CategoryID\" lay-verify=\"required\" lay-filter=\"Category" + num + "\">" +
             "<option value=\"\" selected> </option>" +
             "</select>" +
-            "</div>" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<select  id=\"itemsType" + num + "\" name=\"itemInList[" + (num - 1) + "].Type\" lay-verify=\"required\" lay-filter=\"itemsType" + num + "\">" +
             "<option value=\"\" selected> </option>" +
             "</select>" +
-            "</div>" +
             "</td>" +
             "<td>" +
             "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
@@ -455,14 +450,10 @@
             "<input id=\"StorePosition" + num + "\" name=\"itemInList[" + (num - 1) + "].StorePosition\" class=\"layui-input\"  type=\"text\" />" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
-            "</div>" +
             "</td>" +
             "<td>" +
-            "<div class=\"layui-form-item\">" +
             "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"delTr(this)\">移除</button>" +
-            "</div>" +
             "</td>" +
             "</tr>";
         $("#table").append(tr);
