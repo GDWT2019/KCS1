@@ -198,6 +198,7 @@
                                 layer.close(index);
                             }
                         })
+                        location.reload();
                     })
                 }
                 else{
@@ -222,6 +223,7 @@
                                 layer.close(index);
                             }
                         })
+                        location.reload();
                     })
                 }
             }else if (obj.event === 'detail'){
