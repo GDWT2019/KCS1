@@ -164,10 +164,9 @@
             , title: '入库单'
             , totalRow: false//开启合计行
             , cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'inBillID', title: '入库单号', width: 110, fixed: 'left', unresize: true, sort: true}
-                , {field: 'timeIn', title: '日期', width: 160}
-                , {
+                {field: 'inBillID', title: '入库单号', width: 110, fixed: 'left', unresize: true, sort: true}
+                ,{field: 'timeIn', title: '日期', width: 160}
+                ,{
                     field: 'goodsID', title: '物品名称', width: 110, templet(d) {
                         var itemName;
                         var goodsID = Number(d.goodsID);

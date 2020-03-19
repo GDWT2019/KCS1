@@ -51,8 +51,7 @@
             ,toolbar: '#toolbarDemo'
             ,title: '日志'
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{type:'numbers',title:'序号'}
+                {type:'numbers',title:'序号'}
                 ,{field:'logID', title:'日志ID', width:120,sort:true}
                 ,{field:'userID', title:'用户ID', width:120,sort:true}
                 ,{field:'userName', title:'用户名', width:120,sort:true}

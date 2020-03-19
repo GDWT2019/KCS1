@@ -326,8 +326,19 @@ public class UserController {
     //删除用户
     @RequestMapping("/delUserByUserID")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('用户删除,用户管理,ROLE_ADMIN')" )
+    @PreAuthorize("hasAnyAuthority('用户查看,用户删除,用户管理,ROLE_ADMIN')" )
     public AjaxMesg delUserByUserID(int userID){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            if (iterator.next().toString().equals("用户删除")){
+                b = true;
+            }
+        }
+        if(!b){
+            return new AjaxMesg(false,"无删除权限,无法删除!");
+        }
         Integer integer = userService.delUserByUserID(userID);
         if (integer<0)
             return new AjaxMesg(false,"删除失败！");

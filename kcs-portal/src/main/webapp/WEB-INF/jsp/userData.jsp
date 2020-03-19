@@ -56,8 +56,7 @@
             ,title: '用户数据表'
             ,totalRow: true//开启合计行
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{type:'numbers',title:'序号'}
+                {type:'numbers',title:'序号'}
                 ,{field:'loginName', title:'登录名', width:80}
                 ,{field:'userName', title:'用户名', width:80}
                 ,{field:'tel', title:'电话', width:120}
