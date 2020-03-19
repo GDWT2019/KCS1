@@ -48,13 +48,9 @@
 
     <div class="layui-form">
         <div class="layui-form-item">
-
             <div class="layui-inline">
-
             </div>
-
         </div>
-    </div>
     </div>
 
     <!--导出表 不展示-->
@@ -168,7 +164,7 @@
                     type:2,
                     title:"修改入库",
                     content:'${pageContext.request.contextPath }/itemIn/updateInBill?inBillID='+data.inBillID,
-                    area:['1200px','668px'],
+                    area:['1500px','668px'],
                     end:function () {
                         location.reload();
                     }
@@ -181,7 +177,7 @@
                     type:2,
                     title:"入库审核",
                     content:'${pageContext.request.contextPath }/inBill/checkInBill',
-                    area:['1200px','668px'],
+                    area:['1500px','668px'],
                     end:function () {
                         location.reload();
                     }
@@ -241,7 +237,7 @@
                         type:2,
                         title:"添加入库",
                         content:'${pageContext.request.contextPath }/inBill/addInBill',
-                        area:['1200px','668px'],
+                        area:['1500px','668px'],
                         end:function () {
                             location.reload();
                         }

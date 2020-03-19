@@ -17,34 +17,44 @@
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
                 <form class="layui-form" id="InBillForm" type="post">
                     <input type="hidden" name="operator" value="${user.userID}"/>
-                    <div class="layui-row">
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                            <span style="text-align: left;font-size: 25px;">修改时间：</span>
-                            <div class="grid-demo grid-demo-bg1">
-                                <input id="InBillTime" type="text" readonly name="InBillTime"
-                                       style="font-size: 25px;border: 0px" value="${loadtime}"/>
+                    <div class="layui-row" style="white-space: nowrap">
+                        <div class=" layui-col-xs4 ">
+                            <div class="layui-form-item">
+                                <label style="text-align: left;font-size: 25px; float:left">时间</label>
+                                <div class="layui-inline ">
+                                    <input type="text" class="layui-input" id="InBillTime" name="InBillTime"
+                                           placeholder="yyyy-MM-dd"/>
+                                </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                            <span style="text-align: center;font-size: 25px;">供应商：</span>
-                            <div class="grid-demo layui-bg-red" style="width: 300px">
-                                <select id="providerID" name="providerID" lay-verify="required" lay-search=""></select>
+                        <div class="layui-col-xs4 ">
+                            <div class="layui-form-item">
+                                <label style="font-size: 25px;float: left">供应商</label>
+                                <a id="addProvider"><i class="layui-icon layui-icon-add-circle"
+                                                       style="font-size: 25px"></i></a>
+                                <div class="layui-inline">
+                                    <select id="providerID" name="providerID" lay-verify="required" lay-search=""
+                                            style="width: 250px"></select>
+                                </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs4 layui-col-sm12 layui-col-md4">
-                            <span style="font-size: 25px;">编号：</span>
-                            <div class="grid-demo layui-bg-blue" style="width: 300px">
-                                <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on"
-                                       style="font-size: 25px; border: 0px " readonly>
+                        <div class="layui-col-xs4 ">
+                            <div class="layui-form-item">
+                                <label style="float:left;font-size:25px ">编号</label>
+                                <div class="layui-inline">
+                                    <input id="InBillID" type="text" class="layui-input" name="InBillID"
+                                           autocomplete="on"
+                                           style="font-size: 25px;  " readonly value="${newInBillID}">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="layui-bg-gray" style="margin-top:10px;padding:10px;">
+                    <div class="" style="margin-top:10px;padding:10px;">
                         <div class="layui-table">
                             <table class="layui-table" id="table">
                                 <tr>
                                     <th>序号</th>
-                                    <th width="120px">品名</th>
+                                    <th style="width: 200px">品名</th>
                                     <th>类别</th>
                                     <th>规格</th>
                                     <th>数量</th>
@@ -59,19 +69,19 @@
                                         <td>
                                                 ${status.count}
                                         </td>
-                                        <td>
-                                            <select id="itemsName${status.count}" lay-verify="required"
-                                                    name="itemInList[${status.count-1}].GoodsID"
-                                                    lay-filter="itemsName${status.count}">
-                                                <%--<option value="${inBillPresent.itemsName}" > ${inBillPresent.itemsName} </option>--%>
-                                            </select>
+                                        <td style="white-space: nowrap;width: 200px">
+                                            <a id="addGoods${status.count}" style="display: inline"><i class="layui-icon layui-icon-add-circle" style="font-size: 25px;display: inline"></i></a>
+                                            <div class="layui-inline layui-form" lay-filter="goods${status.count}" style="width: 180px">
+                                                <select id="itemsName${status.count}" lay-verify="required" name="itemInList[${status.count-1}].GoodsID" lay-filter="itemsName${status.count}">
+                                                </select>
+                                            </div>
 
                                             <script>
                                                 layui.use(["jquery", "upload", "form", "layer", "element"], function () {
                                                     var $ = layui.$,
                                                         form = layui.form;
 
-                                                    var itemsName="${inBillPresent.itemsName}";
+                                                    var itemsName = "${inBillPresent.itemsName}";
                                                     //查询物品名称
                                                     $.ajax({
                                                         type: "POST",
@@ -80,18 +90,16 @@
                                                         async: false,
                                                         success: function (data) {
                                                             $.each(data, function (index, item) {
-                                                                if(itemsName==item.itemsName){
-                                                                $("#itemsName${status.count}").append("<option selected value='" + item.itemsName + "'>"+ item.itemsName +"</option>");//往下拉菜单里添加元素
-                                                                }
-                                                                else {
-                                                                    $("#itemsName${status.count}").append("<option  value='" + item.itemsName + "'>"+ item.itemsName +"</option>");//往下拉菜单里添加元素
+                                                                if (itemsName == item.itemsName) {
+                                                                    $("#itemsName${status.count}").append("<option selected value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                                                                } else {
+                                                                    $("#itemsName${status.count}").append("<option  value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
 
                                                                 }
                                                             });
                                                             form.render();//菜单渲染 把内容加载进去
                                                         }
                                                     });
-
 
 
                                                     form.on('select(itemsType${status.count})', function (data) {
@@ -145,7 +153,10 @@
                                                                 $.ajax({
                                                                     type: "post",
                                                                     url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
-                                                                    data: {itemsType: itemsTypeVal, itemsName: data.value},
+                                                                    data: {
+                                                                        itemsType: itemsTypeVal,
+                                                                        itemsName: data.value
+                                                                    },
                                                                     dataType: "json",
                                                                     success: function (result) {
                                                                         console.log(result.goodsID);
@@ -175,10 +186,32 @@
                                                             form.render();
                                                         }
                                                     });
-                                                    <%--var goodsID ="${inBillPresent.goodsID}";--%>
-                                                    <%--console.log(goodsID);--%>
-                                                    <%--$("#itemsName${status.count}").val(goodsID);--%>
-                                                    <%--form.render();//菜单渲染 把内容加载进去--%>
+                                                    $("#addGoods${status.count}").on('click', function () {
+                                                        layer.open({
+                                                            type: 2,
+                                                            title: "添加物品",
+                                                            content: '${pageContext.request.contextPath }/goods/rAddGoods',
+                                                            area: ['600px', '334px'],
+                                                            end: function () {
+                                                                $("#itemsName${status.count}").empty();
+                                                                $("#itemsName${status.count}").append("<option value=''>" + "请选择"+ "</option>");
+                                                                $.ajax({
+                                                                    type: "POST",
+                                                                    url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
+                                                                    dataType: "json",
+                                                                    async: false,
+                                                                    cache: false,
+                                                                    success: function (data) {
+                                                                        $.each(data, function (index, item) {
+                                                                            $("#itemsName${status.count}").append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                                                                        })
+                                                                        form.render();//菜单渲染 把内容加载进去
+                                                                    }
+                                                                });
+                                                                form.render('select','goods${status.count}');
+                                                            }
+                                                        });
+                                                    });
                                                 });
                                             </script>
                                         </td>
@@ -190,15 +223,16 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <select id="itemsType${status.count}" name="itemInList[${status.count-1}].Type" lay-verify="required"
+                                            <select id="itemsType${status.count}"
+                                                    name="itemInList[${status.count-1}].Type" lay-verify="required"
                                                     lay-filter="itemsType${status.count}">
-                                                <%--<option value="${inBillPresent.type}"  > ${inBillPresent.type} </option>--%>
+                                                    <%--<option value="${inBillPresent.type}"  > ${inBillPresent.type} </option>--%>
                                                     <%--<option value="" selected></option>--%>
                                             </select>
 
                                             <script>
                                                 var goodsID = "itemInList[${status.count-1}].GoodsID";
-                                                var itemsNameVal ='${inBillPresent.itemsName}';
+                                                var itemsNameVal = '${inBillPresent.itemsName}';
 
                                                 //通过物品名称查询规格
                                                 $.ajax({
@@ -217,17 +251,20 @@
                                             </script>
                                         </td>
                                         <td>
-                                            <input name="itemInList[${status.count-1}].ItemNum" class="layui-input" onblur="NumCount(this)"
+                                            <input name="itemInList[${status.count-1}].ItemNum" class="layui-input"
+                                                   onblur="NumCount(this)"
                                                    type="number" placeholder="数量" min="1"
                                                    value="${inBillPresent.itemNum}"/>
 
                                         </td>
                                         <td>
-                                            <input name="itemInList[${status.count-1}].ItemPrice" class="layui-input"  onblur="PriceCount(this)"
+                                            <input name="itemInList[${status.count-1}].ItemPrice" class="layui-input"
+                                                   onblur="PriceCount(this)"
                                                    type="text" value="${inBillPresent.itemPrice}"/>
                                         </td>
                                         <td>
-                                            <input id="itemTotal1" name="itemInList[${status.count-1}].ItemTotal" class="layui-input"
+                                            <input id="itemTotal1" name="itemInList[${status.count-1}].ItemTotal"
+                                                   class="layui-input"
                                                    type="text" readonly value="${inBillPresent.itemTotal}"/>
                                         </td>
                                         <td>
@@ -242,9 +279,9 @@
                                                    type="text" placeholder="" value="${inBillPresent.note}"/>
                                         </td>
                                         <td>
-                                                <button type="button" onclick="delTr(this)"
-                                                        class="layui-btn layui-btn-danger">移除
-                                                </button>
+                                            <button type="button" onclick="delTr(this)"
+                                                    class="layui-btn layui-btn-danger">移除
+                                            </button>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -257,11 +294,13 @@
                                 </div>
                             </div>
                             <div class="layui-row" style="margin: 10px 5px;">
-                                <span style="font-size: 22px;">合计：<input  id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>
+                                <span style="font-size: 22px;">合计：<input id="alTotal" name="alTotal"
+                                                                         style="font-size: 22px;border:0px; width: 100px"
+                                                                         readonly/>元</span>
                                 <%--<span style="font-size: 22px;">合计：<input  id="alTotal" name="alTotal" style="font-size: 22px;border:0px; width: 100px" readonly/>元</span>--%>
                             </div>
                         </div>
-                        <div class="layui-bg-gray" style="border-radius: 2px;">
+                        <div class="" style="border-radius: 2px;">
                             <div class="layui-row">
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">仓管员：</label>
@@ -302,7 +341,7 @@
         </div>
     </div>
     <div class="layui-row">
-        <div  style="float: right; margin-right: 30px;">
+        <div style="float: right; margin-right: 30px;">
             <button onclick="checkUpdateBill()" class="layui-btn layui-btn-lg">
                 修改入库单
             </button>
@@ -313,7 +352,44 @@
 
     layui.use(['form'], function () {
         var form = layui.form;
+        $("#addProvider").on('click', function () {
+            layer.open({
+                type: 2,
+                title: "添加供应商",
+                content: '${pageContext.request.contextPath }/provider/rAddProvider',
+                area: ['600px', '334px'],
+                end: function () {
+                    $("#providerID").empty();
+                    $.ajax({
+                        type: "POST",
+                        url: '${pageContext.request.contextPath }/provider/getProvider',  //从数据库查询返回的是个list
+                        dataType: "json",
+                        async: false,
+                        cache: false,
+                        success: function (data) {
+                            $.each(data, function (index, item) {
+                                $("#providerID").append("<option value='" + item.providerID + "'>" + item.providerName + "</option>");//往下拉菜单里添加元素
+                            })
+                            form.render();//菜单渲染 把内容加载进去
+                        }
+                    });
+
+                }
+            });
+        });
         form.render();   //重新渲染新增的行中select的信息
+    });
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        var time = "${loadtime}";
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#InBillTime', //指定元素
+            value: time.substring(0, 10),
+            position: 'fixed'
+        });
     });
 
     function checkUpdateBill() {
@@ -333,57 +409,56 @@
 
         var alTotal = Number($("#alTotal").text());
 
-        if (IsNull(time)){
+        if (IsNull(time)) {
             layer.alert("日期未填写哦！");
             return false;
         }
-        if (IsNull(provider)){
+        if (IsNull(provider)) {
             layer.alert("供应商未填写！");
             return false;
         }
 
-        if(IsNull(warehouse)||IsNull(buyer)||IsNull(Approvaler)||IsNull(lister)){
+        if (IsNull(warehouse) || IsNull(buyer) || IsNull(Approvaler) || IsNull(lister)) {
             layer.alert("还有人员未选择哦！");
             return false;
         }
         //获取最后一行数据的编号,以确定循环次数
         var trl = document.getElementsByTagName("tr").length;
-        var num = trl-1;
+        var num = trl - 1;
 
 
-
-        for(var i =1;i<=num;i++){
+        for (var i = 1; i <= num; i++) {
             // var goods = Number($('select[name="itemInList['+i+'].GoodsID"]').val());
-            var itemsName = $("#itemsName"+i).val();
-            var itemNum = $('input[name="itemInList['+(i-1)+'].ItemNum"]').val();
+            var itemsName = $("#itemsName" + i).val();
+            var itemNum = $('input[name="itemInList[' + (i - 1) + '].ItemNum"]').val();
 
-            var itemPrice = $('input[name="itemInList['+(i-1)+'].ItemPrice"]').val();
+            var itemPrice = $('input[name="itemInList[' + (i - 1) + '].ItemPrice"]').val();
 
             //判断是否为空
-            if (IsNull(itemsName)){
+            if (IsNull(itemsName)) {
                 layer.alert("品名未选择！");
                 return false;
             }
-            if (IsNull(itemNum)){
+            if (IsNull(itemNum)) {
                 layer.alert("数量未填写！");
                 return false;
             }
-            if (IsNull(itemPrice)){
+            if (IsNull(itemPrice)) {
                 layer.alert("价格未填写！");
                 return false;
             }
         }
-       updateBill();
+        updateBill();
     }
 
     function IsNull(exp) {
-        if (exp == "null" || exp =="" || exp == null)
+        if (exp == "null" || exp == "" || exp == null)
             return true;
         return false;
     }
 
     function updateBill() {
-       $.ajax({
+        $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonut",
             data: $("#InBillForm").serialize(),
@@ -394,7 +469,7 @@
                         url: "${pageContext.request.contextPath }/inBill/updateBill",
                         data: $("#InBillForm").serialize(),
                         success: function () {
-                            layer.alert("修改成功",function(){
+                            layer.alert("修改成功", function () {
                                 window.parent.layer.closeAll();
                             });
                         },
@@ -402,7 +477,7 @@
                             layer.alert("修改失败！");
                         }
                     });
-                }else{
+                } else {
                     layer.alert("入库数小于出库数！");
                 }
             },
@@ -418,9 +493,9 @@
         var altotal = 0;
         var price = $(ii).parent().next().find("input").val();
         var total = $(ii).val();
-        if(total>0){
+        if (total > 0) {
             $(ii).parent().next().next().find("input").val((price * total).toFixed(2));
-        }else {
+        } else {
 
             layer.tips("数量格式错误！需要大于等于1", ii, {
                 tips: [1, "#2B2B2B"]
@@ -445,9 +520,9 @@
         var altotal = 0;
         var price = $(ii).val();
         var total = $(ii).parent().prev().find("input").val();
-        if(price>0){
+        if (price > 0) {
             $(ii).parent().next().find("input").val((price * total).toFixed(2));
-        }else{
+        } else {
             layer.tips("价格格式错误！需要大于0", ii, {
                 tips: [1, "#2B2B2B"]
             });
@@ -485,7 +560,7 @@
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonutForRemove",
-            data: {"itemsType": itemsType, "itemsName": itemsName,"itemsNum":itemsNum},
+            data: {"itemsType": itemsType, "itemsName": itemsName, "itemsNum": itemsNum},
             success: function (htq) {
                 if (htq == 1) {
                     el = getParent(el, 'TR');
@@ -507,11 +582,10 @@
                             $("#alTotal").val(altotal.toFixed(2));
                             form.render();
                         })
-                    }
-                    else {
+                    } else {
                         layer.alert("删除失败！");
                     }
-                }else{
+                } else {
                     layer.alert("入库数小于出库数！");
                 }
             },
@@ -519,7 +593,6 @@
                 layer.alert("修改失败！");
             }
         });
-
 
 
     }
@@ -533,24 +606,26 @@
 
         //改变序号
         var trl = document.getElementsByTagName("tr").length;
-        var num=null;
-        if(trl>1){
+        var num = null;
+        if (trl > 1) {
 
-        var lastTr = document.getElementsByTagName("tr")[trl - 1];
-        num = lastTr.cells[0].innerHTML;
-        num = Number(num) + Number(1);
-        }
-        else {
+            var lastTr = document.getElementsByTagName("tr")[trl - 1];
+            num = lastTr.cells[0].innerHTML;
+            num = Number(num) + Number(1);
+        } else {
             num = Number(1);
         }
 
         //拼接字符串及以参数的形式给select的lay-filter，name重新赋值
         var tr = "<tr id=" + num + " >" +
             "<td>" + num + "</td>" +
-            "<td>" +
+            "<td style=\"white-space: nowrap\">" +
+            "<a id=\"addGoods" + num + "\" style=\"display: inline\"><i class=\"layui-icon layui-icon-add-circle\" style=\"font-size: 25px;display: inline\"></i></a>\n" +
+            "<div class=\"layui-inline layui-form\" lay-filter=\"goods" + num + "\" style=\"width: 180px\">"+
             "<select value=\"null\" lay-verify=\"required\" id=\"itemsName" + num + "\" name=\"itemInList[" + (num - 1) + "].GoodsID\" lay-filter=\"itemsName" + num + "\">" +
             "<option value=\"\" selected> </option>" +
             "</select>" +
+            "</div>" +
             "</td>" +
             "<td>" +
             "<select  id=\"Category" + num + "\" name=\"itemInList[" + (num - 1) + "].CategoryID\" lay-verify=\"required\" lay-filter=\"Category" + num + "\">" +
@@ -587,6 +662,33 @@
             var form = layui.form;
             form.render();   //重新渲染新增的行中select的信息
 
+            $("#addGoods"+num).on('click', function () {
+                layer.open({
+                    type: 2,
+                    title: "添加物品",
+                    content: '${pageContext.request.contextPath }/goods/rAddGoods',
+                    area: ['600px', '334px'],
+                    end: function () {
+                        $("#itemsName"+num).empty();
+                        $("#itemsName"+num).append("<option value=''>" + "请选择"+ "</option>");
+                        $.ajax({
+                            type: "POST",
+                            url: '${pageContext.request.contextPath }/goods/getGoodsName',  //从数据库查询返回的是个list
+                            dataType: "json",
+                            async: false,
+                            cache: false,
+                            success: function (data) {
+                                $.each(data, function (index, item) {
+                                    $("#itemsName"+num).append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                                })
+                                form.render();//菜单渲染 把内容加载进去
+                            }
+                        });
+                        form.render('select','goods'+num);
+                    }
+                });
+            });
+
             //查询物品名称
             $.ajax({
                 type: "POST",
@@ -596,7 +698,7 @@
                 cache: false,
                 success: function (data) {
                     $.each(data, function (index, item) {
-                        $("#itemsName"+num).append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
+                        $("#itemsName" + num).append("<option value='" + item.itemsName + "'>" + item.itemsName + "</option>");//往下拉菜单里添加元素
                     });
                     form.render();//菜单渲染 把内容加载进去
                 }
@@ -694,7 +796,7 @@
                 form.render()
                 return false;
             }
-            console.log("test:"+ this.innerText);
+            console.log("test:" + this.innerText);
             $.ajax({
                 type: "post",
                 url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
@@ -711,7 +813,7 @@
                     $.ajax({
                         type: "post",
                         url: "${pageContext.request.contextPath }/goods/findGoodsByItemsNameAndItemsType",
-                        data: {itemsType: itemsTypeVal,itemsName:data.value},
+                        data: {itemsType: itemsTypeVal, itemsName: data.value},
                         dataType: "json",
                         success: function (result) {
                             console.log(result.goodsID);
@@ -732,89 +834,89 @@
             form = layui.form;
 
         $.ajax({
-        type: "POST",
-        url: '${pageContext.request.contextPath }/provider/getProvider',  //从数据库查询返回的是个list
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function (data) {
-            $.each(data, function (index, item) {
-                $("#providerID").append("<option value='" + item.providerID + "'>" + item.providerName + "</option>");//往下拉菜单里添加元素
-            })
-            form.render();//菜单渲染 把内容加载进去
-        }
-    });
+            type: "POST",
+            url: '${pageContext.request.contextPath }/provider/getProvider',  //从数据库查询返回的是个list
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("#providerID").append("<option value='" + item.providerID + "'>" + item.providerName + "</option>");//往下拉菜单里添加元素
+                })
+                form.render();//菜单渲染 把内容加载进去
+            }
+        });
 
-    $.ajax({
-        type: "POST",
-        url: '${pageContext.request.contextPath }/user/getWarehouse',  //从数据库查询返回的是个list
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function (data) {
-            $.each(data, function (index, item) {
-                $("#warehouse").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
-            })
-            form.render();//菜单渲染 把内容加载进去
-        }
-    });
+        $.ajax({
+            type: "POST",
+            url: '${pageContext.request.contextPath }/user/getWarehouse',  //从数据库查询返回的是个list
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("#warehouse").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
+                })
+                form.render();//菜单渲染 把内容加载进去
+            }
+        });
 
-    $.ajax({
-        type: "POST",
-        url: '${pageContext.request.contextPath }/user/getAlluser',  //从数据库查询返回的是个list
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function (data) {
-            $.each(data, function (index, item) {
-                $("#buyer").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
-            })
-            form.render();//菜单渲染 把内容加载进去
-        }
-    });
+        $.ajax({
+            type: "POST",
+            url: '${pageContext.request.contextPath }/user/getAlluser',  //从数据库查询返回的是个list
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("#buyer").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
+                })
+                form.render();//菜单渲染 把内容加载进去
+            }
+        });
 
-    $.ajax({
-        type: "POST",
-        url: '${pageContext.request.contextPath }/user/getAlluser',  //从数据库查询返回的是个list
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function (data) {
-            $.each(data, function (index, item) {
-                $("#Approvaler").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
-            })
-            form.render();//菜单渲染 把内容加载进去
-        }
-    });
+        $.ajax({
+            type: "POST",
+            url: '${pageContext.request.contextPath }/user/getAlluser',  //从数据库查询返回的是个list
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("#Approvaler").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
+                })
+                form.render();//菜单渲染 把内容加载进去
+            }
+        });
 
-    $.ajax({
-        type: "POST",
-        url: '${pageContext.request.contextPath }/user/getAlllister',  //从数据库查询返回的是个list
-        dataType: "json",
-        async: false,
-        cache: false,
-        success: function (data) {
-            $.each(data, function (index, item) {
-                $("#lister").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
-            });
-            form.render();//菜单渲染 把内容加载进去
-        }
-    });
+        $.ajax({
+            type: "POST",
+            url: '${pageContext.request.contextPath }/user/getAlllister',  //从数据库查询返回的是个list
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("#lister").append("<option value='" + item.userID + "'>" + item.userName + "</option>");//往下拉菜单里添加元素
+                });
+                form.render();//菜单渲染 把内容加载进去
+            }
+        });
 
-    $.ajax({
-        method: 'post',
-        url: "${pageContext.request.contextPath }/itemIn/valueIDandTime",
-        data: {"InBillID": parent.InBillID},
-        success: function (htq) {
-            $("#buyer").val(htq[0].buyer);
-            $("#warehouse").val(htq[0].storeManager);
-            $("#Approvaler").val(htq[0].checker);
-            $("#lister").val(htq[0].tableMaker);
-            $("#providerID").val(htq[0].providerID);
-            $("#alTotal").val(htq[0].allTotal.toFixed(2));
-            form.render();   //重新渲染新增的行中select的信息
-        }
-    });
+        $.ajax({
+            method: 'post',
+            url: "${pageContext.request.contextPath }/itemIn/valueIDandTime",
+            data: {"InBillID": parent.InBillID},
+            success: function (htq) {
+                $("#buyer").val(htq[0].buyer);
+                $("#warehouse").val(htq[0].storeManager);
+                $("#Approvaler").val(htq[0].checker);
+                $("#lister").val(htq[0].tableMaker);
+                $("#providerID").val(htq[0].providerID);
+                $("#alTotal").val(htq[0].allTotal.toFixed(2));
+                form.render();   //重新渲染新增的行中select的信息
+            }
+        });
     });
 </script>
 </body>
