@@ -11,6 +11,9 @@ import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
 import java.util.List;
 
 @Controller("roleController")
@@ -153,9 +157,19 @@ public class RoleController {
 
     @RequestMapping("/delRolePermission")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('角色管理,角色删除,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('角色查看,角色管理,角色删除,ROLE_ADMIN')")
     public AjaxMesg delRolePermission(int roleID,int permissionID){
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            if (iterator.next().toString().equals("角色删除")){
+                b = true;
+            }
+        }
+        if(!b){
+            return new AjaxMesg(false,"无删除权限,无法删除!");
+        }
         int i = roleService.delRolePermission(roleID, permissionID);
 
         if (i<0)

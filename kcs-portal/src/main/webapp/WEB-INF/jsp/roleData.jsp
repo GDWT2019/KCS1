@@ -39,8 +39,7 @@
 			,title: '角色数据表'
 			,totalRow: true//开启合计行
 			,cols: [[
-				{type: 'checkbox', fixed: 'left'}
-				,{type:'numbers',title:'序号'}
+				{type:'numbers',title:'序号'}
 				,{field:'roleName', title:'角色', width:150}
 				,{fixed: '', title:'权限', toolbar: '#bar', width:80}
 				,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
