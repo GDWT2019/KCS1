@@ -43,6 +43,16 @@ public class test {
     private RoleDao roleDao;
     @Autowired
     private PermissionDao permissionDao;
+    @Autowired
+    private OutBillPresentDao outBillPresentDao;
+
+    @Test
+    public void test31(){
+        List<OutBillPresent> allOutBillPresent =  outBillPresentDao.findAllOutBillPresent(1, 10, null, null, null, 0, 0);
+        for (OutBillPresent outBillPresent : allOutBillPresent) {
+            System.out.println(outBillPresent);
+        }
+    }
 
     @Test
     public void test30(){

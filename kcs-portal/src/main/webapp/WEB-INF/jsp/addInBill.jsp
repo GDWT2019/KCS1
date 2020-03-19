@@ -355,7 +355,7 @@
             layer.tips("价格格式错误！需要大于0", ii, {
                 tips: [1, "#2B2B2B"]
             });
-            $(ii).val(1);
+            $(ii).val(0);
             var val = $(ii).val();
             $(ii).parent().next().find("input").val((val * total).toFixed(2));
         }
