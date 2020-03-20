@@ -90,12 +90,12 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input id="itemNum1" name="itemInList[0].ItemNum" onblur="NumCount(this)"
+                                        <input id="itemNum1" name="itemInList[0].ItemNum" oninput="NumCount(this)"
                                                class="layui-input" type="number" min="1" placeholder="数量"/>
                                     </td>
                                     <td>
                                         <input id="itemPrice1" name="itemInList[0].ItemPrice"
-                                               onblur="PriceCount(this)"
+                                               oninput="PriceCount(this)"
                                                class="layui-input" type="text"/>
                                     </td>
                                     <td>
@@ -438,10 +438,10 @@
             "</select>" +
             "</td>" +
             "<td>" +
-            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
+            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" oninput=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
             "</td>" +
             "<td>" +
-            "<input id=\"itemPrice" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemPrice\" onblur=\"PriceCount(this)\" class=\"layui-input\" type=\"text\" />" +
+            "<input id=\"itemPrice" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemPrice\" oninput=\"PriceCount(this)\" class=\"layui-input\" type=\"text\" />" +
             "</td>" +
             "<td>" +
             "<input id=\"itemTotal" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemTotal\" class=\"layui-input\"  type=\"text\" readonly=\"readonly\" />" +

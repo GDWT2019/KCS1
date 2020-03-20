@@ -226,13 +226,12 @@
                                             <select id="itemsType${status.count}"
                                                     name="itemInList[${status.count-1}].Type" lay-verify="required"
                                                     lay-filter="itemsType${status.count}">
-                                                    <%--<option value="${inBillPresent.type}"  > ${inBillPresent.type} </option>--%>
-                                                    <%--<option value="" selected></option>--%>
                                             </select>
 
                                             <script>
                                                 var goodsID = "itemInList[${status.count-1}].GoodsID";
                                                 var itemsNameVal = '${inBillPresent.itemsName}';
+                                                var itemsType = '${inBillPresent.type}';
 
                                                 //通过物品名称查询规格
                                                 $.ajax({
@@ -248,18 +247,19 @@
                                                         form.render();//菜单渲染 把内容加载进去
                                                     }
                                                 });
+                                                $("#itemsType${status.count}").val(itemsType);
                                             </script>
                                         </td>
                                         <td>
                                             <input name="itemInList[${status.count-1}].ItemNum" class="layui-input"
-                                                   onblur="NumCount(this)"
+                                                   oninput="NumCount(this)"
                                                    type="number" placeholder="数量" min="1"
                                                    value="${inBillPresent.itemNum}"/>
 
                                         </td>
                                         <td>
                                             <input name="itemInList[${status.count-1}].ItemPrice" class="layui-input"
-                                                   onblur="PriceCount(this)"
+                                                   oninput="PriceCount(this)"
                                                    type="text" value="${inBillPresent.itemPrice}"/>
                                         </td>
                                         <td>
@@ -526,7 +526,7 @@
             layer.tips("价格格式错误！需要大于0", ii, {
                 tips: [1, "#2B2B2B"]
             });
-            $(ii).val(1);
+            $(ii).val(0);
             var val = $(ii).val();
             $(ii).parent().next().find("input").val((val * total).toFixed(2));
         }
@@ -537,7 +537,6 @@
         for (i = 1; i < length; i++) {
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
             altotal = Number(altotal) + Number(text);
-
         }
         $("#alTotal").val(altotal.toFixed(2));
     }
@@ -551,20 +550,18 @@
 
     function delTr(el) {
         var length1 = $("#table").find("tr").length;
-        for (i = 1; i < length1; i++) {
-            var itemsName = $("#table").find("tr").eq(i).find("td").eq(1).find("input").val();
-            var itemsType = $("#table").find("tr").eq(i).find("td").eq(3).find("input").val();
-            var itemsNum = $("#table").find("tr").eq(i).find("td").eq(4).find("input").val();
-        }
-
+        el = getParent(el, 'TR');
+        var rowIndex = el.rowIndex;
+        var itemsName = $("#table").find("tr").eq(rowIndex).find("td").eq(1).find("input").val();
+        var itemsType = $("#table").find("tr").eq(rowIndex).find("td").eq(3).find("input").val();
+        var itemsNum = $("#table").find("tr").eq(rowIndex).find("td").eq(4).find("input").val();
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonutForRemove",
             data: {"itemsType": itemsType, "itemsName": itemsName, "itemsNum": itemsNum},
             success: function (htq) {
+                console.log("htq:"+htq)
                 if (htq == 1) {
-                    el = getParent(el, 'TR');
-                    var rowIndex = el.rowIndex;
                     if (rowIndex > 1) {
                         el = getParent(el, 'TABLE');
                         el.deleteRow(rowIndex);
@@ -574,7 +571,6 @@
                         for (i = 1; i < length; i++) {
                             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
                             altotal = Number(altotal) + Number(text);
-
                         }
                         $("#alTotal").val(altotal.toFixed(2));
                         layui.use(['form'], function () {
@@ -583,18 +579,16 @@
                             form.render();
                         })
                     } else {
-                        layer.alert("删除失败！");
+                        layer.alert("第一行不能移除！");
                     }
                 } else {
-                    layer.alert("入库数小于出库数！");
+                    layer.alert("删除后，入库数小于出库数！");
                 }
             },
             error: function () {
                 layer.alert("修改失败！");
             }
         });
-
-
     }
 
     $("#InBillID").val(parent.InBillID);
@@ -638,10 +632,10 @@
             "</select>" +
             "</td>" +
             "<td>" +
-            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" onblur=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
+            "<input id=\"itemNum" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemNum\"  min=\"1\" oninput=\"NumCount(this)\" class=\"layui-input\" type=\"number\" placeholder=\"数量\"/>" +
             "</td>" +
             "<td>" +
-            "<input id=\"itemPrice" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemPrice\" onblur=\"PriceCount(this)\" class=\"layui-input\" type=\"text\" />" +
+            "<input id=\"itemPrice" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemPrice\" oninput=\"PriceCount(this)\" class=\"layui-input\" type=\"text\" />" +
             "</td>" +
             "<td>" +
             "<input id=\"itemTotal" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemTotal\" class=\"layui-input\"  type=\"text\" readonly=\"readonly\" />" +

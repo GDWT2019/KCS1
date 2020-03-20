@@ -63,7 +63,12 @@ public class ItemsOutServiceImpl implements ItemsOutService {
             }
             summary.setOutPrice(itemsOut.getItemPrice());
             summary.setThisAmount(summary.getThisAmount()-itemsOut.getItemNum());
-            summary.setThisTotal(summary.getThisTotal()-itemsOut.getItemTotal());
+            summary.setThisTotal(new BigDecimal(summary.getThisTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            if(summary.getThisAmount()==0){
+                summary.setThisPrice(0.0);
+            }else{
+                summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
             summaryDao.updateSummary(summary);
         }
         return i;
@@ -99,7 +104,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 s.setOutTotal(0d);
 
                 s.setThisAmount(s.getPreAmount()+s.getInAmount());
-                s.setThisTotal(s.getPreTotal()+s.getInTotal());
+                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 if(s.getThisAmount()==0){
                     s.setThisPrice(0.0);
                 }else{
@@ -115,7 +120,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
                 s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 if(s.getThisAmount()==0){
                     s.setThisPrice(0.0);
                 }else{
@@ -157,7 +162,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     summary.setOutTotal(summary.getOutTotal()- itemsOutDatum.getItemTotal());
                     summary.setOutPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
-                    summary.setThisTotal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal());
+                    summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
                         summary.setThisPrice(0.0);
                     }else{
@@ -177,7 +182,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                             s.setPrePrice(frontSummary.getThisPrice());
                             s.setPreTotal(frontSummary.getThisTotal());
                             s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                            s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                            s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             if(s.getThisAmount()==0){
                                 s.setThisPrice(0.0);
                             }else{
@@ -241,7 +246,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getThisAmount() != 0)
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
@@ -255,7 +260,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getThisAmount() != 0)
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
@@ -271,7 +276,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
 
                     //减少本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getThisAmount() != 0)
                         s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
@@ -284,7 +289,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //减少本月数量，合计
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                    s.setThisTotal(s.getPreTotal()+s.getInTotal()-s.getOutTotal());
+                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getThisAmount() != 0)
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }

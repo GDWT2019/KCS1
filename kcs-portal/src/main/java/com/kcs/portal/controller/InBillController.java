@@ -66,9 +66,11 @@ public class InBillController {
     @PreAuthorize("hasAnyAuthority('入库审批,入库,ROLE_ADMIN')")
     public String checkInBill(HttpServletRequest request) {
 
-        Date reDate = new Date(System.currentTimeMillis());
+        /*Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
-        request.setAttribute("loadtime", ft);
+        request.setAttribute("loadtime", ft);*/
+
+
 
         return "checkInBill";
     }
@@ -222,6 +224,7 @@ public class InBillController {
         String inBillID = request.getParameter("InBillID");
 
         InBill inBill = inBillService.findCheckMessageByID(inBillID);
+
         return inBill;
     }
 
