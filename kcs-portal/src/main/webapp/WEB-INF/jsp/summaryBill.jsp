@@ -18,10 +18,14 @@
 
 <div class="demoTable">
     时间：
+    <%--<button class="layui-btn layui-btn-sm layui-icon-prev" id="preMonth">上一月</button>--%>
+    <a id="preMonth"><i class="layui-icon layui-icon-prev" style="font-size: 25px"></i></a>
     <div class="layui-inline">
         <input type="text" class="layui-input" id="time1" name="time" placeholder="yyyy-MM">
     </div>
+    <a id="nextMonth"><i class="layui-icon layui-icon-next" style="font-size: 25px"></i></a>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
+    <%--<button class="layui-btn layui-btn-sm layui-icon-next" id="nextMonth">下一月</button>--%>
 <a href="${pageContext.request.contextPath }/summary/poiSummary" class="layui-btn">导出</a>
 </div>
 <table class="layui-table" id="test" lay-filter="test"></table>
@@ -50,17 +54,94 @@
 
 
 
+
     layui.use(["jquery", "upload", "form", "layer", "element",'table','laydate'], function () {
         var $ = layui.$,
             form = layui.form,
             table = layui.table;
         var laydate = layui.laydate;
 
-        // laydate.render({
-        //     elem: '#time'
-        //     ,type: 'month'
-        // });
+        $("#preMonth").on("click",function () {
+            var month = $("#time1").val()+"-1";
+            var preMonth = getPreMonth(month);
+            console.log("preMonth :"+preMonth);
 
+            var s = preMonth.substring(0,7);
+            $("#time1").val(s);
+            table.reload('testSummary',{
+                where: {time: s}
+                , page: {
+                    curr: 1
+                }
+            });
+        });
+        $("#nextMonth").on("click",function () {
+            var month = $("#time1").val()+"-1";
+            var nextMonth = getNextMonth(month);
+            console.log("nextMonth :"+nextMonth);
+
+            var s = nextMonth.substring(0,7);
+            $("#time1").val(s);
+            table.reload('testSummary',{
+                where: {time: s}
+                , page: {
+                    curr: 1
+                }
+            });
+            });
+
+        function getNextMonth(date) {
+            var arr = date.split('-');
+            var year = arr[0]; //获取当前日期的年份
+            var month = arr[1]; //获取当前日期的月份
+            var day = arr[2]; //获取当前日期的日
+            var days = new Date(year, month, 0);
+            days = days.getDate(); //获取当前日期中的月的天数
+            var year2 = year;
+            var month2 = parseInt(month) + 1;
+            if (month2 == 13) {
+                year2 = parseInt(year2) + 1;
+                month2 = 1;
+            }
+            var day2 = day;
+            var days2 = new Date(year2, month2, 0);
+            days2 = days2.getDate();
+            if (day2 > days2) {
+                day2 = days2;
+            }
+            if (month2 < 10) {
+                month2 = '0' + month2;
+            }
+
+            var t2 = year2 + '-' + month2 + '-' + day2;
+            return t2;
+        }
+
+        function getPreMonth(date) {
+            var arr = date.split('-');
+            var year = arr[0]; //获取当前日期的年份
+            var month = arr[1]; //获取当前日期的月份
+            var day = arr[2]; //获取当前日期的日
+            var days = new Date(year, month, 0);
+            days = days.getDate(); //获取当前日期中月的天数
+            var year2 = year;
+            var month2 = parseInt(month) - 1;
+            if (month2 == 0) {
+                year2 = parseInt(year2) - 1;
+                month2 = 12;
+            }
+            var day2 = day;
+            var days2 = new Date(year2, month2, 0);
+            days2 = days2.getDate();
+            if (day2 > days2) {
+                day2 = days2;
+            }
+            if (month2 < 10) {
+                month2 = '0' + month2;
+            }
+            var t2 = year2 + '-' + month2 + '-' + day2;
+            return t2;
+        }
 
         layui.config({
             base: "${pageContext.request.contextPath}/js/layui_exts/"
@@ -86,7 +167,9 @@
                 form.render();//菜单渲染 把内容加载进去
             }
         });
-        console.log("time1:"+time)
+
+
+
 
         table.render({
             elem: '#test'
@@ -141,11 +224,12 @@
                             , page: {
                                 curr: 1
                             }
-                        })
+                        });
                         reloadLaydate();
                     }
                 });
             });
+
             $('#daochu').click(function(){
                 $.ajax({
                     url: "${pageContext.request.contextPath }/summary/summaryAllData",
