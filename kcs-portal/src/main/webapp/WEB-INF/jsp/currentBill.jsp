@@ -86,8 +86,7 @@
             , title: '流水单'
             , totalRow: false//开启合计行
             , cols: [[ //标题栏
-                {type: 'checkbox', fixed: 'left', rowspan: 2}
-                , {type: 'numbers', title: '序号', rowspan: 2, width: 80, fixed: 'left', unresize: true, sort: true}
+                 {type: 'numbers', title: '序号', rowspan: 2, width: 80, fixed: 'left', unresize: true, sort: true}
                 , {align: 'center', title: '物品', colspan: 3}
                 , {align: 'center', title: '上月结存', colspan: 3}
                 , {align: 'center', title: '本月入库', colspan: 3}

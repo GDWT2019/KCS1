@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,32 @@ public class test {
     private RoleDao roleDao;
     @Autowired
     private PermissionDao permissionDao;
+    @Autowired
+    private OutBillPresentDao outBillPresentDao;
+
+    @Test
+    public void test33(){
+
+    }
+    
+    @Test
+    public void test32(){
+        double pre =4380.4;
+        double In =0.0;
+        double out =1317.8;
+        double This=pre- out;
+        double value = new BigDecimal(29.8/16).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        System.out.println(This);
+        System.out.println(value);
+    }
+
+    @Test
+    public void test31(){
+        List<OutBillPresent> allOutBillPresent =  outBillPresentDao.findAllOutBillPresent(1, 10, null, null, null, 0, 0);
+        for (OutBillPresent outBillPresent : allOutBillPresent) {
+            System.out.println(outBillPresent);
+        }
+    }
 
     @Test
     public void test30(){

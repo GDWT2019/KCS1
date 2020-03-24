@@ -6,7 +6,6 @@ import com.kcs.portal.service.InBillService;
 import com.kcs.portal.service.ItemInService;
 import com.kcs.portal.service.SummaryService;
 import com.kcs.rest.pojo.*;
-import com.kcs.rest.utils.AjaxMesg;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,9 +65,11 @@ public class InBillController {
     @PreAuthorize("hasAnyAuthority('入库审批,入库,ROLE_ADMIN')")
     public String checkInBill(HttpServletRequest request) {
 
-        Date reDate = new Date(System.currentTimeMillis());
+        /*Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
-        request.setAttribute("loadtime", ft);
+        request.setAttribute("loadtime", ft);*/
+
+
 
         return "checkInBill";
     }
@@ -222,6 +223,7 @@ public class InBillController {
         String inBillID = request.getParameter("InBillID");
 
         InBill inBill = inBillService.findCheckMessageByID(inBillID);
+
         return inBill;
     }
 
@@ -266,6 +268,7 @@ public class InBillController {
                     itemInService.insertNewItem(itemIn); //向新单号插入物品
                 }
             }
+
         }
     }
 

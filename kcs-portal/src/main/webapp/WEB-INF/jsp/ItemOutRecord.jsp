@@ -31,8 +31,7 @@
             ,title: '出库单'
             ,totalRow: false//开启合计行
             ,cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                ,{type:'numbers',title:'序号'}
+                {type:'numbers',title:'序号'}
                 ,{field:'outBillID', title:'单号', width:80,sort:true}
                 ,{field:'outTime', title:'日期', width:110,sort:true}
                 ,{field:'itemsName', title:'物品名称', width:110}
