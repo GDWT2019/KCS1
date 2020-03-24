@@ -46,15 +46,8 @@ public class ItemInController  {
     public void delItem(HttpServletRequest request){
         String itemsInID = request.getParameter("ItemsInID");
         itemInService.delItem(itemsInID);
-
     }
 
-  /*  @RequestMapping("/delItemByInBillID")
-    @ResponseBody
-    public void delItemByInBillID(HttpServletRequest request){
-        String inBillID = request.getParameter("inBillID");
-        itemInService.delItemByInBillID(inBillID);
-    }*/
 
     //跳转审批页面
     @RequestMapping("/checkUpdate")
@@ -75,20 +68,12 @@ public class ItemInController  {
         return "updateInBill";
     }
 
-    /*@RequestMapping("/findItemType")
-    @ResponseBody
-    public List<ItemIn> findItemType(HttpServletRequest request){
-        String inBillID = request.getParameter("inBillID");
-        List<ItemIn> itemInList=itemInService.getItemsInList(inBillID);
-        return itemInList;
-    }*/
-
 
     //修改审批状态
     @RequestMapping("/UpdateCheckStatus")
     @ResponseBody
     public void UpdateCheckStatus(HttpServletRequest request){
-        String chcckTime = request.getParameter("chcckTime");
+        String checkTime = request.getParameter("checkTime");
         String checkStatus = request.getParameter("checkStatus");
         String inBillID = request.getParameter("InBillID");
         String checkMessage = request.getParameter("checkMessage");
@@ -100,7 +85,7 @@ public class ItemInController  {
         inBill.setInBillID(id);
         inBill.setCheckStatus(status);
         inBill.setCheckMessage(checkMessage);
-        inBill.setCheckTime(chcckTime);
+        inBill.setCheckTime(checkTime);
         inBill.setChecker(checkerID);
         System.out.println(inBill);
        itemInService.UpdateCheckStatus(inBill);
