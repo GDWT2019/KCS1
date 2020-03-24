@@ -268,7 +268,7 @@
                 type:2,
                 title:"添加入库",
                 content:'${pageContext.request.contextPath }/inBill/addInBill',
-                area:['1200px','668px'],
+                area:['1500px','668px'],
                 end:function () {
                     location.reload();
                 }
