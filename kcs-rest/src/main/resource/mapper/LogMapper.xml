@@ -32,7 +32,7 @@
         </if>
     </select>
 
-    <select id="findLogByTimeName" resultType="com.kcs.rest.pojo.LogPresent">
+    <select id="findLogByTimeNamwe" resultType="com.kcs.rest.pojo.LogPresent">
       select top(#{end}-#{begin}+1) [Log].LogID,[Log].UserID,[Log].Time,[Log].Operation,[Log].Result,[User].UserName,[User].LoginName
         from [Log],[User]
         where [Log].UserID = [User].UserID
@@ -44,5 +44,27 @@
             and [User].LoginName like '%${name}%'
         </if>
         order by [Log].Time desc
+    </select>
+    <select id="findLogByTimeName" resultType="com.kcs.rest.pojo.LogPresent">
+        select top (#{end}-#{begin}+1) * from (select Row_Number() over ( order by Time Desc ) as id ,
+        [Log].LogID as LogID,[User].UserID as UserID,[Log].Time as Time,[Log].Operation as Operation,
+        [Log].Result as Result,[User].UserName as UserName,[User].LoginName as LoginName
+        from [Log],[User]
+        where [Log].UserID = [User].UserID
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and [Log].Time between #{time1} and #{time2}
+        </if>
+        <if test="name != null and name !='' ">
+            and [User].LoginName like '%${name}%'
+        </if>) as L
+        where id not in
+        (select top (#{begin}-1) * from (select Row_Number() over ( order by Time Desc ) as id  from [Log],[User]
+        where [Log].UserID = [User].UserID
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and [Log].Time between #{time1} and #{time2}
+        </if>
+        <if test="name != null and name !='' ">
+            and [User].LoginName like '%${name}%'
+        </if>)as X)
     </select>
 </mapper>

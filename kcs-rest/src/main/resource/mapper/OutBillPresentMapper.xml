@@ -45,68 +45,85 @@
         order by [OutBill].OutTime desc
     </select>
     <select id="findAllOutBillPresent" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="java.lang.Integer">
-        select * from(select top(#{end} -#{begin}+1)
-            [OutBill].OutBillID as OutBillID,
-            [OutBill].OutTime as OutTime,
-            [OutBill].CheckStatus as CheckStatus,
-            [OutBill].CheckTime as CheckTime,
-            [OutBill].CheckMessage as  CheckMessage,
-            [OutBill].OperateTime as  OperateTime,
-            [OutBill].AllTotal  as AllTotal,
-            [OutBill]. StoreManager as StoreManager,
-            [OutBill].Taker as Taker,
-            [OutBill].Checker as Checker,
-            [OutBill].TableMaker as TableMaker,
-            [OutBill].Operator as Operator,
-            [OutBill].Remark as Remark,
-            [ItemsOut].ItemsOutID as ItemsOutID,[ItemsOut].DepartmentID as DepartmentID,
-            [Department]. DepartmentName as DepartmentName,
-            [ItemsOut].GoodsID as GoodsID,
-            [ItemsOut].ItemNum as ItemNum,
-            [ItemsOut].ItemPrice as ItemPrice,
-            [ItemsOut].ItemTotal as ItemTotal,
-            [ItemsOut].Project as Project,
-            [ItemsOut].Note as Note,
-            [Goods].CategoryID as CategoryID,
-            [Goods].ItemsName as ItemsName,
-            [Goods].ItemsType as ItemsType,
-            [Goods].ItemsUnit as ItemsUnit,
-            [Category]. CategoryName as CategoryName,
-            [Summary]. SummaryID as SummaryID,
-            [Summary].PreAmount as PreAmount,
-            [Summary]. PrePrice as PrePrice,
-            [Summary].PreTotal as PreTotal,
-            [Summary].InAmount as InAmount,
-            [Summary].InPrice as InPrice,
-            [Summary].InTotal as IntTotal,
-            [Summary].OutAmount as OutAmount,
-            [Summary].OutPrice as OutPrice,
-            [Summary].OutTotal as OutTotal,
-            [Summary].ThisAmount as ThisAmount,
-            [Summary].ThisPrice as ThisPrice,
-            [Summary].ThisTotal as ThisTotal,
-            [Summary].Time as Time from [ItemsOut],[OutBill],[Goods],[Category] ,[Department] ,[Summary]
-            where (select SUBSTRING ([OutBill].OutTime,0,8)) like [Summary].Time
-            and  ItemsOutID  not in(select top(#{begin}-1)ItemsOutID from [ItemsOut])
-            and [OutBill].OutBillID = [ItemsOut].OutBillID
-            and [ItemsOut].GoodsID = [Goods].GoodsID
-            and [Goods].CategoryID = [Category] .CategoryID
-            and [ItemsOut] .DepartmentID = [Department] .DepartmentID
-            and [Goods].GoodsID=[Summary].GoodsID
-            <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
-                and OutTime between #{time1} and #{time2}
-            </if>
-            <if test="itemName != null and itemName !='' ">
-                and ItemsName like '%${itemName}%'
-            </if>
-            <if test="checkStatus != 3">
-                and CheckStatus = #{checkStatus}
-            </if>
-            <if test="userID != 0">
-                and Operator =#{userID}
-            </if>
+        select top (#{end}-#{begin}+1) * from (select Row_Number() over ( order by OutTime Desc ) as id,
+        [OutBill].OutBillID as OutBillID,
+        [OutBill].OutTime as OutTime,
+        [OutBill].CheckStatus as CheckStatus,
+        [OutBill].CheckTime as CheckTime,
+        [OutBill].CheckMessage as  CheckMessage,
+        [OutBill].OperateTime as  OperateTime,
+        [OutBill].AllTotal  as AllTotal,
+        [OutBill]. StoreManager as StoreManager,
+        [OutBill].Taker as Taker,
+        [OutBill].Checker as Checker,
+        [OutBill].TableMaker as TableMaker,
+        [OutBill].Operator as Operator,
+        [OutBill].Remark as Remark,
+        [ItemsOut].ItemsOutID as ItemsOutID,[ItemsOut].DepartmentID as DepartmentID,
+        [Department]. DepartmentName as DepartmentName,
+        [ItemsOut].GoodsID as GoodsID,
+        [ItemsOut].ItemNum as ItemNum,
+        [ItemsOut].ItemPrice as ItemPrice,
+        [ItemsOut].ItemTotal as ItemTotal,
+        [ItemsOut].Project as Project,
+        [ItemsOut].Note as Note,
+        [Goods].CategoryID as CategoryID,
+        [Goods].ItemsName as ItemsName,
+        [Goods].ItemsType as ItemsType,
+        [Goods].ItemsUnit as ItemsUnit,
+        [Category]. CategoryName as CategoryName,
+        [Summary]. SummaryID as SummaryID,
+        [Summary].PreAmount as PreAmount,
+        [Summary]. PrePrice as PrePrice,
+        [Summary].PreTotal as PreTotal,
+        [Summary].InAmount as InAmount,
+        [Summary].InPrice as InPrice,
+        [Summary].InTotal as IntTotal,
+        [Summary].OutAmount as OutAmount,
+        [Summary].OutPrice as OutPrice,
+        [Summary].OutTotal as OutTotal,
+        [Summary].ThisAmount as ThisAmount,
+        [Summary].ThisPrice as ThisPrice,
+        [Summary].ThisTotal as ThisTotal,
+        [Summary].Time as Time from [ItemsOut],[OutBill],[Goods],[Category] ,[Department] ,[Summary]
+        where (select SUBSTRING ([OutBill].OutTime,0,8)) like [Summary].Time
+        and [OutBill].OutBillID = [ItemsOut].OutBillID
+        and [ItemsOut].GoodsID = [Goods].GoodsID
+        and [Goods].CategoryID = [Category] .CategoryID
+        and [ItemsOut] .DepartmentID = [Department] .DepartmentID
+        and [Goods].GoodsID=[Summary].GoodsID
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and OutTime between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
+        <if test="checkStatus != 3">
+            and CheckStatus = #{checkStatus}
+        </if>
+        <if test="userID != 0">
+            and Operator =#{userID}
+        </if>
         )as Present
-        order by OutBillID
+        where id not in(select top (#{begin}-1)* from ( select Row_Number() over ( order by OutTime Desc ) as id from [ItemsOut],[OutBill],[Goods],[Category] ,[Department] ,[Summary]
+        where (select SUBSTRING ([OutBill].OutTime,0,8)) like [Summary].Time
+        and [OutBill].OutBillID = [ItemsOut].OutBillID
+        and [ItemsOut].GoodsID = [Goods].GoodsID
+        and [Goods].CategoryID = [Category] .CategoryID
+        and [ItemsOut] .DepartmentID = [Department] .DepartmentID
+        and [Goods].GoodsID=[Summary].GoodsID
+        <if test="time1 != null and time1 != '' and time2 !=null and time2 != ''">
+            and OutTime between #{time1} and #{time2}
+        </if>
+        <if test="itemName != null and itemName !='' ">
+            and ItemsName like '%${itemName}%'
+        </if>
+        <if test="checkStatus != 3">
+            and CheckStatus = #{checkStatus}
+        </if>
+        <if test="userID != 0">
+            and Operator =#{userID}
+        </if>)as X)
     </select>
     <select id="outBillPresentCount" resultType="java.lang.Integer">
         select count(*)
