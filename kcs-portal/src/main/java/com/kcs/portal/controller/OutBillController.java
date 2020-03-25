@@ -377,9 +377,9 @@ public class OutBillController {
 
     @RequestMapping(value = "outBillPrint", produces = "text/html;charset=utf-8")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('出库导出,出库,ROLE_ADMIN')")
+   //@PreAuthorize("hasAnyAuthority('出库导出,出库,ROLE_ADMIN')")
     public String outBillPrint(HttpServletRequest request) {
-
+        System.err.println("ddddddddddddddddddd"+request.getSession());
         List<OutBillPresent> allOutBillPresentPrint = outBillService.findAllOutBillPresentPrint();
         int count =  allOutBillPresentPrint.size();
         request.getSession().setAttribute("count",count);

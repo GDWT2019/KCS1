@@ -226,36 +226,6 @@
                 });
             }
         });
-
-
-        <%--//工具栏事件--%>
-        <%--table.on('toolbar(test)', function(obj){--%>
-            <%--var checkStatus = table.checkStatus(obj.config.id);--%>
-            <%--switch(obj.event){--%>
-                <%--case 'newInBill':--%>
-                    <%--layer.open({--%>
-                        <%--type:2,--%>
-                        <%--title:"添加入库",--%>
-                        <%--content:'${pageContext.request.contextPath }/inBill/addInBill',--%>
-                        <%--area:['1500px','668px'],--%>
-                        <%--end:function () {--%>
-                            <%--location.reload();--%>
-                        <%--}--%>
-                    <%--});--%>
-                    <%--break;--%>
-                <%--case 'getCheckData':--%>
-                    <%--var data = checkStatus.data;--%>
-                    <%--layer.alert(JSON.stringify(data));--%>
-                    <%--break;--%>
-                <%--case 'getCheckLength':--%>
-                    <%--var data = checkStatus.data;--%>
-                    <%--layer.msg('选中了：'+ data.length + ' 个');--%>
-                    <%--break;--%>
-                <%--case 'isAll':--%>
-                    <%--layer.msg(checkStatus.isAll ? '全选': '未全选')--%>
-                    <%--break;--%>
-            <%--};--%>
-        <%--});--%>
     });
 
     layui.use(['form', 'table', 'layer'], function () {

@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
-
 <div class="demoTable">
     时间：
     <%--<button class="layui-btn layui-btn-sm layui-icon-prev" id="preMonth">上一月</button>--%>
@@ -25,7 +24,7 @@
     </div>
     <a id="nextMonth"><i class="layui-icon layui-icon-next" style="font-size: 25px"></i></a>
     <%--<button class="layui-btn" data-type="reload">搜索</button>--%>
-    <%--<button class="layui-btn layui-btn-sm layui-icon-next" id="nextMonth">下一月</button>--%>
+
 <a href="${pageContext.request.contextPath }/summary/poiSummary" class="layui-btn">导出</a>
 </div>
 <table class="layui-table" id="test" lay-filter="test"></table>
@@ -150,23 +149,24 @@
         });
 
 
-
+        var latestDate= new Date();
         var time =null;
-        $.ajax({
-            type: "POST",
-            url: '${pageContext.request.contextPath }/summary/findAllTime',  //从数据库查询返回的是个list
-            dataType: "json",
-            async: false,
-            success: function (data) {
-                console.log("time"+data)
-                $.each(data, function (index, item) {
-                    if(index==0){
-                        time=item.time;//往下拉菜单里添加元素
-                    }
-                });
-                form.render();//菜单渲染 把内容加载进去
-            }
-        });
+        time = latestDate.getFullYear()+"-"+("0" + (latestDate.getMonth() + 1)).slice(-2);
+        <%--$.ajax({--%>
+            <%--type: "POST",--%>
+            <%--url: '${pageContext.request.contextPath }/summary/findAllTime',  //从数据库查询返回的是个list--%>
+            <%--dataType: "json",--%>
+            <%--async: false,--%>
+            <%--success: function (data) {--%>
+                <%--console.log("time"+data)--%>
+                <%--$.each(data, function (index, item) {--%>
+                    <%--if(index==0){--%>
+                        <%--time=item.time;//往下拉菜单里添加元素--%>
+                    <%--}--%>
+                <%--});--%>
+                <%--form.render();//菜单渲染 把内容加载进去--%>
+            <%--}--%>
+        <%--});--%>
 
 
 
@@ -324,7 +324,6 @@
                 }
             });
         });
-
     $("#time1").val(time);//
 
         table.on('tool(test)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"

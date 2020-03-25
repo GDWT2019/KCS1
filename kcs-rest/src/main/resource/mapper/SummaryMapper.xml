@@ -112,7 +112,7 @@
     </select>
 
     <select id="summartyBillData"  resultType="com.kcs.rest.pojo.SummartAndGoodsAndCategory" >
-select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by getdate() ) as id , * from (
+select top (#{back}- #{front}+1)* from (select Row_Number() over ( order by CategoryName ) as id , * from (
         select c.CategoryName,b.ItemsName,b.GoodsID,b.ItemsType,a.PreAmount,a.PrePrice,a.PreTotal,a.InAmount,a.InPrice,a.InTotal,a.OutAmount,a.OutPrice,a.OutTotal,a.ThisAmount,a.ThisPrice,a.ThisTotal,a.Time from Summary as a
 left join Goods as b on a.GoodsID=b.GoodsID
 left join Category as c on b.CategoryID=c.CategoryID  where a.Time = #{time}

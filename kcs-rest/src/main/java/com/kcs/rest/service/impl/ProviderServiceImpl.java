@@ -24,4 +24,9 @@ public class ProviderServiceImpl implements ProviderService {
     public Integer addProvider(String providerName, String providerAddress, String tel) {
         return providerDao.addProvider(providerName,providerAddress,tel);
     }
+
+    @Override
+    public Provider findProviderByName(String providerName) {
+        return providerDao.findProviderByName(providerName);
+    }
 }

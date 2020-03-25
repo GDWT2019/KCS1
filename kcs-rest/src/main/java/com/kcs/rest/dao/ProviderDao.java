@@ -9,4 +9,6 @@ public interface ProviderDao {
     List<Provider> findAllProvider();
 
     Integer addProvider(@Param("providerName") String providerName,@Param("providerAddress")String providerAddress,@Param("tel")String tel);
+
+    Provider findProviderByName(String providerName);
 }

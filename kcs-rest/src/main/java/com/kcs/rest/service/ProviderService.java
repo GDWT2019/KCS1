@@ -8,4 +8,6 @@ public interface ProviderService {
     List<Provider> findAllProvider();
 
     Integer addProvider(String providerName, String providerAddress, String tel);
+
+    Provider findProviderByName(String providerName);
 }

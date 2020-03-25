@@ -18,27 +18,34 @@ public class ProviderController {
     @Autowired
     private ProviderService providerService;
 
-    @RequestMapping(value="getProvider",produces="text/html;charset=utf-8")
-    public @ResponseBody String getPosition(){
-        List<Provider> list=providerService.findAllProvider();
+    @RequestMapping(value = "getProvider", produces = "text/html;charset=utf-8")
+    public @ResponseBody
+    String getPosition() {
+        List<Provider> list = providerService.findAllProvider();
         JSONArray json = JSONArray.fromObject(list);
-        String js=json.toString();
+        String js = json.toString();
         System.out.println(js);
         return js;
     }
 
     @RequestMapping("/rAddProvider")
-    public String rAddProvider(){
+    public String rAddProvider() {
         return "addProvider";
     }
 
-        @RequestMapping("/addProvider")
-        @ResponseBody
-        public AjaxMesg addProvider(String providerName,String providerAddress,String tel){
+    @RequestMapping("/addProvider")
+    @ResponseBody
+    public AjaxMesg addProvider(String providerName, String providerAddress, String tel) {
 
-            Integer integer = providerService.addProvider(providerName,providerAddress,tel);
-            if (integer<0)
-                return new AjaxMesg(false,"新增供应商失败！");
-            return new AjaxMesg(true,"新增供应商成功!");
+        Provider provider=providerService.findProviderByName(providerName);
+        if(provider==null){
+            Integer integer = providerService.addProvider(providerName, providerAddress, tel);
+            if (integer < 0)
+                return new AjaxMesg(false, "新增供应商失败！");
+            return new AjaxMesg(true, "新增供应商成功!");
         }
+        else {
+            return new AjaxMesg(false,"增加失败，供应商已存在！");
+        }
+    }
 }

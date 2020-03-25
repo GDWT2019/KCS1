@@ -14,13 +14,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">供应商名称</label>
             <div class="layui-input-inline">
-                <input id="providerName"  type="text" name="providerName" lay-verify="roleName" placeholder="供应商名称" autocomplete="off" class="layui-input">
+                <input id="providerName"  type="text" name="providerName" lay-verify="required" lay-reqtext="不能为空" placeholder="供应商名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">供应商地址</label>
             <div class="layui-input-inline">
-                <input id="providerAddress"  type="text" name="providerAddress" lay-verify="roleName" placeholder="供应商地址" autocomplete="off" class="layui-input">
+                <input id="providerAddress"  type="text" name="providerAddress" lay-verify="required" lay-reqtext="不能为空" placeholder="供应商地址" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
