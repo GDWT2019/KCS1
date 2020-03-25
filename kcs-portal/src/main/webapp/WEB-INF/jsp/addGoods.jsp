@@ -14,7 +14,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">物品名称</label>
             <div class="layui-input-inline">
-                <input id="goodsName"  type="text" name="goodsName" lay-verify="roleName" placeholder="物品名称" autocomplete="off" class="layui-input">
+                <input id="goodsName"  type="text" name="goodsName" lay-verify="required" placeholder="物品名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
@@ -28,13 +28,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">物品规格</label>
             <div class="layui-input-inline">
-                <input id="goodsType"  type="text" name="goodsType" lay-verify="roleName" placeholder="物品规格" autocomplete="off" class="layui-input">
+                <input id="goodsType"  type="text" name="goodsType" lay-verify="required" placeholder="物品规格" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">物品单位</label>
             <div class="layui-input-inline">
-                <input id="goodsUnit"  type="text" name="goodsUnit" lay-verify="roleName" placeholder="物品单位" autocomplete="off" class="layui-input">
+                <input id="goodsUnit"  type="text" name="goodsUnit" lay-verify="required" placeholder="物品单位" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">

@@ -6,10 +6,7 @@ import com.kcs.rest.pojo.Provider;
 import com.kcs.rest.service.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +30,12 @@ public class ProviderController {
         Integer integer = providerService.addProvider(providerName, providerAddress, tel);
         return KcsResult.ok(integer);
 
+    }
+
+    @RequestMapping("/findProviderByName{providerName}")
+    @ResponseBody
+    public KcsResult findProviderByName(@PathVariable String providerName){
+        Provider provider = providerService.findProviderByName(providerName);
+        return KcsResult.ok(provider);
     }
 }

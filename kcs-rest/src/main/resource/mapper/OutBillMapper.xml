@@ -80,7 +80,7 @@
     </update>
 
     <select id="ItemOutRecord" resultType="com.kcs.rest.pojo.OutBillPresent" parameterType="int">
-        select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by getdate() ) as id , * from (
+        select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by OutTime desc ) as id , * from (
            select a.OutBillID,b.ItemsOutID,a.OutTime,c.GoodsID,c.ItemsName,c.ItemsType,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,d.UserName as TakerName,a.CheckStatus,b.Note from OutBill as a
         left join ItemsOut as b
         on a.OutBillID =b.OutBillID
@@ -90,7 +90,7 @@
         on d.UserID = a.Taker where c.GoodsID = #{id}
             )as show)as show1
             where id not in (
-                select top (#{front}-1) id from (select Row_Number() over ( order by getdate() ) as id , * from (
+                select top (#{front}-1) id from (select Row_Number() over ( order by OutTime desc ) as id , * from (
            select a.OutBillID,b.ItemsOutID,a.OutTime,c.GoodsID,c.ItemsName,c.ItemsType,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,d.UserName as TakerName,a.CheckStatus,b.Note from OutBill as a
         left join ItemsOut as b
         on a.OutBillID =b.OutBillID

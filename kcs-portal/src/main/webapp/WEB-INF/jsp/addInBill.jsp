@@ -542,9 +542,9 @@
                     async: false,
                     cache: false,
                     success: function (result) {
+                        $('select[name="' + Category + '"]').append("<option value='" + result[0].categoryID + "'>" + result[0].categories[0].categoryName + "</option>")
                         $.each(result, function (index, item) {
                             $('select[name="' + itemsType + '"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>");
-                            $('select[name="' + Category + '"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
                         });
                         var itemsTypeVal = $('select[name="' + itemsType + '"]').find("option:selected").text();
                         $.ajax({
@@ -614,9 +614,9 @@
                 async: false,
                 cache: false,
                 success: function (result) {
+                    $('select[name="itemInList[0].CategoryID"]').append("<option value='" + result[0].categoryID + "'>" + result[0].categories[0].categoryName + "</option>")
                     $.each(result, function (index, item) {
                         $('select[name="itemInList[0].Type"]').append("<option value='" + item.itemsType + "'>" + item.itemsType + "</option>")
-                        $('select[name="itemInList[0].CategoryID"]').append("<option value='" + item.categoryID + "'>" + item.categories[0].categoryName + "</option>")
                     });
                     var itemsTypeVal = $('select[name="itemInList[0].Type"]').find("option:selected").text();
                     $.ajax({

@@ -28,10 +28,19 @@ public class GoodController {
     @ResponseBody
     public AjaxMesg addGoods(String goodsName, Integer categoryID, String goodsType,String goodsUnit){
 
-        Integer integer = goodsService.addGoods(goodsName,categoryID,goodsType,goodsUnit);
-        if (integer<0)
-            return new AjaxMesg(false,"新增物品失败！");
-        return new AjaxMesg(true,"新增物品成功!");
+        Goods goods =new Goods();
+        goods.setItemsName(goodsName);
+        goods.setItemsType(goodsType);
+        Goods g = goodsService.findGoodsByItemsNameAndItemsType(goods);
+        if(g==null){
+            Integer integer = goodsService.addGoods(goodsName,categoryID,goodsType,goodsUnit);
+            if (integer<0)
+                return new AjaxMesg(false,"新增物品失败！");
+            return new AjaxMesg(true,"新增物品成功!");
+        }else{
+            return new AjaxMesg(true,"新增物品失败，物品已存在!");
+        }
+
     }
 
     @RequestMapping("/rAddGoods")

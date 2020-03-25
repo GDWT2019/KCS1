@@ -49,4 +49,19 @@ public class ProviderServiceImpl implements ProviderService {
         return null;
     }
 
+    @Override
+    public Provider findProviderByName(String providerName) {
+        try {
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/provider/findProviderByName"+providerName);
+            KcsResult result = KcsResult.formatToPojo(s, Provider.class);
+            if (result.getStatus() == 200) {
+                Provider provider = (Provider) result.getData();
+                return provider;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
