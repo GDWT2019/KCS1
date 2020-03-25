@@ -83,7 +83,6 @@
             table.reload('logTable', {
                 method: 'post'
                 ,where: {"time1":time1,"time2":time2,"name":name} //设定异步数据接口的额外参数
-                ,height: 300
                 , page: {
                     curr: 1
                 }

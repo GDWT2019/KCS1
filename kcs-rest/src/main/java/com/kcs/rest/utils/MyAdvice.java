@@ -1,29 +1,16 @@
 package com.kcs.rest.utils;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-
 import com.kcs.rest.pojo.Log;
 import com.kcs.rest.pojo.User;
 import com.kcs.rest.service.LogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.lang.reflect.Method;
 
 @Aspect // 表示该类是一个通知类
 @Component // 交给spring管理
@@ -77,8 +64,11 @@ public class MyAdvice {
         LogAnno logAnno = method.getAnnotation(LogAnno.class);
         // 获取操作描述的属性值
         String operateType = logAnno.operateType();
-        User user = GetSession.getUser();//获取session中的user对象
+        User user = null;
+        if(GetSession.getUser() != null){
 
+            user = GetSession.getUser();//获取session中的user对象
+        }
 
         // 让方法执行（proceed是方法的返回结果，可以针对返回结果做一些处理）
         Object proceed = pjp.proceed();

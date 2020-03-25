@@ -22,16 +22,16 @@
                     <div class="layui-row" style="white-space: nowrap">
                         <div class=" layui-col-xs4 ">
                             <div class="layui-form-item">
-                            <label style="text-align: left;font-size: 25px; float:left">时间</label>
+                            <label style="text-align: left;font-size: 25px;">时间</label>
                             <div class="layui-inline ">
                                 <input type="text" class="layui-input" id="InBillTime" name="InBillTime"
-                                       placeholder="yyyy-MM-dd"/>
+                                       placeholder="yyyy-MM-dd HH:mm:ss"/>
                             </div>
                             </div>
                         </div>
                         <div class="layui-col-xs4 ">
                             <div class="layui-form-item">
-                            <label style="font-size: 25px;float: left">供应商</label>
+                            <label style="font-size: 25px;">供应商</label>
                             <a id="addProvider"><i class="layui-icon layui-icon-add-circle" style="font-size: 25px"></i></a>
                             <div class="layui-inline">
                                 <select id="providerID" name="providerID" lay-verify="required" lay-search=""
@@ -41,7 +41,7 @@
                         </div>
                         <div class="layui-col-xs4 ">
                             <div class="layui-form-item">
-                            <label style="float:left;font-size:25px ">编号</label>
+                            <label style="font-size:25px ">编号</label>
                             <div class="layui-inline">
                                 <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on"
                                        style="font-size: 25px;  " readonly value="${newInBillID}">
@@ -181,6 +181,21 @@
 </div>
 
 <script>
+
+   /* var t = null;
+    function time(){
+        dt = new Date();
+        var y=dt.getFullYear();
+        var month = dt.getMonth()+1;
+        var date = dt.getDate();
+        var h=dt.getHours();
+        var m=dt.getMinutes();
+        var s=dt.getSeconds();
+        document.getElementById("InBillTime").value=y+"-"+month+"-"+date+" "+h+":"+m+":"+s;
+        t = setTimeout(time,1000);
+    }
+    window.onload=function(){time()}*/
+
     layui.use(['form'], function () {
         var form = layui.form;
     $("#addProvider").on('click', function () {
@@ -215,6 +230,9 @@
         //执行一个laydate实例
         laydate.render({
             elem: '#InBillTime', //指定元素
+            type:'datetime', // 可选择：年、月、日、时、分、秒
+
+            format: 'yyyy-MM-dd HH:mm:ss', //指定时间格式
             value: new Date(),
             position: 'fixed'
         });
@@ -348,7 +366,7 @@
         var altotal = 0;
         var price = $(ii).val();
         var total = $(ii).parent().prev().find("input").val();
-        if (price > 0) {
+        if (price >= 0) {
             $(ii).parent().next().find("input").val((price * total).toFixed(2));
         } else {
             layer.tips("价格格式错误！需要大于0", ii, {

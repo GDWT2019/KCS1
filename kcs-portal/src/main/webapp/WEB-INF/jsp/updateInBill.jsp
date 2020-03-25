@@ -20,16 +20,16 @@
                     <div class="layui-row" style="white-space: nowrap">
                         <div class=" layui-col-xs4 ">
                             <div class="layui-form-item">
-                                <label style="text-align: left;font-size: 25px; float:left">时间</label>
+                                <label style="text-align: left;font-size: 25px;">时间</label>
                                 <div class="layui-inline ">
-                                    <input type="text" class="layui-input" id="InBillTime" name="InBillTime"
-                                           placeholder="yyyy-MM-dd"/>
+                                    <input type="text" class="layui-input" id="InBillTime" name="InBillTime" readonly
+                                           placeholder="yyyy-MM-dd HH:mm:ss"/>
                                 </div>
                             </div>
                         </div>
                         <div class="layui-col-xs4 ">
                             <div class="layui-form-item">
-                                <label style="font-size: 25px;float: left">供应商</label>
+                                <label style="font-size: 25px;">供应商</label>
                                 <a id="addProvider"><i class="layui-icon layui-icon-add-circle"
                                                        style="font-size: 25px"></i></a>
                                 <div class="layui-inline">
@@ -40,7 +40,7 @@
                         </div>
                         <div class="layui-col-xs4 ">
                             <div class="layui-form-item">
-                                <label style="float:left;font-size:25px ">编号</label>
+                                <label style="font-size:25px ">编号</label>
                                 <div class="layui-inline">
                                     <input id="InBillID" type="text" class="layui-input" name="InBillID"
                                            autocomplete="on"
@@ -379,18 +379,19 @@
         });
         form.render();   //重新渲染新增的行中select的信息
     });
+    var time = "${loadtime}";
+    $("#InBillTime").val(time);
+    <%--layui.use('laydate', function () {--%>
+        <%--var laydate = layui.laydate;--%>
+        <%--var time = "${loadtime}";--%>
 
-    layui.use('laydate', function () {
-        var laydate = layui.laydate;
-        var time = "${loadtime}";
-
-        //执行一个laydate实例
-        laydate.render({
-            elem: '#InBillTime', //指定元素
-            value: time.substring(0, 10),
-            position: 'fixed'
-        });
-    });
+        <%--//执行一个laydate实例--%>
+        <%--laydate.render({--%>
+            <%--elem: '#InBillTime', //指定元素--%>
+            <%--value: time.substring(0, 10),--%>
+            <%--position: 'fixed'--%>
+        <%--});--%>
+    <%--});--%>
 
     function checkUpdateBill() {
         //入库日期
@@ -520,7 +521,7 @@
         var altotal = 0;
         var price = $(ii).val();
         var total = $(ii).parent().prev().find("input").val();
-        if (price > 0) {
+        if (price >= 0) {
             $(ii).parent().next().find("input").val((price * total).toFixed(2));
         } else {
             layer.tips("价格格式错误！需要大于0", ii, {

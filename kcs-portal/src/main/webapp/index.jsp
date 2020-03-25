@@ -20,7 +20,6 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img id="photo" src="http://localhost:8080/static/${user.photo}" class="layui-nav-img">
                    <span>${user.userName}</span>
                 </a>
 
@@ -95,11 +94,6 @@
         </div>
     </div>
 
-
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © layui.com - 底部固定区域
-    </div>
 </div>
 <script src="${pageContext.request.contextPath }/static/layui/layui.all.js"  charset="utf-8"></script>
 <script>

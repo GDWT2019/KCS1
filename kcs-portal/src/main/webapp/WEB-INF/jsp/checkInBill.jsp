@@ -13,14 +13,14 @@
         <div class=" layui-col-lg12" style="padding: 10px 15px; border-radius: 5px;">
             <div class="layui-col-lg12" style="text-align: center; font-size: 30px;"><span>入库审批</span></div>
             <div class="layui-col-lg12 " style="margin:30px 0;padding:10px;border-radius: 5px;">
-                <form class="layui-form" id="checkStatusForm" type="post">
+                <form class="layui-form layui-form-pane" id="checkStatusForm"  type="post">
                     <input type="hidden" name="checker" value="${user.userID}"/>
                     <div class="layui-layout-left" style="margin-top: 10px;margin-left: -200px;">
 
                         <label class="layui-form-label" style="font-size: 25px;">日期</label>
                         <div class="layui-inline">
-                            <input id="InBillTime" type="text" class="layui-input" readonly name="checkTime"
-                                   style="font-size: 25px;border: 0px" value="${loadtime}"/>
+                            <input id="checkTime" type="text" class="layui-input" readonly name="checkTime"
+                                   style="font-size: 25px;border: 0px" value=""/>
                         </div>
                     </div>
 
@@ -33,29 +33,26 @@
                     </div>
                     <div class="" style="margin-top:50px;padding:10px;">
                         <div class="layui-table">
-
                             <table class="layui-hide" id="test" lay-filter="test"></table>
-
-
                             <div class="layui-row" style="margin: 10px 5px;">
                                 <span style="font-size: 22px;">合计：<span id="alTotal" style="font-size: 22px;"></span>元</span>
                             </div>
-                            <label class="layui-form-label" style="font-size: 20px;width: 100px">审批意见：</label>
-                            <div class="layui-row">
-                                    <textarea id="checkMessage" placeholder="请输入内容" class="layui-textarea"
-                                              name="checkMessage"></textarea>
-                            </div>
-
-                            <div style="text-align: center;padding:20px;border-radius: 5px;">
-                                <div class="layui-inline">
-                                    <button onclick="checkPass()" type="button" class="layui-btn ">
-                                        <i class="layui-icon">&#x1005;</i> 通过
-                                    </button>
-                                    <button onclick="checkFail()" type="button" class="layui-btn  ">
-                                        <i class="layui-icon">&#x1007;</i>不通过
-                                    </button>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label " style="font-size: 20px;">审批意见：</label>
+                        <div class="layui-input-block">
+                            <textarea id="checkMessage" placeholder="请输入内容" class="layui-textarea" name="checkMessage"></textarea>
+                        </div>
+                    </div>
+                    <div style="text-align: center;padding:20px;border-radius: 5px;">
+                        <div class="layui-inline">
+                            <button onclick="checkPass()" type="button" class="layui-btn ">
+                                <i class="layui-icon">&#x1005;</i> 通过
+                            </button>
+                            <button onclick="checkFail()" type="button" class="layui-btn  ">
+                                <i class="layui-icon">&#x1007;</i>不通过
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -82,6 +79,8 @@
         success: function (htq) {
 
             $("#checkMessage").val(htq.checkMessage);
+            $("#checkTime").val(htq.timeIn);
+
         }
     });
 
@@ -96,19 +95,6 @@
         }
     });
 
-    <%--function updateStatus() {--%>
-    <%--window.InBillID = parent.InBillID;--%>
-    <%--layer.open({--%>
-    <%--type: 2,--%>
-    <%--title: '审批操作',--%>
-    <%--skin: 'layui-layer-rim', //加上边框--%>
-    <%--content: '${pageContext.request.contextPath }/itemIn/checkUpdate',--%>
-    <%--area: ['380px', '200px'],--%>
-    <%--end: function () {--%>
-    <%--location.reload();--%>
-    <%--}--%>
-    <%--});--%>
-    <%--}--%>
 
     function checkPass() {
         $.ajax({
@@ -164,8 +150,7 @@
             , title: '入库单'
             , totalRow: false//开启合计行
             , cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'inBillID', title: '入库单号', width: 110, fixed: 'left', unresize: true, sort: true}
+                 {field: 'inBillID', title: '入库单号', width: 110, fixed: 'left', unresize: true, sort: true}
                 , {field: 'timeIn', title: '日期', width: 160}
                 , {
                     field: 'goodsID', title: '物品名称', width: 110, templet(d) {
