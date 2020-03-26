@@ -26,7 +26,7 @@
                 <dl class="layui-nav-child">
                     <dd><a type="button" id="baseData">基本资料</a></dd>
                     <dd><a type="button" id="safeset">安全设置</a></dd>
-                    <dd><a href="${pageContext.request.contextPath }/user/getInfo">获取信息</a></dd>
+                    <%--<dd><a href="${pageContext.request.contextPath }/user/getInfo">获取信息</a></dd>--%>
                 </dl>
 
             </li>
