@@ -33,4 +33,5 @@ public interface ItemInService {
 
     ItemIn findItemsInByItemsID(int itemsInID);
 
+    List<ItemIn> findItemsIdByInBillID(int inBillID);
 }

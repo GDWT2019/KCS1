@@ -91,4 +91,12 @@ public class ItemInController {
             return KcsResult.build(500, "根据入库ID，未找到对应物品");
     }
 
+    //获取入库单数据
+    @RequestMapping("/findItemsIdByInBillID{inBillID}")
+    @ResponseBody
+    public KcsResult findItemsIdByInBillID(@PathVariable int inBillID){
+        List<ItemIn> itemInList = itemInService.findItemsIdByInBillID(inBillID);
+        return KcsResult.ok(itemInList);
+    }
+
 }

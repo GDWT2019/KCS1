@@ -79,8 +79,8 @@
             ,title: '入库单'
             ,totalRow: false//开启合计行
             ,cols: [[
-                {field:'inBillID', title:'入库单号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
-                ,{field:'timeIn', title:'日期', width:160}
+                {field:'inBillID', title:'入库单号', width:110, sort: true}
+                ,{field:'timeIn', title:'日期', width:220}
                 ,{field:'itemsName', title:'物品名称', width:110}
                 ,{field:'type', title:'物品规格', width:110}
                 ,{field:'storePosition', title:'仓库位置', width:110}
@@ -264,7 +264,7 @@
             title: '入库单',
             cols: [[
             {type: 'checkbox', fixed: 'left'}
-            ,{field:'inBillID', title:'序号', width:110, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+            ,{field:'inBillID', title:'序号', width:110, fixed: 'left',  sort: true}
             ,{field:'timeIn', title:'日期', width:160}
             ,{field:'itemsName', title:'物品名称', width:110}
             ,{field:'type', title:'物品规格', width:110}

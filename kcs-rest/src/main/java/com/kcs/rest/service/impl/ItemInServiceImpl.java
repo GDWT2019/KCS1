@@ -32,7 +32,7 @@ public class ItemInServiceImpl implements ItemInService {
         //如果有数据就直接更新
         if(summary!=null){
             summary.setInAmount(summary.getInAmount()+itemIn.getItemNum());
-            summary.setInTotal(summary.getInTotal()+itemIn.getItemTotal());
+            summary.setInTotal(new BigDecimal(summary.getInTotal()+itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
             summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -182,7 +182,7 @@ public class ItemInServiceImpl implements ItemInService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemIn.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemIn.getItemNum());
-                    summary.setInTotal(summary.getInTotal()-itemIn.getItemTotal());
+                    summary.setInTotal(new BigDecimal(summary.getInTotal()-itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -227,7 +227,6 @@ public class ItemInServiceImpl implements ItemInService {
                                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 }
                             }
-
                             if(s.getPreAmount()==0&&s.getInAmount()==0&&s.getOutAmount()==0&&s.getThisAmount()==0){
                                 summaryDao.delSummaryByid(s.getSummaryID());
                             }else {
@@ -235,7 +234,6 @@ public class ItemInServiceImpl implements ItemInService {
                             }
                         }
                     }
-
                 }
             }catch (Exception e){
                 e.printStackTrace();
@@ -244,8 +242,6 @@ public class ItemInServiceImpl implements ItemInService {
                 Float nowAllTotal=itemInDao.findAllTotal(inBillID);
                 inBillDao.updateInBillAlltotalByID(nowAllTotal,inBillID);
             }
-
-
     }
 
     @Override
@@ -280,7 +276,7 @@ public class ItemInServiceImpl implements ItemInService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsInDatum.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
-                    summary.setInTotal(summary.getInTotal()-itemsInDatum.getItemTotal());
+                    summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -335,7 +331,7 @@ public class ItemInServiceImpl implements ItemInService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsInDatum.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
-                    summary.setInTotal(summary.getInTotal()-itemsInDatum.getItemTotal());
+                    summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -381,5 +377,10 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public ItemIn findItemsInByItemsID(int itemsInID) {
         return itemInDao.findItemsInByItemsID(itemsInID);
+    }
+
+    @Override
+    public List<ItemIn> findItemsIdByInBillID(int inBillID) {
+        return itemInDao.findItemsIdByInBillID(inBillID);
     }
 }
