@@ -216,8 +216,8 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public List<OutBillPresent> findAllOutBillPresentPrint() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresentPrint");
-            KcsResult result = KcsResult.formatToList(s,inBillShow.class);
+            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/outBillPresentPrint");
+            KcsResult result = KcsResult.formatToList(s,OutBillPresent.class);
             if (result.getStatus() == 200) {
                 return (List<OutBillPresent>) result.getData();
             }

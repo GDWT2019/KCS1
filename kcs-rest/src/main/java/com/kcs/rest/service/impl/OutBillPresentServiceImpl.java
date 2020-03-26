@@ -41,7 +41,9 @@ public class OutBillPresentServiceImpl implements OutBillPresentService {
 
     @Override
     public List<OutBillPresent> findAllOutBillPresentPrint() {
-        return outBillPresentDao.findAllOutBillPresentPrint();
+        List<User> userList = userDao.findAllUser();
+        List<OutBillPresent> allOutBillPresentPrint = outBillPresentDao.findAllOutBillPresentPrint();
+        return updatePerson(userList,allOutBillPresentPrint);
     }
 
     public List<OutBillPresent> updatePerson(List<User> userList,List<OutBillPresent> outBillPresentList){

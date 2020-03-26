@@ -160,13 +160,54 @@
         order by [OutBill].OutBillID asc
     </select>
     <select id="findAllOutBillPresentPrint" resultType="com.kcs.rest.pojo.OutBillPresent">
-        select  * from [OutBill],[ItemsOut],[Goods],[Department],[Category],[Summary]
-        where [ItemsOut].OutBillID=[OutBill].OutBillID
-        and [ItemsOut].GoodsID=[Goods].GoodsID
-        and [ItemsOut].DepartmentID=[Department].DepartmentID
-        and	[Goods].CategoryID=[Category].CategoryID
+        select
+        [OutBill].OutBillID ,
+        [OutBill].OutTime,
+        [OutBill].CheckStatus,
+        [OutBill].CheckTime,
+        [OutBill].CheckMessage,
+        [OutBill].OperateTime,
+        [OutBill].AllTotal,
+        [OutBill]. StoreManager,
+        [OutBill].Taker,
+        [OutBill].Checker,
+        [OutBill].TableMaker,
+        [OutBill].Operator,
+        [OutBill].Remark,
+        [ItemsOut].ItemsOutID,
+        [ItemsOut].DepartmentID,
+        [Department]. DepartmentName,
+        [ItemsOut].GoodsID,
+        [ItemsOut].ItemNum,
+        [ItemsOut].ItemPrice,
+        [ItemsOut].ItemTotal,
+        [ItemsOut].Project,
+        [ItemsOut].Note,
+        [Goods].CategoryID ,
+        [Goods].ItemsName,
+        [Goods].ItemsType,
+        [Goods].ItemsUnit,
+        [Category]. CategoryName,
+        [Summary]. SummaryID,
+        [Summary].PreAmount,
+        [Summary]. PrePrice,
+        [Summary].PreTotal,
+        [Summary].InAmount,
+        [Summary].InPrice,
+        [Summary].InTotal,
+        [Summary].OutAmount,
+        [Summary].OutPrice,
+        [Summary].OutTotal,
+        [Summary].ThisAmount,
+        [Summary].ThisPrice,
+        [Summary].ThisTotal,
+        [Summary].Time from [ItemsOut],[OutBill],[Goods],[Category] ,[Department] ,[Summary]
+        where (select SUBSTRING ([OutBill].OutTime,0,8)) like [Summary].Time
+        and [OutBill].OutBillID = [ItemsOut].OutBillID
+        and [ItemsOut].GoodsID = [Goods].GoodsID
+        and [Goods].CategoryID = [Category] .CategoryID
+        and [ItemsOut] .DepartmentID = [Department] .DepartmentID
         and [Goods].GoodsID=[Summary].GoodsID
-        and (select substring([OutBill].OutTime,0,8)) like [Summary].Time
         order by [OutBill].OutTime desc
     </select>
 </mapper>

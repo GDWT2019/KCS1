@@ -166,7 +166,7 @@ public class OutBillController {
     }
 
     //获取入库显示数据
-    @RequestMapping(value="outBillPresentPrint")
+    @RequestMapping("/outBillPresentPrint")
     @ResponseBody
     public KcsResult outBillPresentPrint(){
         List<OutBillPresent> outBillPresents = outBillPresentService.findAllOutBillPresentPrint();
