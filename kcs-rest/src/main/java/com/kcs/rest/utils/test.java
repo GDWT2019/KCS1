@@ -49,7 +49,8 @@ public class test {
 
     @Test
     public void test33(){
-
+        List<ItemIn> itemsIdByInBillID = itemInDao.findItemsIdByInBillID(133);
+        System.out.println(itemsIdByInBillID);
     }
     
     @Test

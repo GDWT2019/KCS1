@@ -31,4 +31,6 @@ public interface ItemInDao {
     void delItemByInBillIDandGoodsID(@Param("inBillID") int inBillID, @Param("goodsID")int goodsID);
 
     ItemIn findItemsInByItemsID(int itemsInID);
+
+    List<ItemIn> findItemsIdByInBillID(int inBillID);
 }

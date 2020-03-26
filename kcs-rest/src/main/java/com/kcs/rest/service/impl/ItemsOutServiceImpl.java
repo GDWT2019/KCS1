@@ -55,7 +55,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
             if (summary.getOutAmount()>=0||summary.getOutAmount()!=null){
                 //出库物品插入后，更新汇总表出库信息
                 summary.setOutAmount(summary.getOutAmount()+itemsOut.getItemNum());
-                summary.setOutTotal(summary.getOutTotal()+itemsOut.getItemTotal());
+                summary.setOutTotal(new BigDecimal(summary.getOutTotal()+itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             }
             else{
                 summary.setOutAmount(itemsOut.getItemNum());
@@ -159,7 +159,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsOutDatum.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setOutAmount(summary.getOutAmount()- itemsOutDatum.getItemNum());
-                    summary.setOutTotal(summary.getOutTotal()- itemsOutDatum.getItemTotal());
+                    summary.setOutTotal(new BigDecimal(summary.getOutTotal()- itemsOutDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setOutPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
@@ -241,7 +241,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 if (s.getTime().equals(outTime)){
                 //减少本月出库数量，合计
                     s.setOutAmount(s.getOutAmount()-(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
-                    s.setOutTotal(s.getOutTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setOutTotal(new BigDecimal(s.getOutTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal())).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getOutAmount() != 0)
                     s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
@@ -270,7 +270,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 if(s.getTime().equals(outTime)) {
                     //增加出库数量，合计
                     s.setOutAmount(s.getOutAmount() + (itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
-                    s.setOutTotal(s.getOutTotal() + (itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal()));
+                    s.setOutTotal(new BigDecimal(s.getOutTotal() + (itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal())).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getOutAmount() != 0)
                     s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
 
@@ -294,7 +294,6 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
             }
-
             //修改完数据后，更新该条汇总记录
             i = summaryDao.updateSummary(s);
             if (i<1)

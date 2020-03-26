@@ -307,8 +307,18 @@ public class InBillController {
 
         if (inBill.getOperator() != null && inBill.getProviderID() != null && inBill.getOperateTime() != null && inBill.getBuyer() != null && inBill.getBuyTime() != null && inBill.getTableMaker() != null && inBill.getStoreManager() != null && inBill.getAllTotal() != null && inBill.getAllTotal() > 0) {
 
+            List<ItemIn> itemInList = itemInService.findItemsIdByInBillID(inBillID);
+            for (ItemIn itemIn : itemInList) {
+                String itemsID =Integer.toString(itemIn.getItemsInID());
+                itemInService.delItem(itemsID);
+            }
+
             inBillService.updateInBillByID(inBill);
-            itemInService.delItemByInBillID(inBillID);
+
+            /*itemInService.delItemByInBillID(inBillID);*/
+
+
+
 
             for (ItemIn itemIn : list.getItemInList()) {
                 System.out.println(itemIn);

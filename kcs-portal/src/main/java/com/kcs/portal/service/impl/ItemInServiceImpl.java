@@ -117,4 +117,18 @@ public class ItemInServiceImpl implements ItemInService {
         }
         return null;
     }
+
+    @Override
+    public List<ItemIn> findItemsIdByInBillID(String inBillID) {
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/findItemsIdByInBillID"+inBillID);
+            KcsResult result = KcsResult.formatToList(s,ItemIn.class);
+            if (result.getStatus() == 200) {
+                return (List<ItemIn>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

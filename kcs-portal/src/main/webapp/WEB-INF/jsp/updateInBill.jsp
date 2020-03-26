@@ -380,18 +380,21 @@
         form.render();   //重新渲染新增的行中select的信息
     });
     var time = "${loadtime}";
-    $("#InBillTime").val(time);
-    <%--layui.use('laydate', function () {--%>
-        <%--var laydate = layui.laydate;--%>
-        <%--var time = "${loadtime}";--%>
+    // $("#InBillTime").val(time);
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        var time = "${loadtime}";
 
-        <%--//执行一个laydate实例--%>
-        <%--laydate.render({--%>
-            <%--elem: '#InBillTime', //指定元素--%>
-            <%--value: time.substring(0, 10),--%>
-            <%--position: 'fixed'--%>
-        <%--});--%>
-    <%--});--%>
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#InBillTime', //指定元素
+            type:'datetime', // 可选择：年、月、日、时、分、秒
+
+            format: 'yyyy-MM-dd HH:mm:ss', //指定时间格式
+            value: time,
+            position: 'fixed'
+        });
+    });
 
     function checkUpdateBill() {
         //入库日期

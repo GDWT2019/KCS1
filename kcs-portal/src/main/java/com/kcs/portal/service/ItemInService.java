@@ -26,4 +26,5 @@ public interface ItemInService {
 
     ItemIn findItemsInByItemsID(String itemsInID);
 
+    List<ItemIn> findItemsIdByInBillID(String inBillID);
 }
