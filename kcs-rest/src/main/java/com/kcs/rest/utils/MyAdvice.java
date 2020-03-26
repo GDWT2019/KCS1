@@ -10,6 +10,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 
 @Aspect // 表示该类是一个通知类
@@ -18,6 +19,8 @@ public class MyAdvice {
 
     @Autowired
     private LogService logService;// 日志Service
+    @Autowired
+    private HttpSession session;
 
     // 定义一个空方法，借用其注解抽取切点表达式
     @Pointcut("@annotation(com.kcs.rest.utils.LogAnno)")
@@ -70,6 +73,12 @@ public class MyAdvice {
             user = GetSession.getUser();//获取session中的user对象
         }
 
+//        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//
+//        HttpSession session =request.getSession();
+
+//        user = (User) session.getAttribute("user");
+        System.err.println(user);
         // 让方法执行（proceed是方法的返回结果，可以针对返回结果做一些处理）
         Object proceed = pjp.proceed();
 

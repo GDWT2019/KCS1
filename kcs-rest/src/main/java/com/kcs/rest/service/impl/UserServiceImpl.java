@@ -122,5 +122,11 @@ public class UserServiceImpl implements UserService {
         return userDao.lockUser(userID,status);
     }
 
+    @Override
+    @LogAnno(operateType = "用户登录")
+    public User loginSuccess(User user) {
+        return user;
+    }
+
 
 }

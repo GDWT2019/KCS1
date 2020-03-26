@@ -354,7 +354,7 @@ public class UserController {
     }
 
     //跳转更新用户信息页面
-    @RequestMapping(value = "/showUpdateUser")
+    @RequestMapping(value = "/showUpdateUser",method= RequestMethod.POST,produces ="text/html;charset=utf-8")
     @ResponseBody
     public String showUpdateUser(int userID){
         UserPresent user = userService.findUserPresentById(userID);

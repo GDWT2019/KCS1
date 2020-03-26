@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <input type="hidden" name="photo" class="image">
+    <%--<input type="hidden" name="photo" class="image">
     <div class="layui-form-item">
         <label class="layui-form-label ">照片:</label>
         <div class="layui-upload">
@@ -83,7 +83,7 @@
                 <p id="demoText"></p>
             </div>
         </div>
-    </div>
+    </div>--%>
 
     <div class="layui-form-item">
         <label class="layui-form-label">仓管员标记</label>
@@ -234,7 +234,7 @@
                         , "sex": item.sex
                         , "tel": item.tel
                         , "email": item.email
-                        , "photo": item.photo
+                        , "photo": "123"
                         , "note": item.note
                         , "warehouseMark": item.warehouseMark
                         , "listerMark": item.listerMark

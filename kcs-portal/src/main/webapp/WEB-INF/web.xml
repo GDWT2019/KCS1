@@ -52,6 +52,10 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+  <listener>
+    <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+  </listener>
+  
   <error-page>
     <error-code>403</error-code>
     <location>/403.jsp</location>

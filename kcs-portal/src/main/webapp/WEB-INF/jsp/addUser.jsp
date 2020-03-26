@@ -54,8 +54,8 @@
     <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
         <div class="layui-input-block">
-            <input type="radio" name="sex" value="0" title="男">
-            <input type="radio" name="sex" value="1" title="女">
+            <input type="radio" name="sex" value="1" title="男">
+            <input type="radio" name="sex" value="0" title="女">
         </div>
     </div>
     <div class="layui-form-item">
@@ -73,7 +73,7 @@
         </div>
     </div>
     <input type="hidden" name="photo" class="image">
-    <div class="layui-form-item">
+    <%--<div class="layui-form-item">
         <label class="layui-form-label">照片:</label>
         <div class="layui-upload">
             <button type="button" class="layui-btn" id="test1">上传图片</button>
@@ -82,7 +82,7 @@
                 <p id="demoText"></p>
             </div>
         </div>
-    </div>
+    </div>--%>
     <div class="layui-form-item">
         <label class="layui-form-label">仓管员标记</label>
         <div class="layui-input-block">
@@ -198,7 +198,7 @@
             var sex = $('input[name="sex"]:checked').val();
             var tel = $("#tel").val();
             var email = $("#email").val();
-            var photo = $(".image").attr("value");
+            var photo = "123";
 
             var note = $("#note").val();
 
