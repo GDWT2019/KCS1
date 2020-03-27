@@ -41,8 +41,16 @@
 			,cols: [[
 				{type:'numbers',title:'序号'}
 				,{field:'roleName', title:'角色', width:150}
-				,{fixed: '', title:'权限', toolbar: '#bar', width:80}
-				,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
+				,{fixed: '', title:'权限', width:80,templet:function (d) {
+								if(d.roleName =='USER' ) return  '<div><a class="layui-btn layui-btn-disabled layui-btn-xs">详情</a></div>'
+								else
+									return '<a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>'}}
+
+				,{fixed: 'right', title:'操作', width:180,templet:function (d) {
+						if(d.roleName =='USER' ) return  '<div><a class="layui-btn layui-btn-disabled layui-btn-xs" >编辑</a><a class="layui-btn layui-btn-disabled layui-btn-xs">删除角色</a></div>'
+						else
+							return '<div><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit">编辑</a>' +
+									'<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除角色</a></div>'}}
 			]]
 			,page: true
 			,limit:10

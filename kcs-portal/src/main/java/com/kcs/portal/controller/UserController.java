@@ -49,7 +49,23 @@ public class UserController {
         return authentication;
     }
 
+    @RequestMapping("/loginCheck")
+    @ResponseBody
+    public AjaxMesg loginCheck(Model model,String loginName, String password){
+        User user = userService.findByLoginName(loginName);
+        //System.err.println(user);
+        if (user == null){
+           return  new AjaxMesg(false,"该登录名不存在！");
+        }
+        if (!user.getPassword().equals(password)){
+            return new AjaxMesg(false,"登录名或密码错误！");
+
+        }
+        return new AjaxMesg(true,"/login");
+    }
+
     @RequestMapping("/success")
+    @ResponseBody
     public String success(ModelAndView modelAndView, Model model, HttpServletRequest request, HttpSession session){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username =null;
@@ -62,7 +78,7 @@ public class UserController {
         request.getSession().setAttribute("user",user);
         session.setAttribute("user",user);
         userService.sentSession((User)session.getAttribute("user"));
-        return "forward:/index.jsp";
+        return "index.jsp";
     }
 
     //修改用户密码

@@ -78,17 +78,17 @@
                     if (result!=null){
                         var data = JSON.parse(result);
                         layer.alert(data.mesg,function () {
-                            layer.closeAll();
+                            window.parent.layer.closeAll();
                         })
                     }
                     else
                         layer.alert("失败！",function () {
-                            layer.closeAll();
+                            window.parent.layer.closeAll();
                         })
                 },
                 error:function () {
                     layer.alert("请求错误！！",function () {
-                        layer.closeAll();
+                        window.parent.layer.closeAll();
                     })
                 }
             })

@@ -92,7 +92,10 @@ public class UserServiceImpl implements UserService {
     @LogAnno(operateType = "新增用户")
     @Override
     public Integer addUser(User user) {
-        return userDao.addUser(user);
+        Integer integer = userDao.addUser(user);
+        //为该用户添加USER权限
+        userRoleDao.addUserRole(integer,21);
+        return integer;
     }
 
     @LogAnno(operateType = "删除用户")

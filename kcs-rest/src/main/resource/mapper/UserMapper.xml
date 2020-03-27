@@ -101,10 +101,11 @@
          update [User] set Password = #{password} where LoginName =#{loginName}
     </update>
 
-    <insert id="addUser" parameterType="com.kcs.rest.pojo.User">
+    <select id="addUser" parameterType="com.kcs.rest.pojo.User" resultType="java.lang.Integer">
         insert into [User](PositionID,DepartmentID,LoginName,UserName,Password,Sex,Tel,Email,Photo,Note,WarehouseMark,ListerMark,status)
-        values (#{positionID},#{departmentID},#{loginName},#{userName},#{password},#{sex},#{tel},#{email},#{photo},#{note},#{warehouseMark},#{listerMark},1)
-    </insert>
+        values (#{positionID},#{departmentID},#{loginName},#{userName},#{password},#{sex},#{tel},#{email},#{photo},#{note},#{warehouseMark},#{listerMark},1);
+        select @@IDENTITY
+    </select>
 
     <delete id="delUserByUserID" parameterType="java.lang.Integer">
         delete from [User]

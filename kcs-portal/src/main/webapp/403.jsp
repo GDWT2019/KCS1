@@ -40,11 +40,6 @@
 
                 <div class="error-content">
                     <h3><i class="fa fa-warning text-yellow"></i> Oops! 权限不足.</h3>
-
-                    <p>
-                        没有找到你请求的页面, 你可以 <a href="/index.jsp">返回到后台首页</a> 或者通过搜索查询
-                    </p>
-
                 </div>
                 <!-- /.error-content -->
             </div>

@@ -199,9 +199,12 @@
                                         url:'${pageContext.request.contextPath }/itemIn/delItem'
                                         ,data:{"ItemsInID":data.itemsInID,"inBillID":data.inBillID},
                                         success:function(){
-                                            layer.msg("删除成功！",function(){
-                                                location.reload();
-                                            });
+                                            var ajaxResult = JSON.parse(result);
+                                            if (ajaxResult) {
+                                                layer.msg(ajaxResult.mesg, function () {
+                                                    location.reload();
+                                                });
+                                            }
                                         },
                                         error:function () {
                                             layer.msg("删除失败！");

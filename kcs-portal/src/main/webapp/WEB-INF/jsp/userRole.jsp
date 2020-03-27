@@ -37,7 +37,10 @@
             ,cols: [[
                 {type:'numbers',title:'序号'}
                 ,{field:'roleName', title:'角色', width:150}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
+                ,{fixed: 'right', title:'操作', width:180,templet:function (d) {
+                        if(d.roleName =='USER' ) return  '<div><a class="layui-btn layui-btn-disabled layui-btn-xs" >删除</a></div>'
+                        else
+                            return '<div><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a></div>'}}
             ]]
             ,page: true
             ,limit:10

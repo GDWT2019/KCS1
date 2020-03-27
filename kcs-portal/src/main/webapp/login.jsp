@@ -25,20 +25,59 @@
 
 <body style="background: #DDEEFE ">
 <%--<% request.getSession().invalidate();%>--%>
-<form id="form1" action="${pageContext.request.contextPath}/login" class="form-signin" method="post" >
+<form id="form1" action="${pageContext.request.contextPath}/user/loginCheck" class="form-signin" method="post" >
     <security:csrfInput/>
     <h1 class="h3 mb-3 font-weight-normal" >库存管理系统</h1><br />
     <!--判断-->
-    <p id="message" style="color: red" ></p>
+
     <input class="sr-only" >登录名</input>
-    <input type="text" id="name"  name="loginName" class="form-control" placeholder="登录名"  required="" autofocus=""/><br />
+    <input type="text" id="loginName"  name="loginName" class="form-control" placeholder="登录名"  required="" autofocus=""/><br />
     <input class="sr-only" >密码</input>
-    <input type="password" id="password" name="password" class="form-control" placeholder="密码"  required=""/><br />
+    <input type="password" id="password" name="password" class="form-control" placeholder="密码"  required="" /><br />
     <%--<button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">Sign in</button>--%>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" >登录</button>
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="loginBtn" >登录</button>
+
+
 </form>
 </body>
 <script>
+
+
+    $('body').on('click','#loginBtn',function () {
+        var loginName = $('#loginName').val();
+        var password = $('#password').val();
+
+        $.ajax({
+            url:"${pageContext.request.contextPath}/user/loginCheck",
+            type:"post",
+            data:{loginName:loginName,password:password},
+            dataType:"text",
+            success:function (data) {
+                var message = JSON.parse(data);
+                if (!message.flag){
+                    toastr.error(message.mesg)
+                }else {
+                    $.ajax({
+                        url:"${pageContext.request.contextPath}/login",
+                        type:"post",
+                        data:{loginName:loginName,password:password},
+                        dataTpye:"text",
+                        success:function (data) {
+                            $(window).attr('location',data)
+                        }
+                    })
+                }
+
+            },
+            error:function () {
+                toastr.error("请求错误！")
+            }
+        }
+
+
+        )
+
+    });
 
     $(function () {
 

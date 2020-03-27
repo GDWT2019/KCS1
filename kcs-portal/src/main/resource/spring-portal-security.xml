@@ -33,6 +33,7 @@
         </security:headers>
         <!--认证页面可以匿名访问-->
         <security:intercept-url pattern="/login.jsp" access="permitAll()"/>
+        <security:intercept-url pattern="/user/loginCheck" access="permitAll()"/>
 
         <!-- 配置具体的拦截的规则 pattern="请求路径的规则" access="访问系统的人，必须有ROLE_USER的角色" 重启下-->
         <!--<security:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN"/>-->

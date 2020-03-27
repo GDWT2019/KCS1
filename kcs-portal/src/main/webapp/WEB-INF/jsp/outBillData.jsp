@@ -213,8 +213,17 @@
 
 				//审批
 			}else if (obj.event === 'check'){
+				layer.open({
+					type:2,
+					title:"入库审核",
+					content:'${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID?outBillID='+data.outBillID,
+					area:['1200px','668px'],
+					end:function () {
+						location.reload();
+					}
+				});/*
 				$.ajax({
-					url:"${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID",
+					url:"",
 					type:"post",
 					data:{"outBillID":data.outBillID},
 					dataType:"text",
@@ -233,7 +242,7 @@
 						layer.confirm("审批请求错误");
 						layer.close(layer.index);
 					}
-				})
+				})*/
 			}
 		});
 

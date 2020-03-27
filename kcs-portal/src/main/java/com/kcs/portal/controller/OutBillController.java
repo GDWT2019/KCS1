@@ -286,16 +286,17 @@ public class OutBillController {
         return goodsService.findAddOutBillByItemsName(itemsName);
     }
 
-    @RequestMapping("/checkOutBill")
+   /* @RequestMapping("/checkOutBill")
     @PreAuthorize("hasAnyAuthority('出库审批,出库,ROLE_ADMIN')")
     public String checkInBill(){
         return "checkOutBill";
     }
-
+*/
     //获取所有出库表数据
-    @RequestMapping("/outBillPresentByOutBillID")
+    @RequestMapping(value = "/outBillPresentByOutBillID",method= RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('出库审批,出库,ROLE_ADMIN')")
-    public String OutBillPresentByOutBillID(int outBillID,Model model){
+    public String OutBillPresentByOutBillID(HttpServletRequest request,Model model){
+        int outBillID = Integer.valueOf(request.getParameter("outBillID"));
         List<OutBillPresent> allOutBillPresent = outBillService.findOutBillPresentByOutBillID(outBillID);
         model.addAttribute("outBillPresentList",allOutBillPresent);
         return "checkOutBill";
