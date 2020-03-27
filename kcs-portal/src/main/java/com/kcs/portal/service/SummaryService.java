@@ -39,4 +39,13 @@ public interface SummaryService {
 
     void export();
 
+    Integer findAllBeforeInAmout(Integer goodsID, String subTime);
+
+    Integer findAllBeforeOutAmout(Integer goodsID, String subTime);
+
+    Integer findAllafterInAmout(Integer goodsID, String subTime);
+
+    Integer findAllafterOutAmout(Integer goodsID, String subTime);
+
+    Summary findlatestAfterSummary(Integer goodsID, String subTime);
 }

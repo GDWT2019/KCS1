@@ -33,7 +33,11 @@ public class ItemInServiceImpl implements ItemInService {
         if(summary!=null){
             summary.setInAmount(summary.getInAmount()+itemIn.getItemNum());
             summary.setInTotal(new BigDecimal(summary.getInTotal()+itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-            summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            if(summary.getInAmount() == 0){
+                summary.setInPrice(0.0);
+            }else{
+                summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
             summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
             summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             if(summary.getThisAmount()==0){
@@ -79,7 +83,11 @@ public class ItemInServiceImpl implements ItemInService {
             summary1.setGoodsID(itemIn.getGoodsID());
             summary1.setInAmount(itemIn.getItemNum());
             summary1.setInTotal(itemIn.getItemTotal());
-            summary1.setInPrice(new BigDecimal(summary1.getInTotal()/summary1.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(summary1.getInAmount() == 0){
+                    summary1.setInPrice(0.0);
+                }else{
+                    summary1.setInPrice(new BigDecimal(summary1.getInTotal()/summary1.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
             summary1.setOutAmount(0);
             summary1.setOutPrice(0.0);
             summary1.setOutTotal(0.0);
@@ -124,7 +132,11 @@ public class ItemInServiceImpl implements ItemInService {
                 summary2.setGoodsID(itemIn.getGoodsID());
                 summary2.setInAmount(itemIn.getItemNum());
                 summary2.setInTotal(itemIn.getItemTotal());
-                summary2.setInPrice(new BigDecimal(summary2.getInTotal()/summary2.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(summary2.getInAmount() == 0){
+                    summary2.setInPrice(0.0);
+                }else{
+                    summary2.setInPrice(new BigDecimal(summary2.getInTotal()/summary2.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                }
                 summary2.setOutAmount(0);
                 summary2.setOutPrice(0.0);
                 summary2.setOutTotal(0.0);
@@ -183,7 +195,11 @@ public class ItemInServiceImpl implements ItemInService {
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemIn.getItemNum());
                     summary.setInTotal(new BigDecimal(summary.getInTotal()-itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                    summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    if(summary.getInAmount() == 0){
+                        summary.setInPrice(0.0);
+                    }else{
+                        summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    }
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
@@ -240,6 +256,9 @@ public class ItemInServiceImpl implements ItemInService {
             }finally {
                 itemInDao.delItem(itemsInID);
                 Float nowAllTotal=itemInDao.findAllTotal(inBillID);
+                if(nowAllTotal==null){
+                    nowAllTotal =0.0f;
+                }
                 inBillDao.updateInBillAlltotalByID(nowAllTotal,inBillID);
             }
     }
@@ -277,7 +296,12 @@ public class ItemInServiceImpl implements ItemInService {
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
                     summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                    summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
+                    if(summary.getInAmount() == 0){
+                        summary.setInPrice(0.0);
+                    }else{
+                        summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    }
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
@@ -332,7 +356,11 @@ public class ItemInServiceImpl implements ItemInService {
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
                     summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                    summary.setInPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    if(summary.getInAmount() == 0){
+                        summary.setInPrice(0.0);
+                    }else{
+                        summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    }
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){

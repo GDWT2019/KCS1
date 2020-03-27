@@ -555,6 +555,8 @@
     function delTr(el) {
         var length1 = $("#table").find("tr").length;
         el = getParent(el, 'TR');
+        var InBillID = $("#InBillID").val();
+        console.log("InBillID"+InBillID);
         var rowIndex = el.rowIndex;
         var itemsName = $("#table").find("tr").eq(rowIndex).find("td").eq(1).find("input").val();
         var itemsType = $("#table").find("tr").eq(rowIndex).find("td").eq(3).find("input").val();
@@ -562,7 +564,7 @@
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonutForRemove",
-            data: {"itemsType": itemsType, "itemsName": itemsName, "itemsNum": itemsNum},
+            data: {"itemsType": itemsType, "itemsName": itemsName, "itemsNum": itemsNum,"InBillID":InBillID},
             success: function (htq) {
                 console.log("htq:"+htq)
                 if (htq == 1) {

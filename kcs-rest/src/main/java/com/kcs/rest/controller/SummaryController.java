@@ -26,6 +26,46 @@ public class SummaryController {
     @Autowired
     private SummaryService summaryService;
 
+    @RequestMapping(value="findlatestAfterSummary")
+    @ResponseBody
+    public KcsResult findlatestAfterSummary(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Summary latestAfterSummary = summaryService.findlatestAfterSummary(gid, subTime);
+        return KcsResult.ok(latestAfterSummary);
+    }
+
+    @RequestMapping(value="findAllafterInAmout")
+    @ResponseBody
+    public Integer findAllafterInAmout(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Integer allafterInAmout = summaryService.findAllafterInAmout(gid, subTime);
+        return allafterInAmout;
+    }
+
+    @RequestMapping(value="findAllafterOutAmout")
+    @ResponseBody
+    public Integer findAllafterOutAmout(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Integer allafterOutAmout = summaryService.findAllafterOutAmout(gid, subTime);
+        return allafterOutAmout;
+    }
+
+    @RequestMapping(value="findAllBeforeInAmout")
+    @ResponseBody
+    public Integer findAllBeforeInAmout(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(gid, subTime);
+        return allBeforeInAmout;
+    }
+
+    @RequestMapping(value="findAllBeforeOutAmout")
+    @ResponseBody
+    public Integer findAllBeforeOutAmout(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Integer allBeforeInAmout = summaryService.findAllBeforeOutAmout(gid, subTime);
+        return allBeforeInAmout;
+    }
+
     @RequestMapping(value="findThisMonthInAmountByGoodsID")
     @ResponseBody
     public KcsResult findThisMonthInAmountByGoodsID(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){

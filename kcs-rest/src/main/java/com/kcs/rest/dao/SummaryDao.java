@@ -79,4 +79,14 @@ public interface SummaryDao {
     Integer findAllInAmout(Integer goodsID);
 
     Integer findAllOutAmout(Integer goodsID);
+
+    Integer findAllBeforeInAmout(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Integer findAllBeforeOutAmout(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Integer findAllafterInAmout(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Integer findAllafterOutAmout(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Summary findlatestAfterSummary(@Param("goodsID") int gid, @Param("subTime") String subTime);
 }

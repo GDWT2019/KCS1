@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.SummaryDao" >
 
+    <select id="findlatestAfterSummary" resultType="com.kcs.rest.pojo.Summary">
+        select top 1 * from Summary where Time &gt;= #{subTime} and GoodsID = #{goodsID} and OutAmount!=0 order by Time
+    </select>
+
+    <select id="findAllafterInAmout" resultType="Integer">
+        select SUM(InAmount) from Summary where GoodsID=#{goodsID} and Time &gt;=  #{subTime}
+    </select>
+
+    <select id="findAllafterOutAmout" resultType="Integer">
+        select SUM(OutAmount) from Summary where GoodsID=#{goodsID} and Time &gt;=  #{subTime}
+    </select>
+
+    <select id="findAllBeforeInAmout" resultType="Integer">
+        select SUM(InAmount) from Summary where GoodsID=#{goodsID} and Time &lt;=  #{subTime}
+    </select>
+
+    <select id="findAllBeforeOutAmout" resultType="Integer">
+        select SUM(OutAmount) from Summary where GoodsID=#{goodsID} and Time &lt;=  #{subTime}
+    </select>
+
     <select id="findThisMonthInAmountByGoodsID" resultType="com.kcs.rest.pojo.Summary">
         select * from Summary where GoodsID = #{goodsID} and Time like #{subTime}+'%'
     </select>
