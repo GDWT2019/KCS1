@@ -378,7 +378,7 @@ public class OutBillController {
 
     @RequestMapping(value = "outBillPrint", produces = "text/html;charset=utf-8")
     @ResponseBody
-   //@PreAuthorize("hasAnyAuthority('出库导出,出库,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('出库导出,出库,ROLE_ADMIN')")
     public String outBillPrint(HttpServletRequest request) {
         List<OutBillPresent> allOutBillPresentPrint = outBillService.findAllOutBillPresentPrint();
         int count =  allOutBillPresentPrint.size();
@@ -387,7 +387,6 @@ public class OutBillController {
         JSONArray json = JSONArray.fromObject(allOutBillPresentPrint);
         String js = json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
-        System.out.println(jso);
         return jso;
     }
 }

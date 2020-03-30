@@ -28,7 +28,6 @@ public class DepartmentController {
         List<Department> list=departmentService.findAllDepartment();
         JSONArray json = JSONArray.fromObject(list);
         String js=json.toString();
-        System.out.println(js);
         return js;
     }
 
