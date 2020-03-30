@@ -131,4 +131,18 @@ public class ItemInServiceImpl implements ItemInService {
         }
         return null;
     }
+
+    @Override
+    public Integer findSumItemNumBygoodsIdAndInBillID(Integer goodsID, String inBillID) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("inBillID",inBillID);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/findSumItemNumBygoodsIdAndInBillID",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

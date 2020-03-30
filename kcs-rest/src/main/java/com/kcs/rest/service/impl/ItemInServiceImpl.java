@@ -32,17 +32,19 @@ public class ItemInServiceImpl implements ItemInService {
         //如果有数据就直接更新
         if(summary!=null){
             summary.setInAmount(summary.getInAmount()+itemIn.getItemNum());
-            summary.setInTotal(new BigDecimal(summary.getInTotal()+itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             if(summary.getInAmount() == 0){
+                summary.setInTotal(0.0);
                 summary.setInPrice(0.0);
             }else{
+                summary.setInTotal(new BigDecimal(summary.getInTotal()+itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             }
             summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
-            summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             if(summary.getThisAmount()==0){
+                summary.setThisTotal(0.0);
                 summary.setThisPrice(0.0);
             }else{
+                summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             }
             summaryDao.updateSummary(summary);
@@ -55,13 +57,19 @@ public class ItemInServiceImpl implements ItemInService {
                     Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                     //将上月的本月结存放入到当前月的上月结存
                     s.setPreAmount(frontSummary.getThisAmount());
-                    s.setPrePrice(frontSummary.getThisPrice());
-                    s.setPreTotal(frontSummary.getThisTotal());
+                    if(s.getPreAmount()==0){
+                        s.setPrePrice(0.0);
+                        s.setPreTotal(0.0);
+                    }else{
+                        s.setPrePrice(frontSummary.getThisPrice());
+                        s.setPreTotal(frontSummary.getThisTotal());
+                    }
                     s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(s.getThisAmount()==0){
+                        s.setThisTotal(0.0);
                         s.setThisPrice(0.0);
                     }else{
+                        s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summaryDao.updateSummary(s);
@@ -78,24 +86,33 @@ public class ItemInServiceImpl implements ItemInService {
             if(BeforeSummary!=null){
                 Summary summary1=new Summary();
             summary1.setPreAmount(BeforeSummary.getThisAmount());
-            summary1.setPrePrice(BeforeSummary.getThisPrice());
-            summary1.setPreTotal(BeforeSummary.getThisTotal());
+            if(summary1.getPreAmount()==0){
+                summary1.setPrePrice(0.0);
+                summary1.setPreTotal(0.0);
+            }else{
+                summary1.setPrePrice(BeforeSummary.getThisPrice());
+                summary1.setPreTotal(BeforeSummary.getThisTotal());
+            }
             summary1.setGoodsID(itemIn.getGoodsID());
             summary1.setInAmount(itemIn.getItemNum());
-            summary1.setInTotal(itemIn.getItemTotal());
+
                 if(summary1.getInAmount() == 0){
+                    summary1.setInTotal(0.0);
                     summary1.setInPrice(0.0);
                 }else{
+                    summary1.setInTotal(itemIn.getItemTotal());
                     summary1.setInPrice(new BigDecimal(summary1.getInTotal()/summary1.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
             summary1.setOutAmount(0);
             summary1.setOutPrice(0.0);
             summary1.setOutTotal(0.0);
             summary1.setThisAmount(summary1.getPreAmount()+summary1.getInAmount()-summary1.getOutAmount());
-            summary1.setThisTotal(new BigDecimal(summary1.getPreTotal()+summary1.getInTotal()-summary1.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                 if(summary1.getThisAmount()==0){
+                    summary1.setThisTotal(0.0);
                     summary1.setThisPrice(0.0);
                 }else{
+                    summary1.setThisTotal(new BigDecimal(summary1.getPreTotal()+summary1.getInTotal()-summary1.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary1.setThisPrice(new BigDecimal(summary1.getThisTotal()/summary1.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
 
@@ -110,13 +127,21 @@ public class ItemInServiceImpl implements ItemInService {
                         Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                         //将上月的本月结存放入到当前月的上月结存
                         s.setPreAmount(frontSummary.getThisAmount());
-                        s.setPrePrice(frontSummary.getThisPrice());
-                        s.setPreTotal(frontSummary.getThisTotal());
+                        if(s.getPreAmount()==0){
+                            s.setPrePrice(0.0);
+                            s.setPreTotal(0.0);
+                        }else{
+                            s.setPrePrice(frontSummary.getThisPrice());
+                            s.setPreTotal(frontSummary.getThisTotal());
+                        }
+
                         s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                        s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                         if(s.getThisAmount()==0){
+                            s.setThisTotal(0.0);
                             s.setThisPrice(0.0);
                         }else{
+                            s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         }
                         summaryDao.updateSummary(s);
@@ -131,20 +156,23 @@ public class ItemInServiceImpl implements ItemInService {
                 summary2.setPreTotal(0.0);
                 summary2.setGoodsID(itemIn.getGoodsID());
                 summary2.setInAmount(itemIn.getItemNum());
-                summary2.setInTotal(itemIn.getItemTotal());
                 if(summary2.getInAmount() == 0){
+                    summary2.setInTotal(0.0);
                     summary2.setInPrice(0.0);
                 }else{
+                    summary2.setInTotal(itemIn.getItemTotal());
                     summary2.setInPrice(new BigDecimal(summary2.getInTotal()/summary2.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
                 summary2.setOutAmount(0);
                 summary2.setOutPrice(0.0);
                 summary2.setOutTotal(0.0);
                 summary2.setThisAmount(summary2.getPreAmount() + summary2.getInAmount()- summary2.getOutAmount());
-                summary2.setThisTotal(new BigDecimal(summary2.getPreTotal()+summary2.getInTotal()-summary2.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                 if(summary2.getThisAmount()==0){
+                    summary2.setThisTotal(0.0);
                     summary2.setThisPrice(0.0);
                 }else{
+                    summary2.setThisTotal(new BigDecimal(summary2.getPreTotal()+summary2.getInTotal()-summary2.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary2.setThisPrice(new BigDecimal(summary2.getThisTotal()/summary2.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
 
@@ -158,13 +186,19 @@ public class ItemInServiceImpl implements ItemInService {
                         Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                         //将上月的本月结存放入到当前月的上月结存
                         s.setPreAmount(frontSummary.getThisAmount());
-                        s.setPrePrice(frontSummary.getThisPrice());
-                        s.setPreTotal(frontSummary.getThisTotal());
+                        if(s.getPreAmount()==0){
+                            s.setPrePrice(0.0);
+                            s.setPreTotal(0.0);
+                        }else{
+                            s.setPrePrice(frontSummary.getThisPrice());
+                            s.setPreTotal(frontSummary.getThisTotal());
+                        }
                         s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                        s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         if(s.getThisAmount()==0){
+                            s.setThisTotal(0.0);
                             s.setThisPrice(0.0);
                         }else{
+                            s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         }
                         summaryDao.updateSummary(s);
@@ -194,17 +228,19 @@ public class ItemInServiceImpl implements ItemInService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemIn.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemIn.getItemNum());
-                    summary.setInTotal(new BigDecimal(summary.getInTotal()-itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getInAmount() == 0){
+                        summary.setInTotal(0.0);
                         summary.setInPrice(0.0);
                     }else{
+                        summary.setInTotal(new BigDecimal(summary.getInTotal()-itemIn.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
-                    summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
+                        summary.setThisTotal(0.0);
                         summary.setThisPrice(0.0);
                     }else{
+                        summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     if(summary.getPreAmount()==0&&summary.getInAmount()==0&&summary.getOutAmount()==0&&summary.getThisAmount()==0){
@@ -222,13 +258,20 @@ public class ItemInServiceImpl implements ItemInService {
                             //将上月的本月结存放入到当前月的上月结存
                             if(frontSummary!=null){
                                 s.setPreAmount(frontSummary.getThisAmount());
-                                s.setPrePrice(frontSummary.getThisPrice());
-                                s.setPreTotal(frontSummary.getThisTotal());
+                                if(s.getPreAmount()==0){
+                                    s.setPrePrice(0.0);
+                                    s.setPreTotal(0.0);
+                                }else{
+                                    s.setPrePrice(frontSummary.getThisPrice());
+                                    s.setPreTotal(frontSummary.getThisTotal());
+                                }
                                 s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                                 if(s.getThisAmount()==0){
+                                    s.setThisTotal(0.0);
                                     s.setThisPrice(0.0);
                                 }else{
+                                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 }
                             }else{
@@ -236,10 +279,11 @@ public class ItemInServiceImpl implements ItemInService {
                                 s.setPrePrice(0.0);
                                 s.setPreTotal(0.0);
                                 s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 if(s.getThisAmount()==0){
+                                    s.setThisTotal(0.0);
                                     s.setThisPrice(0.0);
                                 }else{
+                                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 }
                             }
@@ -295,18 +339,19 @@ public class ItemInServiceImpl implements ItemInService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsInDatum.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
-                    summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-
                     if(summary.getInAmount() == 0){
+                        summary.setInTotal(0.0);
                         summary.setInPrice(0.0);
                     }else{
+                        summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
-                    summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
+                        summary.setThisTotal(0.0);
                         summary.setThisPrice(0.0);
                     }else{
+                        summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summaryDao.updateSummary(summary);
@@ -320,13 +365,19 @@ public class ItemInServiceImpl implements ItemInService {
                             Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                             //将上月的本月结存放入到当前月的上月结存
                             s.setPreAmount(frontSummary.getThisAmount());
-                            s.setPrePrice(frontSummary.getThisPrice());
-                            s.setPreTotal(frontSummary.getThisTotal());
+                            if(s.getPreAmount()==0){
+                                s.setPrePrice(0.0);
+                                s.setPreTotal(0.0);
+                            }else{
+                                s.setPrePrice(frontSummary.getThisPrice());
+                                s.setPreTotal(frontSummary.getThisTotal());
+                            }
                             s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                            s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             if(s.getThisAmount()==0){
+                                s.setThisTotal(0.0);
                                 s.setThisPrice(0.0);
                             }else{
+                                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             }
                             summaryDao.updateSummary(s);
@@ -355,17 +406,20 @@ public class ItemInServiceImpl implements ItemInService {
                 Summary summary = summaryDao.findSummaryByGoodsIDAndTime(itemsInDatum.getGoodsID(), subTime);
                 if(summary!=null){
                     summary.setInAmount(summary.getInAmount()-itemsInDatum.getItemNum());
-                    summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getInAmount() == 0){
+                        summary.setInTotal(0.0);
                         summary.setInPrice(0.0);
                     }else{
+                        summary.setInTotal(new BigDecimal(summary.getInTotal()-itemsInDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         summary.setInPrice(new BigDecimal(summary.getInTotal()/summary.getInAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
-                    summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                     if(summary.getThisAmount()==0){
+                        summary.setThisTotal(0.0);
                         summary.setThisPrice(0.0);
                     }else{
+                        summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summaryDao.updateSummary(summary);
@@ -379,13 +433,19 @@ public class ItemInServiceImpl implements ItemInService {
                             Summary frontSummary=summaryDao.findNearestSummaryByIdAndTime(s.getGoodsID(),s.getTime());
                             //将上月的本月结存放入到当前月的上月结存
                             s.setPreAmount(frontSummary.getThisAmount());
-                            s.setPrePrice(frontSummary.getThisPrice());
-                            s.setPreTotal(frontSummary.getThisTotal());
+                            if(s.getPreAmount()==0){
+                                s.setPrePrice(0.0);
+                                s.setPreTotal(0.0);
+                            }else{
+                                s.setPrePrice(frontSummary.getThisPrice());
+                                s.setPreTotal(frontSummary.getThisTotal());
+                            }
                             s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                            s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             if(s.getThisAmount()==0){
+                                s.setThisTotal(0.0);
                                 s.setThisPrice(0.0);
                             }else{
+                                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             }
                             summaryDao.updateSummary(s);
@@ -410,5 +470,10 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public List<ItemIn> findItemsIdByInBillID(int inBillID) {
         return itemInDao.findItemsIdByInBillID(inBillID);
+    }
+
+    @Override
+    public Integer findSumItemNumBygoodsIdAndInBillID(int gid, String inBillID) {
+        return itemInDao.findSumItemNumBygoodsIdAndInBillID(gid,inBillID);
     }
 }

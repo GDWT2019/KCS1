@@ -15,6 +15,14 @@ public class ItemInController {
     @Autowired
     private ItemInService itemInService;
 
+    @RequestMapping(value="findSumItemNumBygoodsIdAndInBillID")
+    @ResponseBody
+    public Integer findSumItemNumBygoodsIdAndInBillID(@RequestParam("goodsID") String goodsID, @RequestParam("inBillID") String inBillID){
+        int gid = Integer.parseInt(goodsID);
+        Integer sumItemNum = itemInService.findSumItemNumBygoodsIdAndInBillID(gid, inBillID);
+        return sumItemNum;
+    }
+
     //获取自增的id值
     @RequestMapping(value = "insertNewItem" ,method = RequestMethod.POST)
     @ResponseBody

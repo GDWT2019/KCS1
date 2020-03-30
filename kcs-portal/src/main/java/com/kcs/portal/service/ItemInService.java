@@ -27,4 +27,6 @@ public interface ItemInService {
     ItemIn findItemsInByItemsID(String itemsInID);
 
     List<ItemIn> findItemsIdByInBillID(String inBillID);
+
+    Integer findSumItemNumBygoodsIdAndInBillID(Integer goodsID, String inBillID);
 }

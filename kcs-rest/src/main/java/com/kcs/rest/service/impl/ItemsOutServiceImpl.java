@@ -45,7 +45,6 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         OutBill outBillByID = outBillDao.findOutBillByID(itemsOut.getOutBillID());
         if (outBillByID != null){
             summary = summaryDao.findSummaryByGoodsIDAndTime(itemsOut.getGoodsID(), outBillByID.getOutTime().substring(0,7));
-
         }else{
             //获取对应物品id的最新的汇总记录
             summary = summaryDao.findSummaryInTheLastGoodsDataByGoodsID(itemsOut.getGoodsID());
@@ -63,10 +62,11 @@ public class ItemsOutServiceImpl implements ItemsOutService {
             }
             summary.setOutPrice(itemsOut.getItemPrice());
             summary.setThisAmount(summary.getThisAmount()-itemsOut.getItemNum());
-            summary.setThisTotal(new BigDecimal(summary.getThisTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             if(summary.getThisAmount()==0){
+                summary.setThisTotal(0.0);
                 summary.setThisPrice(0.0);
             }else{
+                summary.setThisTotal(new BigDecimal(summary.getThisTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
             }
             summaryDao.updateSummary(summary);
@@ -104,26 +104,30 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 s.setOutTotal(0d);
 
                 s.setThisAmount(s.getPreAmount()+s.getInAmount());
-                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 if(s.getThisAmount()==0){
+                    s.setThisTotal(0.0);
                     s.setThisPrice(0.0);
                 }else{
+                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
             }
             if (!s.getTime().equals(outTime)) {
                 s.setPreAmount(s.getPreAmount()+itemsOut.getItemNum());
-                s.setPreTotal(s.getPreTotal()+itemsOut.getItemTotal());
                 if(s.getPreAmount()==0){
+                    s.setPreTotal(0.0);
                     s.setPrePrice(0.0);
                 }else{
+                    s.setPreTotal(s.getPreTotal()+itemsOut.getItemTotal());
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
                 s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+
                 if(s.getThisAmount()==0){
+                    s.setThisTotal(0.0);
                     s.setThisPrice(0.0);
                 }else{
+                    s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                 }
             }
@@ -162,10 +166,11 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                     summary.setOutTotal(new BigDecimal(summary.getOutTotal()- itemsOutDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setOutPrice(new BigDecimal(summary.getOutTotal()/summary.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
-                    summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
+                        summary.setThisTotal(0.0);
                         summary.setThisPrice(0.0);
                     }else{
+                        summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                         summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     }
                     summaryDao.updateSummary(summary);
@@ -182,10 +187,11 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                             s.setPrePrice(frontSummary.getThisPrice());
                             s.setPreTotal(frontSummary.getThisTotal());
                             s.setThisAmount(s.getPreAmount()+s.getInAmount()-s.getOutAmount());
-                            s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             if(s.getThisAmount()==0){
+                                s.setThisTotal(0.0);
                                 s.setThisPrice(0.0);
                             }else{
+                                s.setThisTotal(new BigDecimal(s.getPreTotal()+s.getInTotal()-s.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                                 s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                             }
                             summaryDao.updateSummary(s);

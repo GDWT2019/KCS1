@@ -33,4 +33,6 @@ public interface ItemInDao {
     ItemIn findItemsInByItemsID(int itemsInID);
 
     List<ItemIn> findItemsIdByInBillID(int inBillID);
+
+    Integer findSumItemNumBygoodsIdAndInBillID(@Param("goodsID")int gid,@Param("inBillID") String inBillID);
 }

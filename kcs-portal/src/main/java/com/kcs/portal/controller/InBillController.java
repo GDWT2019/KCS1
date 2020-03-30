@@ -347,6 +347,7 @@ public class InBillController {
         if (subTime.equals(subTime1)) {
             for (ItemIn itemIn : list.getItemInList()) {
                 Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
+                Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
                 //修改月前的入库总数
                 Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
                 //修改月前的出库总数
@@ -358,7 +359,7 @@ public class InBillController {
                     if (allBeforeOutAmout==null){
                         allBeforeOutAmout=0;
                     }
-                    Integer total = allBeforeInAmout - thismonthSummary.getInAmount() + itemIn.getItemNum() - allBeforeOutAmout;
+                    Integer total = allBeforeInAmout - sumItemNum + itemIn.getItemNum() - allBeforeOutAmout;
                     if (total < 0) {
                         return -1;
                     }
@@ -379,6 +380,7 @@ public class InBillController {
             for (ItemIn itemIn : list.getItemInList()) {
                 //修改月前的入库
                 Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
+                Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
                 //修改月前的入库总数
                 Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
                 //修改月前的出库总数
@@ -390,7 +392,7 @@ public class InBillController {
                     if (allBeforeOutAmout==null){
                         allBeforeOutAmout=0;
                     }
-                    Integer total = allBeforeInAmout - thismonthSummary.getInAmount()- allBeforeOutAmout;
+                    Integer total = allBeforeInAmout - sumItemNum- allBeforeOutAmout;
                     if (total < 0) {
                         return -1;
                     }
@@ -413,6 +415,7 @@ public class InBillController {
             for (ItemIn itemIn : list.getItemInList()) {
                 //修改月前的入库
                 Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
+                Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
                 //修改月前的入库总数
                 Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
                 //修改月前的出库总数
@@ -424,7 +427,7 @@ public class InBillController {
                     if (allBeforeOutAmout==null){
                         allBeforeOutAmout=0;
                     }
-                    Integer total = allBeforeInAmout - thismonthSummary.getInAmount()- allBeforeOutAmout+thismonthSummary.getInAmount();
+                    Integer total = allBeforeInAmout - sumItemNum- allBeforeOutAmout+sumItemNum;
                     if (total < 0) {
                         return -1;
                     }
@@ -456,20 +459,23 @@ public class InBillController {
         String subTime = TimeIn.substring(0, 7);
 
         Summary summary=summaryService.findlatestAfterSummary(delItem.getGoodsID(),subTime);
-        Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(delItem.getGoodsID(),summary.getTime());
-        Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(delItem.getGoodsID(),summary.getTime());
-        if(allBeforeInAmout==null){
-            allBeforeInAmout=0;
+        if(summary!=null){
+            Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(delItem.getGoodsID(),summary.getTime());
+            Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(delItem.getGoodsID(),summary.getTime());
+            if(allBeforeInAmout==null){
+                allBeforeInAmout=0;
+            }
+            if (allBeforeOutAmout==null){
+                allBeforeOutAmout=0;
+            }
+            Integer total = allBeforeInAmout - delItem.getItemNum() - allBeforeOutAmout;
+            if (total < 0) {
+                return -1;
+            } else {
+                return 1;
+            }
         }
-        if (allBeforeOutAmout==null){
-            allBeforeOutAmout=0;
-        }
-        Integer total = allBeforeInAmout - delItem.getItemNum() - allBeforeOutAmout;
-        if (total < 0) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return 1;
     }
 
     @RequestMapping("/checkInAmountbiggerOutAmonutForRemove")
@@ -489,21 +495,23 @@ public class InBillController {
         String TimeIn = inBill.getTimeIn();
         String subTime = TimeIn.substring(0, 7);
         Summary summary=summaryService.findlatestAfterSummary(goods.getGoodsID(),subTime);
+        if(summary!=null){
+            Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(goods.getGoodsID(),summary.getTime());
+            Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(goods.getGoodsID(),summary.getTime());
+            if(allBeforeInAmout==null){
+                allBeforeInAmout=0;
+            }
+            if (allBeforeOutAmout==null){
+                allBeforeOutAmout=0;
+            }
+            Integer total = allBeforeInAmout - itemsNum - allBeforeOutAmout;
 
-        Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(goods.getGoodsID(),summary.getTime());
-        Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(goods.getGoodsID(),summary.getTime());
-        if(allBeforeInAmout==null){
-            allBeforeInAmout=0;
+            if (total < 0) {
+                return -1;
+            } else {
+                return 1;
+            }
         }
-        if (allBeforeOutAmout==null){
-            allBeforeOutAmout=0;
-        }
-        Integer total = allBeforeInAmout - itemsNum - allBeforeOutAmout;
-
-        if (total < 0) {
-            return -1;
-        } else {
-            return 1;
-        }
+        return 1;
     }
 }

@@ -106,8 +106,13 @@ public class SummaryServiceImpl implements SummaryService{
                     Summary summary =new Summary();
                     summary.setGoodsID(beforeMonth.getGoodsID());
                     summary.setPreAmount(beforeMonth.getThisAmount());
-                    summary.setPrePrice(beforeMonth.getThisPrice());
-                    summary.setPreTotal(beforeMonth.getThisTotal());
+                    if(summary.getPreAmount()==0){
+                        summary.setPrePrice(0.0);
+                        summary.setPreTotal(0.0);
+                    }else{
+                        summary.setPrePrice(beforeMonth.getThisPrice());
+                        summary.setPreTotal(beforeMonth.getThisTotal());
+                    }
                     summary.setInAmount(0);
                     summary.setInPrice(0.0);
                     summary.setInTotal(0.0);
@@ -115,8 +120,13 @@ public class SummaryServiceImpl implements SummaryService{
                     summary.setOutPrice(0.0);
                     summary.setOutTotal(0.0);
                     summary.setThisAmount(beforeMonth.getThisAmount());
-                    summary.setThisPrice(beforeMonth.getThisPrice());
-                    summary.setThisTotal(beforeMonth.getThisTotal());
+                    if(summary.getThisAmount()==0){
+                        summary.setThisPrice(0.0);
+                        summary.setThisTotal(0.0);
+                    }else{
+                        summary.setThisPrice(beforeMonth.getThisPrice());
+                        summary.setThisTotal(beforeMonth.getThisTotal());
+                    }
                     summary.setTime(dateAdd);
                     summaryDao.insertSummary(summary);
                 }
