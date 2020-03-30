@@ -7,6 +7,7 @@ import com.kcs.rest.pojo.Goods;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> findGoodsByItemsName(String itemName) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/getGoodsByItemName"+itemName);
+            String s = HttpClientUtil.doGet(Rest.rest+"goods/getGoodsByItemName"+itemName);
             KcsResult result = KcsResult.formatToList(s, Goods.class);
             if (result.getStatus() == 200) {
                 List<Goods> goodsList = (List<Goods>) result.getData();
@@ -33,7 +34,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> findAllGoods() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/getALLGoods");
+            String s = HttpClientUtil.doGet(Rest.rest+"goods/getALLGoods");
             KcsResult result = KcsResult.formatToList(s, Goods.class);
             if (result.getStatus() == 200) {
                 List<Goods> goodsList = (List<Goods>) result.getData();

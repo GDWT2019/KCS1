@@ -4,6 +4,7 @@ import com.kcs.portal.service.CategoryService;
 import com.kcs.rest.pojo.Category;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.utils.HttpClientUtil;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> findAllCategory() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/category/getAllCategory");
+            String s = HttpClientUtil.doGet(Rest.rest+"category/getAllCategory");
             KcsResult result = KcsResult.formatToList(s,Category.class);
             if (result.getStatus() == 200) {
                 return (List<Category>) result.getData();
@@ -27,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Integer addCategory(String categoryName) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/category/addCategory"+categoryName);
+            String s = HttpClientUtil.doGet(Rest.rest+"category/addCategory"+categoryName);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
 

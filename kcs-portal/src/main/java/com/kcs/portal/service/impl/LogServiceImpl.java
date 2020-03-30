@@ -5,6 +5,7 @@ import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.Log;
 import com.kcs.rest.pojo.LogPresent;
 import com.kcs.rest.utils.HttpClientUtil;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class LogServiceImpl implements LogService {
         param.put("begin",begin+ "");
         param.put("end",end+ "");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/log/findAllLog",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"log/findAllLog",param);
             KcsResult result = KcsResult.formatToList(s,LogPresent.class);
             if (result.getStatus() == 200) {
                 List<LogPresent> LogPresentList = (List<LogPresent>) result.getData();
@@ -42,7 +43,7 @@ public class LogServiceImpl implements LogService {
         param.put("time2",time2);
         param.put("name",name);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/log/getLogCount",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"log/getLogCount",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
@@ -63,7 +64,7 @@ public class LogServiceImpl implements LogService {
         param.put("time2",time2);
         param.put("name",name);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/log/findLogByTimeName",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"log/findLogByTimeName",param);
             KcsResult result = KcsResult.formatToList(s,LogPresent.class);
             if (result.getStatus() == 200) {
                 List<LogPresent> LogPresentList = (List<LogPresent>) result.getData();

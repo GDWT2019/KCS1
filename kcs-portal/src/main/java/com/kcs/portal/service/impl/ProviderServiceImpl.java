@@ -5,6 +5,7 @@ import com.kcs.portal.service.ProviderService;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.Provider;
 import com.kcs.rest.utils.HttpClientUtil;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public List<Provider> findAllProvider() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/provider/providerData");
+            String s = HttpClientUtil.doGet(Rest.rest+"provider/providerData");
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
 
@@ -38,7 +39,7 @@ public class ProviderServiceImpl implements ProviderService {
         param.put("providerAddress",providerAddress);
         param.put("tel",tel);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/provider/addProvider",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"provider/addProvider",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -52,7 +53,7 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public Provider findProviderByName(String providerName) {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/provider/findProviderByName"+providerName);
+            String s = HttpClientUtil.doPost(Rest.rest+"provider/findProviderByName"+providerName);
             KcsResult result = KcsResult.formatToPojo(s, Provider.class);
             if (result.getStatus() == 200) {
                 Provider provider = (Provider) result.getData();

@@ -6,6 +6,7 @@ import com.kcs.rest.pojo.SummartAndGoodsAndCategory;
 import com.kcs.rest.pojo.Summary;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public Summary findSummaryByGoodsIDAndDate(Summary s) {
         try {
-            String json = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/summary/getSummaryByGoodsIDAndTime", JsonUtils.objectToJson(s));
+            String json = HttpClientUtil.doPostJson(Rest.rest+"summary/getSummaryByGoodsIDAndTime", JsonUtils.objectToJson(s));
             KcsResult result = KcsResult.formatToPojo(json, Summary.class);
             if (result.getStatus() == 200) {
                 Summary summary = (Summary) result.getData();
@@ -31,7 +32,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public List<Integer> findGoodsIDByTime(String Time) {
         try {
-            String json = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/summary/getGoodsIDByTime" + Time);
+            String json = HttpClientUtil.doPost(Rest.rest+"summary/getGoodsIDByTime" + Time);
             KcsResult result = KcsResult.formatToPojo(json, Integer.class);
             if (result.getStatus() == 200) {
                 List<Integer> GoodsIDList = (List<Integer>) result.getData();
@@ -46,7 +47,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public Summary findSummaryInTheLastGoodsDataByGoodsID(int GoodsID) {
         try {
-            String json = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/summary/getSummaryInTheLastGoodsDataByGoodsID" + GoodsID);
+            String json = HttpClientUtil.doPost(Rest.rest+"summary/getSummaryInTheLastGoodsDataByGoodsID" + GoodsID);
             KcsResult result = KcsResult.formatToPojo(json, Summary.class);
             if (result.getStatus() == 200) {
                 Summary summary = (Summary) result.getData();
@@ -61,7 +62,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public List<SummartAndGoodsAndCategory> findAllTime() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllTime");
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllTime");
             KcsResult result = KcsResult.formatToList(s, SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 List<SummartAndGoodsAndCategory> sgcList = (List<SummartAndGoodsAndCategory>) result.getData();
@@ -80,7 +81,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("after",after+ "");
         param.put("time",time);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summartyBillData",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/summartyBillData",param);
             KcsResult result = KcsResult.formatToList(s,SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 return (List<SummartAndGoodsAndCategory>) result.getData();
@@ -94,7 +95,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public int countSummary(String time) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryTotal"+time);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/summaryTotal"+time);
             return Integer.parseInt(s);
         }catch (Exception e){
             e.printStackTrace();
@@ -106,7 +107,7 @@ public class SummaryServiceImpl implements SummaryService {
     public List<SummartAndGoodsAndCategory> summartyAllData() {
 
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summartyAllData");
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/summartyAllData");
             KcsResult result = KcsResult.formatToList(s,SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 return (List<SummartAndGoodsAndCategory>) result.getData();
@@ -120,7 +121,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public int countAll() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryAllTotal");
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/summaryAllTotal");
             return Integer.parseInt(s);
         }catch (Exception e){
             e.printStackTrace();
@@ -138,7 +139,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("itemName",itemName);
 
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/summaryAllCurrentdata",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/summaryAllCurrentdata",param);
             KcsResult result = KcsResult.formatToList(s,SummartAndGoodsAndCategory.class);
             if (result.getStatus() == 200) {
                 return (List<SummartAndGoodsAndCategory>) result.getData();
@@ -156,7 +157,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("time2",time2);
         param.put("itemName",itemName);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/countReload",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/countReload",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -174,7 +175,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("time",time);
 
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/getThisTotal",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/getThisTotal",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -192,7 +193,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("subTime",subTime);
 
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findThisMonthInAmountByGoodsID",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findThisMonthInAmountByGoodsID",param);
             KcsResult result = KcsResult.formatToPojo(s, Summary.class);
             if (result.getStatus() == 200) {
                 Summary summary = (Summary) result.getData();
@@ -207,7 +208,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public Integer findAllInAmout(Integer goodsID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllInAmout"+goodsID);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllInAmout"+goodsID);
             return Integer.parseInt(s);
         }catch (Exception e){
             e.printStackTrace();
@@ -218,7 +219,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public Integer findAllOutAmout(Integer goodsID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllOutAmout"+goodsID);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllOutAmout"+goodsID);
             return Integer.parseInt(s);
         }catch (Exception e){
             e.printStackTrace();
@@ -229,7 +230,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Override
     public void export() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/poiSummary");
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/poiSummary");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -241,7 +242,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("goodsID",goodsID+ "");
         param.put("subTime",subTime);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllBeforeInAmout",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllBeforeInAmout",param);
             return Integer.parseInt(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -255,7 +256,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("goodsID",goodsID+ "");
         param.put("subTime",subTime);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllBeforeOutAmout",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllBeforeOutAmout",param);
             return Integer.parseInt(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,7 +270,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("goodsID",goodsID+ "");
         param.put("subTime",subTime);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllafterInAmout",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllafterInAmout",param);
             return Integer.parseInt(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -283,7 +284,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("goodsID",goodsID+ "");
         param.put("subTime",subTime);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllafterOutAmout",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findAllafterOutAmout",param);
             return Integer.parseInt(s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -298,7 +299,7 @@ public class SummaryServiceImpl implements SummaryService {
         param.put("subTime",subTime);
 
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findlatestAfterSummary",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findlatestAfterSummary",param);
             KcsResult result = KcsResult.formatToPojo(s, Summary.class);
             if (result.getStatus() == 200) {
                 Summary summary = (Summary) result.getData();

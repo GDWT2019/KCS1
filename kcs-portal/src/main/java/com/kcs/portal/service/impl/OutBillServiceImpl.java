@@ -4,6 +4,7 @@ import com.kcs.portal.service.OutBillService;
 import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public List<Goods> getAllGoodsInSummaryGoodsId() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/getAllGoodsInSummaryGoodsId");
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/getAllGoodsInSummaryGoodsId");
             KcsResult result = KcsResult.formatToList(s, Goods.class);
             if (result.getStatus() == 200) {
                 List<Goods> goodsList = (List<Goods>) result.getData();
@@ -31,7 +32,7 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public List<Summary> getAllSummary() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/getAllSummary");
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/getAllSummary");
             KcsResult result = KcsResult.formatToList(s, Summary.class);
             if (result.getStatus() == 200) {
                 List<Summary> summaryList = (List<Summary>) result.getData();
@@ -46,7 +47,7 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public List<Department> getAllDepartment() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/getAllDepartment");
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/getAllDepartment");
             KcsResult result = KcsResult.formatToList(s, Department.class);
             if (result.getStatus() == 200) {
                 List<Department> departmentList = (List<Department>) result.getData();
@@ -69,7 +70,7 @@ public class OutBillServiceImpl implements OutBillService {
         param.put("checkStatus",checkStatus+"");
         param.put("userID",userID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresent",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/outBillPresent",param);
             KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
             if (result.getStatus() == 200) {
                 List<OutBillPresent> outBillPresentList = (List<OutBillPresent>) result.getData();
@@ -90,7 +91,7 @@ public class OutBillServiceImpl implements OutBillService {
         param.put("checkStatus",checkStatus+"");
         param.put("userID",userID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/outBillPresentCount",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/outBillPresentCount",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
@@ -106,7 +107,7 @@ public class OutBillServiceImpl implements OutBillService {
     public Integer insertOutBill(OutBill outBill) {
         Integer i = 0;
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/outBill/insertOutBill", JsonUtils.objectToJson(outBill));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"outBill/insertOutBill", JsonUtils.objectToJson(outBill));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
@@ -121,7 +122,7 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public List<OutBillPresent> findOutBillPresentByOutBillID(int outBillID) {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/getOutBillPresentByOutBillID"+outBillID);
+            String s = HttpClientUtil.doPost(Rest.rest+"outBill/getOutBillPresentByOutBillID"+outBillID);
             KcsResult result = KcsResult.formatToList(s, OutBillPresent.class);
             if (result.getStatus() == 200) {
                 List<OutBillPresent> outBillPresentList = (List<OutBillPresent>) result.getData();
@@ -137,7 +138,7 @@ public class OutBillServiceImpl implements OutBillService {
     public Integer findTheMaxOutBillID() {
         Integer i = 0;
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/getTheMaxOutBillID");
+            String s = HttpClientUtil.doPost(Rest.rest+"outBill/getTheMaxOutBillID");
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
@@ -153,7 +154,7 @@ public class OutBillServiceImpl implements OutBillService {
     public Integer updateCheckByOutBillID(OutBill outBill) {
         Integer i = 0;
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/outBill/updateCheckByOutBillID",JsonUtils.objectToJson(outBill));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"outBill/updateCheckByOutBillID",JsonUtils.objectToJson(outBill));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
@@ -169,7 +170,7 @@ public class OutBillServiceImpl implements OutBillService {
     public Integer updateOutBill(OutBill outBill) {
         Integer i = 0;
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/outBill/updateOutBill",JsonUtils.objectToJson(outBill));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"outBill/updateOutBill",JsonUtils.objectToJson(outBill));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
@@ -188,7 +189,7 @@ public class OutBillServiceImpl implements OutBillService {
         param.put("after",after+ "");
         param.put("goodsID",goodsID+ "");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/ItemOutRecord",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/ItemOutRecord",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (List<OutBillPresent>) result.getData();
@@ -202,7 +203,7 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public int CountItemOutRecord(int goodsID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/outBill/CountItemOutRecord"+goodsID);
+            String s = HttpClientUtil.doGet(Rest.rest+"outBill/CountItemOutRecord"+goodsID);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -216,7 +217,7 @@ public class OutBillServiceImpl implements OutBillService {
     @Override
     public List<OutBillPresent> findAllOutBillPresentPrint() {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/outBill/outBillPresentPrint");
+            String s = HttpClientUtil.doPost(Rest.rest+"outBill/outBillPresentPrint");
             KcsResult result = KcsResult.formatToList(s,OutBillPresent.class);
             if (result.getStatus() == 200) {
                 return (List<OutBillPresent>) result.getData();

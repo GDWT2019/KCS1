@@ -2,12 +2,11 @@ package com.kcs.portal.service.impl;
 
 
 
+import com.kcs.portal.service.PositionService;
 import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.Position;
-import com.kcs.rest.pojo.User;
-import com.kcs.portal.service.PositionService;
-
 import com.kcs.rest.utils.HttpClientUtil;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public List<Position> findAllPosition() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/position/positionData");
+            String s = HttpClientUtil.doGet(Rest.rest+"position/positionData");
             KcsResult result = KcsResult.formatToList(s,Position.class);
             if (result.getStatus() == 200) {
 
@@ -34,7 +33,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public Integer addPosition(String positionName) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/position/addPosition"+positionName);
+            String s = HttpClientUtil.doGet(Rest.rest+"position/addPosition"+positionName);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
 

@@ -6,6 +6,7 @@ import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.pojo.inBillShow;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public List<InBill> findAllInBill() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillData");
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/inBillData");
             KcsResult result = KcsResult.formatToList(s,InBill.class);
             if (result.getStatus() == 200) {
                 return (List<InBill>) result.getData();
@@ -30,7 +31,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public int count(){
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillTotal");
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/inBillTotal");
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -44,7 +45,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public Integer insertNewBill(InBill inBill) {
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/inBill/insertNewBill", JsonUtils.objectToJson(inBill));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"inBill/insertNewBill", JsonUtils.objectToJson(inBill));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer)result.getData();
@@ -59,7 +60,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public List<inBillShow> findInBillShow() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowData");
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/inBillShowData");
             KcsResult result = KcsResult.formatToList(s,inBillShow.class);
             if (result.getStatus() == 200) {
                 return (List<inBillShow>) result.getData();
@@ -81,7 +82,7 @@ public class InBillServiceImpl implements InBillService {
         param.put("username",username);
         param.put("checkStatus",checkStatus+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowPage",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/inBillShowPage",param);
             KcsResult result = KcsResult.formatToList(s,inBillShow.class);
             if (result.getStatus() == 200) {
                 return (List<inBillShow>) result.getData();
@@ -95,7 +96,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public int countShow() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/inBillShowTotal");
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/inBillShowTotal");
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -109,7 +110,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public int findMaxInBillID() {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/inBill/findMaxInBillID");
+            String s = HttpClientUtil.doPost(Rest.rest+"inBill/findMaxInBillID");
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -124,7 +125,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public InBill findCheckMessageByID(String inBillID) {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/inBill/findCheckMessageByID"+inBillID);
+            String s = HttpClientUtil.doPost(Rest.rest+"inBill/findCheckMessageByID"+inBillID);
             KcsResult result = KcsResult.formatToPojo(s, InBill.class);
             if (result.getStatus() == 200) {
                 InBill inBill = (InBill) result.getData();
@@ -140,7 +141,7 @@ public class InBillServiceImpl implements InBillService {
     @Override
     public void updateInBillByID(InBill inBill) {
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/inBill/UpdateInBill", JsonUtils.objectToJson(inBill));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"inBill/UpdateInBill", JsonUtils.objectToJson(inBill));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -155,7 +156,7 @@ public class InBillServiceImpl implements InBillService {
         param.put("username",username);
         param.put("checkStatus",checkStatus+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/countReload",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/countReload",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -173,7 +174,7 @@ public class InBillServiceImpl implements InBillService {
         param.put("after",after+ "");
         param.put("goodsID",goodsID+ "");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/ItemInRecord",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/ItemInRecord",param);
             KcsResult result = KcsResult.formatToList(s,inBillShow.class);
             if (result.getStatus() == 200) {
                 return (List<inBillShow>) result.getData();
@@ -188,7 +189,7 @@ public class InBillServiceImpl implements InBillService {
     public int CountItemInRecord(int goodsID) {
 
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/inBill/CountItemInRecord"+goodsID);
+            String s = HttpClientUtil.doGet(Rest.rest+"inBill/CountItemInRecord"+goodsID);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();

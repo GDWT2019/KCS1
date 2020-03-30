@@ -4,7 +4,7 @@ import com.kcs.portal.service.ItemInService;
 import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
-import org.springframework.security.core.parameters.P;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public void insertNewItem(ItemIn itemIn) {
         try {
-            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/itemIn/insertNewItem", JsonUtils.objectToJson(itemIn));
+            HttpClientUtil.doPostJson(Rest.rest+"itemIn/insertNewItem", JsonUtils.objectToJson(itemIn));
 //            System.out.println("jsonutils:  "+ JsonUtils.objectToJson(itemIn));
         }catch (Exception e){
             e.printStackTrace();
@@ -25,7 +25,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public List<ItemsShow> findItemsInData(String inBillID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/findItemsInData" + inBillID);
+            String s = HttpClientUtil.doGet(Rest.rest+"itemIn/findItemsInData" + inBillID);
             KcsResult result = KcsResult.formatToList(s,ItemsShow.class);
             if (result.getStatus() == 200) {
                 return (List<ItemsShow>) result.getData();
@@ -39,7 +39,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public void delItem(String itemsInID) {
         try {
-            HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/delItem"+itemsInID);
+            HttpClientUtil.doGet(Rest.rest+"itemIn/delItem"+itemsInID);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -48,7 +48,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public void UpdateCheckStatus(InBill inBill) {
         try {
-            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/itemIn/UpdateCheckStatus", JsonUtils.objectToJson(inBill));
+            HttpClientUtil.doPostJson(Rest.rest+"itemIn/UpdateCheckStatus", JsonUtils.objectToJson(inBill));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public List<InBill> valueIDandTime(String inBillID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/valueIDandTime" + inBillID);
+            String s = HttpClientUtil.doGet(Rest.rest+"itemIn/valueIDandTime" + inBillID);
             KcsResult result = KcsResult.formatToList(s,InBill.class);
             if (result.getStatus() == 200) {
                 return (List<InBill>) result.getData();
@@ -71,7 +71,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public List<GoodsAndCategoryAndItemsIn> getItemsInList(String inBillID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/getItemsInList" + inBillID);
+            String s = HttpClientUtil.doGet(Rest.rest+"itemIn/getItemsInList" + inBillID);
             KcsResult result = KcsResult.formatToList(s,GoodsAndCategoryAndItemsIn.class);
             if (result.getStatus() == 200) {
                 return (List<GoodsAndCategoryAndItemsIn>) result.getData();
@@ -85,7 +85,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public void delItemByInBillID(String inBillID) {
         try {
-            HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/delItemByInBillID"+inBillID);
+            HttpClientUtil.doGet(Rest.rest+"itemIn/delItemByInBillID"+inBillID);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -97,7 +97,7 @@ public class ItemInServiceImpl implements ItemInService {
         param.put("goodsID",goodsID+ "");
         param.put("inBillID",inBillID);
         try {
-            HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/delItemByInBillIDandGoodsID",param);
+            HttpClientUtil.doGet(Rest.rest+"itemIn/delItemByInBillIDandGoodsID",param);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -106,7 +106,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public ItemIn findItemsInByItemsID(String itemsInID) {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/itemIn/findItemsInByItemsID"+itemsInID);
+            String s = HttpClientUtil.doPost(Rest.rest+"itemIn/findItemsInByItemsID"+itemsInID);
             KcsResult result = KcsResult.formatToPojo(s, ItemIn.class);
             if (result.getStatus() == 200) {
                 ItemIn itemIn = (ItemIn) result.getData();
@@ -121,7 +121,7 @@ public class ItemInServiceImpl implements ItemInService {
     @Override
     public List<ItemIn> findItemsIdByInBillID(String inBillID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/findItemsIdByInBillID"+inBillID);
+            String s = HttpClientUtil.doGet(Rest.rest+"itemIn/findItemsIdByInBillID"+inBillID);
             KcsResult result = KcsResult.formatToList(s,ItemIn.class);
             if (result.getStatus() == 200) {
                 return (List<ItemIn>) result.getData();
@@ -138,7 +138,7 @@ public class ItemInServiceImpl implements ItemInService {
         param.put("goodsID",goodsID+ "");
         param.put("inBillID",inBillID);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/itemIn/findSumItemNumBygoodsIdAndInBillID",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"itemIn/findSumItemNumBygoodsIdAndInBillID",param);
             return Integer.parseInt(s);
         } catch (Exception e) {
             e.printStackTrace();

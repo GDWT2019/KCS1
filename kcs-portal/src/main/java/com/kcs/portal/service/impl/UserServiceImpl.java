@@ -4,8 +4,7 @@ import com.kcs.portal.service.UserService;
 import com.kcs.rest.pojo.*;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.kcs.rest.utils.Rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUser() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/userData");
+            String s = HttpClientUtil.doGet(Rest.rest+"user/userData");
             KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
                 return (List<User>) result.getData();
@@ -45,7 +43,7 @@ public class UserServiceImpl implements UserService {
         param.put("after",after+"");
         param.put("name",name);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/userPresentData",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/userPresentData",param);
             KcsResult result = KcsResult.formatToList(s,UserPresent.class);
             if (result.getStatus() == 200) {
                 return (List<UserPresent>) result.getData();
@@ -65,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserById(int id) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findUserById"+id);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/findUserById"+id);
             KcsResult result = KcsResult.formatToPojo(s,User.class);
             if (result.getStatus() == 200) {
                 User user = (User) result.getData();
@@ -80,7 +78,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByLoginName(String loginName) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/loginUser"+loginName);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/loginUser"+loginName);
             KcsResult result = KcsResult.formatToPojo(s,User.class);
             if (result.getStatus() == 200) {
                 User user = (User) result.getData();
@@ -95,7 +93,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int count(String name) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findTotal"+name);
+            String s = HttpClientUtil.doGet(Rest.rest+"ser/findTotal"+name);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();
@@ -109,7 +107,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findoneUser(String loginName) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/getUser"+ loginName);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/getUser"+ loginName);
             KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
                 return (List<User>) result.getData();
@@ -126,7 +124,7 @@ public class UserServiceImpl implements UserService {
 //            JSONObject jsonUser = JSONObject.fromObject(user);
 //            String strUser = jsonUser.toString();
 
-            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/updateBase", JsonUtils.objectToJson(user));
+            HttpClientUtil.doPostJson(Rest.rest+"user/updateBase", JsonUtils.objectToJson(user));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -135,7 +133,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePass(User user) {
         try {
-            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/updatePass", JsonUtils.objectToJson(user));
+            HttpClientUtil.doPostJson(Rest.rest+"user/updatePass", JsonUtils.objectToJson(user));
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -144,7 +142,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAlllister() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/listerData");
+            String s = HttpClientUtil.doGet(Rest.rest+"user/listerData");
             KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
 
@@ -160,7 +158,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllWarehouse() {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/WarehouseData");
+            String s = HttpClientUtil.doGet(Rest.rest+"user/WarehouseData");
             KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
 
@@ -176,7 +174,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findByName(String name) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findByName"+ name);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/findByName"+ name);
             KcsResult result = KcsResult.formatToList(s,User.class);
             if (result.getStatus() == 200) {
                 return (List<User>) result.getData();
@@ -192,7 +190,7 @@ public class UserServiceImpl implements UserService {
         try {
 //            user.setUserID(1);
 //            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/addUser", JsonUtils.objectToJson(user));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"user/addUser", JsonUtils.objectToJson(user));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -206,7 +204,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer delUserByUserID(int userID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/delUserByUserID"+userID);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/delUserByUserID"+userID);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -220,7 +218,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPresent findUserPresentById(int id) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findUserPresentById"+id);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/findUserPresentById"+id);
             KcsResult result = KcsResult.formatToPojo(s,UserPresent.class);
             if (result.getStatus() == 200) {
                 UserPresent userPresent = (UserPresent) result.getData();
@@ -235,7 +233,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer updateUser(User user) {
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/updateUser", JsonUtils.objectToJson(user));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"user/updateUser", JsonUtils.objectToJson(user));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -249,7 +247,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserRole> findUserRoleByUserID(int userID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/findUserRoleByUserID"+userID);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/findUserRoleByUserID"+userID);
             KcsResult result = KcsResult.formatToList(s,UserRole.class);
             if (result.getStatus() == 200) {
                 List<UserRole> userRoleList = (List<UserRole>) result.getData();
@@ -267,7 +265,7 @@ public class UserServiceImpl implements UserService {
         param.put("userID",userID+"");
         param.put("status",status+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/lockUser",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/lockUser",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -281,7 +279,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sentSession(User user) {
         try {
-            HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/user/sentSession", JsonUtils.objectToJson(user));
+            HttpClientUtil.doPostJson(Rest.rest+"user/sentSession", JsonUtils.objectToJson(user));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -291,7 +289,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/user/loginUser"+loginName);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/loginUser"+loginName);
             KcsResult result = KcsResult.formatToPojo(s,User.class);
             if (result.getStatus() == 200) {
                 User user = (User) result.getData();

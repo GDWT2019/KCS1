@@ -6,6 +6,7 @@ import com.kcs.rest.pojo.Role;
 import com.kcs.rest.pojo.RolePresent;
 import com.kcs.rest.utils.HttpClientUtil;
 import com.kcs.rest.utils.JsonUtils;
+import com.kcs.rest.utils.Rest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
         param.put("begin",begin+ "");
         param.put("end",end+ "");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findAllRole",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/findAllRole",param);
             KcsResult result = KcsResult.formatToList(s, Role.class);
             if (result.getStatus() == 200) {
                 List<Role> roleList = (List<Role>) result.getData();
@@ -34,7 +35,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Integer addRole(String roleName) {
         try {
-            String s = HttpClientUtil.doPost("http://localhost:8081/kcs_rest_war/role/addRole"+roleName);
+            String s = HttpClientUtil.doPost(Rest.rest+"role/addRole"+roleName);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (Integer) result.getData();
@@ -50,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
         HashMap<String, String> param = new HashMap<>();
         param.put("roleName",roleName);
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/getRoleCount",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/getRoleCount",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
@@ -71,7 +72,7 @@ public class RoleServiceImpl implements RoleService {
     public Integer updateRole(Role role) {
         Integer i = 0;
         try {
-            String s = HttpClientUtil.doPostJson("http://localhost:8081/kcs_rest_war/role/updateRole", JsonUtils.objectToJson(role));
+            String s = HttpClientUtil.doPostJson(Rest.rest+"role/updateRole", JsonUtils.objectToJson(role));
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
@@ -87,7 +88,7 @@ public class RoleServiceImpl implements RoleService {
     public Integer delRole(int roleID) {
         Integer i = 0;
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/delRole"+roleID);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/delRole"+roleID);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 i = (Integer) result.getData();
@@ -102,7 +103,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findTheOthersRoleByUserID(int userID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findTheOthersRoleByUserID"+userID);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/findTheOthersRoleByUserID"+userID);
             KcsResult result = KcsResult.formatToList(s,Role.class);
             if (result.getStatus() == 200) {
                 List<Role> roleList = (List<Role>) result.getData();
@@ -120,7 +121,7 @@ public class RoleServiceImpl implements RoleService {
         param.put("userID",userID+"");
         param.put("roleID",roleID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/addUserRole",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/addUserRole",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
@@ -138,7 +139,7 @@ public class RoleServiceImpl implements RoleService {
         param.put("userID",userID+"");
         param.put("roleID",roleID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/delUserRoleByUserID_RoleID",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/delUserRoleByUserID_RoleID",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
@@ -157,7 +158,7 @@ public class RoleServiceImpl implements RoleService {
         param.put("back",back+"");
         param.put("roleID",roleID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findAllRolePresent",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/findAllRolePresent",param);
             KcsResult result = KcsResult.formatToList(s,RolePresent.class);
             if (result.getStatus() == 200) {
                 return (List<RolePresent>) result.getData();
@@ -173,7 +174,7 @@ public class RoleServiceImpl implements RoleService {
         HashMap<String, String> param = new HashMap<>();
         param.put("roleID",roleID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findRolePresentCount",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/findRolePresentCount",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
@@ -188,7 +189,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role findRoleByID(int roleID) {
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/findRoleByID"+roleID);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/findRoleByID"+roleID);
             KcsResult result = KcsResult.formatToPojo(s,Role.class);
             if (result.getStatus() == 200) {
                 Role role = (Role) result.getData();
@@ -206,7 +207,7 @@ public class RoleServiceImpl implements RoleService {
         param.put("roleID",roleID+"");
         param.put("permissionID",permissionID+"");
         try {
-            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/role/delRolePermission",param);
+            String s = HttpClientUtil.doGet(Rest.rest+"role/delRolePermission",param);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 Integer count = (Integer) result.getData();
