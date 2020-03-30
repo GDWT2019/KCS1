@@ -47,5 +47,14 @@ public interface SummaryService {
 
     Integer findAllOutAmout(Integer goodsID);
 
+    Integer findAllBeforeInAmout(int gid, String subTime);
+
+    Integer findAllBeforeOutAmout(int gid, String subTime);
+
+    Integer findAllafterInAmout(int gid, String subTime);
+
+    Integer findAllafterOutAmout(int gid, String subTime);
+
+    Summary findlatestAfterSummary(int gid, String subTime);
 }
 

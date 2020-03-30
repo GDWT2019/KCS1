@@ -234,5 +234,80 @@ public class SummaryServiceImpl implements SummaryService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Integer findAllBeforeInAmout(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllBeforeInAmout",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findAllBeforeOutAmout(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllBeforeOutAmout",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findAllafterInAmout(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllafterInAmout",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findAllafterOutAmout(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findAllafterOutAmout",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Summary findlatestAfterSummary(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+
+        try {
+            String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/summary/findlatestAfterSummary",param);
+            KcsResult result = KcsResult.formatToPojo(s, Summary.class);
+            if (result.getStatus() == 200) {
+                Summary summary = (Summary) result.getData();
+                return summary;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 

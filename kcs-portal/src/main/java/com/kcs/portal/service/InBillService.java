@@ -33,4 +33,5 @@ public interface InBillService {
     int CountItemInRecord(int goodsID);
 
 
+
 }

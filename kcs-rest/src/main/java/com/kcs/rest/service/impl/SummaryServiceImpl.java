@@ -138,4 +138,29 @@ public class SummaryServiceImpl implements SummaryService{
     public Integer findAllOutAmout(Integer goodsID) {
         return summaryDao.findAllOutAmout(goodsID);
     }
+
+    @Override
+    public Integer findAllBeforeInAmout(int gid, String subTime) {
+        return summaryDao.findAllBeforeInAmout(gid,subTime);
+    }
+
+    @Override
+    public Integer findAllBeforeOutAmout(int gid, String subTime) {
+        return summaryDao.findAllBeforeOutAmout(gid,subTime);
+    }
+
+    @Override
+    public Integer findAllafterInAmout(int gid, String subTime) {
+        return summaryDao.findAllafterInAmout(gid,subTime);
+    }
+
+    @Override
+    public Integer findAllafterOutAmout(int gid, String subTime) {
+        return summaryDao.findAllafterOutAmout(gid,subTime);
+    }
+
+    @Override
+    public Summary findlatestAfterSummary(int gid, String subTime) {
+        return summaryDao.findlatestAfterSummary(gid,subTime);
+    }
 }

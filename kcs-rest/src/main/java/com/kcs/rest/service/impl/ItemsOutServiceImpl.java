@@ -160,7 +160,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 if(summary!=null){
                     summary.setOutAmount(summary.getOutAmount()- itemsOutDatum.getItemNum());
                     summary.setOutTotal(new BigDecimal(summary.getOutTotal()- itemsOutDatum.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                    summary.setOutPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                    summary.setOutPrice(new BigDecimal(summary.getOutTotal()/summary.getOutAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     summary.setThisAmount(summary.getPreAmount()+summary.getInAmount()-summary.getOutAmount());
                     summary.setThisTotal(new BigDecimal(summary.getPreTotal()+summary.getInTotal()-summary.getOutTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if(summary.getThisAmount()==0){
