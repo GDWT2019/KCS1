@@ -592,7 +592,7 @@
                 }
             },
             error: function () {
-                layer.alert("修改失败！");
+                layer.alert("请求参数错误，修改失败！");
             }
         });
     }

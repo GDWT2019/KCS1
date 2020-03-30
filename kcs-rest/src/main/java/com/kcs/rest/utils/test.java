@@ -49,9 +49,6 @@ public class test {
 
     @Test
     public void test34() throws ParseException {
-
-        Summary summary = summaryDao.findlatestAfterSummary(9, "2020-01");
-        System.out.println(summary);
     }
 
     @Test
