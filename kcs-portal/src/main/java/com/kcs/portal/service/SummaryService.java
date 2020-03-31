@@ -48,4 +48,10 @@ public interface SummaryService {
     Integer findAllafterOutAmout(Integer goodsID, String subTime);
 
     Summary findlatestAfterSummary(Integer goodsID, String subTime);
+
+    Summary findLongestAfterSummary(Integer goodsID, String subTime);
+
+    Integer findBetweenBeforeAndAffterInAmout(Integer goodsID, String subTime, String subTime1);
+
+    Integer findBetweenBeforeAndAffterOutAmout(Integer goodsID, String subTime, String subTime1);
 }

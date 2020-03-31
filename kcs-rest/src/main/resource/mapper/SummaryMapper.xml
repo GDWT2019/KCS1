@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.SummaryDao" >
 
+    <select id="findBetweenBeforeAndAffterInAmout" resultType="Integer">
+        select SUM(InAmount) from Summary where GoodsID=#{goodsID} and Time between  #{subTime} and  #{subTime1}
+    </select>
+
+    <select id="findBetweenBeforeAndAffterOutAmout" resultType="Integer">
+        select SUM(OutAmount) from Summary where GoodsID=#{goodsID} and Time between  #{subTime} and  #{subTime1}
+    </select>
+    
+    <select id="findLongestAfterSummary" resultType="com.kcs.rest.pojo.Summary">
+        select top 1 * from Summary where Time &gt;= #{subTime} and GoodsID = #{goodsID} and OutAmount!=0 order by Time desc
+    </select>
+
     <select id="findlatestAfterSummary" resultType="com.kcs.rest.pojo.Summary">
         select top 1 * from Summary where Time &gt;= #{subTime} and GoodsID = #{goodsID} and OutAmount!=0 order by Time
     </select>

@@ -89,4 +89,10 @@ public interface SummaryDao {
     Integer findAllafterOutAmout(@Param("goodsID") int gid, @Param("subTime") String subTime);
 
     Summary findlatestAfterSummary(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Summary findLongestAfterSummary(@Param("goodsID") int gid, @Param("subTime") String subTime);
+
+    Integer findBetweenBeforeAndAffterOutAmout(@Param("goodsID")int gid,  @Param("subTime")String subTime,  @Param("subTime1")String subTime1);
+
+    Integer findBetweenBeforeAndAffterInAmout(@Param("goodsID")int gid,  @Param("subTime")String subTime,  @Param("subTime1")String subTime1);
 }

@@ -26,6 +26,32 @@ public class SummaryController {
     @Autowired
     private SummaryService summaryService;
 
+    @RequestMapping(value="findBetweenBeforeAndAffterInAmout")
+    @ResponseBody
+    public Integer findBetweenBeforeAndAffterInAmout(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime,@RequestParam("subTime1") String subTime1){
+        int gid = Integer.parseInt(goodsID);
+        Integer beforeAndAffterInAmout = summaryService.findBetweenBeforeAndAffterInAmout(gid, subTime,subTime1);
+        return beforeAndAffterInAmout;
+    }
+
+    @RequestMapping(value="findBetweenBeforeAndAffterOutAmout")
+    @ResponseBody
+    public Integer findBetweenBeforeAndAffterOutAmout(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime,@RequestParam("subTime1") String subTime1){
+        int gid = Integer.parseInt(goodsID);
+        Integer beforeAndAffterOutAmout = summaryService.findBetweenBeforeAndAffterOutAmout(gid, subTime,subTime1);
+        return beforeAndAffterOutAmout;
+    }
+
+
+
+    @RequestMapping(value="findLongestAfterSummary")
+    @ResponseBody
+    public KcsResult findLongestAfterSummary(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){
+        int gid = Integer.parseInt(goodsID);
+        Summary longestAfterSummary = summaryService.findLongestAfterSummary(gid, subTime);
+        return KcsResult.ok(longestAfterSummary);
+    }
+
     @RequestMapping(value="findlatestAfterSummary")
     @ResponseBody
     public KcsResult findlatestAfterSummary(@RequestParam("goodsID") String goodsID, @RequestParam("subTime") String subTime){

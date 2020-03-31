@@ -310,5 +310,54 @@ public class SummaryServiceImpl implements SummaryService {
         }
         return null;
     }
+
+    @Override
+    public Summary findLongestAfterSummary(Integer goodsID, String subTime) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findLongestAfterSummary",param);
+            KcsResult result = KcsResult.formatToPojo(s, Summary.class);
+            if (result.getStatus() == 200) {
+                Summary summary = (Summary) result.getData();
+                return summary;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findBetweenBeforeAndAffterInAmout(Integer goodsID, String subTime, String subTime1) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+        param.put("subTime1",subTime1);
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findBetweenBeforeAndAffterInAmout",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Integer findBetweenBeforeAndAffterOutAmout(Integer goodsID, String subTime, String subTime1) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+ "");
+        param.put("subTime",subTime);
+        param.put("subTime1",subTime1);
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/findBetweenBeforeAndAffterOutAmout",param);
+            return Integer.parseInt(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 

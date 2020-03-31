@@ -347,70 +347,82 @@ public class InBillController {
         if (subTime.equals(subTime1)) {
             for (ItemIn itemIn : list.getItemInList()) {
                 Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
-                Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
-                //修改月前的入库总数
-                Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
-                //修改月前的出库总数
-                Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(itemIn.getGoodsID(),subTime);
-                if (thismonthSummary != null) {
-                    if(allBeforeInAmout==null){
-                        allBeforeInAmout=0;
-                    }
-                    if (allBeforeOutAmout==null){
-                        allBeforeOutAmout=0;
-                    }
-                    Integer total = allBeforeInAmout - sumItemNum + itemIn.getItemNum() - allBeforeOutAmout;
-                    if (total < 0) {
-                        return -1;
-                    }
-                } else if (thismonthSummary == null) {
-                    if(allBeforeInAmout==null){
-                        allBeforeInAmout=0;
-                    }
-                    if (allBeforeOutAmout==null){
-                        allBeforeOutAmout=0;
-                    }
-                    Integer total = allBeforeInAmout + itemIn.getItemNum() - allBeforeOutAmout;
-                    if (total < 0) {
-                        return -1;
+//                Summary summary = summaryService.findlatestAfterSummary(itemIn.getGoodsID(), subTime);
+                Summary summary =summaryService.findLongestAfterSummary(itemIn.getGoodsID(),subTime);
+                if(summary!=null){
+                    Integer beforeAndAffterInAmout =summaryService.findBetweenBeforeAndAffterInAmout(itemIn.getGoodsID(),subTime,summary.getTime());
+                    Integer beforeAndAffterOutAmout =summaryService.findBetweenBeforeAndAffterOutAmout(itemIn.getGoodsID(),subTime,summary.getTime());
+                    Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
+                    //修改月前的入库总数
+//                Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
+                    //修改月前的出库总数
+//                Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(itemIn.getGoodsID(),subTime);
+                    if (thismonthSummary != null) {
+                        if(beforeAndAffterInAmout==null){
+                            beforeAndAffterInAmout=0;
+                        }
+                        if (beforeAndAffterOutAmout==null){
+                            beforeAndAffterOutAmout=0;
+                        }
+                        Integer total = thismonthSummary.getPreAmount()+beforeAndAffterInAmout - sumItemNum + itemIn.getItemNum() - beforeAndAffterOutAmout;
+                        if (total < 0) {
+                            return -1;
+                        }
+                    } else if (thismonthSummary == null) {
+                        if(beforeAndAffterInAmout==null){
+                            beforeAndAffterInAmout=0;
+                        }
+                        if (beforeAndAffterOutAmout==null){
+                            beforeAndAffterOutAmout=0;
+                        }
+                        Integer total = beforeAndAffterInAmout + itemIn.getItemNum() - beforeAndAffterOutAmout;
+                        if (total < 0) {
+                            return -1;
+                        }
                     }
                 }
+
             }
+            //修改的时间在原先的后面
         }else if(dateFormat.parse(subTime1).getTime() - dateFormat.parse(subTime).getTime()>0){
             for (ItemIn itemIn : list.getItemInList()) {
                 //修改月前的入库
                 Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
                 Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
                 //修改月前的入库总数
-                Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
+//                Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
                 //修改月前的出库总数
-                Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(itemIn.getGoodsID(),subTime);
+//                Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(itemIn.getGoodsID(),subTime);
+                Summary summary =summaryService.findLongestAfterSummary(itemIn.getGoodsID(),subTime);
+                Integer beforeAndAffterInAmout =summaryService.findBetweenBeforeAndAffterInAmout(itemIn.getGoodsID(),subTime,summary.getTime());
+                Integer beforeAndAffterOutAmout =summaryService.findBetweenBeforeAndAffterOutAmout(itemIn.getGoodsID(),subTime,summary.getTime());
                 if (thismonthSummary != null) {
-                    if(allBeforeInAmout==null){
-                        allBeforeInAmout=0;
+                    if(beforeAndAffterInAmout==null){
+                        beforeAndAffterInAmout=0;
                     }
-                    if (allBeforeOutAmout==null){
-                        allBeforeOutAmout=0;
+                    if (beforeAndAffterOutAmout==null){
+                        beforeAndAffterOutAmout=0;
                     }
-                    Integer total = allBeforeInAmout - sumItemNum- allBeforeOutAmout;
+                    Integer total = thismonthSummary.getPreAmount()+beforeAndAffterInAmout-beforeAndAffterOutAmout-sumItemNum;
                     if (total < 0) {
                         return -1;
                     }
                 }
                 else if (thismonthSummary == null) {
-                    if(allBeforeInAmout==null){
-                        allBeforeInAmout=0;
+                    if(beforeAndAffterInAmout==null){
+                        beforeAndAffterInAmout=0;
                     }
-                    if (allBeforeOutAmout==null){
-                        allBeforeOutAmout=0;
+                    if (beforeAndAffterOutAmout==null){
+                        beforeAndAffterOutAmout=0;
                     }
-                    Integer total = allBeforeInAmout + itemIn.getItemNum() - allBeforeOutAmout;
+                    Integer total = beforeAndAffterInAmout + itemIn.getItemNum() - beforeAndAffterOutAmout;
                     if (total < 0) {
                         return -1;
                     }
                 }
             }
         }
+        //修改的时间在原先的前面
         else if(dateFormat.parse(subTime1).getTime() - dateFormat.parse(subTime).getTime()<0){
             for (ItemIn itemIn : list.getItemInList()) {
                 //修改月前的入库

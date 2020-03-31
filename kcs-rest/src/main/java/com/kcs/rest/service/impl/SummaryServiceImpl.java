@@ -173,4 +173,19 @@ public class SummaryServiceImpl implements SummaryService{
     public Summary findlatestAfterSummary(int gid, String subTime) {
         return summaryDao.findlatestAfterSummary(gid,subTime);
     }
+
+    @Override
+    public Summary findLongestAfterSummary(int gid, String subTime) {
+        return summaryDao.findLongestAfterSummary(gid,subTime);
+    }
+
+    @Override
+    public Integer findBetweenBeforeAndAffterOutAmout(int gid, String subTime, String subTime1) {
+        return summaryDao.findBetweenBeforeAndAffterOutAmout(gid,subTime,subTime1);
+    }
+
+    @Override
+    public Integer findBetweenBeforeAndAffterInAmout(int gid, String subTime, String subTime1) {
+        return summaryDao.findBetweenBeforeAndAffterInAmout(gid,subTime,subTime1);
+    }
 }
