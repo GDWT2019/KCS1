@@ -376,9 +376,28 @@ public class OutBillController {
         return new AjaxMesg(true,"恭喜，修改成功！");
     }
 
+    @RequestMapping(value = "outBillPrintCheck")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('出库查询全部记录,出库查询本人记录,出库导出,出库,ROLE_ADMIN')")
+    public AjaxMesg outBillPrintCheck() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            GrantedAuthority next = iterator.next();
+            if("出库导出".equals(next.getAuthority())||"出库".equals(next.getAuthority())||"ROLE_ADMIN".equals(next.getAuthority())){
+                b = true;
+            }
+        }
+        if(!b){
+            return new AjaxMesg(false,"权限不足！");
+        }
+        return new AjaxMesg(true," ");
+    }
+
+
     @RequestMapping(value = "outBillPrint", produces = "text/html;charset=utf-8")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('出库导出,出库,ROLE_ADMIN')")
     public String outBillPrint(HttpServletRequest request) {
         List<OutBillPresent> allOutBillPresentPrint = outBillService.findAllOutBillPresentPrint();
         int count =  allOutBillPresentPrint.size();

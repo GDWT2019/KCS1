@@ -275,43 +275,61 @@
 		var table = layui.table,
 				form = layui.form,
 				layer = layui.layer;
-		var exportData = null;
-		var ins1 = table.render({
-			elem: '#data_export',
-			url: "${pageContext.request.contextPath}/outBill/outBillPrint",
-			method: 'post',
-			title: '出库单',
-			cols: [[
-				{type: 'checkbox', fixed: 'left'}
-				,{type:'numbers',title:'序号'}
-				,{field:'outBillID', title:'单号', width:80,sort:true}
-				,{field:'outTime', title:'日期', width:110,sort:true}
-				,{field:'itemsName', title:'物品名称', width:110}
-				,{field:'itemsType', title:'物品规格', width:100}
-				,{field:'itemsUnit', title:'单位', width:60}
-				,{field:'storePosition', title:'位置', width:60}
-				,{field:'itemNum', title:'出库数量',sort:true, width:110}
-				,{field:'takerName', title:'领用人', width:100}
-				,{field:'remark', title:'备注', width:120}
-				,{field:'checkStatus', title:'审批状态',sort:true, width:120,templet:function (d) {
-						if(d.checkStatus==0) return '待审批';
-						else if(d.checkStatus ==1) return '<span style="color: #009688;">通过</span>';
-						else if(d.checkStatus == 2) return '<span style="color: #FF5722;">未通过</span>';
-						else return '审批错误'
-					}}
-				,{field:'checkerName', title:'审批人', width:120}
-				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
-			]]
-			,done: function (res, curr, count) {
-				exportData = res.data;
-			}
-		});
+
+        var exportData = null;
+        var ins1 = table.render({
+            elem: '#data_export',
+            url: "${pageContext.request.contextPath}/outBill/outBillPrint",
+            method: 'post',
+            title: '出库单',
+            cols: [[
+                {type: 'checkbox', fixed: 'left'}
+                ,{type:'numbers',title:'序号'}
+                ,{field:'outBillID', title:'单号', width:80,sort:true}
+                ,{field:'outTime', title:'日期', width:110,sort:true}
+                ,{field:'itemsName', title:'物品名称', width:110}
+                ,{field:'itemsType', title:'物品规格', width:100}
+                ,{field:'itemsUnit', title:'单位', width:60}
+                ,{field:'storePosition', title:'位置', width:60}
+                ,{field:'itemNum', title:'出库数量',sort:true, width:110}
+                ,{field:'takerName', title:'领用人', width:100}
+                ,{field:'remark', title:'备注', width:120}
+                ,{field:'checkStatus', title:'审批状态',sort:true, width:120,templet:function (d) {
+                        if(d.checkStatus==0) return '待审批';
+                        else if(d.checkStatus ==1) return '<span style="color: #009688;">通过</span>';
+                        else if(d.checkStatus == 2) return '<span style="color: #FF5722;">未通过</span>';
+                        else return '审批错误'
+                    }}
+                ,{field:'checkerName', title:'审批人', width:120}
+                ,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
+            ]]
+            ,done: function (res, curr, count) {
+                exportData = res.data;
+            }
+        });
 		//导出按钮
 		/* $(".export").click(function () {
              table.exportFile(ins1.config.id, exportData, 'xls');
          });*/
 		$('body').on('click',"#export",function () {
-			table.exportFile(ins1.config.id, exportData, 'xls');
+		    $.ajax({
+                url:"${pageContext.request.contextPath}/outBill/outBillPrintCheck",
+                type:"post",
+                dataType: "text",
+                success:function (result) {
+                    if(result != null){
+                        var data = JSON.parse(result);
+                        if (data.flag){
+                            table.exportFile(ins1.config.id, exportData, 'xls');
+                        }
+                        else{
+                            layer.alert(data.mesg)
+                        }
+                    }
+                }
+
+            })
+
 		});
 	})
 </script>

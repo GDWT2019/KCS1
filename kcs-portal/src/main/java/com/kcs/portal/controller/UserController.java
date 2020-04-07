@@ -53,6 +53,9 @@ public class UserController {
     @ResponseBody
     public AjaxMesg loginCheck(Model model,String loginName, String password){
         User user = userService.findByLoginName(loginName);
+        if(!user.isStatus()){
+            return new AjaxMesg(false,"该用户已被冻结！");
+        }
         //System.err.println(user);
         if (user == null){
            return  new AjaxMesg(false,"该登录名不存在！");
