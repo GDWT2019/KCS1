@@ -89,6 +89,7 @@ public class RoleController {
     @ResponseBody
     @PreAuthorize("hasAnyAuthority('用户管理,角色分配,ROLE_ADMIN')")
     public AjaxMesg addUserRole(int userID,int roleID){
+
         Integer i = roleService.addUserRole(userID, roleID);
         if (i<0)
             return new AjaxMesg(false,"新增用户角色失败！");
@@ -97,11 +98,24 @@ public class RoleController {
 
     @RequestMapping("/delUserRole")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('用户管理,角色删除,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('用户查看,用户管理,角色删除,ROLE_ADMIN')")
     public AjaxMesg delUserRole(int userID,int roleID){
-        Integer i = roleService.delUserRoleByUserID_RoleID(userID, roleID);if (i<0)
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            GrantedAuthority next = iterator.next();
+            if ("用户管理".equals(next.getAuthority())||"角色分配".equals(next.getAuthority())||"ROLE_ADMIN".equals(next.getAuthority())){
+                b = true;
+            }
+        }
+        if(!b){
+            return new AjaxMesg(false,"无删除权限,无法删除!");
+        }
+        Integer i = roleService.delUserRoleByUserID_RoleID(userID, roleID);
+        if (i<0)
             return new AjaxMesg(false,"删除角色失败！");
-        return new AjaxMesg(false,"删除角色成功！");
+        return new AjaxMesg(true,"删除角色成功！");
     }
 
     @RequestMapping("/showRolePermission")
@@ -195,8 +209,20 @@ public class RoleController {
 
     @RequestMapping("/delRole")
     @ResponseBody
-    @PreAuthorize("hasAnyAuthority('角色管理,角色删除,ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('角色查看,角色管理,角色删除,ROLE_ADMIN')")
     public AjaxMesg delRole(int roleID){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
+        boolean b =false;
+        while (iterator.hasNext()){
+            GrantedAuthority next = iterator.next();
+            if ("角色管理".equals(next.getAuthority())||"角色删除".equals(next.getAuthority())||"ROLE_ADMIN".equals(next.getAuthority())){
+                b = true;
+            }
+        }
+        if(!b){
+            return new AjaxMesg(false,"无删除权限,无法删除!");
+        }
 
         int i = roleService.delRole(roleID);
 

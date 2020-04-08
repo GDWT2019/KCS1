@@ -79,7 +79,7 @@
                         dataType:"text",
                         success:function (result) {
                             var ajaxResult = JSON.parse(result);
-                            if (ajaxResult){
+                            if (ajaxResult.flag){
                                 layer.confirm(ajaxResult.mesg);
                                 obj.del();
                             }else{

@@ -351,7 +351,8 @@ public class UserController {
         Iterator<? extends GrantedAuthority> iterator = authentication.getAuthorities().iterator();
         boolean b =false;
         while (iterator.hasNext()){
-            if (iterator.next().toString().equals("用户删除")){
+            GrantedAuthority next = iterator.next();
+            if ("用户删除".equals(next.getAuthority())||"用户管理".equals(next.getAuthority())||"ROLE_ADMIN".equals(next.getAuthority())){
                 b = true;
             }
         }
