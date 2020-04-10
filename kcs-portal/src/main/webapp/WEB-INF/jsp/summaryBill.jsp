@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Title</title>
@@ -12,6 +12,7 @@
     <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <script src="${pageContext.request.contextPath}/js/layui_exts/excel.js"></script>
+    <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/static/tablePlug/tablePlug.css" type="text/css"/>--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
@@ -48,17 +49,24 @@
     <a class="layui-btn layui-btn-xs" lay-event="outBill">出库记录</a>
 </script>
 
+<%--<script src="${pageContext.request.contextPath }/static/tablePlug/tablePlug.js"></script>--%>
+
 <script>
 
+    layui.config({
+        base: '${pageContext.request.contextPath }/static/tablePlug/' //假设这是test.js所在的目录   可以把你需要扩展的js插件都放在一个文件夹内
+    }).extend({ //设定组件别名
+        tablePlug: 'tablePlug'
+    });
 
-
-
-
-    layui.use(["jquery", "upload", "form", "layer", "element",'table','laydate'], function () {
+    <%--layui.config({base:'${pageContext.request.contextPath }/static/tablePlug/'}).use(["jquery", "upload", "form", "layer", "element","table","laydate","tablePlug"], function () {--%>
+    layui.use(["jquery", "upload", "layer","table","laydate","tablePlug"], function () {
         var $ = layui.$,
-            form = layui.form,
             table = layui.table;
         var laydate = layui.laydate;
+        var tablePlug = layui.tablePlug;
+        tablePlug.smartReload.enable(true);//处理不闪动的关键代码
+
 
         $("#preMonth").on("click",function () {
             var month = $("#time1").val()+"-1";
@@ -177,7 +185,8 @@
             ,toolbar: '#toolbarDemo'
             ,title: '汇总'
             ,totalRow: false//开启合计行
-            , cols:  [[ //标题栏
+            ,smartReloadModel:true
+            ,cols:  [[ //标题栏
                 {type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
                 ,{align: 'center', title: '物品', colspan: 3}
                 ,{align: 'center', title: '上月结存', colspan: 3}
