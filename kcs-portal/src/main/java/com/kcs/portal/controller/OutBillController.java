@@ -408,4 +408,35 @@ public class OutBillController {
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
         return jso;
     }
+    
+    @RequestMapping("/findOutBillPresentByOutBillID")
+    @ResponseBody
+    public OutBillPresent findOutBillPresentByOutBillID(int outBillID,int itemsOutID){
+        OutBillPresent outBillPresent = new OutBillPresent();
+        List<OutBillPresent> outBillPresentByOutBillID = outBillService.findOutBillPresentByOutBillID(outBillID);
+        for (OutBillPresent o :
+                outBillPresentByOutBillID) {
+
+            if (o.getItemsOutID()==itemsOutID)
+                outBillPresent=o;
+        }
+        return outBillPresent;
+    }
+
+    @RequestMapping("/findTheLastOutBillPresent")
+    @ResponseBody
+    public OutBillPresent findTheLastOutBillPresent(){
+        OutBillPresent outBillPresent = new OutBillPresent();
+        Integer outBillID = outBillService.findTheMaxOutBillID();
+        //TODO 查找最新的出库物品
+//        itemsOutService.
+//        List<OutBillPresent> outBillPresentByOutBillID = outBillService.findOutBillPresentByOutBillID(outBillID);
+//        for (OutBillPresent o :
+//                outBillPresentByOutBillID) {
+//
+//            if (o.getItemsOutID()==itemsOutID)
+//                outBillPresent=o;
+//        }
+        return outBillPresent;
+    }
 }

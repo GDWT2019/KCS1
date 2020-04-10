@@ -672,6 +672,7 @@
 				var data = JSON.parse(result);
 				if (data.flag){
                     layer.alert(data.mesg,function () {
+                    	window.parent.location.reload();
                         window.parent.layer.closeAll();
                     })
 				}else{

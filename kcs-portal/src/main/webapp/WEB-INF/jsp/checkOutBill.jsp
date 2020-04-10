@@ -139,8 +139,7 @@
                 success:function (result) {
                     var data = JSON.parse(result);
                     layer.alert(data.mesg,function () {
-                        layer.closeAll();
-                        location.reload();
+                        window.parent.layer.closeAll();
                     })
 
                 },

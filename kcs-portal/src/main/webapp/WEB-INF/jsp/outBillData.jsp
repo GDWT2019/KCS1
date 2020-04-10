@@ -70,6 +70,10 @@
 		form = layui.form,
 		layer = layui.layer;
 		table.render({
+			initSort: {
+				field: 'outBillID' //排序字段，对应 cols 设定的各字段名
+				,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+			},
 			elem: '#test'
 			,url:"${pageContext.request.contextPath }/outBill/getAllOutBill"
 			,toolbar: '#toolbarDemo'
@@ -149,23 +153,6 @@
 		});
 
 
-		//工具栏事件
-		table.on('toolbar(test)', function(obj){
-			var checkStatus = table.checkStatus(obj.config.id);
-			switch(obj.event){
-				case 'getCheckData':
-					var data = checkStatus.data;
-					layer.alert(JSON.stringify(data));
-					break;
-				case 'getCheckLength':
-					var data = checkStatus.data;
-					layer.msg('选中了：'+ data.length + ' 个');
-					break;
-				case 'isAll':
-					layer.msg(checkStatus.isAll ? '全选': '未全选')
-					break;
-			};
-		});
 
 		//监听行工具事件
 		table.on('tool(test)', function(obj){
@@ -181,19 +168,16 @@
 						dataType:"text",
 						success:function (result) {
 							var ajaxResult = JSON.parse(result);
-							if (ajaxResult){
+							if (ajaxResult.flag){
 								layer.alert(ajaxResult.mesg);
-								alert(ajaxResult.mesg)
 								obj.del();
 							}else{
 								layer.alert(ajaxResult.mesg);
 							}
-                            location.reload();
 						},
 						error:function () {
 							layer.alert("删除请求错误！");
 							layer.close();
-                            location.reload();
 						}
 					})
 				});
@@ -206,8 +190,39 @@
 					content:'${pageContext.request.contextPath}/outBill/showUpdateOutBill?outBillID='+data.outBillID,
 					area:['1200px','668px'],
 					moveOut:true,
-					end:function () {
-						location.reload();
+
+					end:function() {
+
+						/*给修改后的数据重新赋值*/
+						$.ajax({
+							url:"${pageContext.request.contextPath}/outBill/findOutBillPresentByOutBillID",
+							type:"post",
+							data:{outBillID:data.outBillID,itemsOutID: data.itemsOutID},
+							dataType:"text",
+							success:function (result) {
+								var data =null;
+								if (result!=null)
+									data = JSON.parse(result);
+								obj.update({
+
+									itemsName:data.itemsName,
+									itemsType:data.itemsType,
+									itemsUnit:data.itemsUnit,
+									storePosition:data.storePosition,
+									itemNum:data.itemNum,
+									takerName:data.takerName,
+									remark:data.remark,
+									checkStatus:data.checkStatus,
+									checkerName:data.checkName
+								})
+							},
+							err:function () {
+								layer.alert("更新错误！")
+							}
+
+						})
+
+
 					}
 				});
 
@@ -218,8 +233,28 @@
 					title:"入库审核",
 					content:'${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID?outBillID='+data.outBillID,
 					area:['1200px','668px'],
-					end:function () {
-						location.reload();
+					end:function() {
+
+						$.ajax({
+							url:"${pageContext.request.contextPath}/outBill/findOutBillPresentByOutBillID",
+							type:"post",
+							data:{outBillID:data.outBillID,itemsOutID: data.itemsOutID},
+							dataType:"text",
+							success:function (result) {
+								var data =null;
+								if (result!=null)
+									data = JSON.parse(result);
+								obj.update({
+									checkStatus:data.checkStatus
+								})
+							},
+							err:function () {
+								layer.alert("更新错误！")
+							}
+
+						})
+
+
 					}
 				});/*
 				$.ajax({
@@ -253,9 +288,11 @@
 				content:'${pageContext.request.contextPath}/outBill/showAddOutBill',
 				area:['1200px','668px'],
 				moveOut:true,
-				end:function () {
-					location.reload();
-				}
+				/*yes:function (index, layero){
+                    //do something
+                    layer.close(index);
+                     location.reload();
+				}*/
 			});
 		})
 
