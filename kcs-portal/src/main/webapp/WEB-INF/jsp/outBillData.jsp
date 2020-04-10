@@ -204,7 +204,8 @@
 								if (result!=null)
 									data = JSON.parse(result);
 								obj.update({
-
+									outBillID:data.outBillID,
+									outTime:data.outTime,
 									itemsName:data.itemsName,
 									itemsType:data.itemsType,
 									itemsUnit:data.itemsUnit,
