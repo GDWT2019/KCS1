@@ -91,7 +91,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         OutBill outBill = outBillDao.findOutBillByID(itemsOut.getOutBillID());
 
         //修改出库单信息，并更新
-        outBill.setAllTotal(outBill.getAllTotal()-itemsOut.getItemTotal());
+        outBill.setAllTotal(new BigDecimal(outBill.getAllTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
         outBillDao.updateOutBill(outBill);
         String outTime = outBill.getOutTime().substring(0,7);
         List<Summary> summaryByGoodsIDAndTimeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(itemsOut.getGoodsID(), outTime);

@@ -92,7 +92,11 @@ public class InBillController {
 
         JSONArray json = JSONArray.fromObject(list);
         String js = json.toString();
-        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
+        if (list==null){
+            count = 0;
+            js="[]";
+        }
+        String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" +js+"}";
         System.out.println(jso);
         return jso;
     }
@@ -139,6 +143,10 @@ public class InBillController {
             request.getSession().setAttribute("count", count);
             JSONArray json = JSONArray.fromObject(list);
             String js = json.toString();
+            if (list==null){
+                count = 0;
+                js="[]";
+            }
             String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
             System.out.println(jso);
             return jso;
@@ -168,6 +176,10 @@ public class InBillController {
             request.getSession().setAttribute("count", count);
             JSONArray json = JSONArray.fromObject(list);
             String js = json.toString();
+            if (list==null){
+                count = 0;
+                js="[]";
+            }
             String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
             System.out.println(jso);
             return jso;
@@ -193,6 +205,10 @@ public class InBillController {
 
         JSONArray json = JSONArray.fromObject(list);
         String js = json.toString();
+        if (list==null){
+            count = 0;
+            js="[]";
+        }
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
         System.out.println(jso);
         return jso;
