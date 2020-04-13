@@ -70,8 +70,6 @@ public class InBillController {
         /*Date reDate = new Date(System.currentTimeMillis());
         String ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reDate);
         request.setAttribute("loadtime", ft);*/
-
-
         return "checkInBill";
     }
 
@@ -493,7 +491,11 @@ public class InBillController {
     @RequestMapping("/checkInAmountbiggerOutAmonutForRemove")
     @ResponseBody
     public Integer checkInAmountbiggerOutAmonutForRemove(HttpServletRequest request) {
-        Integer itemsNum = Integer.parseInt(request.getParameter("itemsNum"));
+        Integer itemsNum = 0;
+        String num = request.getParameter("itemsNum");
+        if(num !=null&& num !=""){
+            itemsNum=Integer.parseInt(num);
+        }
         String itemsName = request.getParameter("itemsName");
         String itemsType = request.getParameter("itemsType");
         String inBillID = request.getParameter("InBillID");
@@ -502,26 +504,27 @@ public class InBillController {
         g.setItemsName(itemsName);
         g.setItemsType(itemsType);
         Goods goods = goodsService.findGoodsByItemsNameAndItemsType(g);
+        if(goods!=null){
+            InBill inBill = inBillService.findCheckMessageByID(inBillID);
+            String TimeIn = inBill.getTimeIn();
+            String subTime = TimeIn.substring(0, 7);
+            Summary summary=summaryService.findlatestAfterSummary(goods.getGoodsID(),subTime);
+            if(summary!=null){
+                Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(goods.getGoodsID(),summary.getTime());
+                Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(goods.getGoodsID(),summary.getTime());
+                if(allBeforeInAmout==null){
+                    allBeforeInAmout=0;
+                }
+                if (allBeforeOutAmout==null){
+                    allBeforeOutAmout=0;
+                }
+                Integer total = allBeforeInAmout - itemsNum - allBeforeOutAmout;
 
-        InBill inBill = inBillService.findCheckMessageByID(inBillID);
-        String TimeIn = inBill.getTimeIn();
-        String subTime = TimeIn.substring(0, 7);
-        Summary summary=summaryService.findlatestAfterSummary(goods.getGoodsID(),subTime);
-        if(summary!=null){
-            Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(goods.getGoodsID(),summary.getTime());
-            Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(goods.getGoodsID(),summary.getTime());
-            if(allBeforeInAmout==null){
-                allBeforeInAmout=0;
-            }
-            if (allBeforeOutAmout==null){
-                allBeforeOutAmout=0;
-            }
-            Integer total = allBeforeInAmout - itemsNum - allBeforeOutAmout;
-
-            if (total < 0) {
-                return -1;
-            } else {
-                return 1;
+                if (total < 0) {
+                    return -1;
+                } else {
+                    return 1;
+                }
             }
         }
         return 1;

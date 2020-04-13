@@ -12,8 +12,7 @@
     <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <script src="${pageContext.request.contextPath}/js/layui_exts/excel.js"></script>
-
-
+    <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/static/tablePlug/tablePlug.css" type="text/css"/>--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
 </head>
 
@@ -50,6 +49,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="inBill">入库记录</a>
     <a class="layui-btn layui-btn-xs" lay-event="outBill">出库记录</a>
 </script>
+<%--<script src="${pageContext.request.contextPath }/static/tablePlug/tablePlug.js"></script>--%>
 
 <script>
 
@@ -57,13 +57,19 @@
         $.get("${pageContext.request.contextPath }/summary/poiSummary");
     }
 
-    layui.use(["jquery", "upload", "form", "layer", "element", 'table', 'laydate'], function () {
+    layui.config({
+        base: '${pageContext.request.contextPath }/static/tablePlug/' //假设这是test.js所在的目录   可以把你需要扩展的js插件都放在一个文件夹内
+    }).extend({ //设定组件别名
+        tablePlug: 'tablePlug'
+    });
+
+    <%--layui.config({base:'${pageContext.request.contextPath }/static/tablePlug/'}).use(["jquery", "upload", "form","layer","element","table","laydate","tablePlug"], function () {--%>
+    layui.use(["jquery", "upload","layer","table","laydate","tablePlug"], function () {
         var $ = layui.$,
-            form = layui.form,
             table = layui.table;
         var laydate = layui.laydate;
-
-
+        var tablePlug = layui.tablePlug;
+        tablePlug.smartReload.enable(true);//处理不闪动的关键代码
             //日期范围
             //日期时间范围
             laydate.render({
@@ -85,6 +91,7 @@
             , toolbar: '#toolbarDemo'
             , title: '流水单'
             , totalRow: false//开启合计行
+            , smartReloadModel:true
             , cols: [[ //标题栏
                  {type: 'numbers', title: '序号', rowspan: 2, width: 80, fixed: 'left', unresize: true, sort: true}
                 , {align: 'center', title: '物品', colspan: 3}
