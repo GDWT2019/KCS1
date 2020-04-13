@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/static/tablePlug/tablePlug.css" type="text/css"/>
+    <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/static/tablePlug/tablePlug.css" type="text/css"/>--%>
 </head>
 
 <div class="demoTable" style="white-space: nowrap">
@@ -68,18 +68,19 @@
 
 
 <script src="${pageContext.request.contextPath }/static/layui/layui.all.js" charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/static/tablePlug/tablePlug.js" charset="utf-8"></script>
+<%--<script src="${pageContext.request.contextPath }/static/tablePlug/tablePlug.js" charset="utf-8"></script>--%>
 
 <script>
 
     layui.config({
-        base: '${pageContext.request.contextPath }/static/tablePlug/' //假设这是test.js所在的目录   可以把你需要扩展的js插件都放在一个文件夹内
+        base: '${pageContext.request.contextPath }/static/tablePlug/'
     }).extend({ //设定组件别名
         tablePlug: 'tablePlug'
     });
-    layui.use(['table','tablePlug'], function(){
+    layui.use(['table','layer','tablePlug'], function(){
     <%--layui.config({base:'${pageContext.request.contextPath }/static/tablePlug/'}).use(['table','tablePlug'], function(){--%>
         var table = layui.table;
+
         var tablePlug = layui.tablePlug;
         tablePlug.smartReload.enable(true);//处理不闪动的关键代码
         table.render({
@@ -88,7 +89,7 @@
             ,toolbar: '#toolbarDemo'
             ,title: '入库单'
             ,totalRow: false//开启合计行
-            ,smartReloadModel:true
+
             ,cols: [[
                 {field:'inBillID', title:'入库单号', width:110, sort: true}
                 ,{field:'timeIn', title:'日期', width:220}
@@ -102,8 +103,8 @@
                 ,{field:'userName', title:'入库人', width:120}
                 ,{field:'checkStatus', title:'审核状态', width:150,templet:function (d) {
                         if(d.checkStatus==0) return  '<span>等待审核</span>'
-                        else if(d.checkStatus ==1) return  '<span style="color: #009688;">审核通过</span>'
-                        else if(d.checkStatus ==2) return  '<span style="color: #FF5722;">审核未通过</span>'
+                        else if(d.checkStatus==1) return  '<span style="color: #009688;">审核通过</span>'
+                        else if(d.checkStatus==2) return  '<span style="color: #FF5722;">审核未通过</span>'
                     }}
                 ,{field:'note', title:'备注', width:150}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
@@ -112,6 +113,7 @@
             ,page: true
             ,limit:10
             ,limits:[5,10,20,30,50]
+            ,smartReloadModel:true
             ,id:'testInBill'
         });
 
@@ -224,6 +226,7 @@
                                         success:function(){
                                             // location.reload();
                                             table.reload('testInBill');
+                                            layer.close(index);
                                         },
                                         error:function () {
                                             layer.msg("删除失败！");

@@ -58,7 +58,7 @@
     }
 
     layui.config({
-        base: '${pageContext.request.contextPath }/static/tablePlug/' //假设这是test.js所在的目录   可以把你需要扩展的js插件都放在一个文件夹内
+        base: '${pageContext.request.contextPath }/static/tablePlug/'
     }).extend({ //设定组件别名
         tablePlug: 'tablePlug'
     });
@@ -92,32 +92,35 @@
             , title: '流水单'
             , totalRow: false//开启合计行
             , smartReloadModel:true
-            , cols: [[ //标题栏
-                 {type: 'numbers', title: '序号', rowspan: 2, width: 80, fixed: 'left', unresize: true, sort: true}
-                , {align: 'center', title: '物品', colspan: 3}
-                , {align: 'center', title: '上月结存', colspan: 3}
-                , {align: 'center', title: '本月入库', colspan: 3}
-                , {align: 'center', title: '本月出库', colspan: 3}
-                , {align: 'center', title: '本月结存', colspan: 3}
-            ], [
-                {field: 'categoryName', title: '类别', width: 150}
-                , {field: 'itemsName', title: '品名', width: 150}
-                , {field: 'itemsType', title: '型号规格', width: 150}
-                , {field: 'preAmount', title: '数量', width: 150}
-                , {field: 'prePrice', title: '单价', width: 150}
-                , {field: 'preTotal', title: '金额', width: 150}
-                , {field: 'inAmount', title: '数量', width: 150}
-                , {field: 'inPrice', title: '单价', width: 150}
-                , {field: 'inTotal', title: '金额', width: 150}
-                , {field: 'outAmount', title: '数量', width: 150}
-                , {field: 'outPrice', title: '单价', width: 150}
-                , {field: 'outTotal', title: '金额', width: 150}
-                , {field: 'thisAmount', title: '数量', width: 150}
-                , {field: 'thisPrice', title: '单价', width: 150}
-                , {field: 'thisTotal', title: '金额', width: 150}
-                , {field: 'time', title: '时间', width: 150}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
-            ]]
+            , cols: [
+                [
+                    {type: 'numbers',title: '序号', fixed: 'left', rowspan: 2},
+                    {field: 'time', title: '时间', width: 150,fixed: 'left',rowspan: 2},
+                    {title: '物品', colspan: 3, align: 'center'},
+                    {title: '上月结存', colspan: 3, align: 'center'},
+                    {title: '本月入库', colspan: 3, align: 'center'},
+                    {title: '本月出库', colspan: 3, align: 'center'},
+                    {title: '本月结存', colspan: 3, align: 'center'},
+                    {fixed: 'right',type: 'toolbar',  title: '操作', width: 180, align: 'center', toolbar: '#barDemo', rowspan: 2}
+                ]
+                , [ //表头
+                    {field: 'categoryName', title: '类别', width: 150}
+                    , {field: 'itemsName', title: '品名', width: 150}
+                    , {field: 'itemsType', title: '型号规格', width: 150}
+                    , {field: 'preAmount', title: '数量', width: 150}
+                    , {field: 'prePrice', title: '单价', width: 150}
+                    , {field: 'preTotal', title: '金额', width: 150}
+                    , {field: 'inAmount', title: '数量', width: 150}
+                    , {field: 'inPrice', title: '单价', width: 150}
+                    , {field: 'inTotal', title: '金额', width: 150}
+                    , {field: 'outAmount', title: '数量', width: 150}
+                    , {field: 'outPrice', title: '单价', width: 150}
+                    , {field: 'outTotal', title: '金额', width: 150}
+                    , {field: 'thisAmount', title: '数量', width: 150}
+                    , {field: 'thisPrice', title: '单价', width: 150}
+                    , {field: 'thisTotal', title: '金额', width: 150}
+                ]
+            ]
             , where: {"time1":null,"time2":null,"itemName": null}
             , page: true
             , limit: 10
