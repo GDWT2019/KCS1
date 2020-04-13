@@ -223,7 +223,6 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         if (itemsOutNew.getItemNum()<itemsOutOld.getItemNum()){
             updateSummary(itemsOutNew,itemsOutOld,0);
         }
-        System.out.println("222222222222");
         return itemsOutDao.updateItemsOut(itemsOutNew);
     }
 
@@ -261,7 +260,7 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 if (!s.getTime().equals(outTime)){
                     //增加上月的数量，合计
                     s.setPreAmount(s.getPreAmount()+(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
-                    s.setPreTotal(s.getPreTotal()+(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setPreTotal(new BigDecimal(s.getPreTotal()+itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getPreAmount() != 0)
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //增加本月数量，合计
@@ -289,8 +288,8 @@ public class ItemsOutServiceImpl implements ItemsOutService {
                 //修改该出库时间后面的数据
                 if (!s.getTime().equals(outTime)){
                     //减少上月的数量，合计
-                    s.setPreAmount(s.getPreAmount()-(itemsOutOld.getItemNum()-itemsOutNew.getItemNum()));
-                    s.setPreTotal(s.getPreTotal()-(itemsOutOld.getItemTotal()-itemsOutNew.getItemTotal()));
+                    s.setPreAmount(s.getPreAmount()-(itemsOutNew.getItemNum()-itemsOutOld.getItemNum()));
+                    s.setPreTotal(new BigDecimal(s.getPreTotal()-(itemsOutNew.getItemTotal()-itemsOutOld.getItemTotal())).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     if (s.getPreAmount() != 0)
                     s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
                     //减少本月数量，合计
