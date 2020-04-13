@@ -10,6 +10,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/static/layui/css/layui.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/static/tablePlug/tablePlug.css" type="text/css"/>
 </head>
 <body>
 
@@ -63,12 +64,19 @@
 </script>
 
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
+<script src="${pageContext.request.contextPath }/static/tablePlug/tablePlug.js" charset="utf-8"></script>
 
 <script >
-	layui.use(['form', 'table', 'layer'], function () {
+    layui.config({
+        path: '${pageContext.request.contextPath }/static/tablePlug/' //假设这是test.js所在的目录   可以把你需要扩展的js插件都放在一个文件夹内
+    });
+
+	layui.use(['form', 'table', 'layer','tablePlug'], function () {
 		var table = layui.table,
 		form = layui.form,
-		layer = layui.layer;
+		layer = layui.layer,
+        tablePlug = layui.tablePlug;
+		layer.alert(tablePlug)
 		table.render({
 			initSort: {
 				field: 'outBillID' //排序字段，对应 cols 设定的各字段名
