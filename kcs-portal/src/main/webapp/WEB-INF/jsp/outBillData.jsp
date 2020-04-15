@@ -49,8 +49,8 @@
 		</div>
 	</div>
 	<!--导出表 不展示-->
-	<div style="display: none;">
-		<table id="data_export">
+	<div style="display: none">
+		<table class="layui-table" lay-data="{id: 'idTest'}" id="data_export">
 		</table>
 	</div>
 </script>
@@ -199,39 +199,10 @@
 					content:'${pageContext.request.contextPath}/outBill/showUpdateOutBill?outBillID='+data.outBillID,
 					area:['1200px','668px'],
 					moveOut:true,
-
 					end:function() {
 
 						/*给修改后的数据重新赋值*/
-						$.ajax({
-							url:"${pageContext.request.contextPath}/outBill/findOutBillPresentByOutBillID",
-							type:"post",
-							data:{outBillID:data.outBillID,itemsOutID: data.itemsOutID},
-							dataType:"text",
-							success:function (result) {
-								var data =null;
-								if (result!=null)
-									data = JSON.parse(result);
-								obj.update({
-									outBillID:data.outBillID,
-									outTime:data.outTime,
-									itemsName:data.itemsName,
-									itemsType:data.itemsType,
-									itemsUnit:data.itemsUnit,
-									storePosition:data.storePosition,
-									itemNum:data.itemNum,
-									takerName:data.takerName,
-									remark:data.remark,
-									checkStatus:data.checkStatus,
-									checkerName:data.checkName
-								})
-							},
-							err:function () {
-								layer.alert("更新错误！")
-							}
-
-						})
-
+						table.reload('outBillData');
 
 					}
 				});
@@ -254,9 +225,7 @@
 								var data =null;
 								if (result!=null)
 									data = JSON.parse(result);
-								obj.update({
-									checkStatus:data.checkStatus
-								})
+                                table.reload('outBillData');
 							},
 							err:function () {
 								layer.alert("更新错误！")
@@ -316,19 +285,24 @@
 	});
 
 	//导出表格
-	layui.use(['form', 'table', 'layer'], function () {
+	layui.use(['form', 'table', 'layer','tablePlug'], function () {
 		var table = layui.table,
-				form = layui.form,
-				layer = layui.layer;
-
+        form = layui.form,
+        layer = layui.layer,
+        tablePlug = layui.tablePlug;
+        tablePlug.smartReload.enable(true);//处理不闪动的关键代码
         var exportData = null;
-        var ins1 = table.render({
+        var data_export = table.render({
             elem: '#data_export',
             url: "${pageContext.request.contextPath}/outBill/outBillPrint",
             method: 'post',
             title: '出库单',
+            smartReloadModel:true,
+            initSort: {
+                field: 'outBillID' //排序字段，对应 cols 设定的各字段名
+                ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            },
             cols: [[
-                {type: 'checkbox', fixed: 'left'}
                 ,{type:'numbers',title:'序号'}
                 ,{field:'outBillID', title:'单号', width:80,sort:true}
                 ,{field:'outTime', title:'日期', width:110,sort:true}
@@ -348,14 +322,12 @@
                 ,{field:'checkerName', title:'审批人', width:120}
                 ,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
             ]]
+            ,id:'exportTable'
             ,done: function (res, curr, count) {
                 exportData = res.data;
             }
         });
-		//导出按钮
-		/* $(".export").click(function () {
-             table.exportFile(ins1.config.id, exportData, 'xls');
-         });*/
+
 		$('body').on('click',"#export",function () {
 		    $.ajax({
                 url:"${pageContext.request.contextPath}/outBill/outBillPrintCheck",
@@ -365,7 +337,8 @@
                     if(result != null){
                         var data = JSON.parse(result);
                         if (data.flag){
-                            table.exportFile(ins1.config.id, exportData, 'xls');
+                            table.reload('exportTable');
+                            table.exportFile(data_export.config.id, exportData, 'xls');
                         }
                         else{
                             layer.alert(data.mesg)

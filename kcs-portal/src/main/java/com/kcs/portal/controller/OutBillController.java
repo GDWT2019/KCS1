@@ -406,6 +406,7 @@ public class OutBillController {
         JSONArray json = JSONArray.fromObject(allOutBillPresentPrint);
         String js = json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
+        System.err.println(jso);
         return jso;
     }
     
@@ -423,20 +424,4 @@ public class OutBillController {
         return outBillPresent;
     }
 
-    @RequestMapping("/findTheLastOutBillPresent")
-    @ResponseBody
-    public OutBillPresent findTheLastOutBillPresent(){
-        OutBillPresent outBillPresent = new OutBillPresent();
-        Integer outBillID = outBillService.findTheMaxOutBillID();
-        //TODO 查找最新的出库物品
-//        itemsOutService.
-//        List<OutBillPresent> outBillPresentByOutBillID = outBillService.findOutBillPresentByOutBillID(outBillID);
-//        for (OutBillPresent o :
-//                outBillPresentByOutBillID) {
-//
-//            if (o.getItemsOutID()==itemsOutID)
-//                outBillPresent=o;
-//        }
-        return outBillPresent;
-    }
 }

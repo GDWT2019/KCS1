@@ -5,7 +5,6 @@ layui.use('form', function ($, form) {
     form.on('select', function (data) {
             var selectedName = data.elem.getAttribute("name");
             var i = selectedName.substring(selectedName.length-1,selectedName.length+1);
-        console.log(i+"  :"+selectedName);
             if(selectedName.substring(0,selectedName.length-1) =="category" ) {
                 $('select[name="itemsName' + i + '"]').empty();
                 $('select[name="itemsType' + i + '"]').empty();
@@ -399,8 +398,6 @@ function checkBill() {
     }
     var itemsOutJsonList = JSON.stringify(itemsOutList);
     var outBillJson = JSON.stringify(outBill)
-    console.log("outBillJson:"+outBillJson)
-    console.log("itemsOutJsonList:"+itemsOutJsonList)
     submitBill(itemsOutJsonList,outBillJson)
 }
 
