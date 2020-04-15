@@ -199,11 +199,10 @@
 					content:'${pageContext.request.contextPath}/outBill/showUpdateOutBill?outBillID='+data.outBillID,
 					area:['1200px','668px'],
 					moveOut:true,
+
 					end:function() {
-
-						/*给修改后的数据重新赋值*/
-						table.reload('outBillData');
-
+                        table.reload('outBillData');
+						table.reload('exportTable');
 					}
 				});
 
@@ -226,6 +225,7 @@
 								if (result!=null)
 									data = JSON.parse(result);
                                 table.reload('outBillData');
+								table.reload('exportTable');
 							},
 							err:function () {
 								layer.alert("更新错误！")
@@ -269,6 +269,7 @@
 				moveOut:true,
 				end:function () {
 					table.reload('outBillData');
+					table.reload('exportTable');
 				}
 			});
 		})
@@ -288,16 +289,14 @@
 	layui.use(['form', 'table', 'layer','tablePlug'], function () {
 		var table = layui.table,
         form = layui.form,
-        layer = layui.layer,
-        tablePlug = layui.tablePlug;
-        tablePlug.smartReload.enable(true);//处理不闪动的关键代码
+        layer = layui.layer
         var exportData = null;
         var data_export = table.render({
             elem: '#data_export',
             url: "${pageContext.request.contextPath}/outBill/outBillPrint",
             method: 'post',
             title: '出库单',
-            smartReloadModel:true,
+            //smartReloadModel:true,
             initSort: {
                 field: 'outBillID' //排序字段，对应 cols 设定的各字段名
                 ,type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
@@ -329,6 +328,7 @@
         });
 
 		$('body').on('click',"#export",function () {
+            table.reload('exportTable');
 		    $.ajax({
                 url:"${pageContext.request.contextPath}/outBill/outBillPrintCheck",
                 type:"post",
@@ -337,7 +337,6 @@
                     if(result != null){
                         var data = JSON.parse(result);
                         if (data.flag){
-                            table.reload('exportTable');
                             table.exportFile(data_export.config.id, exportData, 'xls');
                         }
                         else{

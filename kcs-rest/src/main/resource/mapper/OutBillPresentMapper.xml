@@ -124,6 +124,7 @@
         <if test="userID != 0">
             and Operator =#{userID}
         </if>)as X)
+        order by OutBillID desc
     </select>
     <select id="outBillPresentCount" resultType="java.lang.Integer">
         select count(*)
@@ -208,6 +209,6 @@
         and [Goods].CategoryID = [Category] .CategoryID
         and [ItemsOut] .DepartmentID = [Department] .DepartmentID
         and [Goods].GoodsID=[Summary].GoodsID
-        order by [OutBill].OutTime desc
+        order by [OutBill].OutBillID desc
     </select>
 </mapper>

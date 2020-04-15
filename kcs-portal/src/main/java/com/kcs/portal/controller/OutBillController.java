@@ -406,7 +406,6 @@ public class OutBillController {
         JSONArray json = JSONArray.fromObject(allOutBillPresentPrint);
         String js = json.toString();
         String jso = "{\"code\":0,\"msg\":\"\",\"count\":" + count + ",\"data\":" + js + "}";
-        System.err.println(jso);
         return jso;
     }
     
