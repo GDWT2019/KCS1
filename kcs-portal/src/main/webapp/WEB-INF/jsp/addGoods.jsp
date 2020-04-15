@@ -43,6 +43,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
     <script>
@@ -131,7 +132,9 @@
                     success:function (result) {
                         if (result!=null){
                             var data = JSON.parse(result);
-                            alert(data.mesg);
+                            layer.alert(data.mesg,function(){
+                                window.parent.layer.closeAll();
+                            });
                         }
                         else
                             alert("失败！")
