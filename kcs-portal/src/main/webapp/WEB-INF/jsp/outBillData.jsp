@@ -235,28 +235,7 @@
 
 
 					}
-				});/*
-				$.ajax({
-					url:"",
-					type:"post",
-					data:{"outBillID":data.outBillID},
-					dataType:"text",
-					success:function (result) {
-						layer.open({
-							type:1,
-							content: result,
-							title:"审批清单",
-							area:['1200px','668px'],
-							end:function () {
-								location.reload();
-							}
-						})
-					},
-					error:function () {
-						layer.confirm("审批请求错误");
-						layer.close(layer.index);
-					}
-				})*/
+				});
 			}
 		});
 
@@ -328,7 +307,6 @@
         });
 
 		$('body').on('click',"#export",function () {
-            table.reload('exportTable');
 		    $.ajax({
                 url:"${pageContext.request.contextPath}/outBill/outBillPrintCheck",
                 type:"post",
