@@ -24,9 +24,9 @@
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">验证手机</label>
+            <label class="layui-form-label">手机/固话</label>
             <div class="layui-input-inline">
-                <input type="tel" id="tel" name="tel" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                <input type="tel" id="tel" name="tel"  autocomplete="off" class="layui-input">
             </div>
         </div>
     <div class="layui-form-item">
