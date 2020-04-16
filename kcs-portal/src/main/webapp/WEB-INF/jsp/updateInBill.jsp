@@ -7,6 +7,14 @@
     <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/print.css" type="text/css"/>
+    <%--<style type="text/css">
+        @media print {
+            .noprint{
+                display: none;
+            }
+        }
+    </style>--%>
 </head>
 
 <body>
@@ -30,7 +38,7 @@
                         <div class="layui-col-xs4 ">
                             <div class="layui-form-item">
                                 <label style="font-size: 25px;">供应商</label>
-                                <a id="addProvider"><i class="layui-icon layui-icon-add-circle"
+                                <a id="addProvider"><i class="layui-icon layui-icon-add-circle noprint"
                                                        style="font-size: 25px"></i></a>
                                 <div class="layui-inline">
                                     <select id="providerID" name="providerID" lay-verify="required" lay-search=""
@@ -62,7 +70,7 @@
                                     <th>合计</th>
                                     <th>位置</th>
                                     <th>附注</th>
-                                    <th>操作</th>
+                                    <th class="noprint">操作</th>
                                 </tr>
                                 <c:forEach items="${itemInList}" var="inBillPresent" varStatus="status">
                                     <tr>
@@ -70,7 +78,8 @@
                                                 ${status.count}
                                         </td>
                                         <td style="white-space: nowrap;width: 200px">
-                                            <a id="addGoods${status.count}" style="display: inline"><i class="layui-icon layui-icon-add-circle" style="font-size: 25px;display: inline"></i></a>
+
+                                            <a id="addGoods${status.count}" class="noprint" style="display: inline"><i class="layui-icon layui-icon-add-circle noprint" style="font-size: 25px;/*display: inline*/"></i></a>
                                             <div class="layui-inline layui-form" lay-filter="goods${status.count}" style="width: 180px">
                                                 <select id="itemsName${status.count}" lay-verify="required" name="itemInList[${status.count-1}].GoodsID" lay-filter="itemsName${status.count}">
                                                 </select>
@@ -278,7 +287,7 @@
                                             <input name="itemInList[${status.count-1}].Note" class="layui-input"
                                                    type="text" placeholder="" value="${inBillPresent.note}"/>
                                         </td>
-                                        <td>
+                                        <td class="noprint">
                                             <button type="button" onclick="delTr(this)"
                                                     class="layui-btn layui-btn-danger">移除
                                             </button>
@@ -342,7 +351,8 @@
     </div>
     <div class="layui-row">
         <div style="float: right; margin-right: 30px;">
-            <button onclick="checkUpdateBill()" class="layui-btn layui-btn-lg">
+            <a href="javascript:window.print()" class="layui-btn layui-btn-lg noprint" target="_self">打印</a>
+            <button onclick="checkUpdateBill()" class="layui-btn layui-btn-lg noprint">
                 修改入库单
             </button>
         </div>
@@ -602,6 +612,7 @@
     //将用户的ID和供应商ID和时间回显
 
     function addTr() {
+
         var itemsName = $("#itemsName").html();          //拿到已加载好的物品名称信息
 
         //改变序号
@@ -620,7 +631,7 @@
         var tr = "<tr id=" + num + " >" +
             "<td>" + num + "</td>" +
             "<td style=\"white-space: nowrap\">" +
-            "<a id=\"addGoods" + num + "\" style=\"display: inline\"><i class=\"layui-icon layui-icon-add-circle\" style=\"font-size: 25px;display: inline\"></i></a>\n" +
+            "<a id=\"addGoods" + num + "\" style=\"display: inline\"><i class=\"layui-icon layui-icon-add-circle noprint\" style=\"font-size: 25px;\"></i></a>\n" +
             "<div class=\"layui-inline layui-form\" lay-filter=\"goods" + num + "\" style=\"width: 180px\">"+
             "<select value=\"null\" lay-verify=\"required\" id=\"itemsName" + num + "\" name=\"itemInList[" + (num - 1) + "].GoodsID\" lay-filter=\"itemsName" + num + "\">" +
             "<option value=\"\" selected> </option>" +
@@ -652,7 +663,7 @@
             "<td>" +
             "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
             "</td>" +
-            "<td>" +
+            "<td class='noprint'>" +
             "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"delTr(this)\">移除</button>" +
             "</td>" +
             "</tr>";

@@ -218,13 +218,8 @@
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                 console.log("total"+$('.layui-table-total .layui-table tr [data-field="thisTotal"]').text());
-
-                /* var v=parseFloat($('.layui-table-total table td:eq(-3) div').html());
-                 $('.layui-table-total table td:last div').html(100+v);*/
                 var text = $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text();
                 var number = Number(text);
-                console.log("number"+number);
-                console.log("number2"+number.toFixed(2));
                 $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text(number.toFixed(2));
             }
             ,page: true
