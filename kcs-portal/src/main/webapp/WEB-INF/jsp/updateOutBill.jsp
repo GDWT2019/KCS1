@@ -25,7 +25,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label" style="font-size: 25px;">日期</label>
                             <div class="layui-input-inline">
-                                <input type="text" class="layui-input" id="outBillDate" placeholder="yyyy-MM-dd" value="${outBillPresentList[0].outTime}">
+                                <input type="text" class="layui-input" id="outBillDate" placeholder="yyyy-MM-dd" value="${outBillPresentList[0].outTime}" disabled="disabled">
                             </div>
                         </div>
                     </div>

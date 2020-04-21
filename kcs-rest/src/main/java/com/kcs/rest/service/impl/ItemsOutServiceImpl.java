@@ -38,39 +38,55 @@ public class ItemsOutServiceImpl implements ItemsOutService {
         if (itemIn.getStorePosition()!=null){
             itemsOut.setStorePosition(itemIn.getStorePosition());
         }
-        //插入出库物品信息
-        int i = itemsOutDao.insertItemsOut(itemsOut);
 
-        //判断该出库物品对应的出库单是否已存在
+        //获取该出库物品对应的出库单的月份
         OutBill outBillByID = outBillDao.findOutBillByID(itemsOut.getOutBillID());
-        if (outBillByID != null){
-            summary = summaryDao.findSummaryByGoodsIDAndTime(itemsOut.getGoodsID(), outBillByID.getOutTime().substring(0,7));
-        }else{
-            //获取对应物品id的最新的汇总记录
-            summary = summaryDao.findSummaryInTheLastGoodsDataByGoodsID(itemsOut.getGoodsID());
+        String month = outBillByID.getOutTime().substring(0,7);
+        int number = itemsOut.getItemNum();
+        List<Summary> summaryByGoodsIDAndTimeAfter = summaryDao.findSummaryByGoodsIDAndTimeAfter(itemsOut.getGoodsID(), month);
+        for (Summary s :
+                summaryByGoodsIDAndTimeAfter) {
+            if(s.getThisAmount()<number){
+                return 2;
+            }
         }
-        if (i>0){
-            //判断该记录出库信息
-            if (summary.getOutAmount()>=0||summary.getOutAmount()!=null){
-                //出库物品插入后，更新汇总表出库信息
-                summary.setOutAmount(summary.getOutAmount()+itemsOut.getItemNum());
-                summary.setOutTotal(new BigDecimal(summary.getOutTotal()+itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+        for (Summary s :
+                summaryByGoodsIDAndTimeAfter) {
+            if(s.getTime().equals(month)){
+                //增加本月出库数
+                s.setOutAmount(s.getOutAmount()+number);
+                s.setOutTotal(new BigDecimal(s.getOutTotal()+itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(s.getOutAmount()!=0)
+                    s.setOutPrice(new BigDecimal(s.getOutTotal()/s.getOutAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+                else
+                    s.setOutPrice(0d);
+
+                //减少本月结存数
+                s.setThisAmount(s.getThisAmount()-number);
+                s.setThisTotal(new BigDecimal(s.getThisTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(s.getThisAmount()!=0)
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+                else
+                    s.setThisPrice(0d);
+            }else {
+                //减少上月结存数
+                s.setPreAmount(s.getPreAmount()-number);
+                s.setPreTotal(new BigDecimal(s.getPreTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(s.getPreAmount()!=0)
+                    s.setPrePrice(new BigDecimal(s.getPreTotal()/s.getPreAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+                else
+                    s.setPrePrice(0d);
+                //减少本月结存数
+                s.setThisAmount(s.getThisAmount()-number);
+                s.setThisTotal(new BigDecimal(s.getThisTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                if(s.getThisAmount()!=0)
+                    s.setThisPrice(new BigDecimal(s.getThisTotal()/s.getThisAmount()).setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue());
+                else
+                    s.setThisPrice(0d);
             }
-            else{
-                summary.setOutAmount(itemsOut.getItemNum());
-                summary.setOutTotal(itemsOut.getItemTotal());
-            }
-            summary.setOutPrice(itemsOut.getItemPrice());
-            summary.setThisAmount(summary.getThisAmount()-itemsOut.getItemNum());
-            if(summary.getThisAmount()==0){
-                summary.setThisTotal(0.0);
-                summary.setThisPrice(0.0);
-            }else{
-                summary.setThisTotal(new BigDecimal(summary.getThisTotal()-itemsOut.getItemTotal()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-                summary.setThisPrice(new BigDecimal(summary.getThisTotal()/summary.getThisAmount()).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
-            }
-            summaryDao.updateSummary(summary);
+            summaryDao.updateSummary(s);
         }
+        int i = itemsOutDao.insertItemsOut(itemsOut);
         return i;
     }
 

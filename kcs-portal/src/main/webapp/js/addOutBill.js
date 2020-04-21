@@ -335,28 +335,28 @@ function calAllTotal(count) {
         n = Number($('input[name="itemNum'+count+'"]').val());
         price = Number($('input[name="itemPrice'+count+'"]').val());
         if (n >0 && price >0){
-            itemTotal = Number(n)*Number(price)
-            $('input[name="itemTotal'+count+'"]').val(itemTotal);
+            itemTotal =new Number( Number(n)*Number(price))
+            $('input[name="itemTotal'+count+'"]').val(itemTotal.toFixed(2));
         }
         for(var i =1;i<=lastNum;i++){
             var thisTotal = $('input[name="itemTotal'+i+'"]').val();
             if (thisTotal>0)
-                allTotal = Number(allTotal)+Number(thisTotal);
+                allTotal =new Number( Number(allTotal)+Number(thisTotal));
         }
         $("#allTotal").empty();
-        $("#allTotal").append(allTotal);
+        $("#allTotal").append(allTotal.toFixed(2));
     });
 }
 
 function AllTotalSubThisTotal(count) {
     var thisTotal = $('input[name="itemTotal'+count+'"]').val();
-    var allTotal = $("#allTotal").text();
+    var allTotal =new Number( $("#allTotal").text());
     if (thisTotal>0) {
-        var newAllTotal = Number(allTotal)-Number(thisTotal);
-        $("#allTotal").html(newAllTotal);
+        var newAllTotal =new Number( Number(allTotal)-Number(thisTotal));
+        $("#allTotal").html(newAllTotal.toFixed(2));
     }
     else
-        $("#allTotal").html(allTotal);
+        $("#allTotal").html(allTotal.toFixed(2));
 }
 
 function removeTr(obj) {

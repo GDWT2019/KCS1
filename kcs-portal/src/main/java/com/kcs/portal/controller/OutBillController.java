@@ -220,6 +220,9 @@ public class OutBillController {
             if (i<1){
                 return new AjaxMesg(false,"出库物品添加失败！");
             }
+            if(i==2){
+                return new AjaxMesg(false,"添加非本月出库单，添加数量已超库存数！");
+            }
         }
 
         return ajaxMesg;
