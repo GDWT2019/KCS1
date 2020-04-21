@@ -179,8 +179,8 @@ function addTr(){
         "</select>" +
         "</div>" +
         "</td>"+
-        "<td>" +
-        "<div class=\"layui-form-item\">" +
+        "<td class='noprint'>" +
+        "<div class=\"layui-form-item \">" +
         "<button type=\"button\" class=\"layui-btn layui-btn-danger\" onclick=\"removeTr(this)\">移除</button>" +
         "</div>" +
         "</td>" +
