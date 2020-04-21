@@ -190,6 +190,7 @@
                         </div>
                         <div class="layui-row">
                             <div  style="float: right; margin-right: 30px;margin-top: 10px">
+                                <a href="javascript:window.print()" class="layui-btn layui-btn-lg noprint" target="_self">打印</a>
                                 <button type="button" class="layui-btn layui-btn-lg" onclick="checkBill()">确认修改</button>
                             </div>
                         </div>

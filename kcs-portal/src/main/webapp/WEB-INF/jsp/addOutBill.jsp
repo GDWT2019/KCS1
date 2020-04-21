@@ -26,7 +26,7 @@
 							<div class="layui-inline">
 								<label class="layui-form-label" style="font-size: 25px;">日期</label>
 								<div class="layui-input-inline">
-									<input type="text" class="layui-input" id="outBillDate" placeholder="yyyy-MM-dd"  disabled="disabled">
+									<input type="text" class="layui-input" id="outBillDate" placeholder="yyyy-MM-dd">
 								</div>
 							</div>
 						</div>
