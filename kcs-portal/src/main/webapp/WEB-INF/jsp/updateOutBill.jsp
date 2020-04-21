@@ -12,6 +12,7 @@
     <script src="${pageContext.request.contextPath}/static/layui/layui.js"></script>
     <script src="${pageContext.request.contextPath}/js/updateOutBill.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/print.css" type="text/css"/>
 </head>
 <body>
 <div class="layui-body" style="margin-left: -200px;">
@@ -49,7 +50,7 @@
                                     <th>领用部门</th>
                                     <th>项目</th>
                                     <th>仓库位置</th>
-                                    <th>操作</th>
+                                    <th class="noprint">操作</th>
                                 </tr>
                                 <c:forEach items="${outBillPresentList}" var="outBillPresent" varStatus="status">
                                 <tr name="tr${status.count}" id="itemsRow">
@@ -122,7 +123,7 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="noprint">
                                         <input name="itemsOutID${status.count}" type="hidden" value="${outBillPresent.itemsOutID}">
                                         <div class="layui-form-item">
                                             <button type="button" class="layui-btn layui-btn-danger" onclick="delTr(this)">删除</button>
@@ -191,7 +192,7 @@
                         <div class="layui-row">
                             <div  style="float: right; margin-right: 30px;margin-top: 10px">
                                 <a href="javascript:window.print()" class="layui-btn layui-btn-lg noprint" target="_self">打印</a>
-                                <button type="button" class="layui-btn layui-btn-lg" onclick="checkBill()">确认修改</button>
+                                <button type="button" class="layui-btn layui-btn-lg noprint" onclick="checkBill()">确认修改</button>
                             </div>
                         </div>
                     </div>

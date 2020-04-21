@@ -9100,7 +9100,7 @@ jQuery.extend( {
 		// and/or If-None-Match header later on
 		// Remove hash to simplify url manipulation
 		cacheURL = s.url.replace( rhash, "" );
-
+	
 		// More options handling for requests with no content
 		if ( !s.hasContent ) {
 
