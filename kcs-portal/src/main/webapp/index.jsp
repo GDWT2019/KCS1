@@ -224,7 +224,7 @@
             content:'${pageContext.request.contextPath }/user/baseData',
             area:['1000px','668px'],
             end:function () {
-                location.reload();
+
             }
         });
     })
@@ -236,7 +236,7 @@
             content:'${pageContext.request.contextPath }/user/safeData',
             area:['500px','300px'],
             end:function () {
-                location.reload();
+
             }
         });
     })

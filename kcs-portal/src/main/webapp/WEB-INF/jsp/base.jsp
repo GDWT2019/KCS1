@@ -41,6 +41,7 @@
                 <option value="">直接选择或搜索选择</option>
             </select>
         </div>
+        <a id="addPosition"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
     </div>
     <div class="layui-inline">
         <label class="layui-form-label">部门</label>
@@ -50,6 +51,7 @@
 
             </select>
         </div>
+        <a id="addDepartment"><i class="layui-icon layui-icon-add-circle" style="font-size: 30px"></i></a>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">性别</label>
@@ -169,7 +171,59 @@
                 var data = form.val('example');
                 alert(JSON.stringify(data));
             });
+
+        $("#addDepartment").on('click',function () {
+            layer.prompt({
+                formType: 2,
+                value: '',
+                title: '新增部门',
+                area: ['200px', '20px'] //自定义文本域宽高
+            }, function(value, index, elem){
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/department/addDepartment",
+                    type:"post",
+                    data:{"departmentName":value},
+                    dataType:"text",
+                    success:function (result) {
+                        var data = JSON.parse(result);
+                        layer.alert(data.mesg);
+                        reflashDepartment();
+                    },
+                    error(){
+                        layer.alert("新增部门请求错误！")
+                    }
+                })
+                layer.close(index);
+            });
         });
+
+        $("#addPosition").on('click',function () {
+            layer.prompt({
+                formType: 2,
+                value: '',
+                title: '新增职位',
+                area: ['200px', '20px'] //自定义文本域宽高
+            }, function(value, index, elem){
+                $.ajax({
+                    url:"${pageContext.request.contextPath}/position/addPosition",
+                    type:"post",
+                    data:{"positionName":value},
+                    dataType:"text",
+                    success:function (result) {
+                        var data = JSON.parse(result);
+                        layer.alert(data.mesg);
+                        reflashPosition();
+                    },
+                    error(){
+                        layer.alert("新增职位请求错误！")
+                    }
+                });
+                layer.close(index);
+            });
+        });
+        });
+
+
 </script>
 <script type="text/javascript">
     layui.use(["jquery", "upload", "form", "layer", "element"], function () {
