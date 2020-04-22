@@ -124,6 +124,9 @@
         <if test="itemName != null and itemName !='' ">
             and ItemsName like '%${itemName}%'
         </if>
+        <if test="Invoice != null and Invoice !='' ">
+            and InvoiceID like '%${Invoice}%'
+        </if>
         <if test="username != null and username !='' ">
             and username like '%${username}%'
         </if>
