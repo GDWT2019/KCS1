@@ -32,8 +32,6 @@ public class InBillServiceImpl implements InBillService {
 
         inBillDao.insertNewBill(inBill);
         Integer inBillID = inBill.getInBillID();
-        System.out.println("service   "+inBillID);
-
     }
 
     @LogAnno(operateType = "查询入库单")
@@ -43,8 +41,8 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName,String username,Integer checkStatus) {
-        return inBillDao.inBillShowPage(before,after,time1,time2,itemName,username,checkStatus);
+    public List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName,String Invoice,String username,Integer checkStatus) {
+        return inBillDao.inBillShowPage(before,after,time1,time2,itemName,Invoice,username,checkStatus);
     }
 
     @Override
@@ -69,8 +67,8 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public int countReload(String time1, String time2, String itemName,String username,Integer checkStatus) {
-        return inBillDao.countReload(time1,time2,itemName,username,checkStatus);
+    public int countReload(String time1, String time2, String itemName,String Invoice,String username,Integer checkStatus) {
+        return inBillDao.countReload(time1,time2,itemName,Invoice,username,checkStatus);
     }
 
     @Override

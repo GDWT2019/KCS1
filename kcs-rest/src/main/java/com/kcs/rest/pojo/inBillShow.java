@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class inBillShow implements Serializable {
     private Integer ItemsInID;
     private Integer InBillID;
+    private String InvoiceID;
     private Integer GoodsID;
     private String TimeIn;
     private String ItemsName;
@@ -27,6 +28,7 @@ public class inBillShow implements Serializable {
         return "inBillShow{" +
                 "ItemsInID=" + ItemsInID +
                 ", InBillID=" + InBillID +
+                ", InvoiceID='" + InvoiceID + '\'' +
                 ", GoodsID=" + GoodsID +
                 ", TimeIn='" + TimeIn + '\'' +
                 ", ItemsName='" + ItemsName + '\'' +
@@ -64,6 +66,14 @@ public class inBillShow implements Serializable {
 
     public void setInBillID(Integer inBillID) {
         InBillID = inBillID;
+    }
+
+    public String getInvoiceID() {
+        return InvoiceID;
+    }
+
+    public void setInvoiceID(String invoiceID) {
+        InvoiceID = invoiceID;
     }
 
     public String getTimeIn() {

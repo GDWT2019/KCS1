@@ -14,7 +14,7 @@ public interface InBillService {
 
     List<inBillShow> inBillShowData();
 
-    List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName,String username,Integer checkStatus);
+    List<inBillShow> inBillShowPage(int before, int after,String time1,String time2,String itemName,String Invoice,String username,Integer checkStatus);
 
     int countShow();
 
@@ -24,7 +24,7 @@ public interface InBillService {
 
     void UpdateInBill(InBill inBill);
 
-    int countReload(String time1, String time2, String itemName,String username,Integer checkStatus);
+    int countReload(String time1, String time2, String itemName,String Invoice,String username,Integer checkStatus);
 
     List<inBillShow> ItemInRecord(int front, int back, int goodsId);
 

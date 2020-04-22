@@ -95,7 +95,7 @@ public class InBillController {
     //获取入库分页显示数据
     @RequestMapping(value="inBillShowPage",method=RequestMethod.GET)
     @ResponseBody
-    public KcsResult inBillShowPage(@RequestParam("before")String before, @RequestParam("after")String after, @RequestParam("time1")String time1, @RequestParam("time2")String time2, @RequestParam("itemName")String itemName, @RequestParam("username")String username,@RequestParam("checkStatus") String status){
+    public KcsResult inBillShowPage(@RequestParam("before")String before, @RequestParam("after")String after, @RequestParam("time1")String time1, @RequestParam("time2")String time2, @RequestParam("itemName")String itemName,@RequestParam("Invoice")String Invoice, @RequestParam("username")String username,@RequestParam("checkStatus") String status){
 
         int front = Integer.parseInt(before);
         int back = Integer.parseInt(after);
@@ -107,7 +107,7 @@ public class InBillController {
             checkStatus =Integer.parseInt(status);
         }
 
-        List<inBillShow> allInBill = inBillService.inBillShowPage(front,back,time1,time2,itemName,username,checkStatus);
+        List<inBillShow> allInBill = inBillService.inBillShowPage(front,back,time1,time2,itemName,Invoice,username,checkStatus);
         System.out.println("allInBill="+allInBill);
 
         return KcsResult.ok(allInBill);
@@ -115,7 +115,7 @@ public class InBillController {
     //入库显示的数据
     @RequestMapping(value = "countReload",method=RequestMethod.GET)
     @ResponseBody
-    public  KcsResult countReload(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("username")String username,@RequestParam("checkStatus") String status){
+    public  KcsResult countReload(@RequestParam("time1")String time1,@RequestParam("time2")String time2,@RequestParam("itemName")String itemName,@RequestParam("Invoice")String Invoice,@RequestParam("username")String username,@RequestParam("checkStatus") String status){
         Integer checkStatus = null;
         if("null".equals(status)){
             checkStatus = null;
@@ -123,7 +123,7 @@ public class InBillController {
         {
             checkStatus =Integer.parseInt(status);
         }
-        int count = inBillService.countReload(time1,time2,itemName,username,checkStatus);
+        int count = inBillService.countReload(time1,time2,itemName,Invoice,username,checkStatus);
         return KcsResult.ok(count);
     }
 

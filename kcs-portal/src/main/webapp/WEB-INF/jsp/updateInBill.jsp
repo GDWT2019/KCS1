@@ -26,7 +26,7 @@
                 <form class="layui-form" id="InBillForm" type="post">
                     <input type="hidden" name="operator" value="${user.userID}"/>
                     <div class="layui-row" style="white-space: nowrap">
-                        <div class=" layui-col-xs4 ">
+                        <div class=" layui-col-xs3 ">
                             <div class="layui-form-item">
                                 <label style="text-align: left;font-size: 25px;">时间</label>
                                 <div class="layui-inline ">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs4 ">
+                        <div class="layui-col-xs3 ">
                             <div class="layui-form-item">
                                 <label style="font-size: 25px;">供应商</label>
                                 <a id="addProvider"><i class="layui-icon layui-icon-add-circle noprint"
@@ -46,13 +46,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs4 ">
+                        <div class="layui-col-xs3 ">
                             <div class="layui-form-item">
                                 <label style="font-size:25px ">编号</label>
                                 <div class="layui-inline">
                                     <input id="InBillID" type="text" class="layui-input" name="InBillID"
                                            autocomplete="on"
-                                           style="font-size: 25px;  " readonly value="${newInBillID}">
+                                           style="font-size: 25px;  width: 250px " readonly value="${newInBillID}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-xs3 ">
+                            <div class="layui-form-item">
+                                <label style="font-size:25px ">发票</label>
+                                <div class="layui-inline">
+                                    <input id="InvoiceID" type="text" class="layui-input" name="InvoiceID" autocomplete="on"
+                                           style="font-size: 25px; width: 250px" value="${invoice}">
                                 </div>
                             </div>
                         </div>
@@ -411,6 +420,8 @@
         var time = $("#InBillTime").val();
         //供应商
         var provider = $("#providerID").val();
+        //发票
+        var Invoice = $("#InvoiceID").val();
 
         //仓管员id
         var warehouse = Number($("#warehouse").val());
@@ -429,6 +440,11 @@
         }
         if (IsNull(provider)) {
             layer.alert("供应商未填写！");
+            return false;
+        }
+
+        if (IsNull(Invoice)) {
+            layer.alert("发票号未填写！");
             return false;
         }
 

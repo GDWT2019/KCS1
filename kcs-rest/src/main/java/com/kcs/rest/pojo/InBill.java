@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class InBill implements Serializable {
     private Integer InBillID;
     private Integer ProviderID;
+    private String InvoiceID;
     private Integer StoreManager;
     private String TimeIn;
     private Integer Buyer;
@@ -25,6 +26,14 @@ public class InBill implements Serializable {
 
     public void setProviderID(Integer providerID) {
         ProviderID = providerID;
+    }
+
+    public String getInvoiceID() {
+        return InvoiceID;
+    }
+
+    public void setInvoiceID(String invoiceID) {
+        InvoiceID = invoiceID;
     }
 
     public Integer getInBillID() {
@@ -144,6 +153,7 @@ public class InBill implements Serializable {
         return "InBill{" +
                 "InBillID=" + InBillID +
                 ", ProviderID=" + ProviderID +
+                ", InvoiceID='" + InvoiceID + '\'' +
                 ", StoreManager=" + StoreManager +
                 ", TimeIn='" + TimeIn + '\'' +
                 ", Buyer=" + Buyer +

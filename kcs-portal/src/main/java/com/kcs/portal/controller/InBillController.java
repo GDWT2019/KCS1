@@ -124,6 +124,7 @@ public class InBillController {
             String time1 = request.getParameter("time1");
             String time2 = request.getParameter("time2");
             String itemName = request.getParameter("itemName");
+            String Invoice = request.getParameter("Invoice");
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUserName();
             String status = request.getParameter("checkStatus");
@@ -138,8 +139,8 @@ public class InBillController {
             int before = limit * (page - 1) + 1;
             int after = page * limit;
 
-            List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, username, checkStatus);
-            int count = inBillService.countReload(time1, time2, itemName, username, checkStatus);
+            List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, Invoice,username, checkStatus);
+            int count = inBillService.countReload(time1, time2, itemName,Invoice, username, checkStatus);
             request.getSession().setAttribute("count", count);
             JSONArray json = JSONArray.fromObject(list);
             String js = json.toString();
@@ -158,6 +159,7 @@ public class InBillController {
             String time1 = request.getParameter("time1");
             String time2 = request.getParameter("time2");
             String itemName = request.getParameter("itemName");
+            String Invoice = request.getParameter("Invoice");
             String username = request.getParameter("username");
             String status = request.getParameter("checkStatus");
 //        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
@@ -171,8 +173,8 @@ public class InBillController {
             int before = limit * (page - 1) + 1;
             int after = page * limit;
 
-            List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName, username, checkStatus);
-            int count = inBillService.countReload(time1, time2, itemName, username, checkStatus);
+            List<inBillShow> list = inBillService.PageInBillShow(before, after, time1, time2, itemName,Invoice, username, checkStatus);
+            int count = inBillService.countReload(time1, time2, itemName,Invoice, username, checkStatus);
             request.getSession().setAttribute("count", count);
             JSONArray json = JSONArray.fromObject(list);
             String js = json.toString();
@@ -248,6 +250,7 @@ public class InBillController {
         String alTotal = request.getParameter("alTotal");
         String inBillTime = request.getParameter("InBillTime");
         String providerID = request.getParameter("providerID");
+        String Invoice = request.getParameter("InvoiceID");
         String operatorID = request.getParameter("operator");
         String StoreManager = request.getParameter("warehouse");
         String buyer = request.getParameter("buyer");
@@ -257,6 +260,7 @@ public class InBillController {
         InBill inBill = new InBill();
         inBill.setTimeIn(inBillTime);
         inBill.setProviderID(Integer.parseInt(providerID));
+        inBill.setInvoiceID(Invoice);
         inBill.setOperator(Integer.parseInt(operatorID));
         inBill.setOperateTime(inBillTime);
         inBill.setBuyer(Integer.parseInt(buyer));
@@ -266,17 +270,17 @@ public class InBillController {
         inBill.setStoreManager(Integer.parseInt(StoreManager));
         inBill.setCheckStatus(0);
         inBill.setAllTotal(Double.parseDouble(alTotal));
-        System.out.println(inBill);
+//        System.out.println(inBill);
 
 
-        System.out.println(inBillTime + "--" + providerID + "--" + "--" + StoreManager + "--" + buyer + "--" + TableMaker + "--" + operatorID + "--" + alTotal);
+//        System.out.println(inBillTime + "--" + providerID + "--" + "--" + StoreManager + "--" + buyer + "--" + TableMaker + "--" + operatorID + "--" + alTotal);
 
         if (inBill.getOperator() != null && inBill.getTimeIn() != null && inBill.getProviderID() != null && inBill.getOperateTime() != null && inBill.getBuyer() != null && inBill.getBuyTime() != null && inBill.getTableMaker() != null && inBill.getStoreManager() != null && inBill.getAllTotal() != null && inBill.getAllTotal() > 0) {
             Integer inBillID = inBillService.insertNewBill(inBill);//插入新单号
-            System.out.println(inBillID);
+//            System.out.println(inBillID);
 
             for (ItemIn itemIn : list.getItemInList()) {
-                System.out.println(itemIn);
+//                System.out.println(itemIn);
                 itemIn.setInBillID(inBillID);
                 if (itemIn.getGoodsID() != null && itemIn.getItemNum() > 0 && itemIn.getItemPrice() > 0) {
                     itemInService.insertNewItem(itemIn); //向新单号插入物品
@@ -293,6 +297,7 @@ public class InBillController {
     public void updateBill(HandleAffair list, HttpServletRequest request) {
         String inBillTime = request.getParameter("InBillTime");
         String providerID = request.getParameter("providerID");
+        String Invoice = request.getParameter("InvoiceID");
         String inBillID = request.getParameter("InBillID");
         String alTotal = request.getParameter("alTotal");
         String operatorID = request.getParameter("operator");
@@ -307,6 +312,7 @@ public class InBillController {
         InBill inBill = new InBill();
         inBill.setTimeIn(inBillTime);
         inBill.setProviderID(Integer.parseInt(providerID));
+        inBill.setInvoiceID(Invoice);
         inBill.setOperator(Integer.parseInt(operatorID));
         inBill.setOperateTime(inBillTime);
         inBill.setBuyer(Integer.parseInt(buyer));

@@ -72,13 +72,14 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public List<inBillShow> PageInBillShow(int before, int after,String time1,String time2,String itemName,String username,Integer checkStatus) {
+    public List<inBillShow> PageInBillShow(int before, int after,String time1,String time2,String itemName,String Invoice,String username,Integer checkStatus) {
         HashMap<String, String> param = new HashMap<>();
         param.put("before",before+ "");
         param.put("after",after+ "");
         param.put("time1",time1);
         param.put("time2",time2);
         param.put("itemName",itemName);
+        param.put("Invoice",Invoice);
         param.put("username",username);
         param.put("checkStatus",checkStatus+"");
         try {
@@ -148,11 +149,12 @@ public class InBillServiceImpl implements InBillService {
     }
 
     @Override
-    public int countReload(String time1, String time2, String itemName,String username,Integer checkStatus) {
+    public int countReload(String time1, String time2, String itemName,String Invoice,String username,Integer checkStatus) {
         HashMap<String, String> param = new HashMap<>();
         param.put("time1",time1);
         param.put("time2",time2);
         param.put("itemName",itemName);
+        param.put("Invoice",Invoice);
         param.put("username",username);
         param.put("checkStatus",checkStatus+"");
         try {

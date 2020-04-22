@@ -27,7 +27,7 @@ public class ItemInController {
     @RequestMapping(value = "insertNewItem" ,method = RequestMethod.POST)
     @ResponseBody
     public  void insertNewItem(@RequestBody ItemIn itemIn){
-        System.out.println("ItemIn:   "+itemIn);
+//        System.out.println("ItemIn:   "+itemIn);
         itemInService.insertNewItem(itemIn);
     }
 

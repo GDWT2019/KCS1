@@ -25,6 +25,10 @@
     <div class="layui-inline">
         <input type="text" class="layui-input" id="itemName" placeholder="请输入物品名">
     </div>
+    发票号：
+    <div class="layui-inline">
+        <input type="text" class="layui-input" id="Invoice" placeholder="请输入发票号">
+    </div>
     入库人：
     <div class="layui-inline">
         <input type="text" class="layui-input" id="username" placeholder="请填写入库人">
@@ -91,6 +95,7 @@
             , totalRow: false//开启合计行
             , cols: [[
                 {field: 'inBillID', title: '入库单号', width: 110, sort: true}
+                , {field: 'invoiceID', title: '发票号', width: 110}
                 , {field: 'timeIn', title: '日期', width: 220}
                 , {field: 'itemsName', title: '物品名称', width: 110}
                 , {field: 'type', title: '物品规格', width: 110}
@@ -110,7 +115,7 @@
                 , {field: 'note', title: '备注', width: 150}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
             ]]
-            , where: {"time1": null, "time2": null, "itemName": null, "username": null, "checkStatus": null}
+            , where: {"time1": null, "time2": null, "itemName": null,"Invoice": null, "username": null, "checkStatus": null}
             , page: true
             , limit: 10
             , limits: [5, 10, 20, 30, 50]
@@ -123,17 +128,20 @@
             var time1 = null;
             var time2 = null;
             var itemName = null;
+            var Invoice = null;
             var username = null;
             var timeRange = $('#timeRange').val();
             var checkStatus = $("#checkStatus").val();
             if (($("#itemName").val()) != null && ($("#itemName").val()) != "") {
                 itemName = $("#itemName").val();
             }
+            if (($("#Invoice").val()) != null && ($("#Invoice").val()) != "") {
+                Invoice = $("#Invoice").val();
+            }
 
             if (($("#username").val()) != null && ($("#username").val()) != "") {
                 username = $("#username").val();
             }
-
             if (timeRange != null && timeRange != "") {
                 time1 = timeRange.substring(0, 10);
                 time2 = timeRange.substring(13, 23);
@@ -145,6 +153,7 @@
                     "time1": time1,
                     "time2": time2,
                     "itemName": itemName,
+                    "Invoice": Invoice,
                     "username": username,
                     "checkStatus": checkStatus,
                 }
