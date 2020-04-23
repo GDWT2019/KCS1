@@ -10,4 +10,5 @@ public interface CategoryDao {
     Integer addCategory(String categoryName);
 
 
+    Category findcategoryByName(String categoryName);
 }

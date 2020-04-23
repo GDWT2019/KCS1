@@ -10,4 +10,8 @@
     <insert id="addCategory" parameterType="String">
         insert into Category (CategoryName) values (#{categoryName})
     </insert>
+
+    <select id="findcategoryByName" resultType="com.kcs.rest.pojo.Category" parameterType="String">
+        select * from Category where CategoryName = #{categoryName}
+    </select>
 </mapper>

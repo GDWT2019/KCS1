@@ -28,11 +28,12 @@ public class ProviderController {
         return js;
     }
 
+
     @RequestMapping("/rAddProvider")
     public String rAddProvider() {
+
         return "addProvider";
     }
-
     @RequestMapping("/addProvider")
     @ResponseBody
     public AjaxMesg addProvider(String providerName, String providerAddress, String tel) {

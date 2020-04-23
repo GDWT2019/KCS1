@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"/>
 </head>
 <body>
-
-<div class="layui-form" >
     <div class="layui-form" >
         <div class="layui-form-item">
             <label class="layui-form-label">物品名称</label>
@@ -43,7 +41,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 
     <script>
@@ -84,33 +82,60 @@
             });
 
             $("#addCategory").on('click',function () {
-                layer.prompt({
-                    formType: 2,
-                    value: '',
-                    title: '新增物品类别',
-                    area: ['200px', '20px'] //自定义文本域宽高
-                }, function(value, index, elem){
-                    // alert(value);
-                    $.ajax({
-                        url:"${pageContext.request.contextPath}/category/addCategory",
-                        type:"post",
-                        data:{"categoryName":value},
-                        dataType:"text",
-                        success:function (result) {
-                            var data = JSON.parse(result);
-                            alert(data.mesg,function(){
-                                window.parent.layer.closeAll();
-                            });
-                            reflashPosition();
-                        },
-                        error(){
-                            alert("新增职位请求错误！")
-                        }
-                    });
-                    location.reload();
-                    layer.close(index);
+                layer.open({
+                    type: 2,
+                    title: "新增物品类别",
+                    content: '${pageContext.request.contextPath }/category/rCategory',
+                    area: ['380px', '200px'],
+                    end: function () {
+                        $("#categoryID").empty();
+                        $.ajax({
+                            type:"POST",
+                            url:'${pageContext.request.contextPath}/category/getCategory',  //从数据库查询返回的是个list
+                            dataType: "json",
+                            async: false,
+                            cache: false,
+                            success: function (data) {
+                                $.each(data,function(index,item){
+                                    $("#categoryID").append("<option value='"+item.categoryID+"'>"+item.categoryName + "</option>");//往下拉菜单里添加元素
+                                })
+                                form.render();//菜单渲染 把内容加载进去
+                            }
+                        });
+
+                    }
                 });
-            });
+
+            })
+
+            <%--$("#addCategory").on('click',function () {--%>
+                <%--layer.prompt({--%>
+                    <%--formType: 2,--%>
+                    <%--value: '',--%>
+                    <%--title: '新增物品类别',--%>
+                    <%--area: ['200px', '20px'] //自定义文本域宽高--%>
+                <%--}, function(value, index, elem){--%>
+                    <%--// alert(value);--%>
+                    <%--$.ajax({--%>
+                        <%--url:"${pageContext.request.contextPath}/category/addCategory",--%>
+                        <%--type:"post",--%>
+                        <%--data:{"categoryName":value},--%>
+                        <%--dataType:"text",--%>
+                        <%--success:function (result) {--%>
+                            <%--var data = JSON.parse(result);--%>
+                            <%--alert(data.mesg,function(){--%>
+                                <%--window.parent.layer.closeAll();--%>
+                            <%--});--%>
+                            <%--reflashPosition();--%>
+                        <%--},--%>
+                        <%--error(){--%>
+                            <%--alert("新增职位请求错误！")--%>
+                        <%--}--%>
+                    <%--});--%>
+                    <%--location.reload();--%>
+                    <%--layer.close(index);--%>
+                <%--});--%>
+            <%--});--%>
 
 
             form.on('submit(add)', function(){

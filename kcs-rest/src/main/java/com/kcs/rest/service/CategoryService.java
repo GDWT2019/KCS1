@@ -8,4 +8,7 @@ public interface CategoryService {
     List<Category> findAllCategory();
 
     Integer addCategory(String categoryName);
+
+    Category findcategoryByName(String categoryName);
+
 }

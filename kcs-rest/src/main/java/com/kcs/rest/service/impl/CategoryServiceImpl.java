@@ -23,4 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Integer addCategory(String categoryName) {
         return categoryDao.addCategory(categoryName);
     }
+
+    @Override
+    public Category findcategoryByName(String categoryName) {
+        return categoryDao.findcategoryByName(categoryName);
+    }
 }

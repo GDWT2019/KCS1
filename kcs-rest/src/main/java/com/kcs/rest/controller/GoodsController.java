@@ -27,7 +27,7 @@ public class GoodsController {
 
     }
 
-    @RequestMapping("/getGoodsByItemName{itemName}")
+    @RequestMapping("/getGoodsByItemName{itemName:.+}")
     @ResponseBody
     public KcsResult getGoodsByItemName(@PathVariable String itemName){
         List<Goods> goodsList = goodsService.findGoodsByItemName(itemName);

@@ -17,14 +17,25 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @RequestMapping("/rCategory")
+    public String rCategory() {
+        return "addCategory";
+    }
+
     @RequestMapping("/addCategory")
     @ResponseBody
     public AjaxMesg addCategory(String categoryName){
-        Integer integer = categoryService.addCategory(categoryName);
-        if (integer<1){
-            return new AjaxMesg(false,"新增职位失败！");
+
+        Category category=categoryService.findcategoryByName(categoryName);
+        if (category==null){
+            Integer integer = categoryService.addCategory(categoryName);
+            if (integer<1){
+                return new AjaxMesg(false,"新增类别失败！");
+            }
+            return new AjaxMesg(true,"新增类别成功！");
+        }else{
+            return new AjaxMesg(true,"增加失败，类别已存在！");
         }
-        return new AjaxMesg(true,"新增职位成功！");
     }
 
     @RequestMapping(value="getCategory",produces="text/html;charset=utf-8")

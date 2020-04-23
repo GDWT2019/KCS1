@@ -39,4 +39,19 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return null;
     }
+
+    @Override
+    public Category findcategoryByName(String categoryName) {
+        try {
+            String s = HttpClientUtil.doPost(Rest.rest+"category/findcategoryByName"+categoryName);
+            KcsResult result = KcsResult.formatToPojo(s, Category.class);
+            if (result.getStatus() == 200) {
+                Category category = (Category) result.getData();
+                return category;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

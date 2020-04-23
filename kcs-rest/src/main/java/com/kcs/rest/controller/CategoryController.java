@@ -18,6 +18,13 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    @RequestMapping("/findcategoryByName{categoryName}")
+    @ResponseBody
+    public KcsResult findcategoryByName(@PathVariable String categoryName){
+        Category category = categoryService.findcategoryByName(categoryName);
+        return KcsResult.ok(category);
+    }
+
     //新增类别数据
     @RequestMapping(value="addCategory{categoryName}")
     @ResponseBody
