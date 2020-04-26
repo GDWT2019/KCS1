@@ -230,6 +230,5 @@ public class RoleController {
             return new AjaxMesg(false,"删除失败");
 
         return new AjaxMesg(true,"删除成功！");
-
     }
 }

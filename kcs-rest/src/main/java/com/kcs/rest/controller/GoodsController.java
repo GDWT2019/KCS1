@@ -18,6 +18,39 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    @RequestMapping("/countGoodsData")
+    @ResponseBody
+    public KcsResult countGoodsData(){
+        return KcsResult.ok(goodsService.countGoodsData());
+    }
+
+    @RequestMapping("/delGoods")
+    @ResponseBody
+    public KcsResult delGoods(@RequestBody Goods goods){
+        return KcsResult.ok(goodsService.delGoods(goods));
+    }
+
+    @RequestMapping("/updateGoods")
+    @ResponseBody
+    public KcsResult updateGoods(@RequestBody Goods goods){
+        return KcsResult.ok(goodsService.updateGoods(goods));
+    }
+
+    @RequestMapping("/showUpdateGoodsByID{goodsID}")
+    @ResponseBody
+    public KcsResult showUpdateGoodsByID(@PathVariable int goodsID){
+        Goods goods = goodsService.showUpdateGoodsByID(goodsID);
+        return  KcsResult.ok(goods);
+    }
+
+    @RequestMapping(value = "/goodsData",method= RequestMethod.GET)
+    @ResponseBody
+    public KcsResult goodsData(@RequestParam("front")String before, @RequestParam("back")String after ){
+        int front = Integer.parseInt(before);
+        int back = Integer.parseInt(after);
+        return KcsResult.ok(goodsService.goodsData(front,back));
+    }
+
     @RequestMapping("/addGoods")
     @ResponseBody
     public KcsResult addGoods(@RequestParam("goodsName") String goodsName, @RequestParam("categoryID") String ID, @RequestParam("goodsType") String goodsType, @RequestParam("goodsUnit") String goodsUnit){

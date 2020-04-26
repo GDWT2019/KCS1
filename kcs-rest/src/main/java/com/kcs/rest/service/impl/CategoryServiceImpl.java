@@ -28,4 +28,29 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findcategoryByName(String categoryName) {
         return categoryDao.findcategoryByName(categoryName);
     }
+
+    @Override
+    public List<Category> categoryData(int front, int back) {
+        return categoryDao.categoryData(front,back);
+    }
+
+    @Override
+    public Category showUpdateCategoryByID(int categoryID) {
+        return categoryDao.showUpdateCategoryByID(categoryID);
+    }
+
+    @Override
+    public Integer updateCategory(Category category) {
+        return categoryDao.updateCategory(category);
+    }
+
+    @Override
+    public Integer delCategory(Category category) {
+        return categoryDao.delCategory(category);
+    }
+
+    @Override
+    public Integer countCategoryData() {
+        return categoryDao.countCategoryData();
+    }
 }

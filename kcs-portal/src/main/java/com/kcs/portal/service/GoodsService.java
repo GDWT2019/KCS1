@@ -38,4 +38,15 @@ public interface GoodsService {
     Category findCategoryNameByID(Integer categoryID);
 
     Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit);
+
+    List<Goods> goodsData(int before, int after);
+
+    Goods showUpdateGoodsByID(int goodsID);
+
+    int updateGoods(Goods goods);
+
+    int delGoods(Goods goods);
+
+    int countGoodsData();
+
 }

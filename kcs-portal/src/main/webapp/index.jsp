@@ -65,6 +65,15 @@
                     <a href="javascript:;">系统管理</a>
                     <dl class="layui-nav-child">
                         <dd>
+                            <a data-url="${pageContext.request.contextPath }/provider/showProviderData" data-id="供应商" href="#" data-title="供应商" class="site-demo-active" data-type="tabAdd">供应商</a>
+                        </dd>
+                        <dd>
+                            <a data-url="${pageContext.request.contextPath }/goods/showGoodsData" data-id="物品" href="#" data-title="物品" class="site-demo-active" data-type="tabAdd">物品</a>
+                        </dd>
+                        <dd>
+                            <a data-url="${pageContext.request.contextPath }/category/showCategoryData" data-id="类别" href="#" data-title="类别" class="site-demo-active" data-type="tabAdd">类别</a>
+                        </dd>
+                        <dd>
                             <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="1" data-title="用户" href="#" class="site-demo-active" data-type="tabAdd">用户</a>
                         </dd>
                         <dd>

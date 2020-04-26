@@ -14,4 +14,30 @@
     <select id="findcategoryByName" resultType="com.kcs.rest.pojo.Category" parameterType="String">
         select * from Category where CategoryName = #{categoryName}
     </select>
+
+    <select id="categoryData" resultType="com.kcs.rest.pojo.Category">
+        select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by CategoryID  ) as id , * from (
+        select * from Category
+        )as show)as show1
+        where id not in (
+            select top (#{front}-1) id from (select Row_Number() over ( order by CategoryID  ) as id , * from (
+       select * from Category
+        )as show)as show1 )
+    </select>
+
+    <select id="showUpdateCategoryByID" parameterType="Integer" resultType="com.kcs.rest.pojo.Category">
+        select * from Category where CategoryID = #{categoryID}
+    </select>
+
+    <update id="updateCategory" parameterType="com.kcs.rest.pojo.Category">
+         update Category set CategoryName = #{categoryName} where CategoryID =#{categoryID}
+    </update>
+
+    <delete id="delCategory" parameterType="com.kcs.rest.pojo.Category">
+        delete from Category where CategoryID = #{categoryID}
+    </delete>
+
+    <select id="countCategoryData" resultType="Integer">
+        select count(*) from Category;
+    </select>
 </mapper>

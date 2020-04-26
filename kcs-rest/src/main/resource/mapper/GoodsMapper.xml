@@ -116,4 +116,30 @@ from (SELECT * FROM Summary s1 WHERE not EXISTS
         and  Goods.GoodsID = i.GoodsID
     </select>
 
+    <select id="goodsData" resultType="com.kcs.rest.pojo.Goods">
+        select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by GoodsID  ) as id , * from (
+        select * from Goods
+        )as show)as show1
+        where id not in (
+            select top (#{front}-1) id from (select Row_Number() over ( order by GoodsID  ) as id , * from (
+       select * from Goods
+        )as show)as show1 )
+    </select>
+
+    <select id="showUpdateGoodsByID" parameterType="Integer" resultType="com.kcs.rest.pojo.Goods">
+        select * from Goods where GoodsID = #{goodsID}
+    </select>
+
+    <update id="updateGoods" parameterType="com.kcs.rest.pojo.Goods">
+         update Goods set CategoryID=#{categoryID},ItemsName=#{itemsName},ItemsType = #{itemsType},ItemsUnit = #{itemsUnit}  where GoodsID =#{goodsID}
+    </update>
+
+    <delete id="delGoods" parameterType="com.kcs.rest.pojo.Goods">
+        delete from Goods where GoodsID = #{goodsID}
+    </delete>
+
+    <select id="countGoodsData" resultType="Integer">
+        select count(*) from Goods;
+    </select>
+
 </mapper>

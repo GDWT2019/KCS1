@@ -16,6 +16,40 @@ public class ProviderController {
     @Autowired
     private ProviderService providerService;
 
+    @RequestMapping("/countProviderData")
+    @ResponseBody
+    public KcsResult countProviderData(){
+        return KcsResult.ok(providerService.countProviderData());
+    }
+
+
+    @RequestMapping("/delProvider")
+    @ResponseBody
+    public KcsResult delProvider(@RequestBody Provider provider){
+        return KcsResult.ok(providerService.delProvider(provider));
+    }
+
+    @RequestMapping("/updateProvider")
+    @ResponseBody
+    public KcsResult updateProvider(@RequestBody Provider provider){
+        return KcsResult.ok(providerService.updateProvider(provider));
+    }
+
+    @RequestMapping("/showUpdateProviderByID{providerID}")
+    @ResponseBody
+    public KcsResult showUpdateProviderByID(@PathVariable int providerID){
+        Provider provider = providerService.showUpdateProviderByID(providerID);
+        return  KcsResult.ok(provider);
+    }
+
+    @RequestMapping(value = "/providerDataPage",method= RequestMethod.GET)
+    @ResponseBody
+    public KcsResult providerDataPage(@RequestParam("front")String before, @RequestParam("back")String after ){
+        int front = Integer.parseInt(before);
+        int back = Integer.parseInt(after);
+        return KcsResult.ok(providerService.providerDataPage(front,back));
+    }
+
     @RequestMapping(value="providerData")
     @ResponseBody
     public KcsResult UserData(){

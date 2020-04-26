@@ -289,12 +289,6 @@ public class OutBillController {
         return goodsService.findAddOutBillByItemsName(itemsName);
     }
 
-   /* @RequestMapping("/checkOutBill")
-    @PreAuthorize("hasAnyAuthority('出库审批,出库,ROLE_ADMIN')")
-    public String checkInBill(){
-        return "checkOutBill";
-    }
-*/
     //获取所有出库表数据
     @RequestMapping(value = "/outBillPresentByOutBillID",method= RequestMethod.GET)
     @PreAuthorize("hasAnyAuthority('出库审批,出库,ROLE_ADMIN')")

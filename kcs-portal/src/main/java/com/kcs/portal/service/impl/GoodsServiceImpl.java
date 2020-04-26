@@ -197,4 +197,82 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return null;
     }
+
+    @Override
+    public List<Goods> goodsData(int before, int after) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("front",before+"");
+        param.put("back",after+"");
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"goods/goodsData",param);
+            KcsResult result = KcsResult.formatToList(s,Goods.class);
+            if (result.getStatus() == 200) {
+                return (List<Goods>) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Goods showUpdateGoodsByID(int goodsID) {
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"goods/showUpdateGoodsByID"+goodsID);
+            KcsResult result = KcsResult.formatToPojo(s,Goods.class);
+            if (result.getStatus() == 200) {
+                Goods goods = (Goods) result.getData();
+                return goods;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int updateGoods(Goods goods) {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPostJson(Rest.rest+"goods/updateGoods", JsonUtils.objectToJson(goods));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public int delGoods(Goods goods) {
+        Integer i = 0;
+        try {
+            String s = HttpClientUtil.doPostJson(Rest.rest+"goods/delGoods", JsonUtils.objectToJson(goods));
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                i = (Integer) result.getData();
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return i;
+    }
+
+    @Override
+    public int countGoodsData() {
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"goods/countGoodsData");
+            KcsResult result = KcsResult.format(s);
+            if (result.getStatus() == 200) {
+                return (int) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

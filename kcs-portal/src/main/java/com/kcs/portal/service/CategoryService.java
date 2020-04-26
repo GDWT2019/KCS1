@@ -11,4 +11,15 @@ public interface CategoryService {
 
     Category findcategoryByName(String categoryName);
 
+    List<Category> categoryData(int before, int after);
+
+    Category showUpdateCategoryByID(int categoryID);
+
+    int updateCategory(Category category);
+
+    int delCategory(Category category);
+
+    int countCategoryData();
+
+
 }

@@ -13,6 +13,23 @@
     <%--<link rel="stylesheet" href="${pageContext.request.contextPath }/static/tablePlug/tablePlug.css" type="text/css"/>--%>
 </head>
 
+<script type="text/html" id="toolbarDemo">
+
+    <div class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+            </div>
+        </div>
+    </div>
+
+
+</script>
+<!--导出表 不展示-->
+<div style="display: none;">
+    <table id="data_export" lay-filter="data_export" >
+    </table>
+</div>
+
 <div class="demoTable" style="white-space: nowrap">
     <div class="layui-inline">
         <button class="layui-btn layui-btn-sm" id="newInBill">添加入库</button>
@@ -49,21 +66,7 @@
 
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
-<script type="text/html" id="toolbarDemo">
 
-    <div class="layui-form">
-        <div class="layui-form-item">
-            <div class="layui-inline">
-            </div>
-        </div>
-    </div>
-
-    <!--导出表 不展示-->
-    <div style="display: none;">
-        <table id="data_export">
-        </table>
-    </div>
-</script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="check">审批</a>
     <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>
@@ -92,28 +95,28 @@
             , url: "${pageContext.request.contextPath }/inBill/inBillShowData"
             , toolbar: '#toolbarDemo'
             , title: '入库单'
-            , totalRow: false//开启合计行
+            // , totalRow: false//开启合计行
             , cols: [[
-                {field: 'inBillID', title: '入库单号', width: 110, sort: true}
-                , {field: 'invoiceID', title: '发票号', width: 110}
-                , {field: 'timeIn', title: '日期', width: 220}
-                , {field: 'itemsName', title: '物品名称', width: 110}
-                , {field: 'type', title: '物品规格', width: 110}
-                , {field: 'storePosition', title: '仓库位置', width: 110}
-                , {field: 'itemNum', title: '入库数量', width: 110, edit: 'text'}
-                , {field: 'itemPrice', title: '入库单价', width: 110, edit: 'text'}
-                , {field: 'itemTotal', title: '合计', width: 110}
-                , {field: 'allTotal', title: '合计金额', width: 110}
-                , {field: 'userName', title: '入库人', width: 120}
+                {field: 'inBillID', title: '入库单号',  sort: true}
+                , {field: 'invoiceID', title: '发票号'}
+                , {field: 'timeIn', title: '日期'}
+                , {field: 'itemsName', title: '物品名称'}
+                , {field: 'type', title: '物品规格'}
+                , {field: 'storePosition', title: '仓库位置'}
+                , {field: 'itemNum', title: '入库数量'}
+                , {field: 'itemPrice', title: '入库单价'}
+                , {field: 'itemTotal', title: '合计'}
+                , {field: 'allTotal', title: '合计金额'}
+                , {field: 'userName', title: '入库人'}
                 , {
-                    field: 'checkStatus', title: '审核状态', width: 150, templet: function (d) {
+                    field: 'checkStatus', title: '审核状态', templet: function (d) {
                         if (d.checkStatus == 0) return '<span>等待审核</span>'
                         else if (d.checkStatus == 1) return '<span style="color: #009688;">审核通过</span>'
                         else if (d.checkStatus == 2) return '<span style="color: #FF5722;">审核未通过</span>'
                     }
                 }
-                , {field: 'note', title: '备注', width: 150}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
+                , {field: 'note', title: '备注'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
             ]]
             , where: {"time1": null, "time2": null, "itemName": null,"Invoice": null, "username": null, "checkStatus": null}
             , page: true
@@ -298,25 +301,25 @@
             smartReloadModel: true,
             cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'inBillID', title: '序号', width: 110, fixed: 'left', sort: true}
-                , {field: 'timeIn', title: '日期', width: 160}
-                , {field: 'itemsName', title: '物品名称', width: 110}
-                , {field: 'type', title: '物品规格', width: 110}
-                , {field: 'storePosition', title: '仓库位置', width: 110}
-                , {field: 'itemNum', title: '入库数量', width: 110}
-                , {field: 'itemPrice', title: '入库单价', width: 110}
-                , {field: 'itemTotal', title: '合计', width: 110}
-                , {field: 'allTotal', title: '合计金额', width: 110}
-                , {field: 'userName', title: '入库人', width: 120}
+                , {field: 'inBillID', title: '序号', fixed: 'left', sort: true}
+                , {field: 'timeIn', title: '日期'}
+                , {field: 'itemsName', title: '物品名称'}
+                , {field: 'type', title: '物品规格'}
+                , {field: 'storePosition', title: '仓库位置'}
+                , {field: 'itemNum', title: '入库数量'}
+                , {field: 'itemPrice', title: '入库单价'}
+                , {field: 'itemTotal', title: '合计'}
+                , {field: 'allTotal', title: '合计金额'}
+                , {field: 'userName', title: '入库人'}
                 , {
-                    field: 'checkStatus', title: '审核状态', width: 150, templet: function (d) {
+                    field: 'checkStatus', title: '审核状态', templet: function (d) {
                         if (d.checkStatus == 0) return '<span>等待审核</span>'
                         else if (d.checkStatus == 1) return '<span style="color: #009688;">审核通过</span>'
                         else if (d.checkStatus == 2) return '<span style="color: #FF5722;">审核未通过</span>'
                     }
                 }
-                , {field: 'note', title: '备注', width: 150}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
+                , {field: 'note', title: '备注'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
             ]]
             , id: 'exportTable'
             , done: function (res, curr, count) {

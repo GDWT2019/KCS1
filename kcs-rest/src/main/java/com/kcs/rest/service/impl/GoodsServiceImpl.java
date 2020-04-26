@@ -83,6 +83,31 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
+    public List<Goods> goodsData(int front, int back) {
+        return goodsDao.goodsData(front,back);
+    }
+
+    @Override
+    public Goods showUpdateGoodsByID(int goodsID) {
+        return goodsDao.showUpdateGoodsByID(goodsID);
+    }
+
+    @Override
+    public Integer updateGoods(Goods goods) {
+        return goodsDao.updateGoods(goods);
+    }
+
+    @Override
+    public Integer delGoods(Goods goods) {
+        return goodsDao.delGoods(goods);
+    }
+
+    @Override
+    public Integer countGoodsData() {
+        return goodsDao.countGoodsData();
+    }
+
+    @Override
     public Category findCategoryNameByID(int categoryID) {
         return goodsDao.findCategoryNameByID(categoryID);
     }

@@ -45,4 +45,15 @@ public interface GoodsDao {
     List<AddOutBill> findAddOutBillByItemsName(String itemsName);
 
     Integer addGoods(@Param("goodsName")String goodsName, @Param("categoryID")Integer categoryID, @Param("goodsType")String goodsType,@Param("goodsUnit") String goodsUnit);
+
+    List<Goods> goodsData(@Param("front") int front, @Param("back") int back);
+
+    Goods showUpdateGoodsByID(int goodsID);
+
+    Integer updateGoods(Goods goods);
+
+    Integer delGoods(Goods goods);
+
+    Integer countGoodsData();
+
 }

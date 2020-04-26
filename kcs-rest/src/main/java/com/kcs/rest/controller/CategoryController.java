@@ -5,9 +5,7 @@ import com.kcs.rest.pojo.KcsResult;
 import com.kcs.rest.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +15,39 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @RequestMapping("/countCategoryData")
+    @ResponseBody
+    public KcsResult countCategoryData(){
+        return KcsResult.ok(categoryService.countCategoryData());
+    }
+
+    @RequestMapping("/delCategory")
+    @ResponseBody
+    public KcsResult delGoods(@RequestBody Category category){
+        return KcsResult.ok(categoryService.delCategory(category));
+    }
+
+    @RequestMapping("/updateCategory")
+    @ResponseBody
+    public KcsResult updateCategory(@RequestBody Category category){
+        return KcsResult.ok(categoryService.updateCategory(category));
+    }
+
+    @RequestMapping("/showUpdateCategoryByID{categoryID}")
+    @ResponseBody
+    public KcsResult showUpdateCategoryByID(@PathVariable int categoryID){
+        Category category = categoryService.showUpdateCategoryByID(categoryID);
+        return  KcsResult.ok(category);
+    }
+
+    @RequestMapping(value = "/categoryData",method= RequestMethod.GET)
+    @ResponseBody
+    public KcsResult categoryData(@RequestParam("front")String before, @RequestParam("back")String after ){
+        int front = Integer.parseInt(before);
+        int back = Integer.parseInt(after);
+        return KcsResult.ok(categoryService.categoryData(front,back));
+    }
 
     @RequestMapping("/findcategoryByName{categoryName}")
     @ResponseBody

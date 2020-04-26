@@ -29,4 +29,29 @@ public class ProviderServiceImpl implements ProviderService {
     public Provider findProviderByName(String providerName) {
         return providerDao.findProviderByName(providerName);
     }
+
+    @Override
+    public List<Provider> providerDataPage(int front, int back) {
+        return providerDao.providerDataPage(front,back);
+    }
+
+    @Override
+    public Provider showUpdateProviderByID(int providerID) {
+        return providerDao.showUpdateProviderByID(providerID);
+    }
+
+    @Override
+    public Integer updateProvider(Provider provider) {
+        return providerDao.updateProvider(provider);
+    }
+
+    @Override
+    public Integer delProvider(Provider provider) {
+        return providerDao.delProvider(provider);
+    }
+
+    @Override
+    public Integer countProviderData() {
+        return providerDao.countProviderData();
+    }
 }

@@ -44,4 +44,15 @@ public interface GoodsService {
     List<AddOutBill> findAddOutBillByItemsName(String itemsName);
 
     Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit);
+
+    List<Goods> goodsData(int front, int back);
+
+    Goods showUpdateGoodsByID(int goodsID);
+
+    Integer updateGoods(Goods goods);
+
+    Integer delGoods(Goods goods);
+
+    Integer countGoodsData();
+
 }
