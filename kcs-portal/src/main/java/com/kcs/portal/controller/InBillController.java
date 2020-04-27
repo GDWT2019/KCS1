@@ -251,6 +251,7 @@ public class InBillController {
         String inBillTime = request.getParameter("InBillTime");
         String providerID = request.getParameter("providerID");
         String Invoice = request.getParameter("InvoiceID");
+        String InvoiceTime = request.getParameter("InvoiceTime");
         String operatorID = request.getParameter("operator");
         String StoreManager = request.getParameter("warehouse");
         String buyer = request.getParameter("buyer");
@@ -261,6 +262,7 @@ public class InBillController {
         inBill.setTimeIn(inBillTime);
         inBill.setProviderID(Integer.parseInt(providerID));
         inBill.setInvoiceID(Invoice);
+        inBill.setInvoiceTime(InvoiceTime);
         inBill.setOperator(Integer.parseInt(operatorID));
         inBill.setOperateTime(inBillTime);
         inBill.setBuyer(Integer.parseInt(buyer));
@@ -298,6 +300,7 @@ public class InBillController {
         String inBillTime = request.getParameter("InBillTime");
         String providerID = request.getParameter("providerID");
         String Invoice = request.getParameter("InvoiceID");
+        String InvoiceTime = request.getParameter("InvoiceTime");
         String inBillID = request.getParameter("InBillID");
         String alTotal = request.getParameter("alTotal");
         String operatorID = request.getParameter("operator");
@@ -307,12 +310,13 @@ public class InBillController {
         String Checker = request.getParameter("Approvaler");
         String TableMaker = request.getParameter("lister");
 
-        System.out.println(inBillID + "--" + inBillTime + "--" + providerID + "--" + StoreManager + "--" + buyer + "--" + TableMaker + "--" + operatorID + "--" + alTotal);
+//        System.out.println(inBillID + "--" + inBillTime + "--" + providerID + "--" + StoreManager + "--" + buyer + "--" + TableMaker + "--" + operatorID + "--" + alTotal);
 
         InBill inBill = new InBill();
         inBill.setTimeIn(inBillTime);
         inBill.setProviderID(Integer.parseInt(providerID));
         inBill.setInvoiceID(Invoice);
+        inBill.setInvoiceTime(InvoiceTime);
         inBill.setOperator(Integer.parseInt(operatorID));
         inBill.setOperateTime(inBillTime);
         inBill.setBuyer(Integer.parseInt(buyer));
@@ -401,43 +405,43 @@ public class InBillController {
                         }
                     }
                 }
-
             }
             //修改的时间在原先的后面
         }else if(dateFormat.parse(subTime1).getTime() - dateFormat.parse(subTime).getTime()>0){
             for (ItemIn itemIn : list.getItemInList()) {
                 //修改月前的入库
                 Summary thismonthSummary = summaryService.findThisMonthInAmountByGoodsID(itemIn.getGoodsID(), subTime);
-                Integer sumItemNum=itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(),inBillID);
+                Integer sumItemNum = itemInService.findSumItemNumBygoodsIdAndInBillID(itemIn.getGoodsID(), inBillID);
                 //修改月前的入库总数
 //                Integer allBeforeInAmout = summaryService.findAllBeforeInAmout(itemIn.getGoodsID(),subTime);
                 //修改月前的出库总数
 //                Integer allBeforeOutAmout = summaryService.findAllBeforeOutAmout(itemIn.getGoodsID(),subTime);
-                Summary summary =summaryService.findLongestAfterSummary(itemIn.getGoodsID(),subTime);
-                Integer beforeAndAffterInAmout =summaryService.findBetweenBeforeAndAffterInAmout(itemIn.getGoodsID(),subTime,summary.getTime());
-                Integer beforeAndAffterOutAmout =summaryService.findBetweenBeforeAndAffterOutAmout(itemIn.getGoodsID(),subTime,summary.getTime());
-                if (thismonthSummary != null) {
-                    if(beforeAndAffterInAmout==null){
-                        beforeAndAffterInAmout=0;
-                    }
-                    if (beforeAndAffterOutAmout==null){
-                        beforeAndAffterOutAmout=0;
-                    }
-                    Integer total = thismonthSummary.getPreAmount()+beforeAndAffterInAmout-beforeAndAffterOutAmout-sumItemNum;
-                    if (total < 0) {
-                        return -1;
-                    }
-                }
-                else if (thismonthSummary == null) {
-                    if(beforeAndAffterInAmout==null){
-                        beforeAndAffterInAmout=0;
-                    }
-                    if (beforeAndAffterOutAmout==null){
-                        beforeAndAffterOutAmout=0;
-                    }
-                    Integer total = beforeAndAffterInAmout + itemIn.getItemNum() - beforeAndAffterOutAmout;
-                    if (total < 0) {
-                        return -1;
+                Summary summary = summaryService.findLongestAfterSummary(itemIn.getGoodsID(), subTime);
+                if (summary != null) {
+                    Integer beforeAndAffterInAmout = summaryService.findBetweenBeforeAndAffterInAmout(itemIn.getGoodsID(), subTime, summary.getTime());
+                    Integer beforeAndAffterOutAmout = summaryService.findBetweenBeforeAndAffterOutAmout(itemIn.getGoodsID(), subTime, summary.getTime());
+                    if (thismonthSummary != null) {
+                        if (beforeAndAffterInAmout == null) {
+                            beforeAndAffterInAmout = 0;
+                        }
+                        if (beforeAndAffterOutAmout == null) {
+                            beforeAndAffterOutAmout = 0;
+                        }
+                        Integer total = thismonthSummary.getPreAmount() + beforeAndAffterInAmout - beforeAndAffterOutAmout - sumItemNum;
+                        if (total < 0) {
+                            return -1;
+                        }
+                    } else if (thismonthSummary == null) {
+                        if (beforeAndAffterInAmout == null) {
+                            beforeAndAffterInAmout = 0;
+                        }
+                        if (beforeAndAffterOutAmout == null) {
+                            beforeAndAffterOutAmout = 0;
+                        }
+                        Integer total = beforeAndAffterInAmout + itemIn.getItemNum() - beforeAndAffterOutAmout;
+                        if (total < 0) {
+                            return -1;
+                        }
                     }
                 }
             }

@@ -6,6 +6,7 @@ public class InBill implements Serializable {
     private Integer InBillID;
     private Integer ProviderID;
     private String InvoiceID;
+    private String InvoiceTime;
     private Integer StoreManager;
     private String TimeIn;
     private Integer Buyer;
@@ -34,6 +35,14 @@ public class InBill implements Serializable {
 
     public void setInvoiceID(String invoiceID) {
         InvoiceID = invoiceID;
+    }
+
+    public String getInvoiceTime() {
+        return InvoiceTime;
+    }
+
+    public void setInvoiceTime(String invoiceTime) {
+        InvoiceTime = invoiceTime;
     }
 
     public Integer getInBillID() {
@@ -148,12 +157,14 @@ public class InBill implements Serializable {
         Note = note;
     }
 
+
     @Override
     public String toString() {
         return "InBill{" +
                 "InBillID=" + InBillID +
                 ", ProviderID=" + ProviderID +
                 ", InvoiceID='" + InvoiceID + '\'' +
+                ", InvoiceTime='" + InvoiceTime + '\'' +
                 ", StoreManager=" + StoreManager +
                 ", TimeIn='" + TimeIn + '\'' +
                 ", Buyer=" + Buyer +

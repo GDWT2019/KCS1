@@ -48,13 +48,13 @@
 			</div>
 		</div>
 	</div>
-	<!--导出表 不展示-->
-	<div style="display: none">
-		<table class="layui-table" lay-data="{id: 'idTest'}" id="data_export">
-		</table>
-	</div>
-</script>
 
+</script>
+<!--导出表 不展示-->
+<div style="display: none">
+	<table class="layui-table" lay-data="{id: 'idTest'}" id="data_export">
+	</table>
+</div>
 
 <script type="text/html" id="toolRight">
 	<button class="layui-btn layui-btn-xs" lay-event="check">审核</button>

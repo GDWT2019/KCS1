@@ -62,5 +62,7 @@ public interface SummaryService {
     Integer findBetweenBeforeAndAffterOutAmout(int gid, String subTime, String subTime1);
 
     Integer findBetweenBeforeAndAffterInAmout(int gid, String subTime, String subTime1);
+
+    Double summaryTotalByMonth(String time);
 }
 

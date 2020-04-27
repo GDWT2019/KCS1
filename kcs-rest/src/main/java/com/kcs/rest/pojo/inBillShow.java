@@ -10,6 +10,7 @@ public class inBillShow implements Serializable {
     private Integer ItemsInID;
     private Integer InBillID;
     private String InvoiceID;
+    private String InvoiceTime;
     private Integer GoodsID;
     private String TimeIn;
     private String ItemsName;
@@ -22,6 +23,7 @@ public class inBillShow implements Serializable {
     private String UserName;
     private Integer CheckStatus;
     private String Note;
+    private Double TaxTotal;
 
     @Override
     public String toString() {
@@ -29,6 +31,7 @@ public class inBillShow implements Serializable {
                 "ItemsInID=" + ItemsInID +
                 ", InBillID=" + InBillID +
                 ", InvoiceID='" + InvoiceID + '\'' +
+                ", InvoiceTime='" + InvoiceTime + '\'' +
                 ", GoodsID=" + GoodsID +
                 ", TimeIn='" + TimeIn + '\'' +
                 ", ItemsName='" + ItemsName + '\'' +
@@ -41,7 +44,24 @@ public class inBillShow implements Serializable {
                 ", UserName='" + UserName + '\'' +
                 ", CheckStatus=" + CheckStatus +
                 ", Note='" + Note + '\'' +
+                ", TaxTotal=" + TaxTotal +
                 '}';
+    }
+
+    public Double getTaxTotal() {
+        return TaxTotal;
+    }
+
+    public void setTaxTotal(Double taxTotal) {
+        TaxTotal = taxTotal;
+    }
+
+    public String getInvoiceTime() {
+        return InvoiceTime;
+    }
+
+    public void setInvoiceTime(String invoiceTime) {
+        InvoiceTime = invoiceTime;
     }
 
     public Integer getGoodsID() {

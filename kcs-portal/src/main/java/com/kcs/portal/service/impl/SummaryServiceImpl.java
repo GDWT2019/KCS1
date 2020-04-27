@@ -359,5 +359,17 @@ public class SummaryServiceImpl implements SummaryService {
         }
         return null;
     }
+
+    @Override
+    public Double summaryTotalByMonth(String time) {
+
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"summary/summaryTotalByMonth"+time);
+            return Double.parseDouble(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
 

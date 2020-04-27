@@ -54,4 +54,6 @@ public interface SummaryService {
     Integer findBetweenBeforeAndAffterInAmout(Integer goodsID, String subTime, String subTime1);
 
     Integer findBetweenBeforeAndAffterOutAmout(Integer goodsID, String subTime, String subTime1);
+
+    Double summaryTotalByMonth(String time);
 }

@@ -16,9 +16,7 @@ public class ItemIn implements Serializable {
     private String StorePosition;
     private Integer ProviderID;
     private String Note;
-
-
-
+    private Double TaxTotal;
 
     @Override
     public String toString() {
@@ -34,6 +32,7 @@ public class ItemIn implements Serializable {
                 ", StorePosition='" + StorePosition + '\'' +
                 ", ProviderID=" + ProviderID +
                 ", Note='" + Note + '\'' +
+                ", TaxTotal=" + TaxTotal +
                 '}';
     }
 
@@ -123,5 +122,13 @@ public class ItemIn implements Serializable {
 
     public void setProviderID(Integer providerID) {
         ProviderID = providerID;
+    }
+
+    public Double getTaxTotal() {
+        return TaxTotal;
+    }
+
+    public void setTaxTotal(Double taxTotal) {
+        TaxTotal = taxTotal;
     }
 }

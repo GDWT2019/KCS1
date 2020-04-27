@@ -95,7 +95,7 @@
             , url: "${pageContext.request.contextPath }/inBill/inBillShowData"
             , toolbar: '#toolbarDemo'
             , title: '入库单'
-            // , totalRow: false//开启合计行
+            , totalRow: true//开启合计行
             , cols: [[
                 {field: 'inBillID', title: '入库单号',  sort: true}
                 , {field: 'invoiceID', title: '发票号'}
@@ -106,7 +106,8 @@
                 , {field: 'itemNum', title: '入库数量'}
                 , {field: 'itemPrice', title: '入库单价'}
                 , {field: 'itemTotal', title: '合计'}
-                , {field: 'allTotal', title: '合计金额'}
+                // , {field: 'allTotal', title: '合计金额'}
+                , {field: 'taxTotal', title: '含税金额',totalRow: true}
                 , {field: 'userName', title: '入库人'}
                 , {
                     field: 'checkStatus', title: '审核状态', templet: function (d) {
@@ -116,6 +117,7 @@
                     }
                 }
                 , {field: 'note', title: '备注'}
+                , {field: 'invoiceTime', title: '发票时间'}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
             ]]
             , where: {"time1": null, "time2": null, "itemName": null,"Invoice": null, "username": null, "checkStatus": null}
@@ -278,7 +280,6 @@
             });
         });
 
-
         layui.use('laydate', function () {
             var laydate = layui.laydate;
             //日期范围
@@ -302,6 +303,7 @@
             cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'inBillID', title: '序号', fixed: 'left', sort: true}
+                , {field: 'invoiceID', title: '发票号'}
                 , {field: 'timeIn', title: '日期'}
                 , {field: 'itemsName', title: '物品名称'}
                 , {field: 'type', title: '物品规格'}
@@ -309,7 +311,7 @@
                 , {field: 'itemNum', title: '入库数量'}
                 , {field: 'itemPrice', title: '入库单价'}
                 , {field: 'itemTotal', title: '合计'}
-                , {field: 'allTotal', title: '合计金额'}
+                , {field: 'taxTotal', title: '含税金额'}
                 , {field: 'userName', title: '入库人'}
                 , {
                     field: 'checkStatus', title: '审核状态', templet: function (d) {
@@ -319,6 +321,7 @@
                     }
                 }
                 , {field: 'note', title: '备注'}
+                , {field: 'invoiceTime', title: '发票时间'}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
             ]]
             , id: 'exportTable'

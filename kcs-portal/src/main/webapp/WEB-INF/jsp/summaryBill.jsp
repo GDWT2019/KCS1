@@ -209,9 +209,9 @@
                     , {field: 'inTotal', title: '金额', width: 150}
                     , {field: 'outAmount', title: '数量', width: 150}
                     , {field: 'outPrice', title: '单价', width: 150}
-                    , {field: 'outTotal', title: '金额', width: 150}
-                    , {field: 'thisAmount', title: '数量', width: 150}
-                    , {field: 'thisPrice', title: '单价', width: 150,totalRowText: '合计'}
+                    , {field: 'outTotal', title: '金额', width: 150,totalRowText: '当月合计：'}
+                    , {field: 'thisAmount', title: '数量', width: 150,totalRow: true}
+                    , {field: 'thisPrice', title: '单价', width: 150,totalRowText: '合计：'}
                     , {field: 'thisTotal', title: '金额', width: 150,totalRow: true}
                 ]
             ],done: function(res, curr, count){
@@ -221,6 +221,17 @@
                 var text = $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text();
                 var number = Number(text);
                 $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text(number.toFixed(2));
+                $.ajax({
+                    type: "post",
+                    url: "${pageContext.request.contextPath }/summary/summaryTotalByMonth",
+                    data: {time: time},
+                    dataType: "json",
+                    success: function (result) {
+                        console.log("测试返回的double"+result)
+                        $('.layui-table-total .layui-table tr [data-field="thisAmount"]').text(result.toFixed(2));
+                        form.render();
+                    }
+                });
             }
             ,page: true
             ,where: {time: time}

@@ -26,6 +26,13 @@ public class SummaryController {
     @Autowired
     private SummaryService summaryService;
 
+    @RequestMapping("/summaryTotalByMonth")
+    @ResponseBody
+    public Double summaryTotalByMonth(String time) {
+        Double monthTotal=summaryService.summaryTotalByMonth(time);
+        return monthTotal;
+    }
+
     //返回汇总数据页面
     @RequestMapping("/rCurrentBill")
     @PreAuthorize("hasAnyAuthority('库存查询,查询全部记录,ROLE_ADMIN')")

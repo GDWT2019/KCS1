@@ -67,10 +67,10 @@ public class InBillController {
     @RequestMapping(value = "insertNewBill" ,method = RequestMethod.POST)
     @ResponseBody
     public  KcsResult insertNewBill(@RequestBody InBill inBill){
-        System.out.println("InBill:   "+inBill);
+
         inBillService.insertNewBill(inBill);
         Integer inBillID = inBill.getInBillID();
-        System.out.println("controller  " +inBillID);
+
         return KcsResult.ok(inBillID);
 
     }

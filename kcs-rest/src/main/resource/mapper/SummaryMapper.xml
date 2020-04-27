@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.SummaryDao" >
 
+
+    <select id="summaryTotalByMonth" resultType="Double" parameterType="String">
+        select sum(ThisTotal) from Summary where Time = #{time}
+    </select>
+
     <select id="findBetweenBeforeAndAffterInAmout" resultType="Integer">
         select SUM(InAmount) from Summary where GoodsID=#{goodsID} and Time between  #{subTime} and  #{subTime1}
     </select>

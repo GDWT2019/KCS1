@@ -241,5 +241,12 @@ public class SummaryController {
             throw new RuntimeException(e);
         }
     }
+
+    @RequestMapping(value="summaryTotalByMonth{time}")
+    @ResponseBody
+    public Double summaryTotalByMonth(@PathVariable String time){
+        Double motthTotal = summaryService.summaryTotalByMonth(time);
+        return motthTotal;
+    }
 }
 

@@ -95,4 +95,6 @@ public interface SummaryDao {
     Integer findBetweenBeforeAndAffterOutAmout(@Param("goodsID")int gid,  @Param("subTime")String subTime,  @Param("subTime1")String subTime1);
 
     Integer findBetweenBeforeAndAffterInAmout(@Param("goodsID")int gid,  @Param("subTime")String subTime,  @Param("subTime1")String subTime1);
+
+    Double summaryTotalByMonth(String time);
 }

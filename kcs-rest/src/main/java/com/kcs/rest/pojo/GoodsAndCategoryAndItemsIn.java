@@ -20,6 +20,7 @@ public class GoodsAndCategoryAndItemsIn implements Serializable {
     private String StorePosition;
     private Integer ProviderID;
     private String Note;
+    private Double TaxTotal;
 
 
     private String ItemsName;       //物品名称
@@ -44,11 +45,20 @@ public class GoodsAndCategoryAndItemsIn implements Serializable {
                 ", StorePosition='" + StorePosition + '\'' +
                 ", ProviderID=" + ProviderID +
                 ", Note='" + Note + '\'' +
+                ", TaxTotal=" + TaxTotal +
                 ", ItemsName='" + ItemsName + '\'' +
                 ", ItemsType='" + ItemsType + '\'' +
                 ", ItemsUnit='" + ItemsUnit + '\'' +
                 ", CategoryName='" + CategoryName + '\'' +
                 '}';
+    }
+
+    public Double getTaxTotal() {
+        return TaxTotal;
+    }
+
+    public void setTaxTotal(Double taxTotal) {
+        TaxTotal = taxTotal;
     }
 
     public Integer getItemsInID() {

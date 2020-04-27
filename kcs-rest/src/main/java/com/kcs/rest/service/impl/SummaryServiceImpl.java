@@ -188,4 +188,9 @@ public class SummaryServiceImpl implements SummaryService{
     public Integer findBetweenBeforeAndAffterInAmout(int gid, String subTime, String subTime1) {
         return summaryDao.findBetweenBeforeAndAffterInAmout(gid,subTime,subTime1);
     }
+
+    @Override
+    public Double summaryTotalByMonth(String time) {
+        return summaryDao.summaryTotalByMonth(time);
+    }
 }

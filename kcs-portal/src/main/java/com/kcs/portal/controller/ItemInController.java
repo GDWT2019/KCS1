@@ -64,8 +64,10 @@ public class ItemInController  {
         InBill inBill = inBillService.findCheckMessageByID(inBillID);
         String timeIn = inBill.getTimeIn();
         String Invoice = inBill.getInvoiceID();
+        String invoiceTime = inBill.getInvoiceTime();
         request.setAttribute("loadtime", timeIn);
         request.setAttribute("invoice", Invoice);
+        request.setAttribute("invoiceTime", invoiceTime);
         request.setAttribute("itemInList",itemInList);
         return "updateInBill";
     }

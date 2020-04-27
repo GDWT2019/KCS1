@@ -8,6 +8,8 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.3.1.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/static/layui/css/layui.css" type="text/css"
           media="all"/>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/Five.css" type="text/css"/>
+
 
 </head>
 
@@ -20,40 +22,49 @@
                 <form class="layui-form" id="InBillForm" method="post">
                     <input type="hidden" name="operator" value="${user.userID}">
                     <div class="layui-row" style="white-space: nowrap">
-                        <div class=" layui-col-xs3 ">
+                        <div class=" layui-col-xs2-4 ">
                             <div class="layui-form-item">
                             <label style="text-align: left;font-size: 25px;">时间</label>
                             <div class="layui-inline ">
                                 <input type="text" class="layui-input" id="InBillTime" name="InBillTime"
-                                       placeholder="yyyy-MM-dd HH:mm:ss"/>
+                                       placeholder="yyyy-MM"/>
                             </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs3 ">
+                        <div class="layui-col-xs2-4  ">
                             <div class="layui-form-item">
                             <label style="font-size: 25px;">供应商</label>
                             <a id="addProvider"><i class="layui-icon layui-icon-add-circle" style="font-size: 25px"></i></a>
-                            <div class="layui-inline">
+                            <div class="layui-inline" style="width: 200px">
                                 <select id="providerID" name="providerID" lay-verify="required" lay-search=""
-                                        style="width: 250px"></select>
+                                         ></select>
                             </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs3 ">
+                        <div class="layui-col-xs2-4  ">
                             <div class="layui-form-item">
                             <label style="font-size:25px ">编号</label>
                             <div class="layui-inline">
                                 <input id="InBillID" type="text" class="layui-input" name="InBillID" autocomplete="on"
-                                       style="font-size: 25px; width: 250px " readonly value="${newInBillID}">
+                                       style="font-size: 25px; width: 200px " readonly value="${newInBillID}">
                             </div>
                             </div>
                         </div>
-                        <div class="layui-col-xs3 ">
+                        <div class="layui-col-xs2-4  ">
                             <div class="layui-form-item">
                                 <label style="font-size:25px ">发票</label>
                                 <div class="layui-inline">
                                     <input id="InvoiceID" type="text" class="layui-input" name="InvoiceID" autocomplete="on"
-                                           style="font-size: 25px; width: 250px">
+                                           style="font-size: 25px; width: 200px">
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" layui-col-xs2-4 ">
+                            <div class="layui-form-item">
+                                <label style="text-align: left;font-size: 25px;">发票时间</label>
+                                <div class="layui-inline ">
+                                    <input type="text" class="layui-input" id="InvoiceTime" name="InvoiceTime"
+                                           placeholder="yyyy-MM-dd"/>
                                 </div>
                             </div>
                         </div>
@@ -70,6 +81,7 @@
                                     <th>数量</th>
                                     <th>单价</th>
                                     <th>合计</th>
+                                    <th>含税金额</th>
                                     <th>位置</th>
                                     <th>附注</th>
                                     <th>操作</th>
@@ -110,6 +122,11 @@
                                     <td>
                                         <input id="itemTotal1" name="itemInList[0].ItemTotal" class="layui-input"
                                                type="text" readonly="readonly"/>
+                                    </td>
+                                    <td>
+                                        <input id="taxTotal1" name="itemInList[0].TaxTotal"
+                                               oninput="checkInput(this)"
+                                               class="layui-input" type="text"/>
                                     </td>
                                     <td>
                                         <input id="StorePosition" name="itemInList[0].StorePosition"
@@ -239,9 +256,18 @@
         //执行一个laydate实例
         laydate.render({
             elem: '#InBillTime', //指定元素
-            type:'datetime', // 可选择：年、月、日、时、分、秒
+            type:'month', // 可选择：年、月、日、时、分、秒
 
-            format: 'yyyy-MM-dd HH:mm:ss', //指定时间格式
+            format: 'yyyy-MM', //指定时间格式
+            value: new Date(),
+            position: 'fixed'
+        });
+
+        laydate.render({
+            elem: '#InvoiceTime', //指定元素
+            type:'date', // 可选择：年、月、日、时、分、秒
+
+            format: 'yyyy-MM-dd', //指定时间格式
             value: new Date(),
             position: 'fixed'
         });
@@ -254,7 +280,8 @@
         var provider = $("#providerID").val();
         //发票
         var Invoice = $("#InvoiceID").val();
-
+        //发票时间
+        var InvoiceTime = $("#InvoiceTime").val();
         //仓管员id
         var warehouse = Number($("#warehouse").val());
         //领用人id
@@ -270,6 +297,13 @@
             layer.alert("日期未填写哦！");
             return false;
         }
+
+        if (IsNull(InvoiceTime)){
+            layer.alert("发票时间未填写哦！");
+            return false;
+        }
+
+
         if (IsNull(provider)){
             layer.alert("供应商未填写！");
             return false;
@@ -291,6 +325,7 @@
         var itemsName = $("#itemsName").val();
         var itemNum = $("#itemNum1").val();
         var itemPrice =  $("#itemPrice1").val();
+        var taxTotal =  $("#taxTotal1").val();
 
         //判断是否为空
         if (IsNull(itemsName)){
@@ -306,11 +341,17 @@
             return false;
         }
 
+        if (IsNull(taxTotal)){
+            layer.alert("含税金额未填写！");
+            return false;
+        }
+
         for(var i =2;i<=num;i++){
             // var goods = Number($('select[name="itemInList['+i+'].GoodsID"]').val());
             var itemsName = $("#itemsName"+i).val();
             var itemNum = $("#itemNum"+i).val();
             var itemPrice =  $("#itemPrice"+i).val();
+            var taxTotal =  $("#taxTotal"+i).val();
 
             //判断是否为空
             if (IsNull(itemsName)){
@@ -323,6 +364,11 @@
             }
             if (IsNull(itemPrice)){
                 layer.alert("价格未填写！");
+                return false;
+            }
+
+            if (IsNull(taxTotal)){
+                layer.alert("含税金额未填写！");
                 return false;
             }
         }
@@ -348,6 +394,18 @@
                 layer.alert("添加失败！");
             }
         });
+    }
+
+    function checkInput(ii) {
+        var taxTotal = $(ii).val();
+        if(taxTotal>0){
+
+        }else{
+            layer.tips("数量格式错误！需要大于等于0", ii, {
+                tips: [1, "#2B2B2B"]
+            });
+            $(ii).val(0);
+        }
     }
 
     function NumCount(ii) {
@@ -479,6 +537,9 @@
             "</td>" +
             "<td>" +
             "<input id=\"itemTotal" + num + "\" name=\"itemInList[" + (num - 1) + "].ItemTotal\" class=\"layui-input\"  type=\"text\" readonly=\"readonly\" />" +
+            "</td>" +
+            "<td>" +
+            "<input id=\"taxTotal" + num + "\" name=\"itemInList[" + (num - 1) + "].TaxTotal\"  oninput=\"checkInput(this)\" class=\"layui-input\" type=\"text\" />" +
             "</td>" +
             "<td>" +
             "<input id=\"StorePosition" + num + "\" name=\"itemInList[" + (num - 1) + "].StorePosition\" class=\"layui-input\"  type=\"text\" />" +
