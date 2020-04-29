@@ -20,13 +20,13 @@
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                   <span>${user.userName}</span>
+                    <span>${user.userName}</span>
                 </a>
 
                 <dl class="layui-nav-child">
                     <dd><a type="button" id="baseData">基本资料</a></dd>
                     <dd><a type="button" id="safeset">安全设置</a></dd>
-                    <dd><a href="${pageContext.request.contextPath }/user/getInfo">获取信息</a></dd>
+                    <%--<dd><a href="${pageContext.request.contextPath }/user/getInfo">获取信息</a></dd>--%>
                 </dl>
 
             </li>
@@ -41,49 +41,69 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree layui-inline"   lay-filter="demo" style="margin-right: 10px;">
+            <%--<ul class="layui-nav layui-nav-tree layui-inline" lay-filter="demo" style="margin-right: 10px;">--%>
+            <ul class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;">库存管理</a>
+                    <a class="" href="javascript:void(0);">库存管理</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/inBill/rInBill" data-id="3" data-title="入库明细单" href="#" class="site-demo-active" data-type="tabAdd">入库明细单</a>
+                            <a data-url="${pageContext.request.contextPath }/inBill/rInBill" data-id="1"
+                               data-title="入库明细单" href="javascript:void(0);" class="site-demo-active"
+                               data-type="tabAdd">入库明细单</a>
                         </dd>
                     </dl>
                     <dl class="layui-nav-child">
-                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="outBill" data-title="出库明细单" href="#" class="site-demo-active" data-type="tabAdd">出库明细单</a></dd>
+                        <dd><a data-url="${pageContext.request.contextPath }/outBill/showAllOutBill" data-id="2"
+                               data-title="出库明细单" href="javascript:void(0);" class="site-demo-active"
+                               data-type="tabAdd">出库明细单</a></dd>
                     </dl>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/summary/rSummary" data-id="summary" data-title="汇总" href="#" class="site-demo-active" data-type="tabAdd">汇总</a>
+                            <a data-url="${pageContext.request.contextPath }/summary/rSummary" data-id="3"
+                               data-title="汇总" href="javascript:void(0);" class="site-demo-active"
+                               data-type="tabAdd">汇总</a>
                         </dd>
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/summary/rCurrentBill" data-id="currentBill" data-title="流水单" href="#" class="site-demo-active" data-type="tabAdd">流水单</a>
+                            <a data-url="${pageContext.request.contextPath }/summary/rCurrentBill" data-id="4"
+                               data-title="流水单" href="javascript:void(0);" class="site-demo-active" data-type="tabAdd">流水单</a>
                         </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">系统管理</a>
+                    <a href="javascript:void(0);">系统管理</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/provider/showProviderData" data-id="供应商" href="#" data-title="供应商" class="site-demo-active" data-type="tabAdd">供应商</a>
+                            <a data-url="${pageContext.request.contextPath }/provider/showProviderData" data-id="5"
+                               href="javascript:void(0);" data-title="供应商" class="site-demo-active" data-type="tabAdd">供应商</a>
                         </dd>
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/goods/showGoodsData" data-id="物品" href="#" data-title="物品" class="site-demo-active" data-type="tabAdd">物品</a>
+                            <a data-url="${pageContext.request.contextPath }/goods/showGoodsData" data-id="6"
+                               href="javascript:void(0);"
+                               data-title="物品" class="site-demo-active" data-type="tabAdd">物品</a>
                         </dd>
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/category/showCategoryData" data-id="类别" href="#" data-title="类别" class="site-demo-active" data-type="tabAdd">类别</a>
+                            <a data-url="${pageContext.request.contextPath }/category/showCategoryData" data-id="7"
+                               href="javascript:void(0);" data-title="类别" class="site-demo-active"
+                               data-type="tabAdd">类别</a>
                         </dd>
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="1" data-title="用户" href="#" class="site-demo-active" data-type="tabAdd">用户</a>
+                            <a data-url="${pageContext.request.contextPath }/user/ruser" data-id="8" data-title="用户"
+                               href="javascript:void(0);" class="site-demo-active" data-type="tabAdd">用户</a>
                         </dd>
                         <dd>
-                            <a href="#" data-url=${pageContext.request.contextPath}/role/showRoleData" data-title="角色"  data-id="2" class="site-demo-active" data-type="tabAdd">角色</a>
+                            <a href="javascript:void(0);" data-url=${pageContext.request.contextPath}/role/showRoleData"
+                               data-title="角色"
+                               data-id="9" class="site-demo-active" data-type="tabAdd">角色</a>
                         </dd>
                         <dd>
-                            <a href="#" data-url=${pageContext.request.contextPath}/permission/showPermissionData" data-title="权限"  data-id="permission" class="site-demo-active" data-type="tabAdd">权限</a>
+                            <a href="javascript:void(0);"
+                               data-url=${pageContext.request.contextPath}/permission/showPermissionData"
+                               data-title="权限" data-id="10" class="site-demo-active" data-type="tabAdd">权限</a>
                         </dd>
                         <dd>
-                            <a data-url="${pageContext.request.contextPath }/log/showAllLog" data-id="log" href="#" data-title="日志" class="site-demo-active" data-type="tabAdd">日志</a>
+                            <a data-url="${pageContext.request.contextPath }/log/showAllLog" data-id="11"
+                               href="javascript:void(0);"
+                               data-title="日志" class="site-demo-active" data-type="tabAdd">日志</a>
                         </dd>
                     </dl>
                 </li>
@@ -92,25 +112,30 @@
         </div>
     </div>
 
-    <div class="layui-tab" lay-filter="demo" lay-allowclose="true" style="margin-left: 200px;">
+    <%--<div class="layui-tab" lay-filter="demo" lay-allowclose="true" style="margin-left: 200px;">--%>
+    <div class="layui-tab" lay-filter="demo" lay-allowclose="true" style="margin: 0 0 0 200px;">
         <ul class="layui-tab-title">
         </ul>
         <ul class="rightmenu" style="display: none;position: absolute;">
-            <li data-type="closethis">关闭当前</li>
-            <li data-type="closeall">关闭所有</li>
+            <li data-type="refresh">刷新</li>
+            <li data-type="closeOthers">关闭其他</li>
+            <li data-type="closeRight">关闭右侧所有</li>
+            <li data-type="closeAll">关闭所有</li>
         </ul>
         <div class="layui-tab-content">
         </div>
     </div>
 
 </div>
-<script src="${pageContext.request.contextPath }/static/layui/layui.all.js"  charset="utf-8"></script>
+</body>
+<script src="${pageContext.request.contextPath }/static/layui/layui.all.js" charset="utf-8"></script>
+
 <script>
     //JavaScript代码区域
-    layui.use('element', function(){
+    layui.use('element', function () {
         var element = layui.element;
 
-        element.on('tab(filter)', function(data){
+        element.on('tab(filter)', function (data) {
             console.log(this); //当前Tab标题所在的原始DOM元素
             console.log(data.index); //得到当前Tab的所在下标
             console.log(data.elem); //得到当前的Tab大容器
@@ -123,18 +148,24 @@
         //触发事件
         var active = {
             //在这里给active绑定几项事件，后面可通过active调用这些事件
-            tabAdd: function(url,id,name) {
+            tabAdd: function (url, id, name) {
                 //新增一个Tab项 传入三个参数，分别对应其标题，tab页面的地址，还有一个规定的id，是标签中data-id的属性值
                 //关于tabAdd的方法所传入的参数可看layui的开发文档中基础方法部分
                 element.tabAdd('demo', {
                     title: name,
-                    content: '<iframe data-frameid="'+id+'" scrolling="auto" frameborder="0" src="'+url+'.html" style="width:100%;height:99%;"></iframe>',
+                    content: '<iframe data-frameid="' + id + '" scrolling="auto" frameborder="0" src="' + url + '" style="width:100%;height:99%;"></iframe>',
                     id: id //规定好的id
                 })
-                CustomRightClick(id); //给tab绑定右击事件
+                // CustomRightClick(id); //给tab绑定右击事件
+
+                $(".layui-tab-title li[lay-id=" + id + "]").mouseover(function() {
+                    var tabId = $(this).attr("lay-id");
+                    CustomRightClick(tabId); //给tab绑定右击事件
+                });
+
                 FrameWH();  //计算ifram层的大小
             },
-            tabChange: function(id) {
+            tabChange: function (id) {
                 //切换到指定Tab项
                 element.tabChange('demo', id); //根据传入的id传入到指定的tab项
             },
@@ -142,22 +173,25 @@
                 element.tabDelete("demo", id);//删除
             }
             , tabDeleteAll: function (ids) {//删除所有
-                $.each(ids, function (i,item) {
+                $.each(ids, function (i, item) {
                     element.tabDelete("demo", item); //ids是一个数组，里面存放了多个id，调用tabDelete方法分别删除
                 })
+            },
+            tabRefresh: function(id) { //刷新页面
+                $("iframe[data-frameid='" + id + "']").attr("src", $("iframe[data-frameid='" + id + "']").attr("src")) //刷新框架
             }
+
         };
 
 
-
         //当点击有site-demo-active属性的标签时，即左侧菜单栏中内容 ，触发点击事件
-        $('.site-demo-active').on('click', function() {
+        $('.site-demo-active').on('click', function () {
             var dataid = $(this);
 
             //这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
             if ($(".layui-tab-title li[lay-id]").length <= 0) {
                 //如果比零小，则直接打开新的tab项
-                active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"),dataid.attr("data-title"));
+                active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"), dataid.attr("data-title"));
             } else {
                 //否则判断该tab项是否以及存在
 
@@ -170,7 +204,7 @@
                 })
                 if (isData == false) {
                     //标志为false 新增一个tab项
-                    active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"),dataid.attr("data-title"));
+                    active.tabAdd(dataid.attr("data-url"), dataid.attr("data-id"), dataid.attr("data-title"));
                 }
             }
             //最后不管是否新增tab，最后都转到要打开的选项页面上
@@ -178,31 +212,44 @@
         });
 
         function CustomRightClick(id) {
+            console.log("tab的ID" + id);
             //取消右键  rightmenu属性开始是隐藏的 ，当右击的时候显示，左击的时候隐藏
-            $('.layui-tab-title li').on('contextmenu', function () { return false; })
+            $('.layui-tab-title li').on('contextmenu', function () {
+                return false;
+            })
             $('.layui-tab-title,.layui-tab-title li').click(function () {
                 $('.rightmenu').hide();
             });
             //桌面点击右击
             $('.layui-tab-title li').on('contextmenu', function (e) {
                 var popupmenu = $(".rightmenu");
-                popupmenu.find("li").attr("data-id",id); //在右键菜单中的标签绑定id属性
-
+                popupmenu.find("li").attr("data-id", id); //在右键菜单中的标签绑定id属性
+                console.log($(".rightmenu").find("li").attr("data-id", id));
                 //判断右侧菜单的位置
                 l = ($(document).width() - e.clientX) < popupmenu.width() ? (e.clientX - popupmenu.width()) : e.clientX;
                 t = ($(document).height() - e.clientY) < popupmenu.height() ? (e.clientY - popupmenu.height()) : e.clientY;
-                popupmenu.css({ left: l, top: t }).show(); //进行绝对定位
-                //alert("右键菜单")
+                popupmenu.css({left: l, top: t}).show(); //进行绝对定位
                 return false;
             });
         }
 
-        $(".rightmenu li").click(function () {
-
+        /*$(".rightmenu li").click(function () {
+            var currentTabId = $(this).attr("data-id");
             //右键菜单中的选项被点击之后，判断type的类型，决定关闭所有还是关闭当前。
             if ($(this).attr("data-type") == "closethis") {
                 //如果关闭当前，即根据显示右键菜单时所绑定的id，执行tabDelete
+
+                console.log('右键ID   ' + $(".rightmenu li").attr("data-id"));
+
                 active.tabDelete($(this).attr("data-id"))
+
+            } else if ($(this).attr("data-type") == "closeOthers") { //关闭其他
+                var tabtitle = $(".layui-tab-title li");
+                $.each(tabtitle, function (i) {
+                    if ($(this).attr("lay-id") != currentTabId) {
+                        active.tabDelete($(this).attr("lay-id"))
+                    }
+                })
             } else if ($(this).attr("data-type") == "closeall") {
                 var tabtitle = $(".layui-tab-title li");
                 var ids = new Array();
@@ -214,10 +261,44 @@
             }
 
             $('.rightmenu').hide(); //最后再隐藏右键菜单
-        })
+        })*/
+
+        $(".rightmenu li").click(function() {
+            //当前的tabId
+            var currentTabId = $(this).attr("data-id");
+
+            if ($(this).attr("data-type") == "closeOthers") { //关闭其他
+                var tabtitle = $(".layui-tab-title li");
+                $.each(tabtitle, function(i) {
+                    if ($(this).attr("lay-id") != currentTabId) {
+                        active.tabDelete($(this).attr("lay-id"))
+                    }
+                })
+            } else if ($(this).attr("data-type") == "closeAll") { //关闭全部
+                var tabtitle = $(".layui-tab-title li");
+                $.each(tabtitle, function(i) {
+                    active.tabDelete($(this).attr("lay-id"))
+                })
+
+            } else if ($(this).attr("data-type") == "refresh") { //刷新页面
+                active.tabRefresh($(this).attr("data-id"));
+
+            } else if ($(this).attr("data-type") == "closeRight") { //关闭右边所有
+                //找到当前聚焦的li之后的所有li标签 然后遍历
+                var tabtitle = $(".layui-tab-title li[lay-id=" + currentTabId + "]~li");
+                $.each(tabtitle, function(i) {
+                    active.tabDelete($(this).attr("lay-id"))
+                })
+            }
+
+            $('.rightmenu').hide();
+        });
+
+
+
         function FrameWH() {
-            var h = $(window).height() -41- 10 - 60 -10-44 -10;
-            $("iframe").css("height",h+"px");
+            var h = $(window).height() - 41 - 10 - 60 - 10 - 44 - 10;
+            $("iframe").css("height", h + "px");
         }
 
         $(window).resize(function () {
@@ -226,29 +307,29 @@
 
     });
 
-    $("#baseData").on("click",function () {
+    $("#baseData").on("click", function () {
         layer.open({
-            type:2,
-            title:false,
-            content:'${pageContext.request.contextPath }/user/baseData',
-            area:['1000px','668px'],
-            end:function () {
+            type: 2,
+            title: false,
+            content: '${pageContext.request.contextPath }/user/baseData',
+            area: ['1000px', '668px'],
+            end: function () {
 
             }
         });
     })
 
-    $("#safeset").on("click",function () {
+    $("#safeset").on("click", function () {
         layer.open({
-            type:2,
-            title:false,
-            content:'${pageContext.request.contextPath }/user/safeData',
-            area:['500px','300px'],
-            end:function () {
+            type: 2,
+            title: false,
+            content: '${pageContext.request.contextPath }/user/safeData',
+            area: ['500px', '300px'],
+            end: function () {
 
             }
         });
     })
 </script>
-</body>
+
 </html>
