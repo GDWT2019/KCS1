@@ -43,6 +43,13 @@
 <script>
 
 
+    var _topWin = window;
+    while (_topWin != _topWin.parent.window) {
+        _topWin = _topWin.parent.window;
+    }
+    if (window != _topWin)_topWin.document.location.href = '${pageContext.request.contextPath }/login.jsp';
+
+
     $('body').on('click','#loginBtn',function () {
         var loginName = $('#loginName').val();
         var password = $('#password').val();

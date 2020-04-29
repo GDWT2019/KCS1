@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -19,6 +20,8 @@
     <security:http pattern="/img/**" security="none"/>
     <security:http pattern="/js/**" security="none"/>
     <security:http pattern="/static/**" security="none"/>
+
+
 
 
 
@@ -49,18 +52,24 @@
                 authentication-failure-url="/failer.jsp"
                 authentication-success-forward-url="/user/success"
         />
+
         <!--default-target-url="/user/success"
 -->
+
+        <!--<security:custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER"></security:custom-filter>-->
+
 
         <!-- 关闭跨域请求 -->
         <security:csrf disabled="true"/>
 
-        <security:session-management invalid-session-url="http://localhost:8080/kcs_portal_war/login.jsp"/>
+        <security:session-management   invalid-session-url="/login.jsp"/>
 
         <!-- 退出 -->
-        <security:logout invalidate-session="true" logout-url="/logout" logout-success-url="/login.jsp" />
+        <security:logout  invalidate-session="true" logout-url="/logout" logout-success-url="/login.jsp" />
 
     </security:http>
+
+
 
     <!-- 切换成数据库中的用户名和密码 -->
     <security:authentication-manager>

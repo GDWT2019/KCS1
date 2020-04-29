@@ -5,6 +5,7 @@ import com.kcs.rest.pojo.User;
 import com.kcs.rest.pojo.UserPresent;
 import com.kcs.rest.pojo.UserRole;
 import com.kcs.rest.utils.AjaxMesg;
+import com.sun.org.apache.regexp.internal.RE;
 import net.sf.json.JSONArray;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -433,5 +434,12 @@ public class UserController {
             else
                 return new AjaxMesg(true,"冻结成功！");
         return new AjaxMesg(true,"冻结失败！");
+    }
+
+
+
+    @RequestMapping("/showLogin")
+    public String showLogin() throws Exception {
+        return "forward:/login.jsp";
     }
 }
