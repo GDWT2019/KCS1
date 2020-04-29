@@ -20,4 +20,6 @@ public interface CategoryService {
     Integer delCategory(Category category);
 
     Integer countCategoryData();
+
+    Category findOtherCategory(Integer categoryID, String categoryName);
 }

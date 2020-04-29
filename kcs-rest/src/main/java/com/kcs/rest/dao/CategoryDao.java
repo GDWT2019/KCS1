@@ -24,4 +24,5 @@ public interface CategoryDao {
     Integer countCategoryData();
 
 
+    Category findOtherCategory(@Param("categoryID") Integer categoryID, @Param("categoryName") String categoryName);
 }

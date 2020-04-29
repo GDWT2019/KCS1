@@ -142,4 +142,23 @@ public class ProviderServiceImpl implements ProviderService {
         return 0;
     }
 
+    @Override
+    public Provider findOtherProvider(Integer providerID, String providerName) {
+
+        HashMap<String, String> param = new HashMap<>();
+        param.put("providerID",providerID+"");
+        param.put("providerName",providerName);
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"provider/findOtherProvider",param);
+            KcsResult result = KcsResult.formatToPojo(s,Provider.class);
+            if (result.getStatus() == 200) {
+                return (Provider) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
 }

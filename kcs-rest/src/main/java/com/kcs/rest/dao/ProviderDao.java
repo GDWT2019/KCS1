@@ -23,4 +23,5 @@ public interface ProviderDao {
 
     Integer countProviderData();
 
+    Provider findOtherProvider(@Param("providerID")Integer providerID, @Param("providerName")String providerName);
 }

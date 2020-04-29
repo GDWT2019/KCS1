@@ -56,4 +56,5 @@ public interface GoodsDao {
 
     Integer countGoodsData();
 
+    Goods findOtherGoods(@Param("goodsID")Integer goodsID, @Param("itemsName")String itemsName,@Param("itemsType") String itemsType);
 }

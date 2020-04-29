@@ -14,6 +14,9 @@
         </collection>
     </resultMap>
 
+    <select id="findOtherGoods" resultType="com.kcs.rest.pojo.Goods">
+        select * from (select * from Goods where GoodsID not in (#{goodsID}) )as a  where a.ItemsName =#{itemsName} and ItemsType = #{itemsType}
+    </select>
 
     <insert id="addGoods">
         insert into Goods (CategoryID,ItemsName,ItemsType,ItemsUnit) values (#{categoryID},#{goodsName},#{goodsType},#{goodsUnit})

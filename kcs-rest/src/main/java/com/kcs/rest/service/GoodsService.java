@@ -55,4 +55,5 @@ public interface GoodsService {
 
     Integer countGoodsData();
 
+    Goods findOtherGoods(Integer goodsID, String itemsName,String itemsType);
 }

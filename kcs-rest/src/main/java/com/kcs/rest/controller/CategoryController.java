@@ -70,4 +70,12 @@ public class CategoryController {
         List<Category> categoryList = categoryService.findAllCategory();
         return KcsResult.ok(categoryList);
     }
+
+    @RequestMapping("/findOtherCategory")
+    @ResponseBody
+    public KcsResult findOtherCategory(@RequestParam("categoryID") Integer categoryID,@RequestParam("categoryName") String categoryName){
+        Category category = categoryService.findOtherCategory(categoryID, categoryName);
+        return KcsResult.ok(category);
+
+    }
 }

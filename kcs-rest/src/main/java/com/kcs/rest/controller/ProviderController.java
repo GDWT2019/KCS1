@@ -72,4 +72,14 @@ public class ProviderController {
         Provider provider = providerService.findProviderByName(providerName);
         return KcsResult.ok(provider);
     }
+
+
+    @RequestMapping("/findOtherProvider")
+    @ResponseBody
+    public KcsResult findOtherProvider(@RequestParam("providerID") Integer providerID,@RequestParam("providerName") String providerName){
+        Provider provider = providerService.findOtherProvider(providerID, providerName);
+        return KcsResult.ok(provider);
+
+    }
+
 }

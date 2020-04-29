@@ -221,10 +221,12 @@
                 var text = $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text();
                 var number = Number(text);
                 $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text(number.toFixed(2));
+                var month = $("#time1").val();
+                console.log("month"+month);
                 $.ajax({
                     type: "post",
                     url: "${pageContext.request.contextPath }/summary/summaryTotalByMonth",
-                    data: {time: time},
+                    data: {time: month},
                     dataType: "json",
                     success: function (result) {
                         console.log("测试返回的double"+result)
@@ -369,7 +371,6 @@
                     content:'${pageContext.request.contextPath }/inBill/rItemInRecord',
                     area:['1200px','668px'],
                     end:function () {
-
                     }
                 });
                 // layer.full(index);

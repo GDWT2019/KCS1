@@ -38,17 +38,16 @@ public class ProviderController {
     @ResponseBody
 //    @PreAuthorize("hasAnyAuthority('角色管理,角色修改,ROLE_ADMIN')")
     public AjaxMesg updateProvider(Provider provider){
-       /* Provider provider1=providerService.findProviderByName(provider.getProviderName());
-        if(provider1==null) {*/
+        Provider provider1=providerService.findOtherProvider(provider.getProviderID(),provider.getProviderName());
+        if(provider1==null) {
             int i = providerService.updateProvider(provider);
-
             if (i < 0)
                 return new AjaxMesg(false, "修改失败");
 
             return new AjaxMesg(true, "修改成功！");
-        /*}else {
+        }else {
             return new AjaxMesg(false,"修改失败，供应商已存在！");
-        }*/
+        }
 
     }
 

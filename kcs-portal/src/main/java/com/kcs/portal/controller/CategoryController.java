@@ -38,17 +38,16 @@ public class CategoryController {
     @ResponseBody
 //    @PreAuthorize("hasAnyAuthority('角色管理,角色修改,ROLE_ADMIN')")
     public AjaxMesg updateCategory(Category category){
-        /*Category category1=categoryService.findcategoryByName(category.getCategoryName());
-        if (category1==null) {*/
+        Category category1=categoryService.findOtherCategory(category.getCategoryID(),category.getCategoryName());
+        if (category1==null) {
             int i = categoryService.updateCategory(category);
-
             if (i < 0)
                 return new AjaxMesg(false, "修改失败");
 
             return new AjaxMesg(true, "修改成功！");
-        /*}else {
-            return new AjaxMesg(false, "修改失败,类别也存在");
-        }*/
+        }else {
+            return new AjaxMesg(false, "修改失败,类别已存在");
+        }
 
     }
 

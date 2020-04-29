@@ -54,4 +54,9 @@ public class ProviderServiceImpl implements ProviderService {
     public Integer countProviderData() {
         return providerDao.countProviderData();
     }
+
+    @Override
+    public Provider findOtherProvider(Integer providerID, String providerName) {
+        return providerDao.findOtherProvider(providerID,providerName);
+    }
 }

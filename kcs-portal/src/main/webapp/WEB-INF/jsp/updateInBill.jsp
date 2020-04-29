@@ -33,7 +33,7 @@
                                 <label style="text-align: left;font-size: 25px;">时间</label>
                                 <div class="layui-inline ">
                                     <input type="text" class="layui-input" id="InBillTime" name="InBillTime" readonly
-                                           placeholder="yyyy-MM"/>
+                                           placeholder="yyyy-MM-dd"/>
                                 </div>
                             </div>
                         </div>
@@ -424,9 +424,9 @@
 
         laydate.render({
             elem: '#InBillTime', //指定元素
-            type:'month', // 可选择：年、月、日、时、分、秒
+            type:'date', // 可选择：年、月、日、时、分、秒
 
-            format: 'yyyy-MM', //指定时间格式
+            format: 'yyyy-MM-dd', //指定时间格式
             value: time,
             position: 'fixed'
         });

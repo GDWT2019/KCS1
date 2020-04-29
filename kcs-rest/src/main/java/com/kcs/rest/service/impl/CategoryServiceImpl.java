@@ -53,4 +53,9 @@ public class CategoryServiceImpl implements CategoryService {
     public Integer countCategoryData() {
         return categoryDao.countCategoryData();
     }
+
+    @Override
+    public Category findOtherCategory(Integer categoryID, String categoryName) {
+        return categoryDao.findOtherCategory(categoryID,categoryName);
+    }
 }

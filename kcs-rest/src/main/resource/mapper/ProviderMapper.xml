@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kcs.rest.dao.ProviderDao" >
 
-
+    <select id="findOtherProvider" resultType="com.kcs.rest.pojo.Provider">
+        select * from (select * from Provider where ProviderID not in (#{providerID}) )as a  where a.ProviderName =#{providerName}
+    </select>
 
     <select id="findProviderByName" resultType="com.kcs.rest.pojo.Provider" parameterType="String">
         select * from Provider where ProviderName = #{providerName}

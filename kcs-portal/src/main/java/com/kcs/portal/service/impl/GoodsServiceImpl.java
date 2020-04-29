@@ -275,4 +275,22 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return 0;
     }
+
+    @Override
+    public Goods findOtherGoods(Integer goodsID, String itemsName,String itemsType ) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("goodsID",goodsID+"");
+        param.put("itemsName",itemsName);
+        param.put("itemsType",itemsType);
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"goods/findOtherGoods",param);
+            KcsResult result = KcsResult.formatToPojo(s,Goods.class);
+            if (result.getStatus() == 200) {
+                return (Goods) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

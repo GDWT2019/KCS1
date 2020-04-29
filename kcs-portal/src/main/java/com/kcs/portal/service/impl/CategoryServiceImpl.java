@@ -134,4 +134,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return 0;
     }
+
+    @Override
+    public Category findOtherCategory(Integer categoryID, String categoryName) {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("categoryID",categoryID+"");
+        param.put("categoryName",categoryName);
+        try {
+            String s = HttpClientUtil.doGet(Rest.rest+"category/findOtherCategory",param);
+            KcsResult result = KcsResult.formatToPojo(s,Category.class);
+            if (result.getStatus() == 200) {
+                return (Category) result.getData();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

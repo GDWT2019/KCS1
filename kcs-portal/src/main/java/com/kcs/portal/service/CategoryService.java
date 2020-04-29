@@ -22,4 +22,5 @@ public interface CategoryService {
     int countCategoryData();
 
 
+    Category findOtherCategory(Integer categoryID, String categoryName);
 }

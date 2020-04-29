@@ -155,4 +155,13 @@ public class GoodsController {
     public KcsResult findAddOutBillByItemsName(@PathVariable String itemsName){
         return KcsResult.ok(goodsService.findAddOutBillByItemsName(itemsName));
     }
+
+    @RequestMapping("/findOtherGoods")
+    @ResponseBody
+    public KcsResult findOtherGoods(@RequestParam("goodsID") Integer goodsID,@RequestParam("itemsName") String itemsName,@RequestParam("itemsType") String itemsType){
+        Goods goods = goodsService.findOtherGoods(goodsID, itemsName,itemsType);
+        return KcsResult.ok(goods);
+
+    }
+
 }

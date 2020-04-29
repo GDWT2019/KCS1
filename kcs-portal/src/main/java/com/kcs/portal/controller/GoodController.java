@@ -41,16 +41,17 @@ public class GoodController {
 //    @PreAuthorize("hasAnyAuthority('角色管理,角色修改,ROLE_ADMIN')")
     public AjaxMesg updateGoods(Goods goods){
 
-        int i = goodsService.updateGoods(goods);
-       /* Goods g = goodsService.findGoodsByItemsNameAndItemsType(goods);
-        if(g==null) {*/
+
+        Goods g = goodsService.findOtherGoods(goods.getGoodsID(),goods.getItemsName(),goods.getItemsType());
+        if(g==null) {
+            int i = goodsService.updateGoods(goods);
             if (i < 0)
                 return new AjaxMesg(false, "修改失败");
 
             return new AjaxMesg(true, "修改成功！");
-        /*}else {
+        }else {
             return new AjaxMesg(false, "修改失败,物品已存在");
-        }*/
+        }
 
     }
 

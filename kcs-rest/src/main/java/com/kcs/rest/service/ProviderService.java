@@ -21,4 +21,5 @@ public interface ProviderService {
 
     Integer countProviderData();
 
+    Provider findOtherProvider(Integer providerID, String providerName);
 }

@@ -105,9 +105,9 @@
                 , {field: 'storePosition', title: '仓库位置'}
                 , {field: 'itemNum', title: '入库数量'}
                 , {field: 'itemPrice', title: '入库单价'}
-                , {field: 'itemTotal', title: '合计'}
+                , {field: 'itemTotal', title: '合计',totalRow: true}
                 // , {field: 'allTotal', title: '合计金额'}
-                , {field: 'taxTotal', title: '含税金额',totalRow: true}
+                , {field: 'taxTotal', title: '含税金额'}
                 , {field: 'userName', title: '入库人'}
                 , {
                     field: 'checkStatus', title: '审核状态', templet: function (d) {
@@ -118,8 +118,14 @@
                 }
                 , {field: 'note', title: '备注'}
                 , {field: 'invoiceTime', title: '发票时间'}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
-            ]]
+                , {fixed: 'right', title: '操作', type: 'toolbar',align: 'center',toolbar: '#barDemo',width:200}
+            ]],done: function(res, curr, count){
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                var text = $('.layui-table-total .layui-table tr [data-field="itemTotal"]').text();
+                var number = Number(text);
+                $('.layui-table-total .layui-table tr [data-field="itemTotal"]').text(number.toFixed(2));
+            }
             , where: {"time1": null, "time2": null, "itemName": null,"Invoice": null, "username": null, "checkStatus": null}
             , page: true
             , limit: 10
