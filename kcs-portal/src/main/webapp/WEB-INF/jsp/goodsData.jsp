@@ -58,7 +58,6 @@
                                 data: {"categoryID": categoryID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log(htq.categoryName);
                                     if (categoryID == htq.categoryID) {
                                         categoryName = htq.categoryName;
                                     }

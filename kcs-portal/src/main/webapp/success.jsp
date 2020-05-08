@@ -457,11 +457,9 @@
         el.deleteRow(rowIndex);
         var altotal = 0;
         var length = $("#table").find("tr").length; //行数
-        console.log("length" + length);
         for (i = 1; i < length; i++) {
             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
             altotal = Number(altotal) + Number(text);
-            console.log(altotal);
         }
         $("#alTotal").val(altotal.toFixed(2));
         layui.use(['form'], function () {
@@ -602,7 +600,6 @@
                             data: {itemsType: itemsTypeVal, itemsName: data.value},
                             dataType: "json",
                             success: function (result) {
-                                console.log(result.goodsID);
                                 $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                                 form.render();
                             }
@@ -625,7 +622,6 @@
                     data: {itemsType: data.value, itemsName: itemsNameVal},
                     dataType: "json",
                     success: function (result) {
-                        console.log(result.goodsID);
                         $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                         form.render();
                     }
@@ -654,7 +650,6 @@
                 form.render()
                 return false;
             }
-            console.log("test:" + this.innerText);
             $.ajax({
                 type: "post",
                 url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
@@ -674,7 +669,6 @@
                         data: {itemsType: itemsTypeVal, itemsName: data.value},
                         dataType: "json",
                         success: function (result) {
-                            console.log(result.goodsID);
                             $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
                             form.render();
                         }

@@ -141,7 +141,6 @@
                                                             data: {itemsType: data.value, itemsName: itemsNameVal},
                                                             dataType: "json",
                                                             success: function (result) {
-                                                                console.log(result.goodsID);
                                                                 $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                                                                 form.render();
                                                             }
@@ -190,7 +189,6 @@
                                                                     },
                                                                     dataType: "json",
                                                                     success: function (result) {
-                                                                        console.log(result.goodsID);
                                                                         $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                                                                         form.render();
                                                                     }
@@ -212,7 +210,6 @@
                                                         data: {itemsType: itemsTypeVal, itemsName: itemsNameVal},
                                                         dataType: "json",
                                                         success: function (result) {
-                                                            console.log(result.goodsID);
                                                             $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                                                             form.render();
                                                         }
@@ -341,8 +338,6 @@
                                                         });
                                                     }
                                                     , done: function (res) {
-                                                        console.log("res"+res);
-                                                        console.log("code"+res.code);
                                                         //如果上传失败
                                                         if (res.code > 0) {
                                                              layer.msg('上传失败');
@@ -355,7 +350,6 @@
 
                                                         var fileupload = $("#image${status.count}");
                                                         fileupload.attr("value", res.data.src);
-                                                        console.log("fileupload"+fileupload.attr("value"));
                                                     }
                                                     , error: function () {
                                                         //演示失败状态，并实现重传
@@ -562,12 +556,8 @@
 
             var taxTotal = $('input[name="itemInList[' + (i - 1) + '].TaxTotal"]').val();
 
-
             var image = $('input[name="itemInList[' + (i - 1) + '].image"]').val();
             // var image = $("#image"+(i-1)).val();
-            console.log("image"+image);
-
-
 
             //判断是否为空
             if (IsNull(itemsName)) {
@@ -708,7 +698,6 @@
         var length1 = $("#table").find("tr").length;
         el = getParent(el, 'TR');
         var InBillID = $("#InBillID").val();
-        console.log("InBillID"+InBillID);
         var rowIndex = el.rowIndex;
         var itemsName = $("#table").find("tr").eq(rowIndex).find("td").eq(1).find("input").val();
         var itemsType = $("#table").find("tr").eq(rowIndex).find("td").eq(3).find("input").val();
@@ -718,14 +707,12 @@
             url: "${pageContext.request.contextPath }/inBill/checkInAmountbiggerOutAmonutForRemove",
             data: {"itemsType": itemsType, "itemsName": itemsName, "itemsNum": itemsNum,"InBillID":InBillID},
             success: function (htq) {
-                console.log("htq:"+htq)
                 if (htq == 1) {
                     if (rowIndex > 1) {
                         el = getParent(el, 'TABLE');
                         el.deleteRow(rowIndex);
                         var altotal = 0;
                         var length = $("#table").find("tr").length; //行数
-                        console.log("length" + length);
                         for (i = 1; i < length; i++) {
                             var text = $("#table").find("tr").eq(i).find("td").eq(6).find("input").val();
                             altotal = Number(altotal) + Number(text);
@@ -872,8 +859,6 @@
                     });
                 }
                 , done: function (res) {
-                    console.log("res"+res);
-                    console.log("code"+res.code);
                     //如果上传失败
                     if (res.code > 0) {
                         layer.msg('上传失败');
@@ -883,7 +868,6 @@
 
                     var fileupload = $("#image"+num);
                     fileupload.attr("value", res.data.src);
-                    console.log("fileupload"+fileupload.attr("value"));
                 }
                 , error: function () {
                     //演示失败状态，并实现重传
@@ -949,7 +933,6 @@
                             data: {itemsType: itemsTypeVal, itemsName: data.value},
                             dataType: "json",
                             success: function (result) {
-                                console.log(result.goodsID);
                                 $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                                 form.render();
                             }
@@ -973,7 +956,6 @@
                     data: {itemsType: data.value, itemsName: itemsNameVal},
                     dataType: "json",
                     success: function (result) {
-                        console.log(result.goodsID);
                         $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
                         form.render();
                     }
@@ -1001,7 +983,6 @@
                 form.render()
                 return false;
             }
-            console.log("test:" + this.innerText);
             $.ajax({
                 type: "post",
                 url: "${pageContext.request.contextPath }/goods/findGoodsByItemsName",
@@ -1021,7 +1002,6 @@
                         data: {itemsType: itemsTypeVal, itemsName: data.value},
                         dataType: "json",
                         success: function (result) {
-                            console.log(result.goodsID);
                             $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
                             form.render();
                         }

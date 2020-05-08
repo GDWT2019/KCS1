@@ -26,9 +26,17 @@
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
 <script>
-    layui.use('table', function(){
-        var table = layui.table;
 
+    layui.config({
+        base: '${pageContext.request.contextPath }/static/tablePlug/'
+    }).extend({ //设定组件别名
+        tablePlug: 'tablePlug'
+    });
+
+    layui.use(['table', 'tablePlug'], function(){
+        var table = layui.table;
+        var tablePlug = layui.tablePlug;
+        tablePlug.smartReload.enable(true);//处理不闪动的关键代码
         table.render({
             elem: '#test'
             ,url:"${pageContext.request.contextPath }/category/categoryData"
@@ -43,6 +51,7 @@
             ,page: true
             ,limit:10
             ,limits:[5,10,20,30]
+            , smartReloadModel: true
             ,id:'testCategory'
         });
 
@@ -89,17 +98,6 @@
                             layer.close(index);
                         }
                     })
-                });
-            }else if (obj.event === 'detail'){
-                layer.open({
-                    type:2,
-                    title:data.roleName+"的权限详情",
-                    content:'${pageContext.request.contextPath}/role/showRolePermission?roleID='+data.roleID,
-                    area:['1200px','668px'],
-                    moveOut:true,
-                    end:function () {
-                        location.reload();
-                    }
                 });
             }
         });

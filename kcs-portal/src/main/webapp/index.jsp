@@ -212,7 +212,6 @@
         });
 
         function CustomRightClick(id) {
-            console.log("tab的ID" + id);
             //取消右键  rightmenu属性开始是隐藏的 ，当右击的时候显示，左击的时候隐藏
             $('.layui-tab-title li').on('contextmenu', function () {
                 return false;
@@ -239,7 +238,6 @@
             if ($(this).attr("data-type") == "closethis") {
                 //如果关闭当前，即根据显示右键菜单时所绑定的id，执行tabDelete
 
-                console.log('右键ID   ' + $(".rightmenu li").attr("data-id"));
 
                 active.tabDelete($(this).attr("data-id"))
 

@@ -71,7 +71,6 @@
         $("#preMonth").on("click",function () {
             var month = $("#time1").val()+"-1";
             var preMonth = getPreMonth(month);
-            console.log("preMonth :"+preMonth);
 
             var s = preMonth.substring(0,7);
             $("#time1").val(s);
@@ -85,7 +84,6 @@
         $("#nextMonth").on("click",function () {
             var month = $("#time1").val()+"-1";
             var nextMonth = getNextMonth(month);
-            console.log("nextMonth :"+nextMonth);
 
             var s = nextMonth.substring(0,7);
             $("#time1").val(s);
@@ -166,7 +164,6 @@
             <%--dataType: "json",--%>
             <%--async: false,--%>
             <%--success: function (data) {--%>
-                <%--console.log("time"+data)--%>
                 <%--$.each(data, function (index, item) {--%>
                     <%--if(index==0){--%>
                         <%--time=item.time;//往下拉菜单里添加元素--%>
@@ -217,19 +214,16 @@
             ],done: function(res, curr, count){
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
-                console.log("total"+$('.layui-table-total .layui-table tr [data-field="thisTotal"]').text());
                 var text = $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text();
                 var number = Number(text);
                 $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text(number.toFixed(2));
                 var month = $("#time1").val();
-                console.log("month"+month);
                 $.ajax({
                     type: "post",
                     url: "${pageContext.request.contextPath }/summary/summaryTotalByMonth",
                     data: {time: month},
                     dataType: "json",
                     success: function (result) {
-                        console.log("测试返回的double"+result)
                         $('.layui-table-total .layui-table tr [data-field="thisAmount"]').text(result.toFixed(2));
                         form.render();
                     }
@@ -268,7 +262,6 @@
                     dataType: 'json',
                     success: function(res) {
                         // 假如返回的 res.data 是需要导出的列表数据
-                        console.log(res.data);// [{name: 'wang', age: 18}, {name: 'layui', age: 3}]
 
                         res.data.unshift({categoryName: '物品', itemsName: '品名',itemsType: '规格'
                             ,preAmount:'上月结存',prePrice:'单价',preTotal:'金额'
@@ -295,8 +288,6 @@
 
                         var length = "${length}"+2;
                         var last = "P"+length;
-                        console.log("length"+length);
-                        console.log("last"+last);
 
                         LAY_EXCEL.setExportCellStyle(res.data, 'A1:P10000', {
                             s: {
@@ -423,7 +414,6 @@
                 dataType: 'json',
                 success: function(res) {
                     // 假如返回的 res.data 是需要导出的列表数据
-                    console.log(res.data);// [{name: 'wang', age: 18}, {name: 'layui', age: 3}]
 
                     res.data.unshift({categoryName: '物品', itemsName: '品名',itemsType: '规格'
                         ,preAmount:'上月结存',prePrice:'单价',preTotal:'金额'
@@ -450,8 +440,6 @@
 
                     var length = "${length}"+2;
                     var last = "P"+length;
-                    console.log("length"+length);
-                    console.log("last"+last);
 
                     LAY_EXCEL.setExportCellStyle(res.data, 'A1:P10000', {
                         s: {

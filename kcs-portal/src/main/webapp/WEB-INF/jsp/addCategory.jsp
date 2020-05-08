@@ -162,7 +162,6 @@
                 success: function (result) {
                     var data = JSON.parse(result);
                     if(!data.flag){
-                        console.log(data.flag+data.mesg)
                         layui.use('form', function () {
                             var form = layui.form
                             //自定义验证规则

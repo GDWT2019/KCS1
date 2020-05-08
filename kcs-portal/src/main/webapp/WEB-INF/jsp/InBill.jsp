@@ -239,7 +239,6 @@
                 time1 = timeRange.substring(0, 10);
                 time2 = timeRange.substring(13, 23);
             }
-            console.log(time1 + " " + time2 + " " + itemName)
             table.reload('testInBill', {
                 method: 'post'
                 , where: {

@@ -332,8 +332,6 @@
                 });
             }
             , done: function (res) {
-                console.log("res"+res);
-                console.log("code"+res.code);
                 //如果上传失败
                 if (res.code > 0) {
                     return layer.msg('上传失败');
@@ -344,7 +342,6 @@
 
                 var fileupload = $(".image");
                 fileupload.attr("value", res.data.src);
-                console.log(fileupload.attr("value"));
             }
             , error: function () {
                 //演示失败状态，并实现重传
@@ -409,7 +406,6 @@
             success: function (result) {
                 var data = JSON.parse(result);
                 if(!data.flag){
-                    console.log(data.flag+data.mesg)
                     layui.use('form', function () {
                         var form = layui.form
                         //自定义验证规则

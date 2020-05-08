@@ -158,15 +158,12 @@
                         var itemName;
                         var goodsID = Number(d.goodsID);
                         if (!isNaN(goodsID)) {
-                            console.log('goodsID:' + goodsID)
                             $.ajax({
                                 method: 'post',
                                 url: '${pageContext.request.contextPath }/inBill/findGoodsByGoodsID',
                                 data: {"goodsID": goodsID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log(htq[0].goodsID);
-                                    console.log(htq[0].itemsName);
                                     if (d.goodsID == htq[0].goodsID) {
                                         itemName = htq[0].itemsName;
                                     }
@@ -194,7 +191,6 @@
                         var userName1;
                         var userID = Number(d.operator);
                         if (!isNaN(userID)) {
-                            console.log('userID:' + userID)
 
                             $.ajax({
                                 method: 'post',
@@ -202,7 +198,6 @@
                                 data: {"userID": userID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log(htq.userName);
                                     if (userID == htq.userID) {
                                         userName1 = htq.userName;
                                     }
@@ -217,7 +212,6 @@
                         var userName2;
                         var userID = Number(d.checker);
                         if (!isNaN(userID)) {
-                            console.log('userID:' + userID)
 
                             $.ajax({
                                 method: 'post',
@@ -225,7 +219,6 @@
                                 data: {"userID": userID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log(htq.userName);
                                     if (userID == htq.userID) {
                                         userName2 = htq.userName;
                                     }
@@ -240,7 +233,6 @@
                         var userName3;
                         var userID = Number(d.storeManager);
                         if (!isNaN(userID)) {
-                            console.log('userID:' + userID)
 
                             $.ajax({
                                 method: 'post',
@@ -248,7 +240,6 @@
                                 data: {"userID": userID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log(htq.userName);
                                     if (userID == htq.userID) {
                                         userName3 = htq.userName;
                                     }
@@ -263,7 +254,6 @@
                         var userName4;
                         var userID = Number(d.buyer);
                         if (!isNaN(userID)) {
-                            console.log('userID:' + userID)
 
                             $.ajax({
                                 method: 'post',
@@ -271,7 +261,6 @@
                                 data: {"userID": userID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log('采购人' + htq.userName);
                                     if (userID == htq.userID) {
                                         userName4 = htq.userName;
                                     }
@@ -286,7 +275,6 @@
                         var userName;
                         var userID = Number(d.tableMaker);
                         if (!isNaN(userID)) {
-                            console.log('userID:' + userID)
 
                             $.ajax({
                                 method: 'post',
@@ -294,7 +282,6 @@
                                 data: {"userID": userID},
                                 async: false,
                                 success: function (htq) {
-                                    console.log(htq.userName);
                                     if (userID == htq.userID) {
                                         userName = htq.userName;
                                     }

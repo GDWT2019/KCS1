@@ -262,7 +262,6 @@
         });
 
         var loginName = "${user.loginName}";
-        console.log("loginName"+loginName);
         //回显数据
         $.ajax({
             url: "${pageContext.request.contextPath }/user/getUser"
@@ -324,7 +323,6 @@
 
                 var fileupload = $(".image");
                 fileupload.attr("value", res.data.src);
-                console.log(fileupload.attr("value"));
             }
             , error: function () {
                 //演示失败状态，并实现重传

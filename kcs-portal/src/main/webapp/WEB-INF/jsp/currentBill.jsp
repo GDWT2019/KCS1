@@ -134,7 +134,6 @@
             var tr = obj.tr; //获得当前行 tr 的DOM对象
             var value = obj.value;
             if (layEvent === 'inBill') { //该物品的入库记录
-                console.log("goodsID" + data.goodsID);
                 window.goodsID = data.goodsID;
                 var index = layer.open({
                     type: 2,
@@ -148,7 +147,6 @@
                 // layer.full(index);
             } else if (layEvent === 'outBill') { //该物品的出库记录
                 // layer.alert(data.inBillID);
-                console.log("goodsID" + data.goodsID);
                 window.goodsID = data.goodsID;
                 layer.open({
                     type: 2,
@@ -190,15 +188,12 @@
             var time2 =null;
             var itemName = null;
             var timeRange = $('#timeRange').val();
-            console.log(timeRange);
             if (($("#itemName").val()) != null && ($("#itemName").val()) != "") {
                 itemName = $("#itemName").val();
             }
             if( timeRange!=null && timeRange!="") {
                 time1 = timeRange.substring(0,7);
                 time2 = timeRange.substring(10,17);
-                console.log(time1);
-                console.log(time2);
             }
             table.reload('testSummaryCurrent', {
                 method: 'post'
@@ -221,7 +216,6 @@
                 dataType: 'json',
                 success: function (res) {
                     // 假如返回的 res.data 是需要导出的列表数据
-                    console.log(res.data);// [{name: 'wang', age: 18}, {name: 'layui', age: 3}]
 
                     res.data.unshift({
                         categoryName: '物品', itemsName: '品名', itemsType: '规格'
@@ -251,8 +245,6 @@
 
                     var length = "${length}" + 2;
                     var last = "P" + length;
-                    console.log("length" + length);
-                    console.log("last" + last);
 
                     LAY_EXCEL.setExportCellStyle(res.data, 'A1:P10000', {
                         s: {

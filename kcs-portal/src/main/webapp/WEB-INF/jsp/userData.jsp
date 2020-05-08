@@ -45,10 +45,19 @@
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
 <script>
-    layui.use(['table','form'], function(){
+
+    layui.config({
+        base: '${pageContext.request.contextPath }/static/tablePlug/'
+    }).extend({ //设定组件别名
+        tablePlug: 'tablePlug'
+    });
+
+    layui.use(['table','form','tablePlug'], function(){
         var table = layui.table;
         var form =layui.form;
+        var tablePlug = layui.tablePlug;
 
+        tablePlug.smartReload.enable(true);//处理不闪动的关键代码
         table.render({
             elem: '#test'
             ,url:"${pageContext.request.contextPath }/user/userData"
@@ -73,12 +82,13 @@
                         else if(d.status ==false) return '<span style="color: grey;">已冻结</span>';
                         else return '信息错误'
                     }}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
+                ,{fixed: 'right', title:'操作',  type: 'toolbar',toolbar: '#barDemo', width:200}
             ]]
             ,where:{'name':null}
             ,page: true
             ,limit:10
             ,limits:[10,20,30]
+            , smartReloadModel: true
             ,id:'testUser'
         });
 
@@ -116,7 +126,7 @@
                     area:['1000px','668px'],
                     moveOut:true,
                     end:function () {
-                        location.reload();
+                        table.reload('testUser');
                     }
                 });
             }
@@ -134,7 +144,7 @@
                     area:['1200px','668px'],
                     moveOut:true,
                     end:function () {
-                        location.reload();
+                        table.reload('testUser');
                     }
                 });
 
@@ -197,7 +207,7 @@
                                 layer.close(index);
                             }
                         })
-                        location.reload();
+                        table.reload('testUser');
                     })
                 }
                 else{
@@ -222,7 +232,7 @@
                                 layer.close(index);
                             }
                         })
-                        location.reload();
+                        table.reload('testUser');
                     })
                 }
             }else if (obj.event === 'detail'){
@@ -233,7 +243,7 @@
                     area:['1200px','668px'],
                     moveOut:true,
                     end:function () {
-                        location.reload();
+                        table.reload('testUser');
                     }
                 });
             }
