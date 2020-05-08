@@ -57,18 +57,18 @@
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type:'numbers',title:'序号'}
-                ,{field:'loginName', title:'登录名', width:80}
-                ,{field:'userName', title:'用户名', width:80}
-                ,{field:'tel', title:'电话', width:120}
-                ,{field:'email', title:'邮箱', width:150, templet: function(res){
+                ,{field:'loginName', title:'登录名'}
+                ,{field:'userName', title:'用户名'}
+                ,{field:'tel', title:'电话'}
+                ,{field:'email', title:'邮箱', templet: function(res){
                         return '<em>'+ res.email +'</em>'
                     }}
-                ,{field:'departmentName', title:'部门', width:100}
-                ,{field:'positionName', title:'职位', width:120}
-                ,{field:'warehouseMark', title:'仓管员', width:80}
-                ,{field:'listerMark', title:'制表人', width:80}
-                ,{fixed: '', title:'角色', toolbar: '#bar', width:80}
-                ,{field:'status', title:'状态', width:100, templet: '#checkboxTpl', unresize: true,templet:function (d) {
+                ,{field:'departmentName', title:'部门'}
+                ,{field:'positionName', title:'职位'}
+                ,{field:'warehouseMark', title:'仓管员'}
+                ,{field:'listerMark', title:'制表人'}
+                ,{fixed: '', title:'角色', toolbar: '#bar'}
+                ,{field:'status', title:'状态', templet: '#checkboxTpl', unresize: true,templet:function (d) {
                         if(d.status==true) return '<span style="color: #009688;">正常</span>';
                         else if(d.status ==false) return '<span style="color: grey;">已冻结</span>';
                         else return '信息错误'

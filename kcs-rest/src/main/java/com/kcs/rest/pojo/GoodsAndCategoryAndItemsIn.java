@@ -21,6 +21,7 @@ public class GoodsAndCategoryAndItemsIn implements Serializable {
     private Integer ProviderID;
     private String Note;
     private Double TaxTotal;
+    private String Image;
 
 
     private String ItemsName;       //物品名称
@@ -46,11 +47,20 @@ public class GoodsAndCategoryAndItemsIn implements Serializable {
                 ", ProviderID=" + ProviderID +
                 ", Note='" + Note + '\'' +
                 ", TaxTotal=" + TaxTotal +
+                ", Image='" + Image + '\'' +
                 ", ItemsName='" + ItemsName + '\'' +
                 ", ItemsType='" + ItemsType + '\'' +
                 ", ItemsUnit='" + ItemsUnit + '\'' +
                 ", CategoryName='" + CategoryName + '\'' +
                 '}';
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 
     public Double getTaxTotal() {

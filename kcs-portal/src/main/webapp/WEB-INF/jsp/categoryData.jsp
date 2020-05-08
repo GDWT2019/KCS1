@@ -37,8 +37,8 @@
             ,totalRow: false//开启合计行
             ,cols: [[
                 {type:'numbers',title:'序号'}
-                ,{field:'categoryName', title:'类名', width:150}
-                , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
+                ,{field:'categoryName', title:'类名'}
+                , {fixed: 'right', title: '操作', toolbar: '#barDemo'}
             ]]
             ,page: true
             ,limit:10

@@ -127,7 +127,7 @@ public class UserController {
     //图片上传测试
     @RequestMapping("/upload")
     @ResponseBody
-    public Map upload(MultipartFile file){
+    public Map upload(MultipartFile file,HttpServletRequest request){
 
         String prefix="";
         String dateStr="";
@@ -142,9 +142,14 @@ public class UserController {
                 String uuid = UUID.randomUUID()+"";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 // dateStr = simpleDateFormat.format(date);
-                String filepath = "E:\\photoes\\" +uuid+"." + prefix;
+//                String filepath = "E:\\photoes\\" +uuid+"." + prefix;
 
+                String path = request.getSession().getServletContext().getRealPath("/");
+                String path1 = new File(path).getParent();
+                String filepath = path1+"\\upload\\"+uuid+"." + prefix;
                 File files=new File(filepath);
+
+//                System.out.println(filepath);
 
                 if(!files.getParentFile().exists()){
                     files.getParentFile().mkdirs();
@@ -158,6 +163,7 @@ public class UserController {
 //                map2.put("src","/photoes/"+ dateStr+"/"+uuid+"." + prefix);
                 map2.put("src",uuid+"." + prefix);
 //                map2.put("src","../../../static" + dateStr +uuid+ "." + prefix);
+
                 return map;
             }
 

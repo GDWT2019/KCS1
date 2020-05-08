@@ -17,6 +17,7 @@ public class ItemIn implements Serializable {
     private Integer ProviderID;
     private String Note;
     private Double TaxTotal;
+    private String Image;
 
     @Override
     public String toString() {
@@ -33,7 +34,16 @@ public class ItemIn implements Serializable {
                 ", ProviderID=" + ProviderID +
                 ", Note='" + Note + '\'' +
                 ", TaxTotal=" + TaxTotal +
+                ", Image='" + Image + '\'' +
                 '}';
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 
     public String getNote() {

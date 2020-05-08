@@ -48,7 +48,7 @@
 
     <select id="inBillShowPage"  resultType="com.kcs.rest.pojo.inBillShow">
        select top (#{back}- #{front}+1) * from (select Row_Number() over ( order by TimeIn Desc ) as id , * from (
-        select a.InBillID, b.ItemsInID,a.InvoiceID,a.InvoiceTime, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note,b.TaxTotal from InBill as a
+        select a.InBillID, b.ItemsInID,a.InvoiceID,a.InvoiceTime, a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note,b.TaxTotal,b.Image from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c
@@ -101,7 +101,7 @@
     </select>
 
     <select id="countShow" resultType="int">
-        select COUNT(*) from (select b.ItemsInID,a.InvoiceID,a.InvoiceTime, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note,b.TaxTotal from InBill as a
+        select COUNT(*) from (select b.ItemsInID,a.InvoiceID,a.InvoiceTime, a.InBillID,a.TimeIn,c.ItemsName,b.Type,b.StorePosition,b.ItemNum,b.ItemPrice,b.ItemTotal,a.AllTotal,d.UserName,a.CheckStatus,b.Note,b.TaxTotal,b.Image from InBill as a
         left join ItemsIn as b
         on a.InBillID = b.InBillID
         left join Goods as c

@@ -79,6 +79,80 @@
 
 <script>
 
+    // function showBigImage(e) {
+    //     /*layer.open({
+    //         type: 1,
+    //         title: false,
+    //         closeBtn: 0,
+    //         shadeClose: true, //点击阴影关闭
+    //         area: ['80%','80%'], //宽高
+    //         content: "<img src=" + $(e).attr('src') + " />"
+    //     });*/
+    // }
+
+
+    // //显示大图片
+    // function show_img(t) {
+    //     // var t = $(t).find("img");
+    //     //页面层
+    //     layer.open({
+    //         type: 1,
+    //         skin: 'layui-layer-rim', //加上边框
+    //         area: ['80%', '80%'], //宽高
+    //         shadeClose: true, //开启遮罩关闭
+    //         end: function (index, layero) {
+    //             return false;
+    //         },
+    //         content: '<div style="text-align:center"><img src="' + $(t).attr('src') + '" /></div>'
+    //     });
+    // }
+
+    function show_img(t) {
+        // var imgData = $(t).find("img");
+        var img = new Image();
+        img.src = $(t).attr("src");
+        var height = img.height; // 原图片大小
+        var width = img.width; //原图片大小
+
+        var winHeight = $(window).height() - 80;  // 浏览器可视部分高度
+        var winWidth = $(window).width() - 100;  // 浏览器可视部分宽度
+
+        // 如果图片高度或者宽度大于限定的高度或者宽度则进行等比例尺寸压缩
+        if (height > winHeight || width > winWidth) {
+            // 1.原图片宽高比例 大于等于 图片框宽高比例
+            if (winWidth/ winHeight <= width / height) {
+                width = winWidth;   //以框的宽度为标准
+                height = winWidth * (height / width);
+            }
+
+            // 2.原图片宽高比例 小于 图片框宽高比例
+            if (winWidth/ winHeight > width / height) {
+                width = winHeight  * (width / height);
+                height = winHeight  ;   //以框的高度为标准
+            }
+        }
+
+        var imgHtml = "<img src='" + img.src + "' width='" + width + "px' height='" + height + "px' />";
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.8,
+            offset: 'auto',
+            // area: [500 + 'px',550+'px'],
+            area: [width + 'px',(height + 50) + 'px'],  //原图显示,高度+50是为了去除掉滚动条
+            shadeClose:true,
+            scrollbar: false,
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
+
+
+
+
     layui.config({
         base: '${pageContext.request.contextPath }/static/tablePlug/'
     }).extend({ //设定组件别名
@@ -100,6 +174,11 @@
                 {field: 'inBillID', title: '入库单号',  sort: true}
                 , {field: 'invoiceID', title: '发票号'}
                 , {field: 'timeIn', title: '日期'}
+                , {field: 'image', title: '图片',  templet:  '<div><img src="http://192.168.10.33:8080/upload/{{d.image}}" alt="" style="width:80px; height:80px;" onclick="show_img(this)"></div>'}
+                // , {field: 'image', title: '图片', templet: function(d){
+                //         var jpg =d.image;
+                //         if(jpg!=null) return '<div οnclick="show_img(this)"><img src="http://192.168.10.33:8080/upload/'+ jpg+'" alt="" style="width:80px; height:80px;" ></div>'
+                //     }}
                 , {field: 'itemsName', title: '物品名称'}
                 , {field: 'type', title: '物品规格'}
                 , {field: 'storePosition', title: '仓库位置'}
@@ -133,6 +212,9 @@
             , smartReloadModel: true
             , id: 'testInBill'
         });
+
+
+
 
         $('body').on('click', "#search", function () {
             // 搜索条件
@@ -346,5 +428,7 @@
         });
     })
 </script>
+
+
 </body>
 </html>

@@ -24,6 +24,7 @@ public class inBillShow implements Serializable {
     private Integer CheckStatus;
     private String Note;
     private Double TaxTotal;
+    private String Image;
 
     @Override
     public String toString() {
@@ -45,7 +46,16 @@ public class inBillShow implements Serializable {
                 ", CheckStatus=" + CheckStatus +
                 ", Note='" + Note + '\'' +
                 ", TaxTotal=" + TaxTotal +
+                ", Image='" + Image + '\'' +
                 '}';
+    }
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        Image = image;
     }
 
     public Double getTaxTotal() {

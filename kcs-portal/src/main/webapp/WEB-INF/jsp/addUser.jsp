@@ -73,16 +73,16 @@
         </div>
     </div>
     <input type="hidden" name="photo" class="image">
-    <%--<div class="layui-form-item">
-        <label class="layui-form-label">照片:</label>
-        <div class="layui-upload">
-            <button type="button" class="layui-btn" id="test1">上传图片</button>
-            <div class="layui-upload-list">
-                <img class="layui-upload-img" id="imgName">
-                <p id="demoText"></p>
-            </div>
-        </div>
-    </div>--%>
+    <%--<div class="layui-form-item">--%>
+        <%--<label class="layui-form-label">照片:</label>--%>
+        <%--<div class="layui-upload">--%>
+            <%--<button type="button" class="layui-btn" id="test1">上传图片</button>--%>
+            <%--<div class="layui-upload-list">--%>
+                <%--<img class="layui-upload-img" id="imgName">--%>
+                <%--<p id="demoText"></p>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+    <%--</div>--%>
     <div class="layui-form-item">
         <label class="layui-form-label">仓管员标记</label>
         <div class="layui-input-block">
@@ -318,7 +318,9 @@
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#test1'
-            , url: '${pageContext.request.contextPath}/user/upload'
+            <%--, url: '${pageContext.request.contextPath}/user/upload'--%>
+            // , url: 'http://192.168.10.22:8083/user/uploadImage'
+            , url: 'http://192.168.10.38:8080/kcs_rest_war_exploded/user/upload'
             , accept: 'images'
             , method: 'post'
             , size: 50000
@@ -330,6 +332,8 @@
                 });
             }
             , done: function (res) {
+                console.log("res"+res);
+                console.log("code"+res.code);
                 //如果上传失败
                 if (res.code > 0) {
                     return layer.msg('上传失败');

@@ -52,13 +52,13 @@
             ,title: '日志'
             ,cols: [[
                 {type:'numbers',title:'序号'}
-                ,{field:'logID', title:'日志ID', width:120,sort:true}
-                ,{field:'userID', title:'用户ID', width:120,sort:true}
-                ,{field:'userName', title:'用户名', width:120,sort:true}
-                ,{field:'loginName', title:'登录名', width:120,sort:true}
-                ,{field:'time', title:'时间', width:200,sort:true}
-                ,{field:'operation', title:'操作', width:200}
-                ,{field:'result', title:'结果', width:200}
+                ,{field:'logID', title:'日志ID',sort:true}
+                ,{field:'userID', title:'用户ID',sort:true}
+                ,{field:'userName', title:'用户名',sort:true}
+                ,{field:'loginName', title:'登录名',sort:true}
+                ,{field:'time', title:'时间',sort:true}
+                ,{field:'operation', title:'操作'}
+                ,{field:'result', title:'结果'}
             ]]
             ,where: {"time1":null,"time2":null,"name":null}
             ,page: true

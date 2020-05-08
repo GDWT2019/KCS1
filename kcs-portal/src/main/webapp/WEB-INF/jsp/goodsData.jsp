@@ -46,8 +46,8 @@
             ,totalRow: false//开启合计行
             ,cols: [[
                 {type:'numbers',title:'序号'}
-                ,{field:'itemsName', title:'品名', width:150}
-                ,{field:'categoryID', title:'类别', width:150,templet(d) {
+                ,{field:'itemsName', title:'品名'}
+                ,{field:'categoryID', title:'类别',templet(d) {
                         var categoryName;
                         var categoryID = Number(d.categoryID);
                         if (!isNaN(categoryID)) {
@@ -67,8 +67,8 @@
                             return categoryName;
                         }
                     }}
-                ,{field:'itemsType', title:'规格', width:150}
-                ,{field:'itemsUnit', title:'单位', width:150}
+                ,{field:'itemsType', title:'规格'}
+                ,{field:'itemsUnit', title:'单位'}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
             ]]
             ,page: true

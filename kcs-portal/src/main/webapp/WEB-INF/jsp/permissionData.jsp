@@ -43,8 +43,8 @@
             ,totalRow: true//开启合计行
             ,cols: [[
                 {type:'numbers', title: '序号', rowspan:2, width: 80 ,fixed: 'left', unresize: true, sort: true}
-                ,{field:'permissionName', title:'权限名称', width:150}
-                ,{field:'permissionNum', title:'权限代码',  width:150}
+                ,{field:'permissionName', title:'权限名称'}
+                ,{field:'permissionNum', title:'权限代码'}
                 //,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:180}
             ]]
             ,page: true

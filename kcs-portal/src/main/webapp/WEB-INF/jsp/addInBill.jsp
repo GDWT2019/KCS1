@@ -83,6 +83,7 @@
                                     <th>合计</th>
                                     <th>含税金额</th>
                                     <th>位置</th>
+                                    <th>图片</th>
                                     <th>附注</th>
                                     <th>操作</th>
                                 </tr>
@@ -133,6 +134,15 @@
                                                class="layui-input"
                                                type="text"/>
                                     </td>
+                                    <td style="white-space: nowrap;">
+                                        <input type="hidden" name="itemInList[0].image" id="image" class="image">
+                                        <a id="addImage" style="display: inline"><i class=" layui-icon layui-icon-picture-fine" style="font-size: 25px;display: inline"></i></a>
+                                        <div class="layui-inline layui-form layui-upload-list" >
+                                            <img class="layui-upload-img" id="demo" style="width:50px; height:50px;">
+                                        </div>
+                                    </td>
+
+
                                     <td>
                                         <input id="note1" name="itemInList[0].Note" class="layui-input"
                                                type="text"/>
@@ -251,6 +261,8 @@
     });
     });
 
+
+
     layui.use('laydate', function () {
         var laydate = layui.laydate;
         //执行一个laydate实例
@@ -282,6 +294,7 @@
         var Invoice = $("#InvoiceID").val();
         //发票时间
         var InvoiceTime = $("#InvoiceTime").val();
+
         //仓管员id
         var warehouse = Number($("#warehouse").val());
         //领用人id
@@ -314,6 +327,7 @@
             return false;
         }
 
+
         if(IsNull(warehouse)||IsNull(buyer)||IsNull(Approvaler)||IsNull(lister)){
             layer.alert("还有人员未选择哦！");
             return false;
@@ -326,6 +340,7 @@
         var itemNum = $("#itemNum1").val();
         var itemPrice =  $("#itemPrice1").val();
         var taxTotal =  $("#taxTotal1").val();
+        var image = $("#image").val();
 
         //判断是否为空
         if (IsNull(itemsName)){
@@ -340,6 +355,10 @@
             layer.alert("价格未填写！");
             return false;
         }
+        if (IsNull(image)){
+            layer.alert("图片未上传！");
+            return false;
+        }
 
         if (IsNull(taxTotal)){
             layer.alert("含税金额未填写！");
@@ -352,6 +371,7 @@
             var itemNum = $("#itemNum"+i).val();
             var itemPrice =  $("#itemPrice"+i).val();
             var taxTotal =  $("#taxTotal"+i).val();
+            var image =  $("#image"+i).val();
 
             //判断是否为空
             if (IsNull(itemsName)){
@@ -364,6 +384,11 @@
             }
             if (IsNull(itemPrice)){
                 layer.alert("价格未填写！");
+                return false;
+            }
+
+            if (IsNull(image)){
+                layer.alert("图片未上传！");
                 return false;
             }
 
@@ -544,6 +569,15 @@
             "<td>" +
             "<input id=\"StorePosition" + num + "\" name=\"itemInList[" + (num - 1) + "].StorePosition\" class=\"layui-input\"  type=\"text\" />" +
             "</td>" +
+
+            "<td style=\"white-space: nowrap\">" +
+            "<input type=\"hidden\" name=\"itemInList[" + (num - 1) + "].image\"  id=\"image" + num + "\" class=\"image\">"+
+            "<a id=\"addImage" + num + "\" style=\"display: inline\"><i class=\"layui-icon layui-icon-picture-fine\" style=\"font-size: 25px;display: inline\"></i></a>\n" +
+            "<div class=\"layui-inline layui-form\">"+
+            "<img class=\"layui-upload-img\" id=\"demo" + num + "\" style=\"width:50px; height:50px;\">" +
+            "</div>" +
+            "</td>" +
+
             "<td>" +
             "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
             "</td>" +
@@ -556,8 +590,9 @@
 
 
 
-        layui.use(['form'], function () {
+        layui.use(['form','upload'], function () {
             var form = layui.form;
+            var upload = layui.upload;
 
 
             form.render();   //重新渲染新增的行中select的信息
@@ -587,6 +622,47 @@
                         form.render('select','goods'+num);
                     }
                 });
+            });
+
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#addImage'+num
+                , url: '${pageContext.request.contextPath}/user/upload'
+                // , url: 'http://192.168.10.22:8083/user/uploadImage'
+                // , url: 'http://192.168.10.38:8080/kcs_rest_war_exploded/user/upload'
+                , accept: 'images'
+                , method: 'post'
+                , size: 50000
+                , before: function (obj) {
+
+                    obj.preview(function (index, file, result) {
+
+                        $('#demo'+num).attr('src', result);
+                    });
+                }
+                , done: function (res) {
+                    console.log("res"+res);
+                    console.log("code"+res.code);
+                    //如果上传失败
+                    if (res.code > 0) {
+                        layer.msg('上传失败');
+                    }else{
+                        layer.msg('上传成功');
+                    }
+
+                    var fileupload = $("#image"+num);
+                    fileupload.attr("value", res.data.src);
+                    console.log(fileupload.attr("value"));
+                }
+                , error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
             });
 
             //选择物品后，根据物品名称查询该物品的规格，并更新对应的规格
@@ -739,6 +815,7 @@
     layui.use(["jquery", "upload", "form", "layer", "element"], function () {
         var $ = layui.$,
             form = layui.form;
+        upload = layui.upload;
 
         $("#addGoods").on('click', function () {
             layer.open({
@@ -765,6 +842,46 @@
                     form.render('select','goods');
                 }
             });
+        });
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#addImage'
+            , url: '${pageContext.request.contextPath}/user/upload'
+            // , url: 'http://192.168.10.22:8083/user/uploadImage'
+            // , url: 'http://192.168.10.38:8080/kcs_rest_war_exploded/user/upload'
+            , accept: 'images'
+            , method: 'post'
+            , size: 50000
+            , before: function (obj) {
+
+                obj.preview(function (index, file, result) {
+
+                    $('#demo').attr('src', result);
+                });
+            }
+            , done: function (res) {
+                console.log("res"+res);
+                console.log("code"+res.code);
+                //如果上传失败
+                if (res.code > 0) {
+                    layer.msg('上传失败');
+                }else{
+                    layer.msg('上传成功');
+                }
+
+                var fileupload = $("#image");
+                fileupload.attr("value", res.data.src);
+                console.log(fileupload.attr("value"));
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
         });
 
         //查询物品名称

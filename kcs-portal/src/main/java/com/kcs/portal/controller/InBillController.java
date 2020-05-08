@@ -128,7 +128,7 @@ public class InBillController {
             User user = (User) request.getSession().getAttribute("user");
             String username = user.getUserName();
             String status = request.getParameter("checkStatus");
-//        Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
+//          Integer checkStatus = Integer.parseInt(request.getParameter("checkStatus"));
             Integer checkStatus = null;
             if ("".equals(status)) {
                 checkStatus = null;

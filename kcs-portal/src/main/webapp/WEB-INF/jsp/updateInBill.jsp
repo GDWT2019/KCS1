@@ -90,6 +90,7 @@
                                     <th>合计</th>
                                     <th>含税金额</th>
                                     <th>位置</th>
+                                    <th>图片</th>
                                     <th>附注</th>
                                     <th class="noprint">操作</th>
                                 </tr>
@@ -309,6 +310,67 @@
                                                    class="layui-input" type="text" placeholder="仓库位置"
                                                    value="${inBillPresent.storePosition}"/>
                                         </td>
+                                        <td style="white-space: nowrap;">
+                                            <input type="hidden" name="itemInList[${status.count-1}].image" id="image${status.count}" class="image" value="${inBillPresent.image}">
+                                            <a id="addImage${status.count}" style="display: inline"><i class=" layui-icon layui-icon-picture-fine" style="font-size: 25px;display: inline"></i></a>
+                                            <div class="layui-inline layui-form layui-upload-list" >
+                                                <img class="layui-upload-img" id="demo${status.count}" style="width:50px; height:50px;"src="http://192.168.10.33:8080/upload/${inBillPresent.image}" >
+                                            </div>
+                                        </td>
+
+                                        <script>
+
+                                            layui.use(['form','upload'], function () {
+                                                var form = layui.form;
+                                                var upload = layui.upload;
+
+                                                //普通图片上传
+                                                var uploadInst = upload.render({
+                                                    elem: '#addImage${status.count}'
+                                                    , url: '${pageContext.request.contextPath}/user/upload'
+                                                    // , url: 'http://192.168.10.22:8083/user/uploadImage'
+                                                    // , url: 'http://192.168.10.38:8080/kcs_rest_war_exploded/user/upload'
+                                                    , accept: 'images'
+                                                    , method: 'post'
+                                                    , size: 50000
+                                                    , before: function (obj) {
+
+                                                        obj.preview(function (index, file, result) {
+
+                                                            $('#demo${status.count}').attr('src', result);
+                                                        });
+                                                    }
+                                                    , done: function (res) {
+                                                        console.log("res"+res);
+                                                        console.log("code"+res.code);
+                                                        //如果上传失败
+                                                        if (res.code > 0) {
+                                                             layer.msg('上传失败');
+                                                        }else{
+                                                            layer.msg('上传成功');
+                                                        }
+                                                        //上传成功
+                                                        // var demoText = $('#demoText');
+                                                        // demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+
+                                                        var fileupload = $("#image${status.count}");
+                                                        fileupload.attr("value", res.data.src);
+                                                        console.log("fileupload"+fileupload.attr("value"));
+                                                    }
+                                                    , error: function () {
+                                                        //演示失败状态，并实现重传
+                                                        var demoText = $('#demoText');
+                                                        demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                                                        demoText.find('.demo-reload').on('click', function () {
+                                                            uploadInst.upload();
+                                                        });
+                                                    }
+                                                });
+
+                                            })
+
+                                        </script>
+
                                         <td>
                                             <input name="itemInList[${status.count-1}].Note" class="layui-input"
                                                    type="text" placeholder="" value="${inBillPresent.note}"/>
@@ -450,6 +512,7 @@
         var Invoice = $("#InvoiceID").val();
         //发票时间
         var InvoiceTime = $("#InvoiceTime").val();
+
         //仓管员id
         var warehouse = Number($("#warehouse").val());
         //领用人id
@@ -499,13 +562,25 @@
 
             var taxTotal = $('input[name="itemInList[' + (i - 1) + '].TaxTotal"]').val();
 
+
+            var image = $('input[name="itemInList[' + (i - 1) + '].image"]').val();
+            // var image = $("#image"+(i-1)).val();
+            console.log("image"+image);
+
+
+
             //判断是否为空
             if (IsNull(itemsName)) {
                 layer.alert("品名未选择！");
                 return false;
             }
             if (IsNull(taxTotal)) {
-                layer.alert("含税金额未选择！");
+                layer.alert("含税金额未填写！");
+                return false;
+            }
+
+            if (IsNull(image)) {
+                layer.alert("图片未上传！");
                 return false;
             }
             if (IsNull(itemNum)) {
@@ -730,6 +805,15 @@
             "<td>" +
             "<input id=\"StorePosition" + num + "\" name=\"itemInList[" + (num - 1) + "].StorePosition\" class=\"layui-input\"  type=\"text\" />" +
             "</td>" +
+
+            "<td style=\"white-space: nowrap\">" +
+            "<input type=\"hidden\" name=\"itemInList[" + (num - 1) + "].image\" id=\"image" + num + "\"  class=\"image\">"+
+            "<a id=\"addImage" + num + "\" style=\"display: inline\"><i class=\"layui-icon layui-icon-picture-fine\" style=\"font-size: 25px;display: inline\"></i></a>\n" +
+            "<div class=\"layui-inline layui-form\">"+
+            "<img class=\"layui-upload-img\" id=\"demo" + num + "\" style=\"width:50px; height:50px;\">" +
+            "</div>" +
+            "</td>" +
+
             "<td>" +
             "<input id=\"note" + num + "\" name=\"itemInList[" + (num - 1) + "].Note\" class=\"layui-input\" type=\"text\"  >" +
             "</td>" +
@@ -739,8 +823,9 @@
             "</tr>";
         $("#table").append(tr);
 
-        layui.use(['form'], function () {
+        layui.use(['form','upload'], function () {
             var form = layui.form;
+            var upload = layui.upload;
             form.render();   //重新渲染新增的行中select的信息
 
             $("#addGoods"+num).on('click', function () {
@@ -768,6 +853,46 @@
                         form.render('select','goods'+num);
                     }
                 });
+            });
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#addImage'+num
+                , url: '${pageContext.request.contextPath}/user/upload'
+                // , url: 'http://192.168.10.22:8083/user/uploadImage'
+                // , url: 'http://192.168.10.38:8080/kcs_rest_war_exploded/user/upload'
+                , accept: 'images'
+                , method: 'post'
+                , size: 50000
+                , before: function (obj) {
+
+                    obj.preview(function (index, file, result) {
+
+                        $('#demo'+num).attr('src', result);
+                    });
+                }
+                , done: function (res) {
+                    console.log("res"+res);
+                    console.log("code"+res.code);
+                    //如果上传失败
+                    if (res.code > 0) {
+                        layer.msg('上传失败');
+                    }else{
+                        layer.msg('上传成功');
+                    }
+
+                    var fileupload = $("#image"+num);
+                    fileupload.attr("value", res.data.src);
+                    console.log("fileupload"+fileupload.attr("value"));
+                }
+                , error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
             });
 
             //查询物品名称

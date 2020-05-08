@@ -19,8 +19,8 @@
     </select>
 
     <insert id="insertNewItem" parameterType="com.kcs.rest.pojo.ItemIn">
-        insert into ItemsIn (InBillID,GoodsID,CategoryID,[Type],ItemPrice,ItemNum,ItemTotal,StorePosition,Note,TaxTotal)
-         values (#{InBillID},#{GoodsID},#{CategoryID},#{Type},#{ItemPrice},#{ItemNum},#{ItemTotal},#{StorePosition},#{Note},#{TaxTotal})
+        insert into ItemsIn (InBillID,GoodsID,CategoryID,[Type],ItemPrice,ItemNum,ItemTotal,StorePosition,Note,TaxTotal,Image)
+         values (#{InBillID},#{GoodsID},#{CategoryID},#{Type},#{ItemPrice},#{ItemNum},#{ItemTotal},#{StorePosition},#{Note},#{TaxTotal},#{Image})
     </insert>
 
     <select id="findItemsInData" resultType="com.kcs.rest.pojo.ItemsShow" parameterType="int">

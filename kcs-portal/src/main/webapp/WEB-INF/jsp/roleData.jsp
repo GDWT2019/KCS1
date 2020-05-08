@@ -40,8 +40,8 @@
 			,totalRow: true//开启合计行
 			,cols: [[
 				{type:'numbers',title:'序号'}
-				,{field:'roleName', title:'角色', width:150}
-				,{fixed: '', title:'权限', width:80,templet:function (d) {
+				,{field:'roleName', title:'角色'}
+				,{fixed: '', title:'权限',templet:function (d) {
 								if(d.roleName =='USER'||d.roleName=='ADMIN' ) return  '<div><a class="layui-btn layui-btn-disabled layui-btn-xs">详情</a></div>'
 								else
 									return '<a class="layui-btn layui-btn-xs" lay-event="detail">详情</a>'}}

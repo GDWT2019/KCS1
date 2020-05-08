@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int count(String name) {
         try {
-            String s = HttpClientUtil.doGet(Rest.rest+"ser/findTotal"+name);
+            String s = HttpClientUtil.doGet(Rest.rest+"user/findTotal"+name);
             KcsResult result = KcsResult.format(s);
             if (result.getStatus() == 200) {
                 return (int) result.getData();

@@ -25,7 +25,7 @@
 				<button class="layui-btn layui-btn-sm" id="export" >导出所有数据报表</button>
 			</div>
 
-			<div class="demoTable">
+			<div class="demoTable" >
 				时间范围：
 				<div class="layui-inline">
 					<input type="text" class="layui-input" id="timeRange" placeholder="请选择时间段">
@@ -89,22 +89,22 @@
 			,totalRow: false//开启合计行
 			,cols: [[
 				{type:'numbers',title:'序号'}
-				,{field:'outBillID', title:'单号', width:80,sort:true}
-				,{field:'outTime', title:'日期', width:110,sort:true}
-				,{field:'itemsName', title:'物品名称', width:110}
-				,{field:'itemsType', title:'物品规格', width:100}
-				,{field:'itemsUnit', title:'单位', width:60}
-				,{field:'storePosition', title:'位置', width:60}
-				,{field:'itemNum', title:'出库数量',sort:true, width:110}
-				,{field:'takerName', title:'领用人', width:100}
-				,{field:'remark', title:'备注', width:120}
-				,{field:'checkStatus', title:'审批状态',sort:true, width:120,templet:function (d) {
+				,{field:'outBillID', title:'单号',sort:true}
+				,{field:'outTime', title:'日期',sort:true}
+				,{field:'itemsName', title:'物品名称'}
+				,{field:'itemsType', title:'物品规格'}
+				,{field:'itemsUnit', title:'单位'}
+				,{field:'storePosition', title:'位置'}
+				,{field:'itemNum', title:'出库数量',sort:true}
+				,{field:'takerName', title:'领用人'}
+				,{field:'remark', title:'备注'}
+				,{field:'checkStatus', title:'审批状态',sort:true,templet:function (d) {
 						if(d.checkStatus==0) return '待审批';
 						else if(d.checkStatus ==1) return '<span style="color: #009688;">通过</span>';
 						else if(d.checkStatus == 2) return '<span style="color: #FF5722;">未通过</span>';
 						else return '审批错误'
 					}}
-				,{field:'checkerName', title:'审批人', width:120}
+				,{field:'checkerName', title:'审批人'}
 				,{fixed: 'right', title:'操作', toolbar: '#toolRight', width:180}
 			]]
 			,where: {"time1":"","time2":"","itemName":"","checkStatu":""}
