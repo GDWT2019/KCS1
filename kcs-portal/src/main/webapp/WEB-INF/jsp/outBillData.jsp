@@ -214,7 +214,6 @@
 					content:'${pageContext.request.contextPath}/outBill/outBillPresentByOutBillID?outBillID='+data.outBillID,
 					area:['1200px','668px'],
 					end:function() {
-
 						$.ajax({
 							url:"${pageContext.request.contextPath}/outBill/findOutBillPresentByOutBillID",
 							type:"post",
@@ -230,10 +229,7 @@
 							err:function () {
 								layer.alert("更新错误！")
 							}
-
 						})
-
-
 					}
 				});
 			}

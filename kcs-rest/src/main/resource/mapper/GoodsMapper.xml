@@ -19,7 +19,7 @@
     </select>
 
     <insert id="addGoods">
-        insert into Goods (CategoryID,ItemsName,ItemsType,ItemsUnit) values (#{categoryID},#{goodsName},#{goodsType},#{goodsUnit})
+        insert into Goods (CategoryID,ItemsName,ItemsType,ItemsUnit,Image) values (#{categoryID},#{goodsName},#{goodsType},#{goodsUnit},#{image})
     </insert>
 
     <select id="findGoodsById" resultType="com.kcs.rest.pojo.Goods" parameterType="java.lang.Integer">
@@ -134,7 +134,7 @@ from (SELECT * FROM Summary s1 WHERE not EXISTS
     </select>
 
     <update id="updateGoods" parameterType="com.kcs.rest.pojo.Goods">
-         update Goods set CategoryID=#{categoryID},ItemsName=#{itemsName},ItemsType = #{itemsType},ItemsUnit = #{itemsUnit}  where GoodsID =#{goodsID}
+         update Goods set CategoryID=#{categoryID},ItemsName=#{itemsName},ItemsType = #{itemsType},ItemsUnit = #{itemsUnit},Image=#{image} where GoodsID =#{goodsID}
     </update>
 
     <delete id="delGoods" parameterType="com.kcs.rest.pojo.Goods">

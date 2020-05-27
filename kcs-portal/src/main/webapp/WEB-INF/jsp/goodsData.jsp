@@ -26,6 +26,52 @@
 <script src="${pageContext.request.contextPath}/static/layui/layui.all.js" charset="utf-8"></script>
 
 <script>
+
+
+    function show_img(t) {
+        // var imgData = $(t).find("img");
+        var img = new Image();
+        img.src = $(t).attr("src");
+        var height = img.height; // 原图片大小
+        var width = img.width; //原图片大小
+
+        var winHeight = $(window).height() - 80;  // 浏览器可视部分高度
+        var winWidth = $(window).width() - 100;  // 浏览器可视部分宽度
+
+        // 如果图片高度或者宽度大于限定的高度或者宽度则进行等比例尺寸压缩
+        if (height > winHeight || width > winWidth) {
+            // 1.原图片宽高比例 大于等于 图片框宽高比例
+            if (winWidth/ winHeight <= width / height) {
+                width = winWidth;   //以框的宽度为标准
+                height = winWidth * (height / width);
+            }
+
+            // 2.原图片宽高比例 小于 图片框宽高比例
+            if (winWidth/ winHeight > width / height) {
+                width = winHeight  * (width / height);
+                height = winHeight  ;   //以框的高度为标准
+            }
+        }
+
+        var imgHtml = "<img src='" + img.src + "' width='" + width + "px' height='" + height + "px' />";
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.8,
+            offset: 'auto',
+            // area: [500 + 'px',550+'px'],
+            area: [width + 'px',(height + 50) + 'px'],  //原图显示,高度+50是为了去除掉滚动条
+            shadeClose:true,
+            scrollbar: false,
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
+
+
     layui.config({
         base: '${pageContext.request.contextPath }/static/tablePlug/'
     }).extend({ //设定组件别名
@@ -68,6 +114,7 @@
                     }}
                 ,{field:'itemsType', title:'规格'}
                 ,{field:'itemsUnit', title:'单位'}
+                , {field: 'image', title: '图片',  templet:  '<div><img src="http://192.168.10.33:8080/upload/{{d.image}}" alt="" style="width:80px; height:80px;" onclick="show_img(this)"></div>'}
                 , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
             ]]
             ,page: true
@@ -95,7 +142,6 @@
                         table.reload('testGoods');
                     }
                 });
-
                 //删除数据！！
             } else if(obj.event === 'del'){
                 layer.confirm('是否删除？', function(index){

@@ -79,18 +79,6 @@
 
 <script>
 
-    // function showBigImage(e) {
-    //     /*layer.open({
-    //         type: 1,
-    //         title: false,
-    //         closeBtn: 0,
-    //         shadeClose: true, //点击阴影关闭
-    //         area: ['80%','80%'], //宽高
-    //         content: "<img src=" + $(e).attr('src') + " />"
-    //     });*/
-    // }
-
-
     // //显示大图片
     // function show_img(t) {
     //     // var t = $(t).find("img");
@@ -185,7 +173,6 @@
                 , {field: 'itemNum', title: '入库数量'}
                 , {field: 'itemPrice', title: '入库单价'}
                 , {field: 'itemTotal', title: '合计',totalRow: true}
-                // , {field: 'allTotal', title: '合计金额'}
                 , {field: 'taxTotal', title: '含税金额'}
                 , {field: 'userName', title: '入库人'}
                 , {
@@ -202,8 +189,9 @@
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                 var text = $('.layui-table-total .layui-table tr [data-field="itemTotal"]').text();
-                var number = Number(text);
-                $('.layui-table-total .layui-table tr [data-field="itemTotal"]').text(number.toFixed(2));
+                var number = Number(text).toFixed(2);
+                $('.layui-table-total .layui-table tr [data-field="itemTotal"]').html('<div class="layui-table-cell laytable-cell-1-0-9">'+number+'</div>');
+                // $('.layui-table-total .layui-table tr [data-field="itemTotal"]').val(number.toFixed(2))
             }
             , where: {"time1": null, "time2": null, "itemName": null,"Invoice": null, "username": null, "checkStatus": null}
             , page: true
@@ -358,7 +346,7 @@
             layer.open({
                 type: 2,
                 title: "添加入库",
-                content: '${pageContext.request.contextPath }/inBill/addInBill',
+                content: '${pageContext.request.contextPath}/inBill/addInBill',
                 area: ['1500px', '668px'],
                 end: function () {
                     table.reload('testInBill');
@@ -427,7 +415,5 @@
         });
     })
 </script>
-
-
 </body>
 </html>

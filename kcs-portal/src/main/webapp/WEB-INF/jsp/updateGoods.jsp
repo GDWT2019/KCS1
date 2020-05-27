@@ -35,6 +35,17 @@
                 <input id="goodsUnit"  type="text" name="goodsUnit" lay-verify="required" placeholder="物品单位" autocomplete="off" class="layui-input">
             </div>
         </div>
+        <input type="hidden" name="image" id="image" class="image">
+        <div class="layui-form-item">
+            <label class="layui-form-label ">图片:</label>
+            <div class="layui-upload">
+                <button type="button" class="layui-btn" id="test1">上传图片</button>
+                <div class="layui-upload-list">
+                    <img class="layui-upload-img" id="demo">
+                    <p id="demoText"></p>
+                </div>
+            </div>
+        </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <button class="layui-btn"  lay-submit lay-filter="update">修改</button>
@@ -93,12 +104,47 @@
                                 form.render();//菜单渲染 把内容加载进去
                             }
                         });
-
                     }
                 });
 
             })
 
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#test1'
+                , url: '${pageContext.request.contextPath }/user/upload'
+                , accept: 'images'
+                , method: 'post'
+                , size: 50000
+                , before: function (obj) {
+
+                    obj.preview(function (index, file, result) {
+
+                        $('#demo1').attr('src', result);
+                    });
+                }
+                , done: function (res) {
+                    //如果上传失败
+                    if (res.code > 0) {
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+
+                    var fileupload = $(".image");
+                    fileupload.attr("value", res.data.src);
+                }
+                , error: function () {
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function () {
+                        uploadInst.upload();
+                    });
+                }
+            });
 
             var goodsID = parent.goodsID;
             //回显数据
@@ -116,6 +162,7 @@
                             , "categoryID": item.categoryID
                             , "goodsType": item.itemsType
                             , "goodsUnit": item.itemsUnit
+                            , "image": item.image
                         });
                         form.render();
                     });
@@ -128,6 +175,7 @@
                 var categoryID = $("#categoryID").val();
                 var goodsType =$("#goodsType").val();
                 var goodsUnit =$("#goodsUnit").val();
+                var image = $("#image").val();
 
                 $.ajax({
                     url:"${pageContext.request.contextPath}/goods/updateGoods",
@@ -137,7 +185,8 @@
                         "itemsName":goodsName,
                         "categoryID":categoryID,
                         "itemsType":goodsType,
-                        "itemsUnit":goodsUnit
+                        "itemsUnit":goodsUnit,
+                        "image":image
                     },
                     dataType:"text",
                     success:function (result) {

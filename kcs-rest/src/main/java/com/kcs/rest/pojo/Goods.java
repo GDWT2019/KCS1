@@ -16,10 +16,18 @@ public class Goods implements Serializable {
 
     private String ItemsUnit;       //物品单位
 
+    private String Image;           //物品图片
+
     private List<Category> Categories =new ArrayList<>();//连接表
 
 
+    public String getImage() {
+        return Image;
+    }
 
+    public void setImage(String image) {
+        Image = image;
+    }
 
     public List<Category> getCategories() {
         return Categories;

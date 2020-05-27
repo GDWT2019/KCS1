@@ -53,9 +53,9 @@ public class GoodsController {
 
     @RequestMapping("/addGoods")
     @ResponseBody
-    public KcsResult addGoods(@RequestParam("goodsName") String goodsName, @RequestParam("categoryID") String ID, @RequestParam("goodsType") String goodsType, @RequestParam("goodsUnit") String goodsUnit){
+    public KcsResult addGoods(@RequestParam("goodsName") String goodsName, @RequestParam("categoryID") String ID, @RequestParam("goodsType") String goodsType, @RequestParam("goodsUnit") String goodsUnit, @RequestParam("image") String image){
         Integer categoryID = Integer.parseInt(ID);
-        Integer integer = goodsService.addGoods(goodsName,categoryID , goodsType,goodsUnit);
+        Integer integer = goodsService.addGoods(goodsName,categoryID,goodsType,goodsUnit,image);
         return KcsResult.ok(integer);
 
     }

@@ -207,16 +207,18 @@
                     , {field: 'outAmount', title: '数量', width: 150}
                     , {field: 'outPrice', title: '单价', width: 150}
                     , {field: 'outTotal', title: '金额', width: 150,totalRowText: '当月合计：'}
-                    , {field: 'thisAmount', title: '数量', width: 150,totalRow: true}
-                    , {field: 'thisPrice', title: '单价', width: 150,totalRowText: '合计：'}
+                    , {field: 'thisAmount', title: '数量', width: 150}
+                    , {field: 'thisPrice', title: '单价', width: 150,totalRowText: '当页合计：'}
                     , {field: 'thisTotal', title: '金额', width: 150,totalRow: true}
                 ]
             ],done: function(res, curr, count){
                 //如果是异步请求数据方式，res即为你接口返回的信息。
                 //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
                 var text = $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text();
-                var number = Number(text);
-                $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text(number.toFixed(2));
+                var number = Number(text).toFixed(2);
+                // $('.layui-table-total .layui-table tr [data-field="thisTotal"]').text(number.toFixed(2));
+                $('.layui-table-total .layui-table tr [data-field="thisTotal"]').html('<div class="layui-table-cell laytable-cell-1-1-14">'+number+'</div>');
+
                 var month = $("#time1").val();
                 $.ajax({
                     type: "post",
@@ -224,7 +226,13 @@
                     data: {time: month},
                     dataType: "json",
                     success: function (result) {
-                        $('.layui-table-total .layui-table tr [data-field="thisAmount"]').text(result.toFixed(2));
+                        // $('.layui-table-total .layui-table tr [data-field="thisAmount"]').text(result.toFixed(2));
+                        var number1=Number(result).toFixed(2);
+                        console.log(number1);
+
+                        $('.layui-table-total .layui-table tr [data-field="thisAmount"]').html('<div class="layui-table-cell laytable-cell-1-1-12">'+number1+'</div>');
+                        // console.log($('.layui-table-total .layui-table tr [data-field="thisAmount"]').val(result.toFixed(2)));
+
                         form.render();
                     }
                 });

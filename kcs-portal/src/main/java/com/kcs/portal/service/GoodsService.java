@@ -37,7 +37,7 @@ public interface GoodsService {
 
     Category findCategoryNameByID(Integer categoryID);
 
-    Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit);
+    Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit,String image);
 
     List<Goods> goodsData(int before, int after);
 

@@ -32,10 +32,10 @@
                             </div>
                         </div>
                         <div class="layui-col-xs2-4  ">
-                            <div class="layui-form-item">
+                            <div class="layui-form-item" style="width: 180px">
                             <label style="font-size: 25px;">供应商</label>
                             <a id="addProvider"><i class="layui-icon layui-icon-add-circle" style="font-size: 25px"></i></a>
-                            <div class="layui-inline" style="width: 200px">
+                            <div class="layui-inline">
                                 <select id="providerID" name="providerID" lay-verify="required" lay-search=""
                                          ></select>
                             </div>
@@ -702,6 +702,8 @@
                             dataType: "json",
                             success: function (result) {
                                 $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                                $("#demo"+num).attr('src', "http://192.168.10.33:8080/upload/"+result.image);
+                                $("#image"+num).attr("value", result.image);
                                 form.render();
                             }
                         });
@@ -724,6 +726,8 @@
                     dataType: "json",
                     success: function (result) {
                         $('select[name="' + goodsID + '"]').find("option:selected").val(result.goodsID);
+                        $("#demo"+num).attr('src', "http://192.168.10.33:8080/upload/"+result.image);
+                        $("#image"+num).attr("value", result.image);
                         form.render();
                     }
                 })
@@ -771,6 +775,8 @@
                         dataType: "json",
                         success: function (result) {
                             $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
+                            $('#demo').attr('src', "http://192.168.10.33:8080/upload/"+result.image);
+                            $("#image").attr("value", result.image);
                             form.render();
                         }
                     });
@@ -796,6 +802,8 @@
                 dataType: "json",
                 success: function (result) {
                     $('select[name="itemInList[0].GoodsID"]').find("option:selected").val(result.goodsID);
+                    $('#demo').attr('src', "http://192.168.10.33:8080/upload/"+result.image);
+                    $("#image").attr("value", result.image);
                     form.render();
                 }
             })

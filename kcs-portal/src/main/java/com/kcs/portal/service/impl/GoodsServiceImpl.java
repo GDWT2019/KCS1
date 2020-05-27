@@ -180,12 +180,13 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit) {
+    public Integer addGoods(String goodsName, Integer categoryID, String goodsType, String goodsUnit,String image) {
         HashMap<String, String> param = new HashMap<>();
         param.put("goodsName",goodsName);
         param.put("categoryID",categoryID + "");
         param.put("goodsType",goodsType);
         param.put("goodsUnit",goodsUnit);
+        param.put("image",image);
         try {
             String s = HttpClientUtil.doGet("http://localhost:8081/kcs_rest_war/goods/addGoods",param);
             KcsResult result = KcsResult.format(s);
